@@ -37,34 +37,44 @@ class Config
     /**#@-*/
 
     /**
+     * Payment code
+     *
      * @var string
      */
     protected $methodCode = 'affirm';
 
     /**
+     * Scope configuration object
+     *
      * @var ScopeConfigInterface
      */
     protected $scopeConfig;
 
     /**
+     * Current store id
+     *
      * @var int
      */
     protected $storeId;
 
     /**
+     * Permissions to config fields
+     *
      * @var array
      */
     protected $affirmSharedConfigFields = [
         'active' => true,
         'mode' => true,
-        'financial_product_key' => false,
+        'financial_product_key' => true,
         'public_key' => true,
-        'private_key' => false,
+        'private_key' => true,
         'maximum_order_total' => true,
         'minimum_order_total' => true,
     ];
 
     /**
+     * Inject scope config object
+     *
      * @param ScopeConfigInterface $scopeConfig
      */
     function __construct(ScopeConfigInterface $scopeConfig)
