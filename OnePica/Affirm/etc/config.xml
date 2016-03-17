@@ -10,7 +10,8 @@
         <payment>
             <affirm>
                 <mode>sandbox</mode>
-                <api_url>https://sandbox.affirm.com</api_url>
+                <api_url_sandbox>https://sandbox.affirm.com</api_url_sandbox>
+                <api_url_production>https://api.affirm.com</api_url_production>
                 <minimum_order_total>0.01</minimum_order_total>
                 <maximum_order_total>1000</maximum_order_total>
                 <payment_action>authorize_capture</payment_action>
