@@ -28,12 +28,17 @@ class Config
      */
     const KEY_ACTIVE = 'active';
     const KEY_MODE = 'mode';
-    const KEY_PUBLIC_KEY = 'public_key';
-    const KEY_PRIVATE_KEY = 'private_key';
-    const KEY_FINANCIAL_PRODUCT_KEY = 'financial_product_key';
+    const KEY_PUBLIC_KEY_SANDBOX = 'public_api_key_sandbox';
+    const KEY_PRIVATE_KEY_SANDBOX = 'private_api_key_sandbox';
+    const KEY_FINANCIAL_PRODUCT_KEY_SANDBOX = 'financial_product_key_sandbox';
+    const KEY_PUBLIC_KEY_PRODUCTION = 'public_api_key_production';
+    const KEY_PRIVATE_KEY_PRODUCTION = 'private_api_key_production';
+    const KEY_FINANCIAL_PRODUCT_KEY_PRODUCTION = 'financial_product_key_production';
     const KEY_MINIMUM_ORDER_TOTAL = 'minimum_order_total';
     const KEY_MAXIMUM_ORDER_TOTAL = 'maximum_order_total';
     const KEY_SORT_ORDER = 'sort_order';
+    const KEY_API_URL_SANDBOX = 'api_url_sandbox';
+    const KEY_API_URL_PRODUCTION = 'api_url_production';
     /**#@-*/
 
     /**
@@ -65,11 +70,13 @@ class Config
     protected $affirmSharedConfigFields = [
         'active' => true,
         'mode' => true,
-        'financial_product_key' => true,
-        'public_key' => true,
-        'private_key' => true,
+        'financial_product_key_production' => true,
+        'public_key_production' => true,
+        'private_key_production' => true,
         'maximum_order_total' => true,
         'minimum_order_total' => true,
+        'api_url_production' => true,
+        'api_url_sandbox' => true
     ];
 
     /**
@@ -117,9 +124,9 @@ class Config
      *
      * @return mixed
      */
-    public function getPublicKey()
+    public function getPublicKeyProduction()
     {
-        return $this->getConfigData(self::KEY_PUBLIC_KEY);
+        return $this->getConfigData(self::KEY_PUBLIC_KEY_PRODUCTION);
     }
 
     /**
@@ -157,9 +164,9 @@ class Config
      *
      * @return mixed
      */
-    public function getPrivateApiKey()
+    public function getPrivateApiKeyProduction()
     {
-        return $this->getConfigData(self::KEY_PRIVATE_KEY);
+        return $this->getConfigData(self::KEY_PRIVATE_KEY_PRODUCTION);
     }
 
     /**
@@ -167,9 +174,9 @@ class Config
      *
      * @return mixed
      */
-    public function getPublicApiKey()
+    public function getPublicApiKeyProduction()
     {
-        return $this->getConfigData(self::KEY_PUBLIC_KEY);
+        return $this->getConfigData(self::KEY_PUBLIC_KEY_PRODUCTION);
     }
 
     /**
@@ -177,8 +184,68 @@ class Config
      *
      * @return mixed
      */
-    public function getFinancialProductKey()
+    public function getFinancialProductKeyProduction()
     {
-        return $this->getConfigData(self::KEY_FINANCIAL_PRODUCT_KEY);
+        return $this->getConfigData(self::KEY_FINANCIAL_PRODUCT_KEY_PRODUCTION);
+    }
+
+    /**
+     * Return financial product key
+     *
+     * @return mixed
+     */
+    public function getFinancialProductKeySandbox()
+    {
+        return $this->getConfigData(self::KEY_FINANCIAL_PRODUCT_KEY_SANDBOX);
+    }
+
+    /**
+     * Get public key
+     *
+     * @return mixed
+     */
+    public function getPublicKeySandbox()
+    {
+        return $this->getConfigData(self::KEY_PUBLIC_KEY_SANDBOX);
+    }
+
+    /**
+     * Return private api key
+     *
+     * @return mixed
+     */
+    public function getPrivateApiKeySandbox()
+    {
+        return $this->getConfigData(self::KEY_PRIVATE_KEY_SANDBOX);
+    }
+
+    /**
+     * Return public api key
+     *
+     * @return mixed
+     */
+    public function getPublicApiKeySandbox()
+    {
+        return $this->getConfigData(self::KEY_PUBLIC_KEY_SANDBOX);
+    }
+
+    /**
+     * Retrieve api url sandbox
+     *
+     * @return mixed
+     */
+    public function getApiUrlSandbox()
+    {
+        return $this->getConfigData(self::KEY_API_URL_SANDBOX);
+    }
+
+    /**
+     * Retrieve api url production
+     *
+     * @return mixed
+     */
+    public function getApiUrlProduction()
+    {
+        return $this->getConfigData(self::KEY_API_URL_PRODUCTION);
     }
 }
