@@ -16,19 +16,42 @@
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-namespace OnePica\Affirm\Model;
+namespace OnePica\Affirm\Model\Ui;
+
+use Magento\Checkout\Model\ConfigProviderInterface;
 
 /**
- * Class Credential
+ * Class ConfigProvider
+ * Config provider for the payment method
  *
- * @package OnePica\Affirm\Model
+ * @package OnePica\Affirm\Model\Ui
  */
-class Credential
+class ConfigProvider  implements ConfigProviderInterface
 {
     /**#@+
      * Define constants
      */
-    const ACCOUNT_MODE_SANDBOX = 'sandbox';
-    const ACCOUNT_MODE_PRODUCTION = 'production';
+    const CODE = 'affirm_gateway';
+    const SUCCESS = 0;
+    const FRAUD = 1;
     /**#@-*/
+
+    /**
+     * Retrieve assoc array of checkout configuration
+     *
+     * @return array
+     */
+    public function getConfig()
+    {
+        return [
+            'payment' => [
+                self::CODE => [
+                    'transactionResults' => [
+                        self::SUCCESS => __('Success'),
+                        self::FRAUD => __('Fraud')
+                    ]
+                ]
+            ]
+        ];
+    }
 }

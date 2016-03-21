@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Payment Method Facade configuration -->
+    <virtualType name="OnePicaAffirmGatewayFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">\OnePica\Affirm\Model\Ui\ConfigProvider::CODE</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">OnePica\Affirm\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">OnePicaValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">OnePicaCommandPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Command poll contains our commands requests (authorize, capture, void and etc), now temporary is empty -->
+    <virtualType name="OnePicaCommandPool" type="Magento\Payment\Gateway\Command\CommandPool"/>
+
+    <!-- Value handlers infrastructure -->
+    <virtualType name="OnePicaValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">OnePicaAffirmGatewayConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Configuration reader -->
+    <virtualType name="OnePicaAffirmGatewayConfig" type="Magento\Payment\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">\OnePica\Affirm\Model\Ui\ConfigProvider::CODE</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="OnePicaAffirmGatewayConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">OnePicaAffirmGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="OnePicaAffirmGatewayLogger" type="Magento\Payment\Model\Method\Logger">
+        <arguments>
+            <argument name="config" xsi:type="object">OnePicaAffirmGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+</config>

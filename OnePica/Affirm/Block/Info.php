@@ -16,19 +16,26 @@
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-namespace OnePica\Affirm\Model;
+namespace OnePica\Affirm\Block;
+
+use Magento\Framework\Phrase;
+use Magento\Payment\Block\ConfigurableInfo;
 
 /**
- * Class Credential
+ * Payment Block Info class
  *
- * @package OnePica\Affirm\Model
+ * @package OnePica\Affirm\Block
  */
-class Credential
+class Info extends ConfigurableInfo
 {
-    /**#@+
-     * Define constants
+    /**
+     * Retrieve translated label
+     *
+     * @param string $field
+     * @return Phrase|string
      */
-    const ACCOUNT_MODE_SANDBOX = 'sandbox';
-    const ACCOUNT_MODE_PRODUCTION = 'production';
-    /**#@-*/
+    protected function getLabel($field)
+    {
+        return __($field);
+    }
 }

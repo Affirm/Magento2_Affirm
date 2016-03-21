@@ -21,6 +21,13 @@ namespace OnePica\Affirm\Model\Adminhtml\Source;
 use \Magento\Framework\Option\ArrayInterface;
 use \Magento\Payment\Model\Method\AbstractMethod;
 
+/**
+ * Class PaymentAction
+ * Source model for the system configuration
+ * retrieve payment action options.
+ *
+ * @package OnePica\Affirm\Model\Adminhtml\Source
+ */
 class PaymentAction implements ArrayInterface
 {
     /**
@@ -41,5 +48,4 @@ class PaymentAction implements ArrayInterface
             ]
         ];
     }
-
 }

@@ -21,6 +21,11 @@ namespace OnePica\Affirm\Model;
 use \Magento\Framework\App\Config\ScopeConfigInterface;
 use \Magento\Store\Model\ScopeInterface;
 
+/**
+ * Config class
+ *
+ * @package OnePica\Affirm\Model
+ */
 class Config
 {
     /**#@+
@@ -84,7 +89,7 @@ class Config
      *
      * @param ScopeConfigInterface $scopeConfig
      */
-    function __construct(ScopeConfigInterface $scopeConfig)
+    public function __construct(ScopeConfigInterface $scopeConfig)
     {
         $this->scopeConfig = $scopeConfig;
     }
@@ -110,7 +115,7 @@ class Config
     /**
      * Set store id
      *
-     * @param $storeId
+     * @param int $storeId
      * @return $this
      */
     public function setStoreId($storeId)
