@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <validators>
+        <CodeSniffer>
+            <rule>
+                <directory>.coding-standards/phpcs</directory>
+            </rule>
+        </CodeSniffer>
+    </validators>
+</config>

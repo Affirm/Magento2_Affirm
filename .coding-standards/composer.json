@@ -1,0 +1,9 @@
+{
+    "minimum-stability": "dev",
+    "require-dev": {
+        "magento-ecg/coding-standard": "2.*"
+    },
+    "require": {
+        "squizlabs/php_codesniffer": "2.*"
+    }
+}

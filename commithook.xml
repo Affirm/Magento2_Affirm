@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <disable_cache>1</disable_cache>
+    <validators>
+        <CodingStandard>
+            <underscore_in_non_public>0</underscore_in_non_public>
+        </CodingStandard>
+    </validators>
+</config>

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @license https://raw.githubusercontent.com/andkirby/commithook/master/LICENSE.md
+ */
+-->
+<ruleset name="CommitHooks">
+    <description>The OnePica coding standard. (extended from Magento ECG)</description>
+
+    <!-- Include the whole magento-ecg standard -->
+    <rule ref="../vendor/magento-ecg/coding-standard/Ecg">
+        <!--Exclude TO-DO comments blocking-->
+        <exclude name="Generic.Commenting.Todo" />
+    </rule>
+</ruleset>
+
