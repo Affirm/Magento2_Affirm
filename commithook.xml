@@ -6,4 +6,10 @@
             <underscore_in_non_public>0</underscore_in_non_public>
         </CodingStandard>
     </validators>
+    <tracker>
+        <type>jira</type>
+        <jira>
+            <project>AFFXT2</project>
+        </jira>
+    </tracker>
 </config>
