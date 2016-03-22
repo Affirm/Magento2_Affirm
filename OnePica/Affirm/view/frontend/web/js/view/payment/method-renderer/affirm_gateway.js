@@ -15,6 +15,13 @@ define(
             defaults: {
                 template: 'OnePica_Affirm/payment/form',
                 transactionResult: ''
+            },
+
+            /**
+             * @override
+             */
+            placeOrder: function () {
+                //TODO: Here we can process order submission
             }
         });
     }

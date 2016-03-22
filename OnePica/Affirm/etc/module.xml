@@ -1,8 +1,12 @@
 <?xml version="1.0"?>
 <!--
 /**
- * Copyright © 2016 OnePica. All rights reserved.
- * See COPYING.txt for license details.
+ * OnePica
+ * Affirm Module activation file.
+ *
+ * @category  Affirm
+ * @package   OnePica_Affirm
+ * @copyright Copyright (c) 2016 One Pica, Inc. (http://www.onepica.com)
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">

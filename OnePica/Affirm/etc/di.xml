@@ -1,8 +1,12 @@
 <?xml version="1.0"?>
 <!--
 /**
- * Copyright © 2015 Magento. All rights reserved.
- * See COPYING.txt for license details.
+ * OnePica
+ * Affirm Payment DI configuration.
+ *
+ * @category  Affirm
+ * @package   OnePica_Affirm
+ * @copyright Copyright (c) 2016 One Pica, Inc. (http://www.onepica.com)
  */
 -->
 
