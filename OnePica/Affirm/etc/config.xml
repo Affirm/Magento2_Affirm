@@ -1,10 +1,15 @@
 <?xml version="1.0"?>
 <!--
 /**
- * Copyright © 2015 Magento. All rights reserved.
- * See COPYING.txt for license details.
+ * OnePica
+ * Affirm config default values.
+ *
+ * @category  Affirm
+ * @package   OnePica_Affirm
+ * @copyright Copyright (c) 2016 One Pica, Inc. (http://www.onepica.com)
  */
 -->
+
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
         <payment>
@@ -26,6 +31,7 @@
                 <can_use_checkout>1</can_use_checkout>
                 <is_gateway>1</is_gateway>
                 <sort_order>0</sort_order>
+                <title><![CDATA[<img src="https://cdn1.affirm.com/images/badges/affirm-logo_78x54.png" width="39" height="27" class="v-middle">&nbsp;Buy with Monthly Payments]]></title>
              </affirm_gateway>
         </payment>
     </default>
