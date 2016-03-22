@@ -20,10 +20,9 @@
                 <mode>sandbox</mode>
                 <api_url_sandbox>https://sandbox.affirm.com</api_url_sandbox>
                 <api_url_production>https://api.affirm.com</api_url_production>
-                <minimum_order_total>0.01</minimum_order_total>
-                <maximum_order_total>1000</maximum_order_total>
+                <min_order_total>0.01</min_order_total>
+                <max_order_total>1000</max_order_total>
                 <payment_action>authorize</payment_action>
-                <title>Payment method (Affirm)</title>
                 <currency>USD</currency>
                 <can_authorize>1</can_authorize>
                 <can_capture>1</can_capture>
@@ -31,7 +30,7 @@
                 <can_use_checkout>1</can_use_checkout>
                 <is_gateway>1</is_gateway>
                 <sort_order>0</sort_order>
-                <title><![CDATA[<img src="https://cdn1.affirm.com/images/badges/affirm-logo_78x54.png" width="39" height="27" class="v-middle">&nbsp;Buy with Monthly Payments]]></title>
+                <title><![CDATA[<img src="https://cdn1.affirm.com/images/badges/affirm-logo_78x54.png" width="39" height="27" class="v-middle"/>&nbsp;Buy with Monthly Payments]]></title>
              </affirm_gateway>
         </payment>
     </default>

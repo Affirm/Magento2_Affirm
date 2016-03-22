@@ -71,13 +71,11 @@
                     <source_model>OnePica\Affirm\Model\Adminhtml\Source\PaymentAction</source_model>
                     <config_path>payment/affirm_gateway/payment_action</config_path>
                 </field>
-                <field id="minimum_order_total" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="min_order_total" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Minimum Order Total</label>
-                    <config_path>payment/affirm_gateway/minimum_order_total</config_path>
                 </field>
-                <field id="maximum_order_total" translate="label" type="text" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="max_order_total" translate="label" type="text" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Maximum Order Total</label>
-                    <config_path>payment/affirm_gateway/maximum_order_total</config_path>
                 </field>
                 <field id="sort_order" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Sort Order</label>
