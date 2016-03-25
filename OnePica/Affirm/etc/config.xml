@@ -23,6 +23,8 @@
                 <min_order_total>0.01</min_order_total>
                 <max_order_total>1000</max_order_total>
                 <payment_action>authorize</payment_action>
+                <allow_specific>1</allow_specific>
+                <specific_country>US</specific_country>
                 <currency>USD</currency>
                 <allow_specific>1</allow_specific>
                 <specific_country>US</specific_country>

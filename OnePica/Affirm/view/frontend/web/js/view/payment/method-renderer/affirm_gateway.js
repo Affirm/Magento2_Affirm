@@ -18,9 +18,12 @@
 /*global define*/
 define(
     [
-        'Magento_Checkout/js/view/payment/default'
+        'Magento_Checkout/js/view/payment/default',
+        'affirmCheckout',
+        'Magento_Checkout/js/model/quote',
+        'Magento_Checkout/js/model/payment/additional-validators'
     ],
-    function (Component) {
+    function (Component, AffirmCheckout, quote, additionalValidator) {
         'use strict';
 
         return Component.extend({
@@ -29,11 +32,17 @@ define(
                 transactionResult: ''
             },
 
+            getCode: function () {
+                return 'affirm_gateway';
+            },
+
             /**
              * @override
              */
             placeOrder: function () {
-                //TODO: Here we can process order submission
+                if (additionalValidator.validate()) {
+                    //TODO: we should send request from there
+                }
             }
         });
     }

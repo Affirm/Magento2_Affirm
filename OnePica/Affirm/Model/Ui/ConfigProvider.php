@@ -18,7 +18,9 @@
 
 namespace OnePica\Affirm\Model\Ui;
 
+use Magento\Framework\UrlInterface;
 use Magento\Checkout\Model\ConfigProviderInterface;
+use Magento\Payment\Gateway\ConfigInterface;
 
 /**
  * Class ConfigProvider
@@ -37,6 +39,32 @@ class ConfigProvider  implements ConfigProviderInterface
     /**#@-*/
 
     /**
+     * Injected config object
+     *
+     * @var \Magento\Payment\Gateway\ConfigInterface
+     */
+    protected $config;
+
+    /**
+     * Injected url builder
+     *
+     * @var \Magento\Framework\UrlInterface
+     */
+    protected $urlBuilder;
+
+    /**
+     * Specify config and url resolver interface
+     *
+     * @param ConfigInterface $config
+     * @param UrlInterface    $urlInterface
+     */
+    public function __construct(ConfigInterface $config, UrlInterface $urlInterface)
+    {
+        $this->config = $config;
+        $this->urlBuilder = $urlInterface;
+    }
+
+    /**
      * Retrieve assoc array of checkout configuration
      *
      * @return array
@@ -49,6 +77,23 @@ class ConfigProvider  implements ConfigProviderInterface
                     'transactionResults' => [
                         self::SUCCESS => __('Success'),
                         self::FRAUD => __('Fraud')
+                    ],
+                    'apiKeyPublic' => $this->config->getValue('mode') == 'sandbox'
+                        ? $this->config->getValue('public_api_key_sandbox'):
+                        $this->config->getValue('public_api_key_production'),
+                    'apiUrl' => $this->config->getValue('mode') == 'sandbox'
+                        ? $this->config->getValue('api_url_sandbox'):
+                        $this->config->getValue('api_url_production'),
+                    'merchant' => [
+                        'confirmationUrl' => $this->urlBuilder
+                                ->getUrl('affirm/payment/confirm', ['_secure' => true]),
+                        'cancelUrl' => $this->urlBuilder
+                                ->getUrl('affirm/payment/cancel', ['_secure' => true]),
+                    ],
+                    'config' => [
+                        'financialKey' => $this->config->getValue('mode') == 'sandbox' ?
+                                $this->config->getValue('financial_product_key_sandbox'):
+                                $this->config->getValue('financial_product_key_production')
                     ]
                 ]
             ]

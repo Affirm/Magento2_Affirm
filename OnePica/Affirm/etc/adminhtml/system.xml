@@ -24,7 +24,6 @@
                 </field>
                 <field id="public_api_key_sandbox" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Public Api key</label>
-                    <config_path>payment/affirm_gateway/public_api_key_sandbox</config_path>
                     <depends><field id="mode">sandbox</field></depends>
                 </field>
                 <field id="private_api_key_sandbox" translate="label" type="obscure" sortOrder="40" showInDefault="1" showInWebsite="1">

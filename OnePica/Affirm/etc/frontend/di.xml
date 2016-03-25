@@ -24,4 +24,9 @@
             </argument>
         </arguments>
     </type>
+    <type name="OnePica\Affirm\Model\Ui\ConfigProvider">
+        <arguments>
+            <argument name="config" xsi:type="object">OnePicaAffirmGatewayConfig</argument>
+        </arguments>
+    </type>
 </config>
