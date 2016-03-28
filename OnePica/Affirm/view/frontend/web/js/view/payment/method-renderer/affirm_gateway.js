@@ -59,6 +59,9 @@ define(
                     // setup and configure checkout
                     affirm.checkout(checkoutData);
                     affirm.checkout.post();
+                    affirm.ui.error.on("close", function() {
+                        window.location= checkoutDataObject.merchant.user_cancel_url;
+                    });
                 }
             },
 
