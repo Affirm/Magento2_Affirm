@@ -55,6 +55,7 @@ define(
                 this.initAdditionalData(checkoutData);
                 this.initItems(checkoutData);
                 this.initCheckoutTotals(checkoutData);
+
                 if (additionalValidator.validate()) {
                     // setup and configure checkout
                     affirm.checkout(checkoutData);
@@ -99,13 +100,13 @@ define(
                 checkoutDataObject.shipping = checkoutDataObject.shipping || {};
                 checkoutDataObject.shipping.name = checkoutDataObject.shipping.name || {};
                 if (shippingData.lastname) {
-                    checkoutDataObject.shipping.name.full = shippingData.firstname + shippingData.lastname;
+                    checkoutDataObject.shipping.name.full = shippingData.firstname + ' ' + shippingData.lastname;
                 } else {
                     checkoutDataObject.shipping.name.full = shippingData.firstname;
                 }
                 checkoutDataObject.shipping.address = checkoutDataObject.shipping.address || {};
                 if (shippingData.street[1]) {
-                    checkoutDataObject.shipping.address.line1 = shippingData.street[0] + shippingData.street[1];
+                    checkoutDataObject.shipping.address.line1 = shippingData.street[0] + ' ' + shippingData.street[1];
                 } else {
                     checkoutDataObject.shipping.address.line1 = shippingData.street[0];
                 }
@@ -132,13 +133,13 @@ define(
                 checkoutDataObject.billing = checkoutDataObject.billing || {};
                 checkoutDataObject.billing.name = checkoutDataObject.billing.name || {};
                 if (billingData.lastname) {
-                    checkoutDataObject.billing.name.full = billingData.firstname + billingData.lastname;
+                    checkoutDataObject.billing.name.full = billingData.firstname + ' ' + billingData.lastname;
                 } else {
                     checkoutDataObject.billing.name.full = billingData.firstname;
                 }
                 checkoutDataObject.billing.address = checkoutDataObject.billing.address || {};
                 if (billingData.street[1]) {
-                    checkoutDataObject.billing.address.line1 = billingData.street[0] + billingData.street[1];
+                    checkoutDataObject.billing.address.line1 = billingData.street[0] + ' ' + billingData.street[1];
                 } else {
                     checkoutDataObject.billing.address.line1 = billingData.street[0];
                 }
@@ -194,7 +195,7 @@ define(
                 var shippingMethod = quote.shippingMethod();
 
                 checkoutDataObject.discounts = checkoutDataObject.discounts || {};
-                checkoutDataObject.metadata = checkoutDataObject.discounts || {};
+                checkoutDataObject.metadata = checkoutDataObject.metadata || {};
 
                 //TODO: Now this value just hardcoded, need to find a way to get this info from quote object
                 checkoutDataObject.order_id = window.checkoutConfig.quoteData.orig_order_id;
