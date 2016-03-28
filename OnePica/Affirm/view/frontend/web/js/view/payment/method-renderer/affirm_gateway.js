@@ -66,6 +66,7 @@ define(
 
             /**
              * Init merchant Data
+             *
              * @param checkoutDataObject
              */
             initMerchantData: function(checkoutDataObject) {
@@ -89,6 +90,7 @@ define(
 
             /**
              * Init quote shipping data
+             *
              * @param checkoutDataObject
              */
             initShippingData: function(checkoutDataObject) {
@@ -120,6 +122,7 @@ define(
 
             /**
              * Init billing data
+             *
              * @param checkoutDataObject
              */
             initBillingData: function (checkoutDataObject)
