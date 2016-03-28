@@ -21,6 +21,7 @@ namespace OnePica\Affirm\Model\Ui;
 use Magento\Framework\UrlInterface;
 use Magento\Checkout\Model\ConfigProviderInterface;
 use Magento\Payment\Gateway\ConfigInterface;
+use Magento\Checkout\Model\Session as CheckoutSession;
 
 /**
  * Class ConfigProvider
@@ -39,6 +40,13 @@ class ConfigProvider  implements ConfigProviderInterface
     /**#@-*/
 
     /**
+     * Checkout session object
+     *
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $checkoutSession;
+
+    /**
      * Injected config object
      *
      * @var \Magento\Payment\Gateway\ConfigInterface
@@ -53,15 +61,17 @@ class ConfigProvider  implements ConfigProviderInterface
     protected $urlBuilder;
 
     /**
-     * Specify config and url resolver interface
+     * Inject all config data
      *
      * @param ConfigInterface $config
      * @param UrlInterface    $urlInterface
+     * @param CheckoutSession $checkoutSession
      */
-    public function __construct(ConfigInterface $config, UrlInterface $urlInterface)
+    public function __construct(ConfigInterface $config, UrlInterface $urlInterface, CheckoutSession $checkoutSession)
     {
         $this->config = $config;
         $this->urlBuilder = $urlInterface;
+        $this->checkoutSession = $checkoutSession;
     }
 
     /**

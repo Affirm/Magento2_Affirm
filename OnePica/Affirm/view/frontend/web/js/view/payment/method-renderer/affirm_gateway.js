@@ -47,7 +47,6 @@ define(
              */
             afterPlaceOrder: function () {
                 var checkoutData = {};
-
                 // Init all data for the sending request
                 this.initBillingData(checkoutData);
                 this.initShippingData(checkoutData);
@@ -56,7 +55,6 @@ define(
                 this.initAdditionalData(checkoutData);
                 this.initItems(checkoutData);
                 this.initCheckoutTotals(checkoutData);
-
                 if (additionalValidator.validate()) {
                     // setup and configure checkout
                     affirm.checkout(checkoutData);
@@ -196,7 +194,7 @@ define(
                 checkoutDataObject.metadata = checkoutDataObject.discounts || {};
 
                 //TODO: Now this value just hardcoded, need to find a way to get this info from quote object
-                checkoutDataObject.order_id = "#";
+                checkoutDataObject.order_id = window.checkoutConfig.quoteData.orig_order_id;
                 if (shippingMethod.carrier_title) {
                     checkoutDataObject.metadata.shipping_type = shippingMethod.carrier_title;
                 }
