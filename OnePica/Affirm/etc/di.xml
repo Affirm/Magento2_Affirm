@@ -52,15 +52,26 @@
             <argument name="config" xsi:type="object">OnePicaAffirmGatewayConfig</argument>
         </arguments>
     </virtualType>
+
+    <!-- Validators -->
     <virtualType name="AffirmCountryValidator" type="Magento\Payment\Gateway\Validator\CountryValidator">
         <arguments>
             <argument name="config" xsi:type="object">OnePicaAffirmGatewayConfig</argument>
         </arguments>
     </virtualType>
+
+    <virtualType name="AffirmCurrencyValidator" type="OnePica\Affirm\Gateway\Validator\CurrencyValidator">
+        <arguments>
+            <argument name="config" xsi:type="object">OnePicaAffirmGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Validator Pool -->
     <virtualType name="AffirmValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
         <arguments>
             <argument name="validators" xsi:type="array">
                 <item name="country" xsi:type="string">AffirmCountryValidator</item>
+                <item name="currency" xsi:type="string">AffirmCurrencyValidator</item>
             </argument>
         </arguments>
     </virtualType>
