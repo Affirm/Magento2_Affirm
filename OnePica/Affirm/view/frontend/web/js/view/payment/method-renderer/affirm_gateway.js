@@ -22,15 +22,28 @@ define(
         'affirmCheckout',
         'Magento_Checkout/js/model/quote',
         'Magento_Checkout/js/model/payment/additional-validators',
-        'mage/url'
+        'mage/url',
+        'mage/storage',
+        'Magento_Checkout/js/model/url-builder',
+        'Magento_Customer/js/model/customer',
+        'Magento_Checkout/js/model/error-processor',
+        'Magento_Ui/js/model/messages'
     ],
-    function (Component, AffirmCheckout, quote, additionalValidator, url) {
+    function (Component, AffirmCheckout, quote, additionalValidator, url,
+              storage, urlBuilder, customer, errorProcessor, Messages) {
         'use strict';
 
         return Component.extend({
             defaults: {
                 template: 'OnePica_Affirm/payment/form',
                 transactionResult: ''
+            },
+
+            /**
+             * Init Affirm specify message controller
+             */
+            initAffirm: function() {
+                this.messageContainer = new Messages();
             },
 
             /**
@@ -43,11 +56,33 @@ define(
             },
 
             /**
+             * Add data about order id
+             * Send request with quote data to REST API for get actual information
+             */
+            addIncrementId: function(checkoutData) {
+                var serviceUrl, messageContainer = this.messageContainer;
+                if (!customer.isLoggedIn()) {
+                    serviceUrl = urlBuilder.createUrl('/affirm/order/guest/load/:quoteId', {quoteId: quote.getQuoteId()});
+                } else {
+                    //Send request if the customer is Logged In
+                    serviceUrl = urlBuilder.createUrl('/affirm/order/load/:quoteId', {quoteId: quote.getQuoteId()});
+                }
+
+                // Send post request for getting data from order
+                storage.post(serviceUrl).done(function(response) {
+                    checkoutData.order_id = response;
+                }).fail(function() {
+                    errorProcessor.process(response, messageContainer);
+                });
+            },
+
+            /**
              * After place order handler
              */
             afterPlaceOrder: function () {
                 var checkoutData = {};
                 // Init all data for the sending request
+                this.initAffirm();
                 this.initBillingData(checkoutData);
                 this.initShippingData(checkoutData);
                 this.initMerchantData(checkoutData);
@@ -55,6 +90,7 @@ define(
                 this.initAdditionalData(checkoutData);
                 this.initItems(checkoutData);
                 this.initCheckoutTotals(checkoutData);
+                this.addIncrementId(checkoutData);
 
                 if (additionalValidator.validate()) {
                     // setup and configure checkout
@@ -196,9 +232,6 @@ define(
 
                 checkoutDataObject.discounts = checkoutDataObject.discounts || {};
                 checkoutDataObject.metadata = checkoutDataObject.metadata || {};
-
-                //TODO: Now this value just hardcoded, need to find a way to get this info from quote object
-                checkoutDataObject.order_id = window.checkoutConfig.quoteData.orig_order_id;
                 if (shippingMethod.carrier_title) {
                     checkoutDataObject.metadata.shipping_type = shippingMethod.carrier_title;
                 }
