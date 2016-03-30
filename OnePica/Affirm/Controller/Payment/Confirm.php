@@ -35,7 +35,6 @@ class Confirm extends \Magento\Framework\App\Action\Action
      */
     public function execute()
     {
-        // $token = $this->getRequest()->getParam('checkout_token');
         //TODO: Get tokem from service save data to paymentS
     }
 }
