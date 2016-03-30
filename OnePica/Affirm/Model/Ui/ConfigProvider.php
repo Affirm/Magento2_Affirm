@@ -40,13 +40,6 @@ class ConfigProvider  implements ConfigProviderInterface
     /**#@-*/
 
     /**
-     * Checkout session object
-     *
-     * @var \Magento\Checkout\Model\Session
-     */
-    protected $checkoutSession;
-
-    /**
      * Injected config object
      *
      * @var \Magento\Payment\Gateway\ConfigInterface
@@ -104,7 +97,10 @@ class ConfigProvider  implements ConfigProviderInterface
                         'financialKey' => $this->config->getValue('mode') == 'sandbox' ?
                                 $this->config->getValue('financial_product_key_sandbox'):
                                 $this->config->getValue('financial_product_key_production')
-                    ]
+                    ],
+                    'script' => $this->config->getValue('mode') == 'sandbox'
+                        ? "https://cdn1-sandbox.affirm.com/js/v2/affirm.js" :
+                        "https://api.affirm.com/js/v2/affirm.js"
                 ]
             ]
         ];

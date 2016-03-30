@@ -2,9 +2,10 @@ define([],
     function () {
     "use strict";
         var pubKey = window.checkoutConfig.payment['affirm_gateway'].apiKeyPublic,
+            script = window.checkoutConfig.payment['affirm_gateway'].script,
             _affirm_config = {
                 public_api_key: pubKey, /* Use the PUBLIC API KEY Affirm sent you. */
-                script: "https://cdn1-sandbox.affirm.com/js/v2/affirm.js"
+                script: script
             };
             (function(l, g, m, e, a, f, b) {
                 var d, c = l[m] || {},
