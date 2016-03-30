@@ -23,7 +23,7 @@ define(
         'Magento_Checkout/js/model/quote',
         'Magento_Checkout/js/model/payment/additional-validators',
         'mage/url',
-        'mage/storage',
+        'synchPost',
         'Magento_Checkout/js/model/url-builder',
         'Magento_Customer/js/model/customer',
         'Magento_Checkout/js/model/error-processor',
@@ -97,7 +97,7 @@ define(
                     affirm.checkout(checkoutData);
                     affirm.checkout.post();
                     affirm.ui.error.on("close", function() {
-                        window.location= checkoutDataObject.merchant.user_cancel_url;
+                        window.location= window.checkoutConfig.payment['affirm_gateway'].merchant.cancelUrl;
                     });
                 }
             },
@@ -109,7 +109,7 @@ define(
              */
             initMerchantData: function(checkoutDataObject) {
                 var confUrl = window.checkoutConfig.payment['affirm_gateway'].merchant.confirmationUrl,
-                    cancelUrl = window.checkoutConfig.payment['affirm_gateway'].merchant.confirmationUrl;
+                    cancelUrl = window.checkoutConfig.payment['affirm_gateway'].merchant.cancelUrl;
                 // Specify merchant data
                 checkoutDataObject.merchant = checkoutDataObject.merchant || {};
                 checkoutDataObject.merchant.user_confirmation_url = confUrl;
