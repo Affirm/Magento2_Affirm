@@ -1,8 +1,8 @@
 define([],
     function () {
     "use strict";
-        var pubKey = window.checkoutConfig.payment['affirm_gateway'].apiKeyPublic,
-            script = window.checkoutConfig.payment['affirm_gateway'].script,
+        var pubKey = 'KF4MPQH9XGVS3IK4',
+            script = 'https://cdn1-sandbox.affirm.com/js/v2/affirm.js',
             _affirm_config = {
                 public_api_key: pubKey, /* Use the PUBLIC API KEY Affirm sent you. */
                 script: script

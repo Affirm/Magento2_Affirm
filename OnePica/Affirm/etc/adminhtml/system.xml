@@ -88,6 +88,10 @@
                     <label>Label HTML Custom</label>
                     <depends><field id="control">1</field></depends>
                 </field>
+                <field id="after_affirm_conf" translate="label" type="select" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Create orders after Affirm confirmation</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
             </group>
         </section>
     </system>

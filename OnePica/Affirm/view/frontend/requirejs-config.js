@@ -6,8 +6,9 @@
 var config = {
     map: {
         '*': {
-            affirmCheckout: 'OnePica_Affirm/js/affirm_checkout',
-            synchPost: 'OnePica_Affirm/js/action/send-request'
+            affirmScript: 'OnePica_Affirm/js/affirm_checkout',
+            synchPost: 'OnePica_Affirm/js/action/send-request',
+            affirmCheckout: 'OnePica_Affirm/js/checkout'
         }
     }
 };

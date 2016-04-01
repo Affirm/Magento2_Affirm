@@ -19,7 +19,7 @@
 define(
     [
         'Magento_Checkout/js/view/payment/default',
-        'affirmCheckout',
+        'affirmScript',
         'Magento_Checkout/js/model/quote',
         'Magento_Checkout/js/model/payment/additional-validators',
         'mage/url',
@@ -27,10 +27,11 @@ define(
         'Magento_Checkout/js/model/url-builder',
         'Magento_Customer/js/model/customer',
         'Magento_Checkout/js/model/error-processor',
-        'Magento_Ui/js/model/messages'
+        'Magento_Ui/js/model/messages',
+        'OnePica_Affirm/js/action/set-payment-method'
     ],
     function (Component, AffirmCheckout, quote, additionalValidator, url,
-              storage, urlBuilder, customer, errorProcessor, Messages) {
+              storage, urlBuilder, customer, errorProcessor, Messages, setPaymentAction) {
         'use strict';
 
         return Component.extend({
@@ -235,6 +236,22 @@ define(
                 if (shippingMethod.carrier_title) {
                     checkoutDataObject.metadata.shipping_type = shippingMethod.carrier_title;
                 }
+            },
+
+            /**
+             * Continue to Affirm redirect logic
+             */
+            continueInAffirm: function() {
+                setPaymentAction(this.messageContainer);
+                return false;
+            },
+
+            /**
+             * Get Process mode
+             * @returns {boolean}
+             */
+            getProcessMode: function() {
+                return 'none';
             }
         });
     }
