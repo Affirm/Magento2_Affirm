@@ -95,6 +95,7 @@ class Start extends \Magento\Framework\App\Action\Action
         $quote->collectTotals();
         $quote->reserveOrderId();
         $this->quoteRepository->save($quote);
+        $this->coreRegisrty->register('quote_items', $quote->getAllVisibleItems());
         $this->coreRegisrty->register('order_id', $quote->getReservedOrderId());
         $this->coreRegisrty->register('current_quote', $quote);
         return $this->pageFactory->create();

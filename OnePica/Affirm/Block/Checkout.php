@@ -4,12 +4,16 @@ namespace OnePica\Affirm\Block;
 use Magento\Framework\View\Element\AbstractBlock;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\UrlInterface;
+use Magento\Checkout\Model\Session;
+use Magento\Catalog\Helper\Product as ProductHelper;
+use \Magento\Framework\View\Element\Template as BlockTemplate;
+use \Magento\Framework\Registry;
 /**
  * Class Checkout
  *
  * @package OnePica\Affirm\Block
  */
-class Checkout extends \Magento\Framework\View\Element\Template
+class Checkout extends BlockTemplate
 {
     /**
      * Core registry object
@@ -33,22 +37,33 @@ class Checkout extends \Magento\Framework\View\Element\Template
     protected $quote;
 
     /**
-     * Inject objects in the block
+     * Product helper for get data about image
      *
-     * @param Template\Context            $context
-     * @param \Magento\Framework\Registry $registry
-     * @param UrlInterface                $urlInterface
-     * @param array                       $data
+     * @var \Magento\Catalog\Helper\Product
      */
-    public function __construct(Template\Context $context,
-        \Magento\Framework\Registry $registry,
+    protected $productHelper;
+
+    /**
+     * Inject all needed objects needed for checkout block
+     *
+     * @param Template\Context                  $context
+     * @param \Magento\Framework\Registry       $registry
+     * @param UrlInterface                      $urlInterface
+     * @param ProductHelper                     $productHelper
+     * @param array                             $data
+     */
+    public function __construct(
+        Template\Context $context,
+        Registry $registry,
         UrlInterface $urlInterface,
+        ProductHelper $productHelper,
         array $data = []
     )
     {
         $this->urlBuilder = $urlInterface;
         $this->coreRegistry = $registry;
         $this->quote = $this->coreRegistry->registry('current_quote');
+        $this->productHelper = $productHelper;
         parent::__construct($context, $data);
     }
 
@@ -67,17 +82,51 @@ class Checkout extends \Magento\Framework\View\Element\Template
     public function getSerializedOptions()
     {
         $orderId = $this->coreRegistry->registry('order_id');
+        $shippingAmount = $this->quote
+            ->getShippingAddress()
+            ->getShippingAmount();
+        $taxAmount = $this->quote
+            ->getShippingAddress()->getBaseTaxAmount();
+        $total = $this->quote->getGrandTotal();
+
+        $this->initLoadScriptData();
+        $this->initShipping();
+        $this->initItems();
         $this->initConfig();
         $this->initMerchant();
         $this->initAddress();
         $this->initAddress('billing');
-        $this->initItems();
+
         $this->_options['order_id'] = $orderId;
+        $this->_options['discounts'] = [];
+
+        // Convert total amounts to cents
+        $this->_options['shipping_amount'] = $shippingAmount * 100;
+        $this->_options['total'] = $total * 100;
+        $this->_options['tax_amount'] = $taxAmount * 100;
+
         return json_encode($this->_options);
     }
 
     /**
+     * Retrieve script information
+     * Depends on mode configuration settings
+     */
+    protected function initLoadScriptData()
+    {
+        $this->_options['public_key'] = $this->_scopeConfig
+            ->getValue('payment/affirm_gateway/mode') == 'sandbox' ?
+            $this->_scopeConfig->getValue('payment/affirm_gateway/public_api_key_sandbox'):
+            $this->_scopeConfig->getValue('payment/affirm_gateway/public_api_key_production');
+        $this->_options['script'] = $this->_scopeConfig
+                ->getValue('payment/affirm_gateway/mode') == 'sandbox' ?
+            "https://cdn1-sandbox.affirm.com/js/v2/affirm.js":
+            "https://api.affirm.com/js/v2/affirm.js";
+    }
+
+    /**
      * Init Merchant data
+     * Retrieve cancel and confirmation url settings
      */
     protected function initMerchant()
     {
@@ -106,7 +155,10 @@ class Checkout extends \Magento\Framework\View\Element\Template
     }
 
     /**
-     * Init shipping
+     * Retrieve all address data, this method is common for both billing and shipping address
+     * The concrete type of address can be specified by 'type' parameter
+     *
+     * @param string $type
      */
     protected function initAddress($type = 'shipping')
     {
@@ -115,12 +167,11 @@ class Checkout extends \Magento\Framework\View\Element\Template
                 $address = $this
                     ->quote
                     ->getShippingAddress();
-            } else if ($type == 'billing') {
+            } else {
                 $address = $this
                     ->quote
                     ->getBillingAddress();
             }
-
             $firstName = $address
                 ->getFirstname();
             $secondName = $address
@@ -140,7 +191,8 @@ class Checkout extends \Magento\Framework\View\Element\Template
     }
 
     /**
-     * Configure address
+     * Retrieve address information, this method is common for both billing and shipping address
+     * The concrete type of address can be specified by second parameter
      *
      * @param \Magento\Quote\Model\Quote\Address $address
      * @param  string $type
@@ -149,8 +201,12 @@ class Checkout extends \Magento\Framework\View\Element\Template
     {
         if (is_array($this->_options)) {
             $this->_options[$type] = [
+                'name' => [
+                    'full' => $address->getFirstname() . ' ' . $address->getLastname()
+                ],
                 'address' => [
-                    'line1'   => $address->getStreet()[0],
+                    'line1'   => isset($address->getStreet()[1]) ? $address->getStreet()[0] . " "
+                        . $address->getStreet()[1]: $address->getStreet()[0],
                     'city'    => $address->getCity(),
                     'state'   => $address->getRegionCode(),
                     'zipcode' => $address->getPostcode(),
@@ -161,38 +217,57 @@ class Checkout extends \Magento\Framework\View\Element\Template
     }
 
     /**
-     * Init Config Data
+     * Init config data
+     * Depends on config mode it return appropriate information
      */
     protected function initConfig()
     {
         if (is_array($this->_options)) {
             $this->_options['config'] = array();
             $this->_options['config'] = [
-                "financial_product_key"
-                => $this->_scopeConfig->getValue('payment/affirm_gateway/financial_product_key_sandbox')
+                "financial_product_key" => $this->_scopeConfig->getValue('payment/affirm_gateway/mode') == 'sandbox' ?
+                    $this->_scopeConfig->getValue('payment/affirm_gateway/financial_product_key_sandbox'):
+                    $this->_scopeConfig->getValue('payment/affirm_gateway/financial_product_key_production')
             ];
         }
     }
 
     /**
-     * Init items
+     * Init information about itemss
+     * Specify
      */
-    public function initItems()
+    protected function initItems()
     {
-        $items = $this->quote->getItems();
+        $items = $this->coreRegistry->registry('quote_items');
+        $storedItems = [];
         if (is_array($this->_options)) {
-            $this->_options['items'] = [];
             /** @var \Magento\Quote\Model\Quote\Item $item  */
             foreach ($items as $item) {
-                $this->_options['items'][] = [
-                    'display_name'   => $item->getName(),
+                $product = $item->getProduct();
+                $imageUrl = $this->productHelper->getImageUrl($product);
+                $storedItems[] = array (
                     'sku'            => $item->getSku(),
+                    'display_name'   => $item->getName(),
                     'unit_price'     => $item->getPrice() * 100,
                     'qty'            => $item->getQty(),
-                    'item_image_url' => $item->getProduct()->getProductUrl(),
-                    'item_url'       => $item->getProduct()->getRequestPath()
-                ];
+                    "item_image_url" => $imageUrl,
+                    'item_url'       => $item->getProduct()->getProductUrl(),
+                );
             }
+            $this->_options["items"] = $storedItems;
+        }
+    }
+
+    /**
+     * Init shipping data specify shipping method code
+     */
+    protected function initShipping()
+    {
+        $shipping = $this->quote->getShippingAddress()->getShippingMethod();
+        if (is_array($this->_options)) {
+            $this->_options['metadata'] = [
+                'shipping_type' => $shipping
+            ];
         }
     }
 }
