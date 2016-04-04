@@ -82,15 +82,23 @@ class Start extends \Magento\Framework\App\Action\Action
     }
 
     /**
-     * Dispatch request
+     * Run start checkout action
      *
-     * @return \Magento\Framework\Controller\ResultInterface|ResponseInterface
-     * @throws \Magento\Framework\Exception\NotFoundException
+     * @return ResponseInterface|\Magento\Framework\Controller\ResultInterface|\Magento\Framework\View\Result\Page
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function execute()
     {
         $quote = $this->checkoutSession->getQuote();
 
+        if (!$quote->getGrandTotal()) {
+            throw new \Magento\Framework\Exception\LocalizedException(
+                __(
+                    'Affirm can\'t process orders with a zero balance due. '
+                    . 'To finish your purchase, please go through the standard checkout process.'
+                )
+            );
+        }
         //collect totals
         $quote->collectTotals();
         $quote->reserveOrderId();

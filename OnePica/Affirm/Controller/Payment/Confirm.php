@@ -18,7 +18,12 @@
 
 namespace OnePica\Affirm\Controller\Payment;
 
+use Magento\Framework\App\Action\AbstractAction;
+use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\ResponseInterface;
+use \Magento\Quote\Api\CartManagementInterface;
+use \Magento\Checkout\Model\Session;
+use \OnePica\Affirm\Model\Checkout;
 
 /**
  * Class Confirm
@@ -28,6 +33,48 @@ use Magento\Framework\App\ResponseInterface;
 class Confirm extends \Magento\Framework\App\Action\Action
 {
     /**
+     * Checkout session
+     *
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $checkoutSession;
+
+    /**
+     * Quote management
+     *
+     * @var \Magento\Quote\Api\CartManagementInterface
+     */
+    protected $quoteManagement;
+
+    /**
+     * Affirm checkout instance
+     *
+     * @var \OnePica\Affirm\Model\Checkout
+     */
+    protected $checkout;
+
+    /**
+     * Inject objects to the Confirm action
+     *
+     * @param Context                 $context
+     * @param CartManagementInterface $quoteManager
+     * @param Session                 $checkoutSession
+     * @param Checkout                $checkout
+     */
+    public function __construct(
+        Context $context,
+        CartManagementInterface $quoteManager,
+        Session $checkoutSession,
+        Checkout $checkout
+    )
+    {
+        $this->checkout = $checkout;
+        $this->checkoutSession = $checkoutSession;
+        $this->quoteManagement = $quoteManager;
+        parent::__construct($context);
+    }
+
+    /**
      * Dispatch request
      *
      * @return \Magento\Framework\Controller\ResultInterface|ResponseInterface
@@ -35,6 +82,9 @@ class Confirm extends \Magento\Framework\App\Action\Action
      */
     public function execute()
     {
-        //TODO: Get tokem from service save data to paymentS
+        $token = $this->getRequest()->getParam('checkout_token');
+        if ($token) {
+            $this->checkout->place($token);
+        }
     }
 }
