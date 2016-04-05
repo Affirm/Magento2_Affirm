@@ -92,31 +92,44 @@ class Confirm extends \Magento\Framework\App\Action\Action
     {
         $token = $this->getRequest()->getParam('checkout_token');
         if ($token) {
-            $this->checkout->place($token);
-            // prepare session to success or cancellation page
-            $this->checkoutSession->clearHelperData();
+            try {
+                $this->checkout->place($token);
+                // prepare session to success or cancellation page
+                $this->checkoutSession->clearHelperData();
 
-            // "last successful quote"
-            $quoteId = $this->quote->getId();
-            $this->checkoutSession->setLastQuoteId($quoteId)->setLastSuccessQuoteId($quoteId);
+                // "last successful quote"
+                $quoteId = $this->quote->getId();
+                $this->checkoutSession->setLastQuoteId($quoteId)->setLastSuccessQuoteId($quoteId);
 
-            // an order may be created
-            $order = $this->checkout->getOrder();
-            if ($order) {
-                $this->checkoutSession->setLastOrderId($order->getId())
-                    ->setLastRealOrderId($order->getIncrementId())
-                    ->setLastOrderStatus($order->getStatus());
+                // an order may be created
+                $order = $this->checkout->getOrder();
+                if ($order) {
+                    $this->checkoutSession->setLastOrderId($order->getId())
+                        ->setLastRealOrderId($order->getIncrementId())
+                        ->setLastOrderStatus($order->getStatus());
+                }
+                $this->_eventManager->dispatch(
+                    'affirm_place_order_success',
+                    [
+                        'order' => $order,
+                        'quote' => $this->quote
+                    ]
+                );
+                $this->_redirect('checkout/onepage/success');
+                return;
+            } catch (\Magento\Framework\Exception\LocalizedException $e) {
+                $this->messageManager->addExceptionMessage(
+                    $e,
+                    $e->getMessage()
+                );
+               $this->_redirect('checkout');
+            } catch (\Exception $e) {
+                $this->messageManager->addExceptionMessage(
+                    $e,
+                    __('We can\'t place the order.')
+                );
+                $this->_redirect('checkout');
             }
-
-            $this->_eventManager->dispatch(
-                'affirm_place_order_success',
-                [
-                    'order' => $order,
-                    'quote' => $this->quote
-                ]
-            );
-            $this->_redirect('checkout/onepage/success');
-            return;
         }
     }
 }

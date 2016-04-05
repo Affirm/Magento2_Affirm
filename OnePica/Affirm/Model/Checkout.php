@@ -108,7 +108,7 @@ class Checkout
     /**
      * Place order based on prepared quote
      */
-    public function place()
+    public function place($token)
     {
         if (!$this->quote->getGrandTotal()) {
             throw new \Magento\Framework\Exception\LocalizedException(
@@ -118,6 +118,14 @@ class Checkout
                 )
             );
         }
+        if (!$token) {
+            throw new \Magento\Framework\Exception\LocalizedException(
+                __(
+                    'Token is absent, some problem with response from Affirm happened.'
+                )
+            );
+        }
+        $this->initToken($token);
         if ($this->getCheckoutMethod() == \Magento\Checkout\Model\Type\Onepage::METHOD_GUEST) {
             $this->prepareGuestQuote();
         }
@@ -213,5 +221,20 @@ class Checkout
     public function getOrder()
     {
         return $this->order;
+    }
+
+    /**
+     * Init token
+     * Save payment quote information to additional information
+     *
+     * @param string $token
+     */
+    protected function initToken($token)
+    {
+        if ($token) {
+            $payment = $this->quote->getPayment();
+            $payment->setAdditionalInformation('checkout_token', $token);
+            $payment->save();
+        }
     }
 }
