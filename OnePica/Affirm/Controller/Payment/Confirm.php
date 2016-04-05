@@ -54,6 +54,13 @@ class Confirm extends \Magento\Framework\App\Action\Action
     protected $checkout;
 
     /**
+     * Store sales quote
+     *
+     * @var \Magento\Quote\Model\Quote
+     */
+    protected $quote;
+
+    /**
      * Inject objects to the Confirm action
      *
      * @param Context                 $context
@@ -71,6 +78,7 @@ class Confirm extends \Magento\Framework\App\Action\Action
         $this->checkout = $checkout;
         $this->checkoutSession = $checkoutSession;
         $this->quoteManagement = $quoteManager;
+        $this->quote = $checkoutSession->getQuote();
         parent::__construct($context);
     }
 
@@ -85,6 +93,30 @@ class Confirm extends \Magento\Framework\App\Action\Action
         $token = $this->getRequest()->getParam('checkout_token');
         if ($token) {
             $this->checkout->place($token);
+            // prepare session to success or cancellation page
+            $this->checkoutSession->clearHelperData();
+
+            // "last successful quote"
+            $quoteId = $this->quote->getId();
+            $this->checkoutSession->setLastQuoteId($quoteId)->setLastSuccessQuoteId($quoteId);
+
+            // an order may be created
+            $order = $this->checkout->getOrder();
+            if ($order) {
+                $this->checkoutSession->setLastOrderId($order->getId())
+                    ->setLastRealOrderId($order->getIncrementId())
+                    ->setLastOrderStatus($order->getStatus());
+            }
+
+            $this->_eventManager->dispatch(
+                'affirm_place_order_success',
+                [
+                    'order' => $order,
+                    'quote' => $this->quote
+                ]
+            );
+            $this->_redirect('checkout/onepage/success');
+            return;
         }
     }
 }

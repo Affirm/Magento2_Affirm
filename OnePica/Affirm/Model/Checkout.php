@@ -3,6 +3,8 @@ namespace OnePica\Affirm\Model;
 
 use \Magento\Quote\Api\CartManagementInterface;
 use \Magento\Checkout\Model\Session;
+use Magento\Sales\Model\Order\Email\Sender\OrderSender;
+use Magento\Sales\Model\ResourceModel\Report\Order;
 
 /**
  * Class Checkout for Affirm
@@ -48,18 +50,34 @@ class Checkout
     protected $checkoutData;
 
     /**
-     * Inject objects to the checkout model
+     * Magento order instance
+     *
+     * @var \Magento\Sales\Model\Order
+     */
+    protected $order;
+
+    /**
+     * Order sender object
+     *
+     * @var \Magento\Sales\Model\Order\Email\Sender\OrderSender
+     */
+    protected $orderSender;
+
+    /**
+     * Inject checkout init objects
      *
      * @param CartManagementInterface         $cartManagement
      * @param Session                         $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Helper\Data   $checkoutData
+     * @param OrderSender                     $orderSender
      */
     public function __construct(
         CartManagementInterface $cartManagement,
         Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Checkout\Helper\Data $checkoutData
+        \Magento\Checkout\Helper\Data $checkoutData,
+        OrderSender $orderSender
     )
     {
         $this->checkoutSession = $checkoutSession;
@@ -67,6 +85,7 @@ class Checkout
         $this->quote = $this->checkoutSession->getQuote();
         $this->customerSession = $customerSession;
         $this->checkoutData = $checkoutData;
+        $this->orderSender = $orderSender;
     }
 
     /**
@@ -74,12 +93,36 @@ class Checkout
      */
     public function place()
     {
+        if (!$this->quote->getGrandTotal()) {
+            throw new \Magento\Framework\Exception\LocalizedException(
+                __(
+                    'Affirm can\'t process orders with a zero balance due. '
+                    . 'To finish your purchase, please go through the standard checkout process.'
+                )
+            );
+        }
         if ($this->getCheckoutMethod() == \Magento\Checkout\Model\Type\Onepage::METHOD_GUEST) {
             $this->prepareGuestQuote();
         }
         $this->quote->collectTotals();
         $this->ignoreAddressValidation();
-        $order = $this->quoteManagement->submit($this->quote);
+        $this->order = $this->quoteManagement->submit($this->quote);
+
+        switch ($this->order->getState()) {
+            // even after placement paypal can disallow to authorize/capture, but will wait until bank transfers money
+            case \Magento\Sales\Model\Order::STATE_PENDING_PAYMENT:
+                // TODO
+                break;
+            // regular placement, when everything is ok
+            case \Magento\Sales\Model\Order::STATE_PROCESSING:
+            case \Magento\Sales\Model\Order::STATE_COMPLETE:
+            case \Magento\Sales\Model\Order::STATE_PAYMENT_REVIEW:
+                $this->orderSender->send(($this->order));
+                $this->checkoutSession->start();
+                break;
+            default:
+                break;
+        }
     }
 
     /**
@@ -143,5 +186,15 @@ class Checkout
                 $this->quote->getBillingAddress()->setSameAsBilling(1);
             }
         }
+    }
+
+    /**
+     * Retrieve order instance
+     *
+     * @return mixed
+     */
+    public function getOrder()
+    {
+        return $this->order;
     }
 }

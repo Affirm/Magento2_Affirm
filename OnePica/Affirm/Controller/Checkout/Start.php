@@ -91,14 +91,6 @@ class Start extends \Magento\Framework\App\Action\Action
     {
         $quote = $this->checkoutSession->getQuote();
 
-        if (!$quote->getGrandTotal()) {
-            throw new \Magento\Framework\Exception\LocalizedException(
-                __(
-                    'Affirm can\'t process orders with a zero balance due. '
-                    . 'To finish your purchase, please go through the standard checkout process.'
-                )
-            );
-        }
         //collect totals
         $quote->collectTotals();
         $quote->reserveOrderId();
