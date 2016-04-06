@@ -20,7 +20,6 @@ define(
     [
         'jquery',
         'Magento_Checkout/js/view/payment/default',
-        'affirmScript',
         'Magento_Checkout/js/model/quote',
         'Magento_Checkout/js/model/payment/additional-validators',
         'mage/url',
