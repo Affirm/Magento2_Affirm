@@ -30,7 +30,7 @@ define(
         'Magento_Ui/js/model/messages',
         'Magento_Checkout/js/action/set-payment-information'
     ],
-    function ($, Component, AffirmCheckout, quote, additionalValidators, url,
+    function ($, Component, quote, additionalValidators, url,
               storage, urlBuilder, customer, errorProcessor, Messages, setPaymentAction) {
         'use strict';
 
