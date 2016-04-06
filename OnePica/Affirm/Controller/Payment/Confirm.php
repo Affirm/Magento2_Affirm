@@ -122,13 +122,13 @@ class Confirm extends \Magento\Framework\App\Action\Action
                     $e,
                     $e->getMessage()
                 );
-               $this->_redirect('checkout');
+               $this->_redirect('checkout/cart');
             } catch (\Exception $e) {
                 $this->messageManager->addExceptionMessage(
                     $e,
                     __('We can\'t place the order.')
                 );
-                $this->_redirect('checkout');
+                $this->_redirect('checkout/cart');
             }
         }
     }
