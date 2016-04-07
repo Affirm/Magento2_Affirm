@@ -41,10 +41,11 @@
                 <button class="action primary checkout"
                         type="submit"
                         data-bind="
-                        click: placeOrder,
-                        attr: {title: $t('Place Order')}
+                        click: continueInAffirm,
+                        attr: {title: $t('Continue in Affirm')}
+                        css: {display: getProcessMode()}
                         ">
-                    <span data-bind="i18n: 'Place Order'"></span>
+                    <span data-bind="i18n: 'Continue in Affirm'"></span>
                 </button>
             </div>
         </div>
