@@ -34,20 +34,21 @@ class TransferFactory extends AbstractTransferFactory
         return $this->transferBuilder
             ->setMethod(ClientService::POST)
             ->setHeaders(['Content-Type' => 'application/json'])
-            ->setBody(json_encode($request, JSON_UNESCAPED_SLASHES))
+            ->setBody(json_encode($request['body'], JSON_UNESCAPED_SLASHES))
             ->setAuthUsername($this->getPublicApiKey())
             ->setAuthPassword($this->getPrivateApiKey())
-            ->setUri($this->getApiUrl())
+            ->setUri($this->getApiUrl($request['path']))
             ->build();
     }
 
     /**
      * Get Api url
      *
+     * @param string $additionalPath
      * @return string
      */
-    private function getApiUrl()
+    private function getApiUrl($additionalPath)
     {
-        return $this->action->getUrl();
+        return $this->action->getUrl($additionalPath);
     }
 }

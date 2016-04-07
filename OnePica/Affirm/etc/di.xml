@@ -25,9 +25,6 @@
         </arguments>
     </virtualType>
 
-    <!-- Command poll contains our commands requests (authorize, capture, void and etc), now temporary is empty -->
-    <virtualType name="OnePicaCommandPool" type="Magento\Payment\Gateway\Command\CommandPool"/>
-
     <!-- Value handlers infrastructure -->
     <virtualType name="OnePicaValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
         <arguments>
@@ -75,6 +72,77 @@
             <argument name="validators" xsi:type="array">
                 <item name="country" xsi:type="string">AffirmCountryValidator</item>
                 <item name="currency" xsi:type="string">AffirmCurrencyValidator</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Command poll contains our commands requests (authorize, capture, void and etc), now temporary is empty -->
+    <virtualType name="OnePicaCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="authorize" xsi:type="string">AffirmGatewayAuthorizeCommand</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Authorize command -->
+    <virtualType name="AffirmGatewayAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">AffirmGatewayAuthorizationRequest</argument>
+            <argument name="handler" xsi:type="object">AffirmGatewayResponseHandlerComposite</argument>
+            <argument name="transferFactory" xsi:type="object">AffirmAuthorizationGatewayTransferFactory</argument>
+            <argument name="client" xsi:type="object">OnePica\Affirm\Gateway\Http\Client\ClientService</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="OnePica\Affirm\Gateway\Http\Client\ClientService">
+        <arguments>
+            <!--<argument name="logger" xsi:type="object">EwayLogger</argument>-->
+            <argument name="converter" xsi:type="object">OnePica\Affirm\Gateway\Http\Converter\JsonToArray</argument>
+        </arguments>
+    </type>
+
+    <!-- Authorization Request -->
+    <virtualType name="AffirmGatewayAuthorizationRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="transaction" xsi:type="string">OnePica\Affirm\Gateway\Request\AuthorizationRequest</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="OnePica\Affirm\Gateway\Request\AuthorizationRequest">
+        <arguments>
+            <argument name="config" xsi:type="object">OnePicaAffirmGatewayConfig</argument>
+        </arguments>
+    </type>
+
+    <!-- Authorization Transfer Factory -->
+    <virtualType name="AffirmAuthorizationGatewayTransferFactory" type="OnePica\Affirm\Gateway\Http\TransferFactory">
+        <arguments>
+            <argument name="action" xsi:type="object">AffirmAuthorizationTransactionAction</argument>
+            <argument name="config" xsi:type="object">OnePicaAffirmGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="OnePica\Affirm\Gateway\Helper\Request\Action">
+        <arguments>
+            <argument name="config" xsi:type="object">OnePicaAffirmGatewayConfig</argument>
+        </arguments>
+    </type>
+
+    <virtualType name="AffirmAuthorizationTransactionAction" type="OnePica\Affirm\Gateway\Helper\Request\Action">
+        <arguments>
+            <argument name="action" xsi:type="const">OnePica\Affirm\Gateway\Helper\Request\Action::API_CHARGES_PATH</argument>
+            <!--<argument name="config" xsi:type="object">OnePicaAffirmGatewayConfig</argument>-->
+        </arguments>
+    </virtualType>
+
+    <!-- Response handlers -->
+    <virtualType name="AffirmGatewayResponseHandlerComposite" type="Magento\Payment\Gateway\Response\HandlerChain">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="txnid" xsi:type="string">OnePica\Affirm\Gateway\Response\TxnIdHandler</item>
+                <!--<item name="fraud" xsi:type="string">Magento\SamplePaymentGateway\Gateway\Response\FraudHandler</item>-->
             </argument>
         </arguments>
     </virtualType>

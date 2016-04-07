@@ -88,10 +88,16 @@ class ClientService implements ClientInterface
             $client = $this->httpClientFactory->create();
             $client->setUri($transferObject->getUri());
             $client->setAuth($transferObject->getAuthUsername(), $transferObject->getAuthPassword());
+            $client->setRawData($transferObject->getBody(), 'application/json');
 
             $response = $client->request($transferObject->getMethod());
             $rawResponse = $response->getRawBody();
             $response = $this->converter->convert($rawResponse);
+            //validate to make sure there are no errors here
+            if (isset($response['status_code'])) {
+                throw new ClientException(__('Affirm error code:'.
+                    $response['status_code'] . ' error: '. $response['message']));
+            }
         } catch (\Exception $e) {
             throw new ClientException(__($e->getMessage()));
         } finally {
