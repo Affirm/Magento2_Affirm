@@ -19,7 +19,7 @@ namespace OnePica\Affirm\Controller\Adminhtml\Affirm;
 
 use \Magento\Backend\App\Action\Context;
 /**
- * Class Test
+ * Class Error controller for error page
  *
  * @package OnePica\Affirm\Controller\Adminhtml\Cancel
  */
