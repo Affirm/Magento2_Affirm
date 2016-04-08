@@ -84,12 +84,16 @@
                     <label>Plain Text Appearance</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="title" translate="label" type="textarea" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Label HTML Custom</label>
-                    <depends><field id="control">1</field></depends>
+                <field id="title" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Title</label>
                 </field>
                 <field id="icon" translate="label" type="text" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Icon</label>
+                </field>
+                <field id="info" translate="label" type="textarea" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Label HTML Custom</label>
+                    <comment>This field will be showed in checkout on payment section.</comment>
+                    <depends><field id="control">1</field></depends>
                 </field>
             </group>
         </section>

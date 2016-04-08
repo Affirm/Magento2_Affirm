@@ -103,7 +103,8 @@ class ConfigProvider  implements ConfigProviderInterface
                         "https://api.affirm.com/js/v2/affirm.js",
                     'redirectUrl' => $this->urlBuilder->getUrl('affirm/checkout/start', ['_secure' => true]),
                     'afterAffirmConf' => $this->config->getValue('after_affirm_conf'),
-                    'logoSrc' => $this->config->getValue('icon')
+                    'logoSrc' => $this->config->getValue('icon'),
+                    'info' => $this->config->getValue('info')
                 ]
             ]
         ];

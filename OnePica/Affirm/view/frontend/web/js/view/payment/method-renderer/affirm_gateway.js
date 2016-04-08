@@ -57,6 +57,15 @@ define(
             },
 
             /**
+             * Get payment info
+             *
+             * @returns {info|*|indicators.info|z.info|Wd.$get.info|logLevel.info}
+             */
+            getInfo: function () {
+                return window.checkoutConfig.payment['affirm_gateway'].info
+            },
+
+            /**
              * Get affirm logo src from config
              *
              * @returns {*}

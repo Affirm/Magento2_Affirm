@@ -38,8 +38,9 @@
                 <can_use_checkout>1</can_use_checkout>
                 <is_gateway>1</is_gateway>
                 <sort_order>0</sort_order>
-                <title><![CDATA[Buy with Monthly Payments]]></title>
+                <title>Affirm</title>
                 <icon>https://cdn1.affirm.com/images/badges/affirm-logo_78x54.png</icon>
+                <info>Buy with Monthly Payments</info>
             </affirm_gateway>
         </payment>
     </default>
