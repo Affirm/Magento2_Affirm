@@ -57,6 +57,15 @@ define(
             },
 
             /**
+             * Get affirm logo src from config
+             *
+             * @returns {*}
+             */
+            getAffirmLogoSrc: function () {
+                return window.checkoutConfig.payment['affirm_gateway'].logoSrc;
+            },
+
+            /**
              * Continue to Affirm redirect logic
              */
             continueInAffirm: function() {

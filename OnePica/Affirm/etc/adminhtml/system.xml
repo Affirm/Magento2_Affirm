@@ -88,6 +88,9 @@
                     <label>Label HTML Custom</label>
                     <depends><field id="control">1</field></depends>
                 </field>
+                <field id="icon" translate="label" type="text" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Icon</label>
+                </field>
             </group>
         </section>
     </system>
