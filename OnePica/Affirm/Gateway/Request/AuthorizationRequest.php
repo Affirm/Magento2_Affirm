@@ -25,6 +25,8 @@ use Magento\Payment\Gateway\Request\BuilderInterface;
 class AuthorizationRequest implements BuilderInterface
 {
     /**
+     * Config
+     *
      * @var ConfigInterface
      */
     private $config;
@@ -36,6 +38,8 @@ class AuthorizationRequest implements BuilderInterface
     /**#@-*/
 
     /**
+     * Constructor
+     *
      * @param ConfigInterface $config
      */
     public function __construct(
@@ -49,6 +53,7 @@ class AuthorizationRequest implements BuilderInterface
      *
      * @param array $buildSubject
      * @return array
+     * @throws \InvalidArgumentException
      */
     public function build(array $buildSubject)
     {
@@ -59,13 +64,13 @@ class AuthorizationRequest implements BuilderInterface
         }
 
         /** @var PaymentDataObjectInterface $payment */
-        $payment = $buildSubject['payment'];
-//        $token = $payment->getAdditionalInformation(self::CHECKOUT_TOKEN);
-        $token = 'S40GYLK1U8ZOUBGV';
+        $paymentDataObject = $buildSubject['payment'];
+        $payment = $paymentDataObject->getPayment();
+        $token = $payment->getAdditionalInformation(self::CHECKOUT_TOKEN);
         return [
-            'body' => array (
+            'body' => [
                 self::CHECKOUT_TOKEN => $token
-            ),
+            ],
             'path' => ''
         ];
     }

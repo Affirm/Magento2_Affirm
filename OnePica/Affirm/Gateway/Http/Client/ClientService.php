@@ -32,8 +32,6 @@ class ClientService implements ClientInterface
      */
     const GET     = 'GET';
     const POST    = 'POST';
-    const SUCCESS = 1;
-    const FAILURE = 0;
     /**#@-*/
 
     /**
@@ -58,6 +56,8 @@ class ClientService implements ClientInterface
     protected $httpClientFactory;
 
     /**
+     * Constructor
+     *
      * @param Logger $logger
      * @param ConverterInterface $converter,
      * @param ZendClientFactory $httpClientFactory
@@ -93,11 +93,6 @@ class ClientService implements ClientInterface
             $response = $client->request($transferObject->getMethod());
             $rawResponse = $response->getRawBody();
             $response = $this->converter->convert($rawResponse);
-            //validate to make sure there are no errors here
-            if (isset($response['status_code'])) {
-                throw new ClientException(__('Affirm error code:'.
-                    $response['status_code'] . ' error: '. $response['message']));
-            }
         } catch (\Exception $e) {
             throw new ClientException(__($e->getMessage()));
         } finally {
