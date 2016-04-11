@@ -93,7 +93,6 @@
                 <field id="info" translate="label" type="textarea" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Label HTML Custom</label>
                     <comment>This field will be showed in checkout on payment section.</comment>
-                    <depends><field id="control">1</field></depends>
                 </field>
             </group>
         </section>
