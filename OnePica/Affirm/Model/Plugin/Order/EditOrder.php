@@ -16,7 +16,7 @@
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-namespace OnePica\Affirm\Model\Plugin;
+namespace OnePica\Affirm\Model\Plugin\Order;
 
 use \Magento\Sales\Controller\Adminhtml\Order\Create\Save as SaveAction;
 use \Magento\Framework\Controller\Result\RedirectFactory;
@@ -26,7 +26,7 @@ use \Magento\Framework\Controller\Result\RedirectFactory;
  *
  * @package OnePica\Affirm\Model\Plugin\Order
  */
-class Edit
+class EditOrder
 {
     /**
      * Result redirect factory
