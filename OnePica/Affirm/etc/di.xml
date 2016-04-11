@@ -90,22 +90,13 @@
         <arguments>
             <argument name="requestBuilder" xsi:type="object">AffirmGatewayAuthorizationRequest</argument>
             <argument name="transferFactory" xsi:type="object">AffirmAuthorizationGatewayTransferFactory</argument>
-            <argument name="client" xsi:type="object">OnePica\Affirm\Gateway\Http\Client\ClientService</argument>
+            <argument name="client" xsi:type="object">OnePica\Affirm\Gateway\Http\Client\ClientServiceAuthorize</argument>
             <argument name="handler" xsi:type="object">OnePica\Affirm\Gateway\Response\TransactionAuthorizeHandler</argument>
             <argument name="validator" xsi:type="object">OnePica\Affirm\Gateway\Validator\PaymentActionsValidator</argument>
-            <!--<argument name="client" xsi:type="object">OnePica\Affirm\Gateway\Http\Client\AuthorizationClientService</argument>-->
         </arguments>
     </virtualType>
 
-    <!--<type name="OnePica\Affirm\Gateway\Http\Client\AuthorizationClientService">-->
-        <!--<arguments>-->
-            <!--<argument name="formatHelper" xsi:type="object">OnePica\Affirm\Gateway\Helper\Util</argument>-->
-            <!--<argument name="logger" xsi:type="object">AffirmLogger</argument>-->
-            <!--<argument name="converter" xsi:type="object">OnePica\Affirm\Gateway\Http\Converter\JsonToArray</argument>-->
-        <!--</arguments>-->
-    <!--</type>-->
-
-    <type name="OnePica\Affirm\Gateway\Http\Client\ClientService">
+    <type name="OnePica\Affirm\Gateway\Http\Client\ClientServiceAuthorize">
         <arguments>
             <argument name="logger" xsi:type="object">AffirmLogger</argument>
             <argument name="converter" xsi:type="object">OnePica\Affirm\Gateway\Http\Converter\JsonToArray</argument>
@@ -133,7 +124,8 @@
     </type>
 
     <!-- Authorization Transfer Factory -->
-    <virtualType name="AffirmAuthorizationGatewayTransferFactory" type="OnePica\Affirm\Gateway\Http\TransferFactory">
+    <!--<virtualType name="AffirmAuthorizationGatewayTransferFactory" type="OnePica\Affirm\Gateway\Http\TransferAuthorizeFactory">-->
+    <virtualType name="AffirmAuthorizationGatewayTransferFactory" type="OnePica\Affirm\Gateway\Http\TransferAuthorizeFactory">
         <arguments>
             <argument name="action" xsi:type="object">AffirmAuthorizationTransactionAction</argument>
             <argument name="config" xsi:type="object">OnePicaAffirmGatewayConfig</argument>
@@ -149,7 +141,6 @@
     <virtualType name="AffirmAuthorizationTransactionAction" type="OnePica\Affirm\Gateway\Helper\Request\Action">
         <arguments>
             <argument name="action" xsi:type="const">OnePica\Affirm\Gateway\Helper\Request\Action::API_CHARGES_PATH</argument>
-            <!--<argument name="config" xsi:type="object">OnePicaAffirmGatewayConfig</argument>-->
         </arguments>
     </virtualType>
 

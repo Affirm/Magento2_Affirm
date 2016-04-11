@@ -71,7 +71,9 @@ class AuthorizationRequest implements BuilderInterface
             'body' => [
                 self::CHECKOUT_TOKEN => $token
             ],
-            'path' => ''
+            'path' => '',
+            'token' => $token,
+            'amount' => $buildSubject['amount']
         ];
     }
 }

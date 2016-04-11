@@ -19,9 +19,8 @@
 namespace OnePica\Affirm\Gateway\Http;
 
 use Magento\Payment\Gateway\Http\TransferInterface;
-use OnePica\Affirm\Gateway\Http\Client\ClientService;
 
-class TransferFactory extends AbstractTransferFactory
+class TransferAuthorizeFactory extends TransferFactory
 {
     /**
      * Builds gateway transfer object
@@ -31,24 +30,18 @@ class TransferFactory extends AbstractTransferFactory
      */
     public function create(array $request)
     {
-        return $this->transferBuilder
-            ->setMethod(ClientService::POST)
-            ->setHeaders(['Content-Type' => 'application/json'])
-            ->setBody($request)
-            ->setAuthUsername($this->getPublicApiKey())
-            ->setAuthPassword($this->getPrivateApiKey())
-            ->setUri($this->getApiUrl($request['path']))
-            ->build();
+        $request['url'] = $this->getApiVerificationUrl($request['token']);
+        return parent::create($request);
     }
 
     /**
-     * Get Api url
+     * Get Api verification url
      *
      * @param string $additionalPath
      * @return string
      */
-    protected function getApiUrl($additionalPath)
+    protected function getApiVerificationUrl($additionalPath)
     {
-        return $this->action->getUrl($additionalPath);
+        return $this->action->getApiVerificationUrl($additionalPath);
     }
 }

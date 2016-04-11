@@ -30,7 +30,7 @@ abstract class AbstractResponseValidator extends AbstractValidator
      */
     const TRANSACTION_ID = 'id';
     const RESPONSE_CODE = 'status_code';
-    const RESPONSE_CODE_DECLINE = 400;
+    const TOTAL_AMOUNT = 'amount';
     /**#@-*/
 
     /**
@@ -41,7 +41,19 @@ abstract class AbstractResponseValidator extends AbstractValidator
      */
     protected function validateResponseCode(array $response)
     {
-        return !(isset($response[self::RESPONSE_CODE])
-            && $response[self::RESPONSE_CODE] === self::RESPONSE_CODE_DECLINE);
+        return !(isset($response[self::RESPONSE_CODE]));
+    }
+
+    /**
+     * Validate total amount
+     *
+     * @param array $response
+     * @param array|number|string $amount
+     * @return bool
+     */
+    protected function validateTotalAmount(array $response, $amount)
+    {
+        return isset($response[self::TOTAL_AMOUNT])
+            && ($response[self::TOTAL_AMOUNT]) === $amount;
     }
 }
