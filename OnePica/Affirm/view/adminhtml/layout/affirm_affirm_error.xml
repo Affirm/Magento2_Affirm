@@ -8,7 +8,7 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceContainer name="content">
-            <block class="Magento\Framework\View\Element\Template" template="OnePica_Affirm::affirm/error.phtml"/>
+            <block class="OnePica\Affirm\Block\Adminhtml\Error" template="OnePica_Affirm::affirm/error.phtml"/>
         </referenceContainer>
     </body>
 </page>

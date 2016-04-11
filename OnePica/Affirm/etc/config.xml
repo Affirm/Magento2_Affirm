@@ -41,6 +41,7 @@
                 <title>Affirm</title>
                 <icon>https://cdn1.affirm.com/images/badges/affirm-logo_78x54.png</icon>
                 <info>Buy with Monthly Payments</info>
+                <virtual_terminal_url>http://help.merchants.affirm.com/article/67-virtual-terminal-overview</virtual_terminal_url>
             </affirm_gateway>
         </payment>
     </default>

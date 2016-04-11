@@ -81,13 +81,13 @@ class Checkout
     protected $orderSender;
 
     /**
-     * Inject checkout init objects
+     * Init objects
      *
-     * @param CartManagementInterface         $cartManagement
-     * @param Session                         $checkoutSession
-     * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Checkout\Helper\Data   $checkoutData
-     * @param OrderSender                     $orderSender
+     * @param CartManagementInterface                   $cartManagement
+     * @param Session                                   $checkoutSession
+     * @param \Magento\Customer\Model\Session           $customerSession
+     * @param \Magento\Checkout\Helper\Data             $checkoutData
+     * @param OrderSender                               $orderSender
      */
     public function __construct(
         CartManagementInterface $cartManagement,
