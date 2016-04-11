@@ -29,6 +29,18 @@ use Magento\Payment\Block\ConfigurableInfo;
 class Info extends ConfigurableInfo
 {
     /**
+     * Get affirm main url
+     */
+    const AFFIRM_MAIN_URL = 'https://www.affirm.com/u';
+
+    /**
+     * Changed standard template
+     *
+     * @var string
+     */
+    protected $_template = 'OnePica_Affirm::payment/info/edit.phtml';
+
+    /**
      * Retrieve translated label
      *
      * @param string $field
@@ -37,5 +49,15 @@ class Info extends ConfigurableInfo
     protected function getLabel($field)
     {
         return __($field);
+    }
+
+    /**
+     * Retrieve affirm main url
+     *
+     * @return string
+     */
+    public function getAffirmMainUrl()
+    {
+        return self::AFFIRM_MAIN_URL;
     }
 }

@@ -17,7 +17,6 @@
  */
 namespace OnePica\Affirm\Controller\Adminhtml\Affirm;
 
-use \Magento\Backend\App\Action\Context;
 /**
  * Class Error controller for error page
  *
@@ -33,13 +32,13 @@ class Error extends \Magento\Backend\App\Action
     protected $resultPageFactory;
 
     /**
-     * Inject Result Factory Page
+     * Injected context and page result factory
      *
-     * @param Context                                    $context
+     * @param \Magento\Backend\App\Action\Context        $context
      * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
      */
     public function __construct(
-        Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Framework\View\Result\PageFactory $resultPageFactory
     )
     {
