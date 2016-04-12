@@ -20,6 +20,9 @@ namespace OnePica\Affirm\Gateway\Request;
 
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 
+/**
+ * Class PreAuthorizationRequest
+ */
 class PreAuthorizationRequest extends AuthorizationRequest
 {
     /**

@@ -20,6 +20,9 @@ namespace OnePica\Affirm\Gateway\Http;
 
 use Magento\Payment\Gateway\Http\TransferInterface;
 
+/**
+ * Class TransferAuthorizeFactory
+ */
 class TransferAuthorizeFactory extends TransferFactory
 {
     /**

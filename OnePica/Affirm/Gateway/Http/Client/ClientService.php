@@ -27,8 +27,6 @@ use Magento\Framework\HTTP\ZendClientFactory;
 
 /**
  * Class ClientService
- *
- * @package OnePica\Affirm\Gateway\Http\Client
  */
 class ClientService implements ClientInterface
 {

@@ -23,8 +23,6 @@ use OnePica\Affirm\Gateway\Http\Client\ClientService;
 
 /**
  * Class TransferFactory
- *
- * @package OnePica\Affirm\Gateway\Http
  */
 class TransferFactory extends AbstractTransferFactory
 {

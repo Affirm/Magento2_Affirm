@@ -33,11 +33,15 @@ class Action
     /**#@-*/
 
     /**
+     * Action
+     *
      * @var string
      */
     private $action;
 
     /**
+     * Config
+     *
      * @var ConfigInterface
      */
     private $config;
