@@ -18,38 +18,10 @@
 
 namespace OnePica\Affirm\Gateway\Request;
 
-use Magento\Payment\Gateway\ConfigInterface;
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
-use Magento\Payment\Gateway\Request\BuilderInterface;
 
-class PreAuthorizationRequest implements BuilderInterface
+class PreAuthorizationRequest extends AuthorizationRequest
 {
-    /**
-     * Config
-     *
-     * @var ConfigInterface
-     */
-    private $config;
-
-    /**#@+
-     * Define constants
-     */
-    const CHECKOUT_TOKEN = 'checkout_token';
-    const GET = 'GET';
-    const POST = 'POST';
-    /**#@-*/
-
-    /**
-     * Constructor
-     *
-     * @param ConfigInterface $config
-     */
-    public function __construct(
-        ConfigInterface $config
-    ) {
-        $this->config = $config;
-    }
-
     /**
      * Builds ENV request
      *

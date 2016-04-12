@@ -101,7 +101,7 @@
             <argument name="transferFactory" xsi:type="object">AffirmAuthorizationGatewayTransferFactory</argument>
             <argument name="client" xsi:type="object">OnePica\Affirm\Gateway\Http\Client\ClientService</argument>
             <argument name="handler" xsi:type="object">OnePica\Affirm\Gateway\Response\TransactionAuthorizeHandler</argument>
-            <argument name="validator" xsi:type="object">OnePica\Affirm\Gateway\Validator\PaymentActionsValidator</argument>
+            <argument name="validator" xsi:type="object">OnePica\Affirm\Gateway\Validator\Client\PaymentActionsValidator</argument>
         </arguments>
     </virtualType>
 
@@ -111,7 +111,7 @@
             <argument name="requestBuilder" xsi:type="object">AffirmGatewayPreAuthorizationRequest</argument>
             <argument name="transferFactory" xsi:type="object">AffirmPreAuthorizationGatewayTransferFactory</argument>
             <argument name="client" xsi:type="object">OnePica\Affirm\Gateway\Http\Client\ClientServicePreAuthorize</argument>
-            <argument name="validator" xsi:type="object">OnePica\Affirm\Gateway\Validator\PaymentActionsValidatorPreAuthorize</argument>
+            <argument name="validator" xsi:type="object">OnePica\Affirm\Gateway\Validator\Client\PaymentActionsValidatorPreAuthorize</argument>
         </arguments>
     </virtualType>
     <!-- Pre Authorize command -->
@@ -137,6 +137,8 @@
             </argument>
         </arguments>
     </virtualType>
+    <!-- Authorization Request Builder-->
+
     <type name="OnePica\Affirm\Gateway\Request\AuthorizationRequest">
         <arguments>
             <argument name="config" xsi:type="object">OnePicaAffirmGatewayConfig</argument>
@@ -151,11 +153,6 @@
             </argument>
         </arguments>
     </virtualType>
-    <type name="OnePica\Affirm\Gateway\Request\PreAuthorizationRequest">
-        <arguments>
-            <argument name="config" xsi:type="object">OnePicaAffirmGatewayConfig</argument>
-        </arguments>
-    </type>
     <!-- Pre Authorization Request Builder-->
 
     <!-- Authorization Transfer Factory -->

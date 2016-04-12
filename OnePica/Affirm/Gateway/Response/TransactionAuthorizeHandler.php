@@ -21,7 +21,7 @@ namespace OnePica\Affirm\Gateway\Response;
 use Magento\Sales\Model\Order\Payment;
 use Magento\Payment\Gateway\Helper\SubjectReader;
 use Magento\Payment\Gateway\Response\HandlerInterface;
-use OnePica\Affirm\Gateway\Validator\PaymentActionsValidator;
+use OnePica\Affirm\Gateway\Validator\Client\PaymentActionsValidator;
 
 /**
  * Class TransactionAuthorizeHandler

@@ -35,6 +35,8 @@ class AuthorizationRequest implements BuilderInterface
      * Define constants
      */
     const CHECKOUT_TOKEN = 'checkout_token';
+    const GET = 'GET';
+    const POST = 'POST';
     /**#@-*/
 
     /**
