@@ -19,8 +19,8 @@
             <resource ref="anonymous" />
         </resources>
     </route>
-    <route url="/V1/affirm/order/load/:quoteId" method="GET">
-        <service class="OnePica\Affirm\Api\OrderServiceManagerInterface" method="getIncrementId"/>
+    <route url="/V1/affirm/order/init" method="POST">
+        <service class="OnePica\Affirm\Api\AffirmCheckoutManagerInterface" method="initCheckout"/>
         <resources>
             <resource ref="anonymous" />
         </resources>

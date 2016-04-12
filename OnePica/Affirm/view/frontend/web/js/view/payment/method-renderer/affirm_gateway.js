@@ -22,16 +22,17 @@ define(
         'Magento_Checkout/js/view/payment/default',
         'Magento_Checkout/js/model/quote',
         'Magento_Checkout/js/model/payment/additional-validators',
-        'mage/url',
-        'synchPost',
         'Magento_Checkout/js/model/url-builder',
-        'Magento_Customer/js/model/customer',
         'Magento_Checkout/js/model/error-processor',
         'Magento_Ui/js/model/messages',
-        'Magento_Checkout/js/action/set-payment-information'
+        'Magento_Checkout/js/action/set-payment-information',
+        'OnePica_Affirm/js/action/prepare-affirm-checkout',
+        'OnePica_Affirm/js/action/send-to-affirm-checkout'
     ],
-    function ($, Component, quote, additionalValidators, url,
-              storage, urlBuilder, customer, errorProcessor, Messages, setPaymentAction) {
+    function ($, Component, quote, additionalValidators,
+              urlBuilder, errorProcessor, Messages, setPaymentAction,
+              initChekoutAction, sendToAffirmCheckout) {
+
         'use strict';
 
         return Component.extend({
@@ -82,8 +83,10 @@ define(
                 if (additionalValidators.validate()) {
                     //update payment method information if additional data was changed
                     this.selectPaymentMethod();
-                    $.when(setPaymentAction(this.messageContainer, {'method': self.getCode()})).done(function() {
-                        $.mage.redirect(window.checkoutConfig.payment['affirm_gateway'].redirectUrl);
+                    $.when(setPaymentAction(self.messageContainer, {'method': self.getCode()})).done(function() {
+                        $.when(initChekoutAction(self.messageContainer)).done(function(response) {
+                            sendToAffirmCheckout(response);
+                        });
                     }).fail(function(){
                         self.isPlaceOrderActionAllowed(true);
                     });

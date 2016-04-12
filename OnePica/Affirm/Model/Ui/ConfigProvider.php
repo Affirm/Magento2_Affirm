@@ -88,13 +88,13 @@ class ConfigProvider  implements ConfigProviderInterface
                         ? $this->config->getValue('api_url_sandbox'):
                         $this->config->getValue('api_url_production'),
                     'merchant' => [
-                        'confirmationUrl' => $this->urlBuilder
+                        'user_confirmation_url' => $this->urlBuilder
                                 ->getUrl('affirm/payment/confirm', ['_secure' => true]),
-                        'cancelUrl' => $this->urlBuilder
+                        'user_cancel_url' => $this->urlBuilder
                                 ->getUrl('affirm/payment/cancel', ['_secure' => true]),
                     ],
                     'config' => [
-                        'financialKey' => $this->config->getValue('mode') == 'sandbox' ?
+                        'financial_product_key' => $this->config->getValue('mode') == 'sandbox' ?
                                 $this->config->getValue('financial_product_key_sandbox'):
                                 $this->config->getValue('financial_product_key_production')
                     ],
