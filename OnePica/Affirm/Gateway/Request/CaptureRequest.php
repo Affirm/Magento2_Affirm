@@ -23,7 +23,7 @@ use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 /**
  * Class CaptureRequest
  */
-class CaptureRequest extends AuthorizationRequest
+class CaptureRequest extends AbstractDataBuilder
 {
     /**
      * Builds ENV request
@@ -43,7 +43,7 @@ class CaptureRequest extends AuthorizationRequest
         /** @var PaymentDataObjectInterface $payment */
         $paymentDataObject = $buildSubject['payment'];
         $payment = $paymentDataObject->getPayment();
-        $chargeId = $payment->getAdditionalInformation('charge_id');
+        $chargeId = $payment->getAdditionalInformation(self::CHARGE_ID);
         return [
             'body' => [],
             'path' => "{$chargeId}/capture"

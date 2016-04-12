@@ -158,7 +158,7 @@
     </virtualType>
     <!-- Authorization Request Builder-->
 
-    <type name="OnePica\Affirm\Gateway\Request\AuthorizationRequest">
+    <type name="OnePica\Affirm\Gateway\Request\AbstractDataBuilder">
         <arguments>
             <argument name="config" xsi:type="object">OnePicaAffirmGatewayConfig</argument>
         </arguments>

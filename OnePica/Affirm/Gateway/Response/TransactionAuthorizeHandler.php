@@ -21,13 +21,19 @@ namespace OnePica\Affirm\Gateway\Response;
 use Magento\Sales\Model\Order\Payment;
 use Magento\Payment\Gateway\Helper\SubjectReader;
 use Magento\Payment\Gateway\Response\HandlerInterface;
-use OnePica\Affirm\Gateway\Validator\Client\PaymentActionsValidator;
 
 /**
  * Class TransactionAuthorizeHandler
  */
 class TransactionAuthorizeHandler implements HandlerInterface
 {
+    /**#@+
+     * Define constants
+     */
+    const TRANSACTION_ID = 'id';
+    const CHARGE_ID = 'charge_id';
+    /**#@-*/
+
     /**
      * @inheritdoc
      */
@@ -36,8 +42,8 @@ class TransactionAuthorizeHandler implements HandlerInterface
         $paymentDO = SubjectReader::readPayment($handlingSubject);
         /** @var Payment $orderPayment */
         $orderPayment = $paymentDO->getPayment();
-        $orderPayment->setAdditionalInformation('charge_id', $response[PaymentActionsValidator::TRANSACTION_ID]);
-        $orderPayment->setTransactionId($response[PaymentActionsValidator::TRANSACTION_ID]);
+        $orderPayment->setAdditionalInformation(self::CHARGE_ID, $response[self::TRANSACTION_ID]);
+        $orderPayment->setTransactionId($response[self::TRANSACTION_ID]);
         $orderPayment->setIsTransactionClosed(false);
     }
 }
