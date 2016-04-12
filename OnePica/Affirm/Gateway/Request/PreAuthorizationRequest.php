@@ -26,6 +26,11 @@ use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 class PreAuthorizationRequest extends AuthorizationRequest
 {
     /**
+     * Get method
+     */
+    const GET = 'GET';
+
+    /**
      * Builds ENV request
      *
      * @param array $buildSubject
