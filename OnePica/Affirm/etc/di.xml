@@ -190,4 +190,11 @@
         </arguments>
     </virtualType>
     <!-- Pre Authorization Transfer Factory -->
+    <!-- Added plugin to the edit and save new order controller in admin  -->
+    <type name="Magento\Sales\Controller\Adminhtml\Order\Edit\Save">
+        <plugin name="before-edit-admin" type="OnePica\Affirm\Model\Plugin\Order\EditOrder" sortOrder="1"/>
+    </type>
+    <type name="Magento\Sales\Controller\Adminhtml\Order\Create\Save">
+        <plugin name="before-create-admin" type="OnePica\Affirm\Model\Plugin\Order\Create" sortOrder="1"/>
+    </type>
 </config>

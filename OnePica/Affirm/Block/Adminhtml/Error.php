@@ -16,48 +16,28 @@
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-namespace OnePica\Affirm\Block;
+namespace OnePica\Affirm\Block\Adminhtml;
 
-use Magento\Framework\Phrase;
-use Magento\Payment\Block\ConfigurableInfo;
-
+use Magento\Framework\View\Element\Template;
 /**
- * Payment Block Info class
+ * Class Block Error
  *
- * @package OnePica\Affirm\Block
+ * @package OnePica\Affirm\Block\Adminhtml
  */
-class Info extends ConfigurableInfo
+class Error extends \Magento\Framework\View\Element\Template
 {
     /**
-     * Get affirm main url
+     * Fixed url for affirm's virtual terminal.
      */
-    const AFFIRM_MAIN_URL = 'https://www.affirm.com/u';
+    const VIRTUAL_TERMINAL_URL = "http://help.merchants.affirm.com/article/67-virtual-terminal-overview";
 
     /**
-     * Changed standard template
-     *
-     * @var string
-     */
-    protected $_template = 'OnePica_Affirm::payment/info/edit.phtml';
-
-    /**
-     * Retrieve translated label
-     *
-     * @param string $field
-     * @return Phrase|string
-     */
-    protected function getLabel($field)
-    {
-        return __($field);
-    }
-
-    /**
-     * Retrieve affirm main url
+     * Retrieve affirm's virtual url
      *
      * @return string
      */
-    public function getAffirmMainUrl()
+    public function getVirtualUrl()
     {
-        return self::AFFIRM_MAIN_URL;
+        return self::VIRTUAL_TERMINAL_URL;
     }
 }

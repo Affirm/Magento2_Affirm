@@ -1,0 +1,15 @@
+<?php
+/**
+ * OnePica affirm
+ *
+ * @var $block OnePica\Affirm\Block\Adminhtml\Error
+ */
+?>
+<h2>
+    <?php echo __(
+    'Affirm is not available as a payment method in Magento at this time.
+     Instead you may use %1', "<a href =" . $block->getVirtualUrl() . ">Affirm's Virtual Terminal</a>
+     to process payment."
+);
+?>
+</h2>
