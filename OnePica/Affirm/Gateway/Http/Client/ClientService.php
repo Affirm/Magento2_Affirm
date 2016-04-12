@@ -25,6 +25,11 @@ use Magento\Payment\Model\Method\Logger;
 use Magento\Payment\Gateway\Http\ConverterInterface;
 use Magento\Framework\HTTP\ZendClientFactory;
 
+/**
+ * Class ClientService
+ *
+ * @package OnePica\Affirm\Gateway\Http\Client
+ */
 class ClientService implements ClientInterface
 {
     /**#@+

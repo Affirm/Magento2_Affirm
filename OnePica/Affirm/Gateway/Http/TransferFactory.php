@@ -21,6 +21,11 @@ namespace OnePica\Affirm\Gateway\Http;
 use Magento\Payment\Gateway\Http\TransferInterface;
 use OnePica\Affirm\Gateway\Http\Client\ClientService;
 
+/**
+ * Class TransferFactory
+ *
+ * @package OnePica\Affirm\Gateway\Http
+ */
 class TransferFactory extends AbstractTransferFactory
 {
     /**
