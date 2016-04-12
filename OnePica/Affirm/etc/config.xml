@@ -38,7 +38,7 @@
                 <can_use_checkout>1</can_use_checkout>
                 <is_gateway>1</is_gateway>
                 <sort_order>0</sort_order>
-                <title>Affirm</title>
+                <title>Affirm: Buy with Monthly Payments</title>
                 <icon>https://cdn1.affirm.com/images/badges/affirm-logo_78x54.png</icon>
                 <info>Buy with Monthly Payments</info>
                 <virtual_terminal_url>http://help.merchants.affirm.com/article/67-virtual-terminal-overview</virtual_terminal_url>
