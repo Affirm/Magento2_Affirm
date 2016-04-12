@@ -38,7 +38,7 @@ class TransferFactory extends AbstractTransferFactory
         return $this->transferBuilder
             ->setMethod($method)
             ->setHeaders(['Content-Type' => 'application/json'])
-            ->setBody(json_encode($request['body'], JSON_UNESCAPED_SLASHES))
+            ->setBody($request['body'])
             ->setAuthUsername($this->getPublicApiKey())
             ->setAuthPassword($this->getPrivateApiKey())
             ->setUri($this->getApiUrl($request['path']))
