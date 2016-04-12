@@ -18,33 +18,11 @@
 
 namespace OnePica\Affirm\Gateway\Validator;
 
-use Magento\Payment\Gateway\Validator\AbstractValidator;
-
 /**
- * Class AbstractResponseValidator
+ * Class PaymentActionsValidator for Cancel and Capture commands
  */
-abstract class AbstractResponseValidator extends AbstractValidator
+class PaymentActionsValidatorPreAuthorize extends PaymentActionsValidator
 {
-    /**#@+
-     * Define constants
-     */
-    const TRANSACTION_ID = 'id';
-    const RESPONSE_CODE = 'status_code';
-    const AMOUNT = 'amount';
-    const TOTAL = 'total';
-    /**#@-*/
-
-    /**
-     * Validate response code
-     *
-     * @param array $response
-     * @return bool
-     */
-    protected function validateResponseCode(array $response)
-    {
-        return !(isset($response[self::RESPONSE_CODE]));
-    }
-
     /**
      * Validate total amount
      *
@@ -54,7 +32,7 @@ abstract class AbstractResponseValidator extends AbstractValidator
      */
     protected function validateTotalAmount(array $response, $amount)
     {
-        return isset($response[self::AMOUNT])
-            && ($response[self::AMOUNT]) === $amount;
+        return isset($response[self::TOTAL])
+            && ($response[self::TOTAL]) === $amount;
     }
 }

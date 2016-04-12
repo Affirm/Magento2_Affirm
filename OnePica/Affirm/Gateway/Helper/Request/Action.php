@@ -68,19 +68,4 @@ class Action
 
         return trim($gateway, '/') . sprintf('%s%s', $this->action, $additionalPath);
     }
-
-    /**
-     * Get authorize verification request URL
-     *
-     * @param string $additionalPath
-     * @return string
-     */
-    public function getApiVerificationUrl($additionalPath = '')
-    {
-        $gateway = $this->config->getValue('mode') == 'sandbox'
-            ? $this->config->getValue('api_url_sandbox')
-            : $this->config->getValue('api_url_production');
-
-        return trim($gateway, '/') . sprintf('%s%s', self::API_CHECKOUT_PATH, $additionalPath);
-    }
 }

@@ -22,7 +22,7 @@ use Magento\Payment\Gateway\ConfigInterface;
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 use Magento\Payment\Gateway\Request\BuilderInterface;
 
-class AuthorizationRequest implements BuilderInterface
+class PreAuthorizationRequest implements BuilderInterface
 {
     /**
      * Config
@@ -35,6 +35,8 @@ class AuthorizationRequest implements BuilderInterface
      * Define constants
      */
     const CHECKOUT_TOKEN = 'checkout_token';
+    const GET = 'GET';
+    const POST = 'POST';
     /**#@-*/
 
     /**
@@ -68,12 +70,9 @@ class AuthorizationRequest implements BuilderInterface
         $payment = $paymentDataObject->getPayment();
         $token = $payment->getAdditionalInformation(self::CHECKOUT_TOKEN);
         return [
-            'body' => [
-                self::CHECKOUT_TOKEN => $token
-            ],
-            'path' => '',
-//            'token' => $token,
-//            'amount' => $buildSubject['amount']
+            'body' => '',
+            'path' => $token,
+            'method' => self::GET
         ];
     }
 }

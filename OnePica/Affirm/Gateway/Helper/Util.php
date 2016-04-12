@@ -37,7 +37,7 @@ class Util
     public static function formatToCents($amount = 0)
     {
         $negative = false;
-        $str = self::_formatMoney($amount);
+        $str = self::formatMoney($amount);
         if (strcmp($str[0], '-') === 0) {
             // treat it like a positive. then prepend a '-' to the return value.
             $str = substr($str, 1);
@@ -67,7 +67,7 @@ class Util
      * @param string $amount
      * @return string
      */
-    protected static function _formatMoney($amount)
+    protected static function formatMoney($amount)
     {
         return sprintf(self::MONEY_FORMAT, $amount);
     }
