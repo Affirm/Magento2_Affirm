@@ -30,7 +30,6 @@ use Magento\Sales\Model\Order;
  */
 class CaptureStrategyCommand implements CommandInterface
 {
-
     /**#@+
      * Define constants
      */
@@ -40,11 +39,15 @@ class CaptureStrategyCommand implements CommandInterface
     /**#@-*/
 
     /**
+     * Command pool
+     *
      * @var Command\CommandPoolInterface
      */
     private $commandPool;
 
     /**
+     * Constructor
+     *
      * @param Command\CommandPoolInterface $commandPool
      */
     public function __construct(

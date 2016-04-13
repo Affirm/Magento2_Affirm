@@ -36,11 +36,15 @@ class AuthorizeStrategyCommand implements CommandInterface
     const ORDER_AUTHORIZE = 'order_authorize';
 
     /**
+     * Command pool
+     *
      * @var Command\CommandPoolInterface
      */
     private $commandPool;
 
     /**
+     * Constructor
+     *
      * @param Command\CommandPoolInterface $commandPool
      */
     public function __construct(
