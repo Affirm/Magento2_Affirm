@@ -91,7 +91,7 @@
                     <label>Icon</label>
                 </field>
                 <field id="info" translate="label" type="textarea" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Label HTML Custom</label>
+                    <label>Affirm Payment Method HTML</label>
                     <comment>This field will be showed in checkout on payment section.</comment>
                 </field>
             </group>
