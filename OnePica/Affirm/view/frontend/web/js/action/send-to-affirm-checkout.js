@@ -19,7 +19,7 @@ define(["jquery",
      * @returns {*}
      */
     function initAddress(checkout, type) {
-        var address;
+        var address, street;
         if (type == 'shipping') {
             address = quote.shippingAddress();
         } else if (type == 'billing') {
@@ -29,8 +29,13 @@ define(["jquery",
         checkout[type].name = {
             "full": address.firstname + ' ' + address.lastname
         };
+        if (address.street[1]) {
+            street = address.street[0] + ' ' + address.street[1];
+        } else {
+            street = address.street[0];
+        }
         checkout[type].address = {
-            "line1": address.street[0],
+            "line1": street,
             "city": address.city,
             "state": address.regionCode,
             "zipcode": address.postcode,

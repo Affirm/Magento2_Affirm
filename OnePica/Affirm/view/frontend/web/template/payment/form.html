@@ -25,7 +25,6 @@
         <label class="label" data-bind="attr: {'for': getCode()}">
             <img data-bind="attr: {src: getAffirmLogoSrc(), alt: $t('Affirm payment')}" class="payment-icon"/>
             <span data-bind="html: getInfo()"></span>
-            <div class="affirm-info" data-bind="text: $t('How does Affirm work? Just enter your basic information and get a decision instantly. You will complete your payment on the Affirm website')"></div>
         </label>
     </div>
 
@@ -33,6 +32,10 @@
         <!-- ko foreach: getRegion('messages') -->
         <!-- ko template: getTemplate() --><!-- /ko -->
         <!--/ko-->
+        <div class="affirm-item">
+            <h2 class="affirm-info-head" data-bind="text: $t('How does Affirm work ?')"></h2>
+            <div class="affirm-info-description" data-bind="text: $t('Just enter your basic information and get a decision instantly. You will complete your payment on the Affirm website')"></div>
+        </div>
         <div class="payment-method-billing-address">
             <!-- ko foreach: $parent.getRegion(getBillingAddressFormName()) -->
             <!-- ko template: getTemplate() --><!-- /ko -->
