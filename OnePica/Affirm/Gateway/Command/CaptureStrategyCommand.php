@@ -20,20 +20,23 @@ namespace OnePica\Affirm\Gateway\Command;
 
 use Magento\Payment\Gateway\Command;
 use Magento\Payment\Gateway\CommandInterface;
+use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Payment\Gateway\Helper\SubjectReader;
 use Magento\Sales\Model\Order;
 
-class AuthorizeStrategyCommand implements CommandInterface
+/**
+ * Class CaptureStrategyCommand
+ */
+class CaptureStrategyCommand implements CommandInterface
 {
-    /**
-     * Pre authorize
+    /**#@+
+     * Define constants
      */
-    const PRE_AUTHORIZE = 'pre_authorize';
-
-    /**
-     * Order authorize
-     */
-    const ORDER_AUTHORIZE = 'order_authorize';
+    const AUTHORIZE = 'authorize';
+    const ORDER_CAPTURE = 'order_capture';
+    const CHECKOUT_TOKEN = 'checkout_token';
+    /**#@-*/
 
     /**
      * Command pool
@@ -62,12 +65,23 @@ class AuthorizeStrategyCommand implements CommandInterface
      */
     public function execute(array $commandSubject)
     {
-        $this->commandPool
-            ->get(self::PRE_AUTHORIZE)
-            ->execute($commandSubject);
+        /** @var PaymentDataObjectInterface $paymentDO */
+        $paymentDO = SubjectReader::readPayment($commandSubject);
+
+        /** @var Order\Payment $paymentInfo */
+        $paymentInfo = $paymentDO->getPayment();
+        $chargeId = $paymentInfo->getAdditionalInformation('charge_id');
+        if (($paymentInfo instanceof Order\Payment) && !$chargeId) {
+            $checkoutToken = $paymentInfo->getAdditionalInformation(self::CHECKOUT_TOKEN);
+            if ($checkoutToken) {
+                $this->commandPool
+                    ->get(self::AUTHORIZE)
+                    ->execute($commandSubject);
+            }
+        }
 
         return $this->commandPool
-            ->get(self::ORDER_AUTHORIZE)
+            ->get(self::ORDER_CAPTURE)
             ->execute($commandSubject);
     }
 }

@@ -16,35 +16,25 @@
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-namespace OnePica\Affirm\Gateway\Http;
+namespace OnePica\Affirm\Gateway\Response;
 
-use Magento\Payment\Gateway\Http\TransferInterface;
+use Magento\Sales\Model\Order\Payment;
+use Magento\Payment\Gateway\Helper\SubjectReader;
+use Magento\Payment\Gateway\Response\HandlerInterface;
 
 /**
- * Class TransferAuthorizeFactory
+ * Class TransactionCaptureHandler
  */
-class TransferAuthorizeFactory extends TransferFactory
+class TransactionCaptureHandler implements HandlerInterface
 {
     /**
-     * Builds gateway transfer object
-     *
-     * @param array $request
-     * @return TransferInterface
+     * @inheritdoc
      */
-    public function create(array $request)
+    public function handle(array $handlingSubject, array $response)
     {
-        $request['url'] = $this->getApiVerificationUrl($request['token']);
-        return parent::create($request);
-    }
-
-    /**
-     * Get Api verification url
-     *
-     * @param string $additionalPath
-     * @return string
-     */
-    protected function getApiVerificationUrl($additionalPath)
-    {
-        return $this->action->getApiVerificationUrl($additionalPath);
+        $paymentDO = SubjectReader::readPayment($handlingSubject);
+        /** @var Payment $orderPayment */
+        $orderPayment = $paymentDO->getPayment();
+        $orderPayment->setIsTransactionClosed(false);
     }
 }

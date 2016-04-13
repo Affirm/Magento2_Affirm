@@ -91,7 +91,11 @@ class ClientService implements ClientInterface
             $client = $this->httpClientFactory->create();
             $client->setUri($transferObject->getUri());
             $client->setAuth($transferObject->getAuthUsername(), $transferObject->getAuthPassword());
-            $client->setRawData($transferObject->getBody(), 'application/json');
+            if (!empty($transferObject->getBody())) {
+                $data = $transferObject->getBody();
+                $data = json_encode($data, JSON_UNESCAPED_SLASHES);
+                $client->setRawData($data, 'application/json');
+            }
 
             $response = $client->request($transferObject->getMethod());
             $rawResponse = $response->getRawBody();

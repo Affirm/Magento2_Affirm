@@ -16,44 +16,46 @@
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-namespace OnePica\Affirm\Gateway\Validator\Client;
+namespace OnePica\Affirm\Gateway\Request;
 
-use Magento\Payment\Gateway\Validator\AbstractValidator;
+use Magento\Payment\Gateway\ConfigInterface;
+use Magento\Payment\Gateway\Request\BuilderInterface;
 
 /**
- * Class AbstractResponseValidator
+ * Class AbstractDataBuilder
  */
-abstract class AbstractResponseValidator extends AbstractValidator
+abstract class AbstractDataBuilder implements BuilderInterface
 {
     /**#@+
      * Define constants
      */
-    const RESPONSE_CODE = 'status_code';
-    const AMOUNT = 'amount';
-    const TOTAL = 'total';
+    const CHECKOUT_TOKEN = 'checkout_token';
+    const CHARGE_ID = 'charge_id';
     /**#@-*/
 
     /**
-     * Validate response code
+     * Config
      *
-     * @param array $response
-     * @return bool
+     * @var ConfigInterface
      */
-    protected function validateResponseCode(array $response)
-    {
-        return !(isset($response[self::RESPONSE_CODE]));
+    private $config;
+
+    /**
+     * Constructor
+     *
+     * @param ConfigInterface $config
+     */
+    public function __construct(
+        ConfigInterface $config
+    ) {
+        $this->config = $config;
     }
 
     /**
-     * Validate total amount
+     * Builds ENV request
      *
-     * @param array $response
-     * @param array|number|string $amount
-     * @return bool
+     * @param array $buildSubject
+     * @return array
      */
-    protected function validateTotalAmount(array $response, $amount)
-    {
-        return isset($response[self::AMOUNT])
-            && ($response[self::AMOUNT]) === $amount;
-    }
+    abstract public function build(array $buildSubject);
 }

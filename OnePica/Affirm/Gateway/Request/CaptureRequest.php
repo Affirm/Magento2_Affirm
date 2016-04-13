@@ -21,9 +21,9 @@ namespace OnePica\Affirm\Gateway\Request;
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 
 /**
- * Class AuthorizationRequest
+ * Class CaptureRequest
  */
-class AuthorizationRequest extends AbstractDataBuilder
+class CaptureRequest extends AbstractDataBuilder
 {
     /**
      * Builds ENV request
@@ -43,12 +43,10 @@ class AuthorizationRequest extends AbstractDataBuilder
         /** @var PaymentDataObjectInterface $payment */
         $paymentDataObject = $buildSubject['payment'];
         $payment = $paymentDataObject->getPayment();
-        $token = $payment->getAdditionalInformation(self::CHECKOUT_TOKEN);
+        $chargeId = $payment->getAdditionalInformation(self::CHARGE_ID);
         return [
-            'body' => [
-                self::CHECKOUT_TOKEN => $token
-            ],
-            'path' => ''
+            'body' => [],
+            'path' => "{$chargeId}/capture"
         ];
     }
 }
