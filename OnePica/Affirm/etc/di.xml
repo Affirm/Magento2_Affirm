@@ -145,7 +145,7 @@
             <argument name="transferFactory" xsi:type="object">AffirmClientGatewayTransferFactory</argument>
             <argument name="client" xsi:type="object">OnePica\Affirm\Gateway\Http\Client\ClientService</argument>
             <argument name="validator" xsi:type="object">OnePica\Affirm\Gateway\Validator\Client\PaymentActionsValidator</argument>
-            <!--<argument name="handler" xsi:type="object">OnePica\Affirm\Gateway\Response\TransactionCaptureHandler</argument>-->
+            <argument name="handler" xsi:type="object">OnePica\Affirm\Gateway\Response\TransactionRefundHandler</argument>
         </arguments>
     </virtualType>
     <!-- Refund command -->

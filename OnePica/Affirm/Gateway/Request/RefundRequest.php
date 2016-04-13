@@ -22,7 +22,7 @@ use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 use OnePica\Affirm\Gateway\Helper\Util;
 
 /**
- * Class CaptureRequest
+ * Class RefundRequest
  */
 class RefundRequest extends AbstractDataBuilder
 {
