@@ -85,6 +85,7 @@
                 <item name="order_authorize" xsi:type="string">AffirmGatewayAuthorizeCommand</item>
                 <item name="capture" xsi:type="string">OnePica\Affirm\Gateway\Command\CaptureStrategyCommand</item>
                 <item name="order_capture" xsi:type="string">AffirmGatewayCaptureCommand</item>
+                <item name="refund" xsi:type="string">AffirmGatewayRefundCommand</item>
             </argument>
         </arguments>
     </virtualType>
@@ -125,6 +126,7 @@
     </virtualType>
     <!-- Pre Authorize command -->
 
+    <!-- Capture command -->
     <virtualType name="AffirmGatewayCaptureCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
         <arguments>
             <argument name="requestBuilder" xsi:type="object">AffirmGatewayCaptureRequest</argument>
@@ -134,6 +136,19 @@
             <argument name="handler" xsi:type="object">OnePica\Affirm\Gateway\Response\TransactionCaptureHandler</argument>
         </arguments>
     </virtualType>
+    <!-- Capture command -->
+
+    <!-- Refund command -->
+    <virtualType name="AffirmGatewayRefundCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">AffirmGatewayRefundRequest</argument>
+            <argument name="transferFactory" xsi:type="object">AffirmClientGatewayTransferFactory</argument>
+            <argument name="client" xsi:type="object">OnePica\Affirm\Gateway\Http\Client\ClientService</argument>
+            <argument name="validator" xsi:type="object">OnePica\Affirm\Gateway\Validator\Client\PaymentActionsValidator</argument>
+            <!--<argument name="handler" xsi:type="object">OnePica\Affirm\Gateway\Response\TransactionCaptureHandler</argument>-->
+        </arguments>
+    </virtualType>
+    <!-- Refund command -->
 
     <type name="OnePica\Affirm\Gateway\Http\Client\ClientService">
         <arguments>
@@ -182,6 +197,13 @@
         </arguments>
     </virtualType>
 
+    <virtualType name="AffirmGatewayRefundRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="transaction" xsi:type="string">OnePica\Affirm\Gateway\Request\RefundRequest</item>
+            </argument>
+        </arguments>
+    </virtualType>
 
     <!-- Authorization Transfer Factory -->
     <virtualType name="AffirmClientGatewayTransferFactory" type="OnePica\Affirm\Gateway\Http\TransferFactory">
