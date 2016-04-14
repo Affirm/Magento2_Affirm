@@ -73,7 +73,8 @@ define(["jquery",
      */
     function initTotals(checkout) {
         var totals = quote.getTotals()();
-        checkout.shipping_amount = totals.grand_total * 100;
+
+        checkout.shipping_amount = totals.base_shipping_amount * 100;
         checkout.total = totals.grand_total * 100;
         checkout.tax_amount = totals.base_tax_amount * 100;
         return checkout;
@@ -101,6 +102,9 @@ define(["jquery",
 
         checkout.config = {} || checkout.config;
         checkout.config = window.checkoutConfig.payment['affirm_gateway'].config;
+        affirm.ui.error.on("close", function() {
+            alert("Please check your contact information for accuracy.");
+        });
         affirm.checkout(checkout);
         affirm.checkout.post();
     }
