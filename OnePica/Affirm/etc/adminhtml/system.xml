@@ -84,15 +84,23 @@
                     <label>Plain Text Appearance</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="title" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="title" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Title</label>
                 </field>
-                <field id="icon" translate="label" type="text" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="icon" translate="label" type="text" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Icon</label>
                 </field>
-                <field id="info" translate="label" type="textarea" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="info" translate="label" type="textarea" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Label HTML Custom</label>
                     <comment>This field will be showed in checkout on payment section.</comment>
+                </field>
+                <field id="enable_checkout_button" translate="label" type="select" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enabled checkout button</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="checkout_button_code" translate="label" type="textarea" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Checkout Button Code</label>
+                    <depends><field id="enable_checkout_button">1</field></depends>
                 </field>
             </group>
         </section>

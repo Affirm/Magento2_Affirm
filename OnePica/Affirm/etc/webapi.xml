@@ -25,4 +25,16 @@
             <resource ref="anonymous" />
         </resources>
     </route>
+    <route url="/V1/affirm/checkout/payment" method="POST">
+        <service class="OnePica\Affirm\Api\CheckoutPaymentManagerInterface" method="initPayment"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+    <route url="/V1/affirm/checkout/verify" method="POST">
+        <service class="OnePica\Affirm\Api\CheckoutPaymentManagerInterface" method="verifyAffirm"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
 </routes>

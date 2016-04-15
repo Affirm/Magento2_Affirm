@@ -28,10 +28,11 @@ define(
         'Magento_Customer/js/model/customer',
         'Magento_Checkout/js/model/error-processor',
         'Magento_Ui/js/model/messages',
-        'Magento_Checkout/js/action/set-payment-information'
+        'Magento_Checkout/js/action/set-payment-information',
+        'OnePica/js/action/verify-affirm'
     ],
     function ($, Component, quote, additionalValidators, url,
-              storage, urlBuilder, customer, errorProcessor, Messages, setPaymentAction) {
+              storage, urlBuilder, customer, errorProcessor, Messages, setPaymentAction, verifyAffirmAction) {
         'use strict';
 
         return Component.extend({
@@ -89,6 +90,18 @@ define(
                     });
                     return false;
                 }
+            },
+
+            /**
+             * Init payment
+             */
+            initialize: function () {
+                this._super();
+                $.when(verifyAffirmAction()).done(function(){
+                    this.selectPaymentMethod();
+                }).fail(function(){
+
+                });
             }
         });
     }
