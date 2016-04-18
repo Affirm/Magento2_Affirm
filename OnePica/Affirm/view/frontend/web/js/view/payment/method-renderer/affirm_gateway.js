@@ -98,12 +98,12 @@ define(
             initialize: function () {
                 var _self = this;
                 this._super();
-                $.when(verifyAffirmAction()).done(function(response){
+                $.when(verifyAffirmAction(_self.messageContainer)).done(function(response){
                     if (response) {
                        _self.selectPaymentMethod();
                     }
-                }).fail(function(){
-
+                }).fail(function(response){
+                    errorProcessor.process(response, _self.messageContainer);
                 });
             }
         });
