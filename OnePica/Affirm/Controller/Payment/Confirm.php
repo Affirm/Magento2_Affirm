@@ -73,8 +73,7 @@ class Confirm extends \Magento\Framework\App\Action\Action
         CartManagementInterface $quoteManager,
         Session $checkoutSession,
         Checkout $checkout
-    )
-    {
+    ) {
         $this->checkout = $checkout;
         $this->checkoutSession = $checkoutSession;
         $this->quoteManagement = $quoteManager;

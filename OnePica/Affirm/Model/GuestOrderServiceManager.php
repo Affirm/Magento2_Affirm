@@ -51,9 +51,10 @@ class GuestOrderServiceManager implements GuestOrderServiceManagerInterface
      * @param \Magento\Quote\Model\QuoteIdMaskFactory $quoteIdMaskFactory
      * @param OrderFactory                            $orderFactory
      */
-    public function __construct(\Magento\Quote\Model\QuoteIdMaskFactory $quoteIdMaskFactory,
-        OrderFactory $orderFactory)
-    {
+    public function __construct(
+        \Magento\Quote\Model\QuoteIdMaskFactory $quoteIdMaskFactory,
+        OrderFactory $orderFactory
+    ) {
         $this->orderFactory = $orderFactory;
         $this->quoteIdMaskFactory = $quoteIdMaskFactory;
     }

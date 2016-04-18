@@ -95,8 +95,7 @@ class Checkout
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Helper\Data $checkoutData,
         OrderSender $orderSender
-    )
-    {
+    ) {
         $this->checkoutSession = $checkoutSession;
         $this->quoteManagement = $cartManagement;
         $this->quote = $this->checkoutSession->getQuote();

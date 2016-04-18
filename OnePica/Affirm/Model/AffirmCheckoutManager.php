@@ -58,8 +58,7 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
     public function __construct(
         Session $checkoutSession,
         \Magento\Quote\Api\CartRepositoryInterface $quoteRepository
-    )
-    {
+    ) {
         $this->checkoutSession = $checkoutSession;
         $this->quote = $this->checkoutSession->getQuote();
         $this->quoteRepository = $quoteRepository;

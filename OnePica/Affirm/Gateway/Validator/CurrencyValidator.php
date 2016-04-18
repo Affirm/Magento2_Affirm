@@ -47,8 +47,7 @@ class CurrencyValidator extends AbstractValidator
     public function __construct(
         ResultInterfaceFactory $resultFactory,
         ConfigInterface $config
-    )
-    {
+    ) {
         $this->config = $config;
         parent::__construct($resultFactory);
     }

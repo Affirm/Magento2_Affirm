@@ -60,7 +60,8 @@ class ConfigProvider  implements ConfigProviderInterface
      * @param UrlInterface    $urlInterface
      * @param CheckoutSession $checkoutSession
      */
-    public function __construct(ConfigInterface $config,
+    public function __construct(
+        ConfigInterface $config,
         UrlInterface $urlInterface,
         CheckoutSession $checkoutSession
     ) {

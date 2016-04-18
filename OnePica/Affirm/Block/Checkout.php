@@ -75,8 +75,7 @@ class Checkout extends BlockTemplate
         UrlInterface $urlInterface,
         ProductHelper $productHelper,
         array $data = []
-    )
-    {
+    ) {
         $this->urlBuilder = $urlInterface;
         $this->coreRegistry = $registry;
         $this->quote = $this->coreRegistry->registry('current_quote');
