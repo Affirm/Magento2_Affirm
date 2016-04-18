@@ -16,8 +16,8 @@ define([
 
         return function (config, element) {
             var serviceUrl = urlBuilder.createUrl('/affirm/checkout/payment', {});
-            $(element).click(function () {
-                fullScreenLoader.startLoader();
+            $(element).click(function (event) {
+                event.preventDefault();
                 storage.post(
                         serviceUrl
                     ).done(
@@ -28,7 +28,7 @@ define([
                     }
                 ).fail(
                     function (response) {
-                        fullScreenLoader.stopLoader();
+
                     }
                 );
             });

@@ -14,16 +14,17 @@ define([
     function ($, authenticationPopup, customerData, urlBuilder, storage, fullScreenLoader) {
         'use strict';
 
-        return function (config, element) {
-            var  serviceUrl = urlBuilder.createUrl('/affirm/checkout/verify', {});
-            $(element).click(function (event) {
-                fullScreenLoader.startLoader();
-                storage.post(serviceUrl).fail(
+        return function () {
+            var  serviceUrl = urlBuilder.createUrl('/affirm/checkout/verify', {}), result;
+            fullScreenLoader.startLoader();
+            result = storage.post(serviceUrl).done(
+                function(response) {
+                    return response;
+                }).fail(
                     function () {
-                        fullScreenLoader.stopLoader();
-                    }
-                );
-            });
+                });
+            fullScreenLoader.stopLoader();
+            return result;
         };
     }
 );

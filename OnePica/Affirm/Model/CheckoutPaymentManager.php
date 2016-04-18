@@ -65,6 +65,8 @@ class CheckoutPaymentManager implements CheckoutPaymentManagerInterface
         if ($quote->getId()) {
             $payment = $quote->getPayment();
             if ($payment->getData('method') == \OnePica\Affirm\Model\Ui\ConfigProvider::CODE) {
+                //Clear data after verification
+                $payment->setData('method', null);
                 return true;
             }
         }
