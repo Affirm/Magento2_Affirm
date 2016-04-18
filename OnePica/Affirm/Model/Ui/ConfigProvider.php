@@ -104,7 +104,8 @@ class ConfigProvider  implements ConfigProviderInterface
                     'redirectUrl' => $this->urlBuilder->getUrl('affirm/checkout/start', ['_secure' => true]),
                     'afterAffirmConf' => $this->config->getValue('after_affirm_conf'),
                     'logoSrc' => $this->config->getValue('icon'),
-                    'info' => $this->config->getValue('info')
+                    'info' => $this->config->getValue('info'),
+                    'visibleType' => $this->config->getValue('control') ? true: false
                 ]
             ]
         ];

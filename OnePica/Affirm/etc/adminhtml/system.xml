@@ -86,13 +86,16 @@
                 </field>
                 <field id="title" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Title</label>
+                    <depends><field id="control">1</field></depends>
                 </field>
                 <field id="icon" translate="label" type="text" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Icon</label>
+                    <depends><field id="control">0</field></depends>
                 </field>
                 <field id="info" translate="label" type="textarea" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Affirm Payment Method HTML</label>
                     <comment>This field will be showed in checkout on payment section.</comment>
+                    <depends><field id="control">0</field></depends>
                 </field>
             </group>
         </section>

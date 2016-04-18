@@ -75,6 +75,10 @@ define(
                 return window.checkoutConfig.payment['affirm_gateway'].logoSrc;
             },
 
+            getVisibleType: function() {
+                return window.checkoutConfig.payment['affirm_gateway'].visibleType;
+            },
+
             /**
              * Continue to Affirm redirect logic
              */
