@@ -8,8 +8,9 @@ define(["jquery",
     "OnePica_Affirm/js/affirm",
     "Magento_Checkout/js/model/full-screen-loader",
     "Magento_Checkout/js/model/quote",
-    "mage/url"
-], function ($, $t, loadScript, fullScreenLoader, quote, url) {
+    "mage/url",
+    'Magento_Customer/js/model/customer'
+], function ($, $t, loadScript, fullScreenLoader, quote, url, customer) {
 
     /**
      * Init address data
@@ -25,6 +26,7 @@ define(["jquery",
         } else if (type == 'billing') {
             address = quote.billingAddress();
         }
+
         checkout[type] = {};
         checkout[type].name = {
             "full": address.firstname + ' ' + address.lastname
@@ -41,6 +43,12 @@ define(["jquery",
             "zipcode": address.postcode,
             "country": address.countryId
         };
+        checkout[type].phone_number = address.telephone;
+        if (!customer.isLoggedIn()) {
+            checkout[type].email = quote.guestEmail;
+        } else if (address.email) {
+            checkout[type].email = address.email;
+        }
         return checkout;
     }
 
@@ -102,9 +110,6 @@ define(["jquery",
 
         checkout.config = {} || checkout.config;
         checkout.config = window.checkoutConfig.payment['affirm_gateway'].config;
-        affirm.ui.error.on("close", function() {
-            alert("Please check your contact information for accuracy.");
-        });
         affirm.checkout(checkout);
         affirm.checkout.post();
     }
