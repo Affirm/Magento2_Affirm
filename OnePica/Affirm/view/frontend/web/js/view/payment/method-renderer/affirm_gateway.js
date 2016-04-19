@@ -22,19 +22,17 @@ define(
         'Magento_Checkout/js/view/payment/default',
         'Magento_Checkout/js/model/quote',
         'Magento_Checkout/js/model/payment/additional-validators',
-        'mage/url',
-        'synchPost',
         'Magento_Checkout/js/model/url-builder',
-        'Magento_Customer/js/model/customer',
         'Magento_Checkout/js/model/error-processor',
         'Magento_Ui/js/model/messages',
         'Magento_Checkout/js/action/set-payment-information',
         'OnePica_Affirm/js/action/prepare-affirm-checkout',
-        'OnePica_Affirm/js/action/send-to-affirm-checkout'
+        'OnePica_Affirm/js/action/send-to-affirm-checkout',
+        'OnePica_Affirm/js/action/verify-affirm'
     ],
     function ($, Component, quote, additionalValidators,
               urlBuilder, errorProcessor, Messages, setPaymentAction,
-              initChekoutAction, sendToAffirmCheckout) {
+              initChekoutAction, sendToAffirmCheckout, verifyAffirmAction) {
 
         'use strict';
 
@@ -78,6 +76,11 @@ define(
                 return window.checkoutConfig.payment['affirm_gateway'].logoSrc;
             },
 
+            /**
+             * Get visible
+             *
+             * @returns {*}
+             */
             getVisibleType: function() {
                 return window.checkoutConfig.payment['affirm_gateway'].visibleType;
             },
