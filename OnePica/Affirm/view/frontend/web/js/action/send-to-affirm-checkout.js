@@ -31,11 +31,10 @@ define(["jquery",
         checkout[type].name = {
             "full": address.firstname + ' ' + address.lastname
         };
-        if (address.street[1]) {
-            street = address.street[0] + ' ' + address.street[1];
-        } else {
+        if (address.street[0]) {
             street = address.street[0];
         }
+
         checkout[type].address = {
             "line1": street,
             "city": address.city,
@@ -43,6 +42,11 @@ define(["jquery",
             "zipcode": address.postcode,
             "country": address.countryId
         };
+
+        if (address.street[1]) {
+            checkout[type].address.line2 = address.street[1];
+        }
+
         checkout[type].phone_number = address.telephone;
         if (!customer.isLoggedIn()) {
             checkout[type].email = quote.guestEmail;
