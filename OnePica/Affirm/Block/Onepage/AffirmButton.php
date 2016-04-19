@@ -18,8 +18,8 @@
 
 namespace OnePica\Affirm\Block\Onepage;
 
-use Magento\Framework\View\Element\AbstractBlock;
 use Magento\Framework\View\Element\Template;
+use OnePica\Affirm\Helper\Payment;
 
 /**
  * Class AffirmButton
@@ -29,11 +29,51 @@ use Magento\Framework\View\Element\Template;
 class AffirmButton extends Template
 {
     /**
+     * Affirm payment model instance
+     *
+     * @var \OnePica\Affirm\Helper\Payment
+     */
+    protected $helper;
+
+    /**
+     * Current checkout session
+     *
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $checkoutSession;
+
+    /**
+     * Current checkout quote
+     *
+     * @var \Magento\Quote\Model\Quote
+     */
+    protected $quote;
+
+    /**
      * Button template
      *
      * @var string
      */
     protected $_template = 'OnePica_Affirm::onepage/button.phtml';
+
+    /**
+     * Affirm checkout button block
+     *
+     * @param Template\Context                $context
+     * @param Payment                         $helper
+     * @param \Magento\Checkout\Model\Session $session
+     * @param array                           $data
+     */
+    public function __construct(
+        Template\Context $context,
+        \OnePica\Affirm\Helper\Payment $helper,
+        \Magento\Checkout\Model\Session $session,
+        array $data = []
+    ) {
+        $this->helper = $helper;
+        $this->quote = $session->getQuote();
+        parent::__construct($context, $data);
+    }
 
     /**
      * Get button image from system configs
@@ -57,5 +97,25 @@ class AffirmButton extends Template
     public function getCheckoutUrl()
     {
         return $this->getUrl('checkout');
+    }
+
+    /**
+     * Get button availability
+     *
+     * @return bool|mixed
+     */
+    public function isAvailable()
+    {
+        return $this->helper->isAffirmAvailable() && $this->isButtonEnabled() ? true: false;
+    }
+
+    /**
+     * Check is button enabled
+     *
+     * @return mixed
+     */
+    public function isButtonEnabled()
+    {
+        return $this->_scopeConfig->getValue('payment/affirm_gateway/enable_checkout_button');
     }
 }

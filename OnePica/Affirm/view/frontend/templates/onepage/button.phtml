@@ -1,6 +1,8 @@
+<?php if ($block->isAvailable()): ?>
 <a href="#">
     <img src="<?php echo $block->getButtonImageSrc(); ?>"
          data-mage-init='{"OnePica_Affirm/js/action/init-payment":
          {"checkoutUrl":"<?php /* @escapeNotVerified */ echo $block->getCheckoutUrl(); ?>"}}'
         />
 </a>
+<?php endif; ?>
