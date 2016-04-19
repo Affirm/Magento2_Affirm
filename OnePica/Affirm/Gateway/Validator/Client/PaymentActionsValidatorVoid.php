@@ -19,31 +19,45 @@
 namespace OnePica\Affirm\Gateway\Validator\Client;
 
 use Magento\Payment\Gateway\Helper\SubjectReader;
-use OnePica\Affirm\Gateway\Helper\Util;
 
 /**
- * Class PaymentActionsValidator
+ * Class PaymentActionsValidatorVoid
  */
-class PaymentActionsValidator extends AbstractResponseValidator
+class PaymentActionsValidatorVoid extends PaymentActionsValidator
 {
+    /**#@+
+     * Define constants
+     */
+    const RESPONSE_TYPE = 'type';
+    const RESPONSE_TYPE_VOID = 'void';
+    /**#@-*/
+
     /**
      * @inheritdoc
      */
     public function validate(array $validationSubject)
     {
         $response = SubjectReader::readResponse($validationSubject);
-        $amount = SubjectReader::readAmount($validationSubject);
-        $amountInCents = Util::formatToCents($amount);
 
         $errorMessages = [];
         $validationResult = $this->validateResponseCode($response)
-            && $this->validateTotalAmount($response, $amountInCents);
+            && $this->validateResponseType($response);
 
         if (!$validationResult) {
-            $errorMessages = (isset($response[self::ERROR_MESSAGE])) ? [__($response[self::ERROR_MESSAGE])]:
-                [__('Transaction has been declined, please, try again later.')];
+            $errorMessages = [__('Transaction has been declined, please, try again later.')];
         }
 
         return $this->createResult($validationResult, $errorMessages);
+    }
+
+    /**
+     * Validate response type
+     *
+     * @param array $response
+     * @return bool
+     */
+    protected function validateResponseType(array $response)
+    {
+        return ($response[self::RESPONSE_TYPE] == self::RESPONSE_TYPE_VOID);
     }
 }
