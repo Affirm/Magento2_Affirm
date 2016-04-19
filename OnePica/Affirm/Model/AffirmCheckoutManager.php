@@ -78,7 +78,7 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
         $this->quote->reserveOrderId();
         $orderIncrementId = $this->quote->getReservedOrderId();
         $shippingAddress = $this->quote->getShippingAddress();
-        $discountAmount = (-1) * $shippingAddress->getDiscountAmount();
+        $discountAmount = $this->quote->getSubtotal() - $this->quote->getSubtotalWithDiscount();
         $response = [];
         if ($discountAmount > 0.001) {
             $discountDescription = $shippingAddress->getDiscountDescription();
@@ -92,6 +92,6 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
             $this->quoteRepository->save($this->quote);
             $response['order_increment_id'] = $orderIncrementId;
         }
-        return json_encode($response, JSON_FORCE_OBJECT);
+        return json_encode($response);
     }
 }
