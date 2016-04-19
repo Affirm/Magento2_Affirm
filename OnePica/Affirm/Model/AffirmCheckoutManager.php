@@ -20,6 +20,7 @@ namespace OnePica\Affirm\Model;
 
 use OnePica\Affirm\Api\AffirmCheckoutManagerInterface;
 use Magento\Checkout\Model\Session;
+use OnePica\Affirm\Gateway\Helper\Util;
 
 /**
  * Class AffirmCheckoutManager
@@ -76,10 +77,21 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
         $this->quote->collectTotals();
         $this->quote->reserveOrderId();
         $orderIncrementId = $this->quote->getReservedOrderId();
+        $shippingAddress = $this->quote->getShippingAddress();
+        $discountAmount = (-1) * $shippingAddress->getDiscountAmount();
+        $response = [];
+        if ($discountAmount > 0.001) {
+            $discountDescription = $shippingAddress->getDiscountDescription();
+            $response['discounts'] = [
+                $discountDescription => [
+                    'discount_amount' => Util::formatToCents($discountAmount)
+                ]
+            ];
+        }
         if ($orderIncrementId) {
             $this->quoteRepository->save($this->quote);
-            return $orderIncrementId;
+            $response['order_increment_id'] = $orderIncrementId;
         }
-        return false;
+        return json_encode($response, JSON_FORCE_OBJECT);
     }
 }

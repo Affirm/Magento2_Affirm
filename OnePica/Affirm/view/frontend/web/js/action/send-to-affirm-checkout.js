@@ -93,6 +93,7 @@ define(["jquery",
     }
 
     return function(response) {
+        response = JSON.parse(response);
         var checkout = {};
         checkout = initAddress(checkout, 'shipping');
         checkout = initAddress(checkout, 'billing');
@@ -109,8 +110,10 @@ define(["jquery",
         //init merchant from config provider
         checkout.merchant = window.checkoutConfig.payment['affirm_gateway'].merchant;
 
-        checkout.order_id = response;
-        checkout.discounts = {};
+        checkout.order_id = response.order_increment_id;
+        if (response.discounts) {
+            checkout.discounts = response.discounts;
+        }
 
         checkout.config = {} || checkout.config;
         checkout.config = window.checkoutConfig.payment['affirm_gateway'].config;
