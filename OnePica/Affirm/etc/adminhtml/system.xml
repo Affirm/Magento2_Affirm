@@ -97,6 +97,14 @@
                     <comment>This field will be showed in checkout on payment section.</comment>
                     <depends><field id="control">0</field></depends>
                 </field>
+                <field id="enable_checkout_button" translate="label" type="select" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enabled Checkout Button</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="checkout_button_code" translate="label" type="textarea" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Checkout Button Code</label>
+                    <depends><field id="enable_checkout_button">1</field></depends>
+                </field>
             </group>
         </section>
     </system>
