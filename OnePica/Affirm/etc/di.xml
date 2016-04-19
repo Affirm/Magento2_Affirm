@@ -284,5 +284,4 @@
             <argument name="payment" xsi:type="object">OnePicaAffirmGatewayFacade</argument>
         </arguments>
     </type>
-
 </config>

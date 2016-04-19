@@ -36,20 +36,30 @@ class Payment
     protected $methodSpecificationFactory;
 
     /**
-     * Init helper class
+     * Customer session
+     *
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $customerSession;
+
+    /**
+     * Init payment helper
      *
      * @param \Magento\Payment\Model\Method\Adapter              $payment
      * @param Session                                            $session
      * @param \Magento\Payment\Model\Checks\SpecificationFactory $methodSpecificationFactory
+     * @param \Magento\Customer\Model\Session                    $customerSession
      */
     public function __construct(
         \Magento\Payment\Model\Method\Adapter $payment,
         Session $session,
-        \Magento\Payment\Model\Checks\SpecificationFactory $methodSpecificationFactory
+        \Magento\Payment\Model\Checks\SpecificationFactory $methodSpecificationFactory,
+        \Magento\Customer\Model\Session $customerSession
     ) {
         $this->methodSpecificationFactory = $methodSpecificationFactory;
         $this->payment = $payment;
         $this->quote = $session->getQuote();
+        $this->customerSession = $customerSession;
     }
 
     /**
@@ -59,16 +69,19 @@ class Payment
      */
     public function isAffirmAvailable()
     {
-        $check = $this->methodSpecificationFactory->create(
-            [
-                AbstractMethod::CHECK_USE_FOR_COUNTRY,
-                AbstractMethod::CHECK_USE_FOR_CURRENCY,
-                AbstractMethod::CHECK_ORDER_TOTAL_MIN_MAX,
-            ]
-        )->isApplicable(
-            $this->payment,
-            $this->quote
-        );
+        $checkData = [
+            AbstractMethod::CHECK_USE_FOR_CURRENCY,
+            AbstractMethod::CHECK_ORDER_TOTAL_MIN_MAX,
+        ];
+        if ($this->customerSession->isLoggedIn()) {
+            $checkData[] = AbstractMethod::CHECK_USE_FOR_COUNTRY;
+        }
+        $check = $this->methodSpecificationFactory
+            ->create($checkData)
+            ->isApplicable(
+                $this->payment,
+                $this->quote
+            );
         if ($check) {
             return $this->payment->isAvailable($this->quote);
         }
