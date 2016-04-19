@@ -13,6 +13,7 @@
 
     <preference for="OnePica\Affirm\Api\AffirmCheckoutManagerInterface" type="OnePica\Affirm\Model\AffirmCheckoutManager" />
     <preference for="OnePica\Affirm\Api\CheckoutPaymentManagerInterface" type="OnePica\Affirm\Model\CheckoutPaymentManager" />
+
     <!-- Payment Method Facade configuration -->
     <virtualType name="OnePicaAffirmGatewayFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
@@ -276,4 +277,12 @@
     <type name="Magento\Sales\Controller\Adminhtml\Order\Create\Save">
         <plugin name="before-create-admin" type="OnePica\Affirm\Model\Plugin\Order\Create" sortOrder="1"/>
     </type>
+
+    <!-- Init payment helper -->
+    <type name="OnePica\Affirm\Helper\Payment">
+        <arguments>
+            <argument name="payment" xsi:type="object">OnePicaAffirmGatewayFacade</argument>
+        </arguments>
+    </type>
+
 </config>
