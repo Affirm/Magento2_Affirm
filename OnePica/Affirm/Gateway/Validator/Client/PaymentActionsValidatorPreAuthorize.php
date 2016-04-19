@@ -19,7 +19,7 @@
 namespace OnePica\Affirm\Gateway\Validator\Client;
 
 /**
- * Class PaymentActionsValidator for Cancel and Capture commands
+ * Class PaymentActionsValidatorPreAuthorize
  */
 class PaymentActionsValidatorPreAuthorize extends PaymentActionsValidator
 {

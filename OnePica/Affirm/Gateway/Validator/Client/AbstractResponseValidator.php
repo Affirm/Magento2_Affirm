@@ -31,6 +31,7 @@ abstract class AbstractResponseValidator extends AbstractValidator
     const RESPONSE_CODE = 'status_code';
     const AMOUNT = 'amount';
     const TOTAL = 'total';
+    const ERROR_MESSAGE = 'message';
     /**#@-*/
 
     /**

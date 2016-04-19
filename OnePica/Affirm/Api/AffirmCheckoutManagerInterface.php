@@ -15,27 +15,22 @@
  * @copyright Copyright (c) 2016 One Pica, Inc. (http://www.onepica.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-namespace OnePica\Affirm\Controller\Payment;
 
-use Magento\Framework\App\ResponseInterface;
-use Magento\Framework\App\Action\Action;
+namespace OnePica\Affirm\Api;
 
 /**
- * Payment cancel action
+ * Interface OrderServiceManagerInterface
  *
- * @package OnePica\Affirm\Controller\Payment
+ * @package OnePica\Affirm\Api
+ * @api
  */
-class Cancel extends Action
+interface AffirmCheckoutManagerInterface
 {
     /**
-     * Dispatch request
+     * Init checkout and get retrieve increment id
+     * form affirm checkout
      *
-     * @return \Magento\Framework\Controller\ResultInterface|ResponseInterface
-     * @throws \Magento\Framework\Exception\NotFoundException
+     * @return string
      */
-    public function execute()
-    {
-        //TODO:
-        //TODO: Implement cancel logic
-    }
+    public function initCheckout();
 }

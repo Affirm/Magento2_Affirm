@@ -29,10 +29,13 @@ define(
         'Magento_Checkout/js/model/error-processor',
         'Magento_Ui/js/model/messages',
         'Magento_Checkout/js/action/set-payment-information',
-        'OnePica_Affirm/js/action/verify-affirm'
+        'OnePica_Affirm/js/action/prepare-affirm-checkout',
+        'OnePica_Affirm/js/action/send-to-affirm-checkout'
     ],
-    function ($, Component, quote, additionalValidators, url,
-              storage, urlBuilder, customer, errorProcessor, Messages, setPaymentAction, verifyAffirmAction) {
+    function ($, Component, quote, additionalValidators,
+              urlBuilder, errorProcessor, Messages, setPaymentAction,
+              initChekoutAction, sendToAffirmCheckout) {
+
         'use strict';
 
         return Component.extend({
@@ -75,6 +78,10 @@ define(
                 return window.checkoutConfig.payment['affirm_gateway'].logoSrc;
             },
 
+            getVisibleType: function() {
+                return window.checkoutConfig.payment['affirm_gateway'].visibleType;
+            },
+
             /**
              * Continue to Affirm redirect logic
              */
@@ -83,8 +90,10 @@ define(
                 if (additionalValidators.validate()) {
                     //update payment method information if additional data was changed
                     this.selectPaymentMethod();
-                    $.when(setPaymentAction(this.messageContainer, {'method': self.getCode()})).done(function() {
-                        $.mage.redirect(window.checkoutConfig.payment['affirm_gateway'].redirectUrl);
+                    $.when(setPaymentAction(self.messageContainer, {'method': self.getCode()})).done(function() {
+                        $.when(initChekoutAction(self.messageContainer)).done(function(response) {
+                            sendToAffirmCheckout(response);
+                        });
                     }).fail(function(){
                         self.isPlaceOrderActionAllowed(true);
                     });

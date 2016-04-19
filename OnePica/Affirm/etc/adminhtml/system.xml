@@ -22,7 +22,7 @@
                     <source_model>OnePica\Affirm\Model\Adminhtml\Source\ModeAction</source_model>
                     <config_path>payment/affirm_gateway/private_api_key</config_path>
                 </field>
-                <field id="public_api_key_sandbox" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="public_api_key_sandbox" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Public Api key</label>
                     <depends><field id="mode">sandbox</field></depends>
                 </field>
@@ -33,34 +33,34 @@
                     <attribute type="shared">1</attribute>
                     <depends><field id="mode">sandbox</field></depends>
                 </field>
-                <field id="api_url_sandbox" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="api_url_sandbox" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Api url</label>
                     <config_path>payment/affirm_gateway/api_url_sandbox</config_path>
                     <depends><field id="mode">sandbox</field></depends>
                 </field>
-                <field id="financial_product_key_sandbox" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="financial_product_key_sandbox" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Financial Product Key</label>
                     <config_path>payment/affirm_gateway/financial_product_key_sandbox</config_path>
                     <depends><field id="mode">sandbox</field></depends>
                 </field>
-                <field id="public_api_key_production" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="public_api_key_production" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Public Api key</label>
                     <config_path>payment/affirm_gateway/public_api_key_production</config_path>
                     <depends><field id="mode">production</field></depends>
                 </field>
-                <field id="private_api_key_production" translate="label" type="obscure" sortOrder="40" showInDefault="1" showInWebsite="1">
+                <field id="private_api_key_production" translate="label" type="obscure" sortOrder="40" showInDefault="1" showInWebsite="0">
                     <label>Private API key</label>
                     <config_path>payment/affirm_gateway/private_api_key_production</config_path>
                     <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                     <attribute type="shared">1</attribute>
                     <depends><field id="mode">production</field></depends>
                 </field>
-                <field id="api_url_production" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="api_url_production" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Api url</label>
                     <config_path>payment/affirm_gateway/api_url_production</config_path>
                     <depends><field id="mode">production</field></depends>
                 </field>
-                <field id="financial_product_key_production" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="financial_product_key_production" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Financial Product Key</label>
                     <config_path>payment/affirm_gateway/financial_product_key_production</config_path>
                     <depends><field id="mode">production</field></depends>
@@ -70,10 +70,10 @@
                     <source_model>OnePica\Affirm\Model\Adminhtml\Source\PaymentAction</source_model>
                     <config_path>payment/affirm_gateway/payment_action</config_path>
                 </field>
-                <field id="min_order_total" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="min_order_total" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Minimum Order Total</label>
                 </field>
-                <field id="max_order_total" translate="label" type="text" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="max_order_total" translate="label" type="text" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Maximum Order Total</label>
                 </field>
                 <field id="sort_order" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
@@ -86,21 +86,16 @@
                 </field>
                 <field id="title" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Title</label>
+                    <depends><field id="control">1</field></depends>
                 </field>
                 <field id="icon" translate="label" type="text" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Icon</label>
+                    <depends><field id="control">0</field></depends>
                 </field>
                 <field id="info" translate="label" type="textarea" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Label HTML Custom</label>
+                    <label>Affirm Payment Method HTML</label>
                     <comment>This field will be showed in checkout on payment section.</comment>
-                </field>
-                <field id="enable_checkout_button" translate="label" type="select" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Enabled checkout button</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                </field>
-                <field id="checkout_button_code" translate="label" type="textarea" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Checkout Button Code</label>
-                    <depends><field id="enable_checkout_button">1</field></depends>
+                    <depends><field id="control">0</field></depends>
                 </field>
             </group>
         </section>

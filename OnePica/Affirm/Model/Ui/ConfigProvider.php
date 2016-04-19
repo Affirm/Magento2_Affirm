@@ -29,7 +29,7 @@ use Magento\Checkout\Model\Session as CheckoutSession;
  *
  * @package OnePica\Affirm\Model\Ui
  */
-class ConfigProvider  implements ConfigProviderInterface
+class ConfigProvider implements ConfigProviderInterface
 {
     /**#@+
      * Define constants
@@ -60,8 +60,11 @@ class ConfigProvider  implements ConfigProviderInterface
      * @param UrlInterface    $urlInterface
      * @param CheckoutSession $checkoutSession
      */
-    public function __construct(ConfigInterface $config, UrlInterface $urlInterface, CheckoutSession $checkoutSession)
-    {
+    public function __construct(
+        ConfigInterface $config,
+        UrlInterface $urlInterface,
+        CheckoutSession $checkoutSession
+    ) {
         $this->config = $config;
         $this->urlBuilder = $urlInterface;
         $this->checkoutSession = $checkoutSession;
@@ -88,13 +91,13 @@ class ConfigProvider  implements ConfigProviderInterface
                         ? $this->config->getValue('api_url_sandbox'):
                         $this->config->getValue('api_url_production'),
                     'merchant' => [
-                        'confirmationUrl' => $this->urlBuilder
+                        'user_confirmation_url' => $this->urlBuilder
                                 ->getUrl('affirm/payment/confirm', ['_secure' => true]),
-                        'cancelUrl' => $this->urlBuilder
+                        'user_cancel_url' => $this->urlBuilder
                                 ->getUrl('affirm/payment/cancel', ['_secure' => true]),
                     ],
                     'config' => [
-                        'financialKey' => $this->config->getValue('mode') == 'sandbox' ?
+                        'financial_product_key' => $this->config->getValue('mode') == 'sandbox' ?
                                 $this->config->getValue('financial_product_key_sandbox'):
                                 $this->config->getValue('financial_product_key_production')
                     ],
@@ -104,7 +107,8 @@ class ConfigProvider  implements ConfigProviderInterface
                     'redirectUrl' => $this->urlBuilder->getUrl('affirm/checkout/start', ['_secure' => true]),
                     'afterAffirmConf' => $this->config->getValue('after_affirm_conf'),
                     'logoSrc' => $this->config->getValue('icon'),
-                    'info' => $this->config->getValue('info')
+                    'info' => $this->config->getValue('info'),
+                    'visibleType' => $this->config->getValue('control') ? true: false
                 ]
             ]
         ];

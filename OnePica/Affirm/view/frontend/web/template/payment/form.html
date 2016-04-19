@@ -23,8 +23,13 @@
                class="radio"
                data-bind="attr: {'id': getCode()}, value: getCode(), checked: isChecked, click: selectPaymentMethod, visible: isRadioButtonVisible()"/>
         <label class="label" data-bind="attr: {'for': getCode()}">
-            <img data-bind="attr: {src: getAffirmLogoSrc(), alt: $t('Affirm payment')}" class="payment-icon"/>
-            <span data-bind="html: getInfo()"></span>
+            <!-- ko if: !getVisibleType() -->
+                <img data-bind="attr: {src: getAffirmLogoSrc(), alt: $t('Affirm payment')}" class="payment-icon"/>
+                <span data-bind="html: getInfo()"></span>
+            <!-- /ko -->
+            <!-- ko if: getVisibleType() -->
+                <span data-bind="text: getTitle()"></span>
+            <!-- /ko -->
         </label>
     </div>
 
@@ -32,6 +37,11 @@
         <!-- ko foreach: getRegion('messages') -->
         <!-- ko template: getTemplate() --><!-- /ko -->
         <!--/ko-->
+        <div class="affirm-item">
+            <div class="affirm-info-head" data-bind="text: $t('How does Affirm work ?')"></div>
+            <div class="affirm-info-description" data-bind="text: $t('Just enter your basic information and get a decision instantly.')"></div>
+            <div class="affirm-info-description" data-bind="text: $t('You will complete your payment on the Affirm website')"></div>
+        </div>
         <div class="payment-method-billing-address">
             <!-- ko foreach: $parent.getRegion(getBillingAddressFormName()) -->
             <!-- ko template: getTemplate() --><!-- /ko -->

@@ -11,9 +11,7 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
 
-    <preference for="OnePica\Affirm\Api\OrderServiceManagerInterface" type="OnePica\Affirm\Model\OrderServiceManager" />
-    <preference for="OnePica\Affirm\Api\GuestOrderServiceManagerInterface" type="OnePica\Affirm\Model\GuestOrderServiceManager" />
-    <preference for="OnePica\Affirm\Api\CheckoutPaymentManagerInterface" type="OnePica\Affirm\Model\CheckoutPaymentManager" />
+    <preference for="OnePica\Affirm\Api\AffirmCheckoutManagerInterface" type="OnePica\Affirm\Model\AffirmCheckoutManager" />
     <!-- Payment Method Facade configuration -->
     <virtualType name="OnePicaAffirmGatewayFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
