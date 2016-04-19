@@ -18,13 +18,14 @@
 namespace OnePica\Affirm\Controller\Payment;
 
 use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\App\Action\Action;
 
 /**
  * Payment cancel action
  *
  * @package OnePica\Affirm\Controller\Payment
  */
-class Cancel extends \Magento\Framework\App\Action\Action
+class Cancel extends Action
 {
     /**
      * Dispatch request

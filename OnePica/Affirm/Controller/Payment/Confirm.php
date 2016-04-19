@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OnePica
  * NOTICE OF LICENSE
@@ -15,22 +16,22 @@
  * @copyright Copyright (c) 2016 One Pica, Inc. (http://www.onepica.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
 namespace OnePica\Affirm\Controller\Payment;
 
-use Magento\Framework\App\Action\AbstractAction;
-use Magento\Framework\App\Action\Context;
-use Magento\Framework\App\ResponseInterface;
+use \Magento\Framework\App\Action\Action;
+use \Magento\Framework\App\Action\Context;
+use \Magento\Framework\App\ResponseInterface;
 use \Magento\Quote\Api\CartManagementInterface;
 use \Magento\Checkout\Model\Session;
 use \OnePica\Affirm\Model\Checkout;
+use \Magento\Framework\Exception\LocalizedException;
 
 /**
  * Class Confirm
  *
  * @package OnePica\Affirm\Controller\Payment
  */
-class Confirm extends \Magento\Framework\App\Action\Action
+class Confirm extends Action
 {
     /**
      * Checkout session
@@ -109,19 +110,16 @@ class Confirm extends \Magento\Framework\App\Action\Action
                 }
                 $this->_eventManager->dispatch(
                     'affirm_place_order_success',
-                    [
-                        'order' => $order,
-                        'quote' => $this->quote
-                    ]
+                    ['order' => $order, 'quote' => $this->quote ]
                 );
                 $this->_redirect('checkout/onepage/success');
                 return;
-            } catch (\Magento\Framework\Exception\LocalizedException $e) {
+            } catch (LocalizedException $e) {
                 $this->messageManager->addExceptionMessage(
                     $e,
                     $e->getMessage()
                 );
-               $this->_redirect('checkout/cart');
+                $this->_redirect('checkout/cart');
             } catch (\Exception $e) {
                 $this->messageManager->addExceptionMessage(
                     $e,

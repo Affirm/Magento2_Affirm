@@ -29,7 +29,7 @@ use Magento\Checkout\Model\Session as CheckoutSession;
  *
  * @package OnePica\Affirm\Model\Ui
  */
-class ConfigProvider  implements ConfigProviderInterface
+class ConfigProvider implements ConfigProviderInterface
 {
     /**#@+
      * Define constants

@@ -19,12 +19,13 @@
 namespace OnePica\Affirm\Block\Adminhtml;
 
 use Magento\Framework\View\Element\Template;
+
 /**
  * Class Block Error
  *
  * @package OnePica\Affirm\Block\Adminhtml
  */
-class Error extends \Magento\Framework\View\Element\Template
+class Error extends Template
 {
     /**
      * Fixed url for affirm's virtual terminal.
