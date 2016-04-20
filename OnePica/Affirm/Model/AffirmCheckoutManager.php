@@ -21,6 +21,7 @@ namespace OnePica\Affirm\Model;
 use OnePica\Affirm\Api\AffirmCheckoutManagerInterface;
 use Magento\Checkout\Model\Session;
 use OnePica\Affirm\Gateway\Helper\Util;
+use Magento\GiftCardAccount\Model\Giftcardaccount;
 
 /**
  * Class AffirmCheckoutManager
@@ -82,12 +83,20 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
         if ($discountAmount > 0.001) {
             $shippingAddress = $this->quote->getShippingAddress();
             $discountDescription = $shippingAddress->getDiscountDescription();
-            $response['discounts'] = [
-                $discountDescription => [
-                    'discount_amount' => Util::formatToCents($discountAmount)
-                ]
+            $response['discounts'][$discountDescription] = [
+                'discount_amount' => Util::formatToCents($discountAmount)
             ];
         }
+        $giftCards = $this->quote->getGiftCards();
+        if ($giftCards) {
+            $giftCards = unserialize($giftCards);
+            foreach ($giftCards as $giftCard) {
+                $response['discounts'][sprintf('Gift Card (%s)', $giftCard[Giftcardaccount::CODE])] = [
+                    'discount_amount' => Util::formatToCents($giftCard[Giftcardaccount::AMOUNT])
+                ];
+            }
+        }
+
         if ($orderIncrementId) {
             $this->quoteRepository->save($this->quote);
             $response['order_increment_id'] = $orderIncrementId;
