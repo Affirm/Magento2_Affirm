@@ -1,11 +1,13 @@
 .affirm-info-head {
-    color: #034082;
-    font-size: 16px;
+   margin-top: 0 !important;
 }
-.affirm-info-description {
-    color: #6f6f6f;
-    font-size: 14px;
-}
+
 .affirm-item {
-    margin-bottom: 35px;
+    margin-bottom: 1.5em;
+}
+
+.affirm-payment-icon {
+    vertical-align: baseline !important;
+    max-height: 1.5em;
+    width: auto;
 }
