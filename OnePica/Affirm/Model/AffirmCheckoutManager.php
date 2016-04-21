@@ -78,7 +78,7 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
         $this->quote->collectTotals();
         $this->quote->reserveOrderId();
         $orderIncrementId = $this->quote->getReservedOrderId();
-        $discountAmount = $this->quote->getSubtotal() - $this->quote->getSubtotalWithDiscount();
+        $discountAmount = $this->quote->getBaseSubtotal() - $this->quote->getBaseSubtotalWithDiscount();
         $response = [];
         if ($discountAmount > 0.001) {
             $shippingAddress = $this->quote->getShippingAddress();
