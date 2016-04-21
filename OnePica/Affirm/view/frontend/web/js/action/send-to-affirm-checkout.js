@@ -9,8 +9,9 @@ define(["jquery",
     "Magento_Checkout/js/model/full-screen-loader",
     "Magento_Checkout/js/model/quote",
     "mage/url",
-    'Magento_Customer/js/model/customer'
-], function ($, $t, loadScript, fullScreenLoader, quote, url, customer) {
+    'Magento_Customer/js/model/customer',
+    'OnePica_Affirm/js/action/gift-wrapper-processing'
+], function ($, $t, loadScript, fullScreenLoader, quote, url, customer, giftWrapper) {
 
     /**
      * Init address data
@@ -47,7 +48,9 @@ define(["jquery",
             checkout[type].address.line2 = address.street[1];
         }
 
-        checkout[type].phone_number = address.telephone;
+        if (address.telephone) {
+            checkout[type].phone_number = address.telephone;
+        }
         if (!customer.isLoggedIn()) {
             checkout[type].email = quote.guestEmail;
         } else if (address.email) {
@@ -92,13 +95,20 @@ define(["jquery",
         return checkout;
     }
 
+    function applyGiftWrapper(checkout) {
+        var wrapItems = giftWrapper();
+        checkout.items = checkout.items.concat(wrapItems);
+        return checkout;
+    }
     return function(response) {
         response = JSON.parse(response);
         var checkout = {};
         checkout = initAddress(checkout, 'shipping');
         checkout = initAddress(checkout, 'billing');
         checkout = initItems(checkout);
+        checkout = applyGiftWrapper(checkout);
         checkout = initTotals(checkout);
+
         fullScreenLoader.startLoader();
 
         checkout.merchant = {} || checkout.merchant;
