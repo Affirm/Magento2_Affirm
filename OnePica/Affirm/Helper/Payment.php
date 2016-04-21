@@ -73,9 +73,7 @@ class Payment
             AbstractMethod::CHECK_USE_FOR_CURRENCY,
             AbstractMethod::CHECK_ORDER_TOTAL_MIN_MAX,
         ];
-        if ($this->customerSession->isLoggedIn()) {
-            $checkData[] = AbstractMethod::CHECK_USE_FOR_COUNTRY;
-        }
+
         $check = $this->methodSpecificationFactory
             ->create($checkData)
             ->isApplicable(
