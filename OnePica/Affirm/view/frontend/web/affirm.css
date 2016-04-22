@@ -1,5 +1,15 @@
 .affirm-info-head {
-   margin-top: 0 !important;
+    color: #034082;
+    font-size: 16px;
+    font-weight: normal;
+    margin: 0 !important;
+    line-height: 1.42em;
+}
+
+.affirm-info-description {
+    color: #6f6f6f;
+    font-size: 14px;
+    margin-bottom: 0;
 }
 
 .affirm-item {
