@@ -22,6 +22,7 @@ use Magento\Framework\UrlInterface;
 use Magento\Checkout\Model\ConfigProviderInterface;
 use Magento\Payment\Gateway\ConfigInterface;
 use Magento\Checkout\Model\Session as CheckoutSession;
+use Magento\Framework\App\ProductMetadataInterface;
 
 /**
  * Class ConfigProvider
@@ -54,20 +55,30 @@ class ConfigProvider implements ConfigProviderInterface
     protected $urlBuilder;
 
     /**
+     * Product metadata object
+     *
+     * @var \Magento\Framework\App\ProductMetadataInterface
+     */
+    protected $productMetadata;
+
+    /**
      * Inject all config data
      *
-     * @param ConfigInterface $config
-     * @param UrlInterface    $urlInterface
-     * @param CheckoutSession $checkoutSession
+     * @param ConfigInterface          $config
+     * @param UrlInterface             $urlInterface
+     * @param CheckoutSession          $checkoutSession
+     * @param ProductMetadataInterface $productMetadata
      */
     public function __construct(
         ConfigInterface $config,
         UrlInterface $urlInterface,
-        CheckoutSession $checkoutSession
+        CheckoutSession $checkoutSession,
+        ProductMetadataInterface $productMetadata
     ) {
         $this->config = $config;
         $this->urlBuilder = $urlInterface;
         $this->checkoutSession = $checkoutSession;
+        $this->productMetadata = $productMetadata;
     }
 
     /**
@@ -108,7 +119,8 @@ class ConfigProvider implements ConfigProviderInterface
                     'afterAffirmConf' => $this->config->getValue('after_affirm_conf'),
                     'logoSrc' => $this->config->getValue('icon'),
                     'info' => $this->config->getValue('info'),
-                    'visibleType' => $this->config->getValue('control') ? true: false
+                    'visibleType' => $this->config->getValue('control') ? true: false,
+                    'edition' => $this->productMetadata->getEdition() ? true: false
                 ]
             ]
         ];

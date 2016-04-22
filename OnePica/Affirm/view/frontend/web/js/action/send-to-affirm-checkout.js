@@ -9,7 +9,7 @@ define(["jquery",
     "Magento_Checkout/js/model/full-screen-loader",
     "Magento_Checkout/js/model/quote",
     "mage/url",
-    'Magento_Customer/js/model/customer'
+    'Magento_Customer/js/model/customer',
 ], function ($, $t, loadScript, fullScreenLoader, quote, url, customer) {
 
     /**
@@ -47,7 +47,9 @@ define(["jquery",
             checkout[type].address.line2 = address.street[1];
         }
 
-        checkout[type].phone_number = address.telephone;
+        if (address.telephone) {
+            checkout[type].phone_number = address.telephone;
+        }
         if (!customer.isLoggedIn()) {
             checkout[type].email = quote.guestEmail;
         } else if (address.email) {
@@ -92,13 +94,33 @@ define(["jquery",
         return checkout;
     }
 
+    /**
+     * Apply gift wrapper in case of using EE
+     *
+     * @param checkout
+     * @returns {*}
+     */
+    function applyGiftWrapper(checkout) {
+        if (window.checkoutConfig.payment['affirm_gateway'].edition) {
+            require(['OnePica_Affirm/js/action/gift-wrapper-processing'], function(giftWrapper){
+                var wrapItems = giftWrapper();
+                if (wrapItems) {
+                    checkout.items = checkout.items.concat(wrapItems);
+                }
+            });
+        }
+        return checkout;
+    }
+
     return function(response) {
         response = JSON.parse(response);
         var checkout = {};
         checkout = initAddress(checkout, 'shipping');
         checkout = initAddress(checkout, 'billing');
         checkout = initItems(checkout);
+        checkout = applyGiftWrapper(checkout);
         checkout = initTotals(checkout);
+
         fullScreenLoader.startLoader();
 
         checkout.merchant = {} || checkout.merchant;
@@ -117,7 +139,11 @@ define(["jquery",
 
         checkout.config = {} || checkout.config;
         checkout.config = window.checkoutConfig.payment['affirm_gateway'].config;
+
         affirm.checkout(checkout);
+        affirm.ui.error.on("close", function(){
+            $.mage.redirect(window.checkoutConfig.payment['affirm_gateway'].merchant.cancel_url);
+        });
         affirm.checkout.post();
     }
 });
