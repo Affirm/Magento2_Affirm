@@ -21,6 +21,7 @@ namespace OnePica\Affirm\Model;
 use OnePica\Affirm\Api\AffirmCheckoutManagerInterface;
 use Magento\Checkout\Model\Session;
 use OnePica\Affirm\Gateway\Helper\Util;
+use Magento\GiftCardAccount\Model\Giftcardaccount;
 
 /**
  * Class AffirmCheckoutManager
@@ -77,17 +78,28 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
         $this->quote->collectTotals();
         $this->quote->reserveOrderId();
         $orderIncrementId = $this->quote->getReservedOrderId();
-        $discountAmount = $this->quote->getSubtotal() - $this->quote->getSubtotalWithDiscount();
+        $discountAmount = $this->quote->getBaseSubtotal() - $this->quote->getBaseSubtotalWithDiscount();
         $response = [];
         if ($discountAmount > 0.001) {
             $shippingAddress = $this->quote->getShippingAddress();
             $discountDescription = $shippingAddress->getDiscountDescription();
-            $response['discounts'] = [
-                $discountDescription => [
-                    'discount_amount' => Util::formatToCents($discountAmount)
-                ]
+            $discountDescription = ($discountDescription) ? sprintf(__('Discount (%s)'), $discountDescription) :
+                sprintf(__('Discount'));
+            $response['discounts'][$discountDescription] = [
+                'discount_amount' => Util::formatToCents($discountAmount)
             ];
         }
+        $giftCards = $this->quote->getGiftCards();
+        if ($giftCards) {
+            $giftCards = unserialize($giftCards);
+            foreach ($giftCards as $giftCard) {
+                $giftCardDiscountDescription = sprintf(__('Gift Card (%s)'), $giftCard[Giftcardaccount::CODE]);
+                $response['discounts'][$giftCardDiscountDescription] = [
+                    'discount_amount' => Util::formatToCents($giftCard[Giftcardaccount::AMOUNT])
+                ];
+            }
+        }
+
         if ($orderIncrementId) {
             $this->quoteRepository->save($this->quote);
             $response['order_increment_id'] = $orderIncrementId;
