@@ -68,13 +68,14 @@ define(["jquery",
         var items = quote.getItems();
         checkout.items = [];
         for (var i = 0; i < items.length; i++) {
-            checkout.items[i] = {};
-            checkout.items[i].display_name = items[i].name;
-            checkout.items[i].sku = items[i].sku;
-            checkout.items[i].unit_price = parseInt(items[i].price * 100);
-            checkout.items[i].qty = items[i].qty;
-            checkout.items[i].item_image_url = items[i].thumbnail;
-            checkout.items[i].item_url = url.build(items[i].product.request_path);
+            checkout.items.push({
+                display_name : items[i].name,
+                sku : items[i].sku,
+                unit_price : parseInt(items[i].price * 100),
+                qty : items[i].qty,
+                item_image_url : items[i].thumbnail,
+                item_url : url.build(items[i].product.request_path),
+            });
         }
         return checkout;
     }
@@ -103,27 +104,28 @@ define(["jquery",
     function applyGiftWrapper(checkout) {
         var _self = this;
         _self.checkout = checkout;
-        if (window.checkoutConfig.payment['affirm_gateway'].edition) {
-            require(['OnePica_Affirm/js/action/gift-wrapper-processing'], function(giftWrapper) {
-                var wrapItems = giftWrapper();
-                if (typeof wrapItems !== 'undefined' && wrapItems.length > 0) {
-                    _self.checkout.items = _self.checkout.items.concat(wrapItems);
+        require(['OnePica_Affirm/js/action/gift-wrapper-processing'], function(giftWrapper) {
+            var wrapItems = giftWrapper();
+
+            if (typeof wrapItems !== 'undefined' && wrapItems.length > 0) {
+                if (typeof _self.checkout.items === 'undefined') {
+                    _self.checkout.items = [];
                 }
-            });
-        }
+                _self.checkout.items = _self.checkout.items.push(wrapItems);
+            }
+        });
         return _self.checkout;
     }
 
     return function(response) {
+        fullScreenLoader.startLoader();
         response = JSON.parse(response);
         var checkout = {};
+        checkout = initItems(checkout);
         checkout = initAddress(checkout, 'shipping');
         checkout = initAddress(checkout, 'billing');
-        checkout = initItems(checkout);
         checkout = applyGiftWrapper(checkout);
         checkout = initTotals(checkout);
-
-        fullScreenLoader.startLoader();
 
         checkout.merchant = {} || checkout.merchant;
         checkout.metadata = {} || checkout.metadata;
@@ -142,10 +144,11 @@ define(["jquery",
         checkout.config = {} || checkout.config;
         checkout.config = window.checkoutConfig.payment['affirm_gateway'].config;
 
-        affirm.checkout(checkout);
+
         affirm.ui.error.on("close", function(){
             $.mage.redirect(window.checkoutConfig.payment['affirm_gateway'].merchant.cancel_url);
         });
+        affirm.checkout(checkout);
         affirm.checkout.post();
     }
 });
