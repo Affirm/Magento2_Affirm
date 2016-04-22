@@ -101,15 +101,17 @@ define(["jquery",
      * @returns {*}
      */
     function applyGiftWrapper(checkout) {
+        var _self = this;
+        _self.checkout = checkout;
         if (window.checkoutConfig.payment['affirm_gateway'].edition) {
-            require(['OnePica_Affirm/js/action/gift-wrapper-processing'], function(giftWrapper){
+            require(['OnePica_Affirm/js/action/gift-wrapper-processing'], function(giftWrapper) {
                 var wrapItems = giftWrapper();
-                if (wrapItems) {
-                    checkout.items = checkout.items.concat(wrapItems);
+                if (typeof wrapItems !== 'undefined' && wrapItems.length > 0) {
+                    _self.checkout.items = _self.checkout.items.concat(wrapItems);
                 }
             });
         }
-        return checkout;
+        return _self.checkout;
     }
 
     return function(response) {
