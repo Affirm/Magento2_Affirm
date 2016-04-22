@@ -83,6 +83,8 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
         if ($discountAmount > 0.001) {
             $shippingAddress = $this->quote->getShippingAddress();
             $discountDescription = $shippingAddress->getDiscountDescription();
+            $discountDescription = ($discountDescription) ? sprintf(__('Discount (%s)'), $discountDescription) :
+                sprintf(__('Discount'));
             $response['discounts'][$discountDescription] = [
                 'discount_amount' => Util::formatToCents($discountAmount)
             ];
@@ -91,7 +93,8 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
         if ($giftCards) {
             $giftCards = unserialize($giftCards);
             foreach ($giftCards as $giftCard) {
-                $response['discounts'][sprintf('Gift Card (%s)', $giftCard[Giftcardaccount::CODE])] = [
+                $giftCardDiscountDescription = sprintf(__('Gift Card (%s)'), $giftCard[Giftcardaccount::CODE]);
+                $response['discounts'][$giftCardDiscountDescription] = [
                     'discount_amount' => Util::formatToCents($giftCard[Giftcardaccount::AMOUNT])
                 ];
             }
