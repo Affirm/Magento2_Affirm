@@ -21,8 +21,8 @@ namespace OnePica\Affirm\Model;
 use OnePica\Affirm\Api\AffirmCheckoutManagerInterface;
 use Magento\Checkout\Model\Session;
 use OnePica\Affirm\Gateway\Helper\Util;
-use Magento\GiftCardAccount\Model\Giftcardaccount;
-
+use Magento\Framework\App\ProductMetadataInterface;
+use Magento\Framework\ObjectManagerInterface;
 /**
  * Class AffirmCheckoutManager
  *
@@ -30,6 +30,20 @@ use Magento\GiftCardAccount\Model\Giftcardaccount;
  */
 class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
 {
+    /**
+     * Gift card code cart key
+     *
+     * @var string
+     */
+    const CODE = 'c';
+
+    /**
+     * Gift card amount cart key
+     *
+     * @var string
+     */
+    const AMOUNT = 'a';
+
     /**
      * Injected checkout session
      *
@@ -52,18 +66,38 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
     protected $quoteRepository;
 
     /**
-     * Inject session and cart repository data.
+     * Object manager
+     *
+     * @var \Magento\Framework\ObjectManagerInterface
+     */
+    protected $objectManager;
+
+    /**
+     * Product metadata
+     *
+     * @var \Magento\Framework\App\ProductMetadataInterface
+     */
+    protected $productMetadata;
+
+    /**
+     * Initialize affirm checkout
      *
      * @param Session                                    $checkoutSession
      * @param \Magento\Quote\Api\CartRepositoryInterface $quoteRepository
+     * @param ProductMetadataInterface                   $productMetadata
+     * @param ObjectManagerInterface                     $objectManager
      */
     public function __construct(
         Session $checkoutSession,
-        \Magento\Quote\Api\CartRepositoryInterface $quoteRepository
+        \Magento\Quote\Api\CartRepositoryInterface $quoteRepository,
+        ProductMetadataInterface $productMetadata,
+        ObjectManagerInterface $objectManager
     ) {
         $this->checkoutSession = $checkoutSession;
         $this->quote = $this->checkoutSession->getQuote();
         $this->quoteRepository = $quoteRepository;
+        $this->productMetadata = $productMetadata;
+        $this->objectManager = $objectManager;
     }
 
     /**
@@ -89,20 +123,27 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
                 'discount_amount' => Util::formatToCents($discountAmount)
             ];
         }
-        $giftCards = $this->quote->getGiftCards();
-        if ($giftCards) {
-            $giftCards = unserialize($giftCards);
-            foreach ($giftCards as $giftCard) {
-                $giftCardDiscountDescription = sprintf(__('Gift Card (%s)'), $giftCard[Giftcardaccount::CODE]);
-                $response['discounts'][$giftCardDiscountDescription] = [
-                    'discount_amount' => Util::formatToCents($giftCard[Giftcardaccount::AMOUNT])
-                ];
-            }
-        }
 
         if ($orderIncrementId) {
             $this->quoteRepository->save($this->quote);
             $response['order_increment_id'] = $orderIncrementId;
+        }
+        if ($this->productMetadata->getEdition() == 'Enterprise') {
+            $giftWrapperItemsManager = $this->objectManager->create('OnePica\Affirm\Api\GiftWrapManagerInterface');
+            $wrapped = $giftWrapperItemsManager->getWrapItems();
+            if ($wrapped) {
+                $response['wrapped_items'] = $wrapped;
+            }
+            $giftCards = $this->quote->getGiftCards();
+            if ($giftCards) {
+                $giftCards = unserialize($giftCards);
+                foreach ($giftCards as $giftCard) {
+                    $giftCardDiscountDescription = sprintf(__('Gift Card (%s)'), $giftCard[self::CODE]);
+                    $response['discounts'][$giftCardDiscountDescription] = [
+                        'discount_amount' => Util::formatToCents($giftCard[self::AMOUNT])
+                    ];
+                }
+            }
         }
         return json_encode($response);
     }
