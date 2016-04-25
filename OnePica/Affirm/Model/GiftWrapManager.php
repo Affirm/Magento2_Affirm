@@ -22,6 +22,7 @@ use OnePica\Affirm\Api\GiftWrapManagerInterface;
 use Magento\Checkout\Model\Session;
 use Magento\GiftWrapping\Api\WrappingRepositoryInterface;
 use OnePica\Affirm\Gateway\Helper\Util;
+use OnePica\Affirm\Helper\Payment as PaymentHelper;
 
 /**
  * Class GiftWrapManager
@@ -59,18 +60,28 @@ class GiftWrapManager implements GiftWrapManagerInterface
     protected $items = [];
 
     /**
-     * Inject wrap model and session objects
+     * Image helper
+     *
+     * @var \Magento\Catalog\Helper\Image
+     */
+    protected $imageHelper;
+
+    /**
+     * Gift wrap manager init
      *
      * @param Session                     $checkoutSession
      * @param WrappingRepositoryInterface $wrappingRepository
+     * @param PaymentHelper               $paymentHelper
      */
     public function __construct(
         Session $checkoutSession,
-        WrappingRepositoryInterface $wrappingRepository
+        WrappingRepositoryInterface $wrappingRepository,
+        PaymentHelper $paymentHelper
     ) {
         $this->session = $checkoutSession;
         $this->quote = $checkoutSession->getQuote();
         $this->wrappingRepository = $wrappingRepository;
+        $this->imageHelper = $paymentHelper;
     }
 
     /**
@@ -90,7 +101,20 @@ class GiftWrapManager implements GiftWrapManagerInterface
      */
     public function getPrintedCardItem()
     {
-        // TODO: Implement getPrintedCardItem() method.
+        $isApplicable = $this->quote->getGwAddCard();
+        if ($isApplicable) {
+            $printedCardPrice = $this->quote->getGwCardBasePrice();
+            if ($printedCardPrice) {
+                return [
+                    "display_name"   => "Printed Card",
+                    "sku"            => "printed-card",
+                    "unit_price"     => Util::formatToCents($this->quote->getGwCardBasePrice()),
+                    "qty"            => 1,
+                    "item_image_url" => $this->imageHelper->getPlaceholderImage(),
+                    "item_url"       => $this->imageHelper->getPlaceholderImage()
+                ];
+            }
+        }
     }
 
     /**
@@ -123,7 +147,7 @@ class GiftWrapManager implements GiftWrapManagerInterface
      */
     protected function processItemData($wrapItem)
     {
-        if ($wrapItem) {
+        if ($wrapItem && $wrapItem->getBasePrice()) {
             return [
                 "display_name"   => $wrapItem->getDesign(),
                 "sku"            => "gift-" . $wrapItem->getWrappingId(),
@@ -157,6 +181,9 @@ class GiftWrapManager implements GiftWrapManagerInterface
                     $data[$wrappedItemId] = $this->processItemData($wrapItem);
                 }
             }
+        }
+        if ($this->getPrintedCardItem()) {
+            $data[] = $this->getPrintedCardItem();
         }
         return $data;
     }

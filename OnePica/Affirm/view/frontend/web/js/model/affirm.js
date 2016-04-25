@@ -7,9 +7,8 @@
 define(["underscore",
     "Magento_Checkout/js/model/quote",
     "mage/url",
-    'Magento_Customer/js/model/customer',
-    'OnePica_Affirm/js/action/verify-affirm'
-], function (_, quote, url, customer, orderData) {
+    'Magento_Customer/js/model/customer'
+], function (_, quote, url, customer) {
     'use strict';
     var configData = window.checkoutConfig.payment['affirm_gateway'];
     return {
@@ -82,8 +81,8 @@ define(["underscore",
             if (totals.base_shipping_amount) {
                 this.shippingAmount = this.convertPriceToCents(totals.base_shipping_amount);
             }
-            if (totals.grand_total) {
-                this.total = this.convertPriceToCents(totals.grand_total);
+            if (totals.base_grand_total) {
+                this.total = this.convertPriceToCents(totals.base_grand_total);
             }
             if (totals.base_tax_amount) {
                 this.tax_amount = this.convertPriceToCents(totals.base_tax_amount);

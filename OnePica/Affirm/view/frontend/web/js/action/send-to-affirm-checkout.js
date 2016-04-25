@@ -3,7 +3,8 @@
  * See COPYING.txt for license details.
  */
 /*jshint jquery:true*/
-define(["jquery",
+define([
+    "jquery",
     "mage/translate",
     "OnePica_Affirm/js/affirm",
     "Magento_Checkout/js/model/full-screen-loader",
