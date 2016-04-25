@@ -82,8 +82,8 @@ define(["underscore",
             if (totals.base_shipping_amount) {
                 this.shippingAmount = this.convertPriceToCents(totals.base_shipping_amount);
             }
-            if (totals.grand_total) {
-                this.total = this.convertPriceToCents(totals.grand_total);
+            if (totals.base_grand_total) {
+                this.total = this.convertPriceToCents(totals.base_grand_total);
             }
             if (totals.base_tax_amount) {
                 this.tax_amount = this.convertPriceToCents(totals.base_tax_amount);
