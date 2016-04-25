@@ -7,9 +7,8 @@
 define(["underscore",
     "Magento_Checkout/js/model/quote",
     "mage/url",
-    'Magento_Customer/js/model/customer',
-    'OnePica_Affirm/js/action/verify-affirm'
-], function (_, quote, url, customer, orderData) {
+    'Magento_Customer/js/model/customer'
+], function (_, quote, url, customer) {
     'use strict';
     var configData = window.checkoutConfig.payment['affirm_gateway'];
     return {
