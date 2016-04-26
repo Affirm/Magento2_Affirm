@@ -3,7 +3,10 @@ namespace OnePica\Affirm\Helper;
 
 use \Magento\Checkout\Model\Session;
 use Magento\Payment\Model\Method\AbstractMethod;
-
+use Magento\Theme\Model\View\Design;
+use Magento\Store\Model\StoreManagerInterface;
+use \Magento\Catalog\Helper\Image as ImageHelper;
+use Magento\Framework\App\Config\ScopeConfigInterface;
 /**
  * Payment helper
  * The class is responsible
@@ -43,23 +46,93 @@ class Payment
     protected $customerSession;
 
     /**
-     * Init payment helper
+     * Store manager
+     *
+     * @var StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
+     * Design object
+     *
+     * @var Design
+     */
+    protected $design;
+
+    /**
+     * Media config instance
+     *
+     * @var \Magento\Catalog\Model\Product\Media\Config
+     */
+    protected $config;
+
+    /**
+     * Product image helper instance
+     *
+     * @var \Magento\Catalog\Helper\Image
+     */
+    protected $imageHelper;
+
+    /**
+     * Scope config instance
+     *
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
+     */
+    protected $scopeConfig;
+
+    /**
+     * Affirm payment helper initialization.
      *
      * @param \Magento\Payment\Model\Method\Adapter              $payment
      * @param Session                                            $session
      * @param \Magento\Payment\Model\Checks\SpecificationFactory $methodSpecificationFactory
      * @param \Magento\Customer\Model\Session                    $customerSession
+     * @param \Magento\Catalog\Model\Product\Media\Config        $config
+     * @param StoreManagerInterface                              $storeManagerInterface
+     * @param Design                                             $design
+     * @param ImageHelper                                        $imageHelper
+     * @param ScopeConfigInterface                               $scopeConfigInterface
      */
     public function __construct(
         \Magento\Payment\Model\Method\Adapter $payment,
         Session $session,
         \Magento\Payment\Model\Checks\SpecificationFactory $methodSpecificationFactory,
-        \Magento\Customer\Model\Session $customerSession
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Catalog\Model\Product\Media\Config $config,
+        StoreManagerInterface $storeManagerInterface,
+        Design $design,
+        ImageHelper $imageHelper,
+        ScopeConfigInterface $scopeConfigInterface
     ) {
         $this->methodSpecificationFactory = $methodSpecificationFactory;
         $this->payment = $payment;
         $this->quote = $session->getQuote();
         $this->customerSession = $customerSession;
+        $this->storeManager = $storeManagerInterface;
+        $this->design = $design;
+        $this->config = $config;
+        $this->imageHelper = $imageHelper;
+        $this->scopeConfig = $scopeConfigInterface;
+    }
+
+    /**
+     * Get placeholder image
+     *
+     * @return string
+     */
+    public function getPlaceholderImage()
+    {
+        $this->storeManager->setCurrentStore($this->storeManager->getDefaultStoreView()->getId());
+        $this->design->setArea('frontend')->setDefaultDesignTheme();
+        $configPlaceholder = $this->scopeConfig->getValue(
+            'catalog/placeholder/image_placeholder',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
+        if ($configPlaceholder) {
+            $configPlaceholder = '/placeholder/' . $configPlaceholder;
+            return $this->config->getMediaUrl($configPlaceholder);
+        }
+        return $this->imageHelper->getDefaultPlaceholderUrl('image');
     }
 
     /**

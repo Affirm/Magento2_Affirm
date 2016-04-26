@@ -13,6 +13,7 @@
 
     <preference for="OnePica\Affirm\Api\AffirmCheckoutManagerInterface" type="OnePica\Affirm\Model\AffirmCheckoutManager" />
     <preference for="OnePica\Affirm\Api\CheckoutPaymentManagerInterface" type="OnePica\Affirm\Model\CheckoutPaymentManager" />
+    <preference for="OnePica\Affirm\Api\GiftWrapManagerInterface" type="OnePica\Affirm\Model\GiftWrapManager" />
 
     <!-- Payment Method Facade configuration -->
     <virtualType name="OnePicaAffirmGatewayFacade" type="Magento\Payment\Model\Method\Adapter">
