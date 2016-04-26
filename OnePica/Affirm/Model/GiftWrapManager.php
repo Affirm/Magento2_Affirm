@@ -153,8 +153,10 @@ class GiftWrapManager implements GiftWrapManagerInterface
                 "sku"            => "gift-" . $wrapItem->getWrappingId(),
                 "unit_price"     => Util::formatToCents($wrapItem->getBasePrice()),
                 "qty"            => 1,
-                "item_image_url" => $wrapItem->getImageUrl(),
-                "item_url"       => $wrapItem->getImageUrl()
+                "item_image_url" => $wrapItem->getImageUrl() ? $wrapItem->getImageUrl():
+                    $this->imageHelper->getPlaceholderImage(),
+                "item_url"       => $wrapItem->getImageUrl()? $wrapItem->getImageUrl():
+                    $this->imageHelper->getPlaceholderImage()
             ];
         }
         return [];
