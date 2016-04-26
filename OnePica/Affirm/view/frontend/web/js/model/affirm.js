@@ -157,6 +157,9 @@ define(["underscore",
             if (data.order_increment_id !== 'undefined') {
                 this.order_id = data.order_increment_id;
             }
+            if (data.discounts) {
+                this.setDiscounts(data.discounts);
+            }
         },
 
         /**
@@ -167,6 +170,17 @@ define(["underscore",
         addItems: function (items) {
             if (items !== 'undefined') {
                 this.items = _.union(this.items, items);
+            }
+        },
+
+        /**
+         * Specify discount
+         *
+         * @param discounts
+         */
+        setDiscounts: function(discounts) {
+            if (discounts) {
+                this.discounts = discounts;
             }
         }
     }
