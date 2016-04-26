@@ -150,7 +150,7 @@ class GiftWrapManager implements GiftWrapManagerInterface
         if ($wrapItem && $wrapItem->getBasePrice()) {
             return [
                 "display_name"   => $wrapItem->getDesign(),
-                "sku"            => "gift-" . $wrapItem->getWrappingId(),
+                "sku"            => "gift-wrap-" . $wrapItem->getWrappingId(),
                 "unit_price"     => Util::formatToCents($wrapItem->getBasePrice()),
                 "qty"            => 1,
                 "item_image_url" => $wrapItem->getImageUrl() ? $wrapItem->getImageUrl():
