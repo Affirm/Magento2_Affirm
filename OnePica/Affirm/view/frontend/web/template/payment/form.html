@@ -24,7 +24,7 @@
                data-bind="attr: {'id': getCode()}, value: getCode(), checked: isChecked, click: selectPaymentMethod, visible: isRadioButtonVisible()"/>
         <label class="label" data-bind="attr: {'for': getCode()}">
             <!-- ko if: !getVisibleType() -->
-                <img data-bind="attr: {src: getAffirmLogoSrc(), alt: $t('Affirm payment')}" class="payment-icon"/>
+                <img data-bind="attr: {src: getAffirmLogoSrc(), alt: $t('Affirm payment')}" class="payment-icon affirm-payment-icon"/>
                 <span data-bind="html: getInfo()"></span>
             <!-- /ko -->
             <!-- ko if: getVisibleType() -->
@@ -38,9 +38,9 @@
         <!-- ko template: getTemplate() --><!-- /ko -->
         <!--/ko-->
         <div class="affirm-item">
-            <div class="affirm-info-head" data-bind="text: $t('How does Affirm work ?')"></div>
-            <div class="affirm-info-description" data-bind="text: $t('Just enter your basic information and get a decision instantly.')"></div>
-            <div class="affirm-info-description" data-bind="text: $t('You will complete your payment on the Affirm website')"></div>
+            <h3 class="affirm-info-head" data-bind="text: $t('How does Affirm work ?')"></h3>
+            <p class="affirm-info-description" data-bind="text: $t('Just enter your basic information and get a decision instantly.')"></p>
+            <p class="affirm-info-description" data-bind="text: $t('You will complete your payment on the Affirm website')"></p>
         </div>
         <div class="payment-method-billing-address">
             <!-- ko foreach: $parent.getRegion(getBillingAddressFormName()) -->

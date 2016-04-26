@@ -1,11 +1,23 @@
 .affirm-info-head {
     color: #034082;
     font-size: 16px;
+    font-weight: normal;
+    margin: 0 !important;
+    line-height: 1.42em;
 }
+
 .affirm-info-description {
     color: #6f6f6f;
     font-size: 14px;
+    margin-bottom: 0;
 }
+
 .affirm-item {
-    margin-bottom: 35px;
+    margin-bottom: 1.5em;
+}
+
+.affirm-payment-icon {
+    vertical-align: baseline !important;
+    max-height: 1.5em;
+    width: auto;
 }
