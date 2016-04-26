@@ -41,7 +41,8 @@ define(["underscore",
                 tax_amount: _self.tax_amount,
                 total: _self.total,
                 shipping: _self.prepareAddress('shipping'),
-                billing: _self.prepareAddress('billing')
+                billing: _self.prepareAddress('billing'),
+                discounts: _self.discounts
             }
         },
 
