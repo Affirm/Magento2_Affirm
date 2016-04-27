@@ -1,6 +1,6 @@
 {
-    "name": "onepica/module-affirm",
-    "description": "N/A",
+    "name": "onepica/module-affirm2",
+    "description": "Affirm's extension for the Magento 2 https://www.affirm.com/",
     "require": {
         "php": "~5.5.0|~5.6.0|~7.0.0",
         "magento/module-sales": "100.0.*",
@@ -13,9 +13,9 @@
         "magento/module-checkout-agreements": "100.0.*"
     },
     "type": "magento2-module",
-    "version": "100.0.3",
+    "version": "0.1.0-alpha",
     "license": [
-        "proprietary"
+        "OSL-3.0"
     ],
     "autoload": {
         "files": [
