@@ -285,4 +285,7 @@
             <argument name="payment" xsi:type="object">OnePicaAffirmGatewayFacade</argument>
         </arguments>
     </type>
+    <type name="Magento\Payment\Model\Checks\Composite">
+        <plugin name="affirm_specification" type="OnePica\Affirm\Model\Method\Checks\SpecificationPlugin"/>
+    </type>
 </config>

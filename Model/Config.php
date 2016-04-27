@@ -44,6 +44,8 @@ class Config
     const KEY_SORT_ORDER = 'sort_order';
     const KEY_API_URL_SANDBOX = 'api_url_sandbox';
     const KEY_API_URL_PRODUCTION = 'api_url_production';
+    const KEY_ALLOW_SPECIFIC = 'allowspecific';
+    const KEY_SPECIFIC_COUNTRY = 'specificcountry';
     /**#@-*/
 
     /**
@@ -85,12 +87,13 @@ class Config
     ];
 
     /**
-     * Inject scope config object
+     * Config class initialization
      *
      * @param ScopeConfigInterface $scopeConfig
      */
-    public function __construct(ScopeConfigInterface $scopeConfig)
-    {
+    public function __construct(
+        ScopeConfigInterface $scopeConfig
+    ) {
         $this->scopeConfig = $scopeConfig;
     }
 
@@ -252,5 +255,23 @@ class Config
     public function getApiUrlProduction()
     {
         return $this->getConfigData(self::KEY_API_URL_PRODUCTION);
+    }
+
+    /**
+     * To check billing country is allowed for the payment method
+     *
+     * @param string $country
+     * @return bool
+     */
+    public function canUseForCountry($country)
+    {
+        //for specific country, the flag will set up as 1
+        if ($this->getConfigData(self::KEY_ALLOW_SPECIFIC) == 1) {
+            $availableCountries = explode(',', $this->getConfigData(self::KEY_SPECIFIC_COUNTRY));
+            if (!in_array($country, $availableCountries)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
