@@ -1,14 +1,14 @@
 <?php
 
-namespace OnePica\Affirm\Model;
+namespace Astound\Affirm\Model;
 
-use OnePica\Affirm\Api\CheckoutPaymentManagerInterface;
+use Astound\Affirm\Api\CheckoutPaymentManagerInterface;
 use \Magento\Checkout\Model\Session;
 use \Magento\Quote\Api\CartManagementInterface;
 /**
  * Class CheckoutPaymentManager
  *
- * @package OnePica\Affirm\Model
+ * @package Astound\Affirm\Model
  */
 class CheckoutPaymentManager implements CheckoutPaymentManagerInterface
 {
@@ -46,7 +46,7 @@ class CheckoutPaymentManager implements CheckoutPaymentManagerInterface
         $quote = $this->session->getQuote();
         if ($quote->getId()) {
             $payment = $quote->getPayment();
-            $data['method'] = \OnePica\Affirm\Model\Ui\ConfigProvider::CODE;
+            $data['method'] = \Astound\Affirm\Model\Ui\ConfigProvider::CODE;
             $payment->importData($data);
             $quote->save();
             return true;
@@ -64,7 +64,7 @@ class CheckoutPaymentManager implements CheckoutPaymentManagerInterface
         $quote = $this->session->getQuote();
         if ($quote->getId()) {
             $payment = $quote->getPayment();
-            if ($payment->getData('method') == \OnePica\Affirm\Model\Ui\ConfigProvider::CODE) {
+            if ($payment->getData('method') == \Astound\Affirm\Model\Ui\ConfigProvider::CODE) {
                 //Clear data after verification
                 $payment->setData('method', null);
                 return true;

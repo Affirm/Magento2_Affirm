@@ -1,10 +1,10 @@
 <?php
-namespace OnePica\Affirm\Api;
+namespace Astound\Affirm\Api;
 
 /**
  * Interface GiftWrapManagerInterface
  *
- * @package OnePica\Affirm\Api
+ * @package Astound\Affirm\Api
  */
 interface GiftWrapManagerInterface
 {

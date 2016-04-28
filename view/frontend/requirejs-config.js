@@ -6,7 +6,7 @@
 var config = {
     map: {
         '*': {
-            synchPost: 'OnePica_Affirm/js/action/send-request'
+            synchPost: 'Astound_Affirm/js/action/send-request'
         }
     }
 };

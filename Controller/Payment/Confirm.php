@@ -1,7 +1,7 @@
 <?php
 
 /**
- * OnePica
+ * Astound
  * NOTICE OF LICENSE
  * This source file is subject to the Open Software License (OSL 3.0)
  * that is bundled with this package in the file LICENSE.txt.
@@ -12,24 +12,24 @@
  * to codemaster@onepica.com so we can send you a copy immediately.
  *
  * @category  Affirm
- * @package   OnePica_Affirm
+ * @package   Astound_Affirm
  * @copyright Copyright (c) 2016 One Pica, Inc. (http://www.onepica.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-namespace OnePica\Affirm\Controller\Payment;
+namespace Astound\Affirm\Controller\Payment;
 
 use \Magento\Framework\App\Action\Action;
 use \Magento\Framework\App\Action\Context;
 use \Magento\Framework\App\ResponseInterface;
 use \Magento\Quote\Api\CartManagementInterface;
 use \Magento\Checkout\Model\Session;
-use \OnePica\Affirm\Model\Checkout;
+use \Astound\Affirm\Model\Checkout;
 use \Magento\Framework\Exception\LocalizedException;
 
 /**
  * Class Confirm
  *
- * @package OnePica\Affirm\Controller\Payment
+ * @package Astound\Affirm\Controller\Payment
  */
 class Confirm extends Action
 {
@@ -50,7 +50,7 @@ class Confirm extends Action
     /**
      * Affirm checkout instance
      *
-     * @var \OnePica\Affirm\Model\Checkout
+     * @var \Astound\Affirm\Model\Checkout
      */
     protected $checkout;
 

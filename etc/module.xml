@@ -1,16 +1,16 @@
 <?xml version="1.0"?>
 <!--
 /**
- * OnePica
+ * Astound
  * Affirm Module activation file.
  *
  * @category  Affirm
- * @package   OnePica_Affirm
+ * @package   Astound_Affirm
  * @copyright Copyright (c) 2016 One Pica, Inc. (http://www.onepica.com)
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
-    <module name="OnePica_Affirm" setup_version="2.0.0">
+    <module name="Astound_Affirm" setup_version="2.0.0">
         <sequence>
             <module name="Magento_Checkout"/>
             <module name="Magento_Sales"/>

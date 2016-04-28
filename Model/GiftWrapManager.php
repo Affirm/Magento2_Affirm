@@ -1,6 +1,6 @@
 <?php
 /**
- * OnePica
+ * Astound
  * NOTICE OF LICENSE
  * This source file is subject to the Open Software License (OSL 3.0)
  * that is bundled with this package in the file LICENSE.txt.
@@ -11,23 +11,23 @@
  * to codemaster@onepica.com so we can send you a copy immediately.
  *
  * @category  Affirm
- * @package   OnePica_Affirm
+ * @package   Astound_Affirm
  * @copyright Copyright (c) 2016 One Pica, Inc. (http://www.onepica.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-namespace OnePica\Affirm\Model;
+namespace Astound\Affirm\Model;
 
-use OnePica\Affirm\Api\GiftWrapManagerInterface;
+use Astound\Affirm\Api\GiftWrapManagerInterface;
 use Magento\Checkout\Model\Session;
 use Magento\GiftWrapping\Api\WrappingRepositoryInterface;
-use OnePica\Affirm\Gateway\Helper\Util;
-use OnePica\Affirm\Helper\Payment as PaymentHelper;
+use Astound\Affirm\Gateway\Helper\Util;
+use Astound\Affirm\Helper\Payment as PaymentHelper;
 
 /**
  * Class GiftWrapManager
  *
- * @package OnePica\Affirm\Model
+ * @package Astound\Affirm\Model
  */
 class GiftWrapManager implements GiftWrapManagerInterface
 {

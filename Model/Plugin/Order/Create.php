@@ -1,6 +1,6 @@
 <?php
 /**
- * OnePica
+ * Astound
  * NOTICE OF LICENSE
  * This source file is subject to the Open Software License (OSL 3.0)
  * that is bundled with this package in the file LICENSE.txt.
@@ -11,12 +11,12 @@
  * to codemaster@onepica.com so we can send you a copy immediately.
  *
  * @category  Affirm
- * @package   OnePica_Affirm
+ * @package   Astound_Affirm
  * @copyright Copyright (c) 2016 One Pica, Inc. (http://www.onepica.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-namespace OnePica\Affirm\Model\Plugin\Order;
+namespace Astound\Affirm\Model\Plugin\Order;
 
 use \Magento\Sales\Controller\Adminhtml\Order\Create\Save as SaveAction;
 use \Magento\Framework\Controller\Result\RedirectFactory ;
@@ -24,7 +24,7 @@ use \Magento\Framework\Controller\Result\RedirectFactory ;
 /**
  * Class Create
  *
- * @package OnePica\Affirm\Model\Plugin\Order
+ * @package Astound\Affirm\Model\Plugin\Order
  */
 class Create
 {
@@ -55,7 +55,7 @@ class Create
     public function aroundExecute(SaveAction $controller, \Closure $method)
     {
         $data = $controller->getRequest()->getParam('payment');
-        if (isset($data['method']) && $data['method'] == \OnePica\Affirm\Model\Ui\ConfigProvider::CODE) {
+        if (isset($data['method']) && $data['method'] == \Astound\Affirm\Model\Ui\ConfigProvider::CODE) {
             $resultRedirect = $this->forwardRedirectFactory->create();
             $resultRedirect->setPath('affirm/affirm/error');
             return $resultRedirect;

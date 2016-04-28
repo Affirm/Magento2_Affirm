@@ -1,26 +1,26 @@
 <?xml version="1.0"?>
 <!--
 /**
- * OnePica
+ * Astound
  * Affirm Payment DI configuration.
  *
  * @category  Affirm
- * @package   OnePica_Affirm
+ * @package   Astound_Affirm
  * @copyright Copyright (c) 2016 One Pica, Inc. (http://www.onepica.com)
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
 
-    <preference for="OnePica\Affirm\Api\AffirmCheckoutManagerInterface" type="OnePica\Affirm\Model\AffirmCheckoutManager" />
-    <preference for="OnePica\Affirm\Api\CheckoutPaymentManagerInterface" type="OnePica\Affirm\Model\CheckoutPaymentManager" />
-    <preference for="OnePica\Affirm\Api\GiftWrapManagerInterface" type="OnePica\Affirm\Model\GiftWrapManager" />
+    <preference for="Astound\Affirm\Api\AffirmCheckoutManagerInterface" type="Astound\Affirm\Model\AffirmCheckoutManager" />
+    <preference for="Astound\Affirm\Api\CheckoutPaymentManagerInterface" type="Astound\Affirm\Model\CheckoutPaymentManager" />
+    <preference for="Astound\Affirm\Api\GiftWrapManagerInterface" type="Astound\Affirm\Model\GiftWrapManager" />
 
     <!-- Payment Method Facade configuration -->
     <virtualType name="OnePicaAffirmGatewayFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\OnePica\Affirm\Model\Ui\ConfigProvider::CODE</argument>
+            <argument name="code" xsi:type="const">\Astound\Affirm\Model\Ui\ConfigProvider::CODE</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
-            <argument name="infoBlockType" xsi:type="string">OnePica\Affirm\Block\Info</argument>
+            <argument name="infoBlockType" xsi:type="string">Astound\Affirm\Block\Info</argument>
             <argument name="valueHandlerPool" xsi:type="object">OnePicaValueHandlerPool</argument>
             <argument name="commandPool" xsi:type="object">OnePicaCommandPool</argument>
             <argument name="validatorPool" xsi:type="object">AffirmValidatorPool</argument>
@@ -39,7 +39,7 @@
     <!-- Configuration reader -->
     <virtualType name="OnePicaAffirmGatewayConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\OnePica\Affirm\Model\Ui\ConfigProvider::CODE</argument>
+            <argument name="methodCode" xsi:type="const">\Astound\Affirm\Model\Ui\ConfigProvider::CODE</argument>
         </arguments>
     </virtualType>
 
@@ -62,7 +62,7 @@
         </arguments>
     </virtualType>
 
-    <virtualType name="AffirmCurrencyValidator" type="OnePica\Affirm\Gateway\Validator\CurrencyValidator">
+    <virtualType name="AffirmCurrencyValidator" type="Astound\Affirm\Gateway\Validator\CurrencyValidator">
         <arguments>
             <argument name="config" xsi:type="object">OnePicaAffirmGatewayConfig</argument>
         </arguments>
@@ -83,31 +83,31 @@
         <arguments>
             <argument name="commands" xsi:type="array">
                 <item name="pre_authorize" xsi:type="string">AffirmGatewayPreAuthorizeCommand</item>
-                <item name="authorize" xsi:type="string">OnePica\Affirm\Gateway\Command\AuthorizeStrategyCommand</item>
+                <item name="authorize" xsi:type="string">Astound\Affirm\Gateway\Command\AuthorizeStrategyCommand</item>
                 <item name="order_authorize" xsi:type="string">AffirmGatewayAuthorizeCommand</item>
-                <item name="capture" xsi:type="string">OnePica\Affirm\Gateway\Command\CaptureStrategyCommand</item>
+                <item name="capture" xsi:type="string">Astound\Affirm\Gateway\Command\CaptureStrategyCommand</item>
                 <item name="order_capture" xsi:type="string">AffirmGatewayCaptureCommand</item>
                 <item name="refund" xsi:type="string">AffirmGatewayRefundCommand</item>
                 <item name="void" xsi:type="string">AffirmGatewayVoidCommand</item>
-                <item name="cancel" xsi:type="string">OnePica\Affirm\Gateway\Command\CancelStrategyCommand</item>
+                <item name="cancel" xsi:type="string">Astound\Affirm\Gateway\Command\CancelStrategyCommand</item>
             </argument>
         </arguments>
     </virtualType>
 
     <!-- Strategy commands -->
-    <type name="OnePica\Affirm\Gateway\Command\AuthorizeStrategyCommand">
+    <type name="Astound\Affirm\Gateway\Command\AuthorizeStrategyCommand">
         <arguments>
             <argument name="commandPool" xsi:type="object">OnePicaCommandPool</argument>
         </arguments>
     </type>
 
-    <type name="OnePica\Affirm\Gateway\Command\CaptureStrategyCommand">
+    <type name="Astound\Affirm\Gateway\Command\CaptureStrategyCommand">
         <arguments>
             <argument name="commandPool" xsi:type="object">OnePicaCommandPool</argument>
         </arguments>
     </type>
 
-    <type name="OnePica\Affirm\Gateway\Command\CancelStrategyCommand">
+    <type name="Astound\Affirm\Gateway\Command\CancelStrategyCommand">
         <arguments>
             <argument name="commandPool" xsi:type="object">OnePicaCommandPool</argument>
         </arguments>
@@ -119,9 +119,9 @@
         <arguments>
             <argument name="requestBuilder" xsi:type="object">AffirmGatewayAuthorizationRequest</argument>
             <argument name="transferFactory" xsi:type="object">AffirmClientGatewayTransferFactory</argument>
-            <argument name="client" xsi:type="object">OnePica\Affirm\Gateway\Http\Client\ClientService</argument>
-            <argument name="handler" xsi:type="object">OnePica\Affirm\Gateway\Response\TransactionAuthorizeHandler</argument>
-            <argument name="validator" xsi:type="object">OnePica\Affirm\Gateway\Validator\Client\PaymentActionsValidator</argument>
+            <argument name="client" xsi:type="object">Astound\Affirm\Gateway\Http\Client\ClientService</argument>
+            <argument name="handler" xsi:type="object">Astound\Affirm\Gateway\Response\TransactionAuthorizeHandler</argument>
+            <argument name="validator" xsi:type="object">Astound\Affirm\Gateway\Validator\Client\PaymentActionsValidator</argument>
         </arguments>
     </virtualType>
 
@@ -130,8 +130,8 @@
         <arguments>
             <argument name="requestBuilder" xsi:type="object">AffirmGatewayPreAuthorizationRequest</argument>
             <argument name="transferFactory" xsi:type="object">AffirmPreAuthorizationGatewayTransferFactory</argument>
-            <argument name="client" xsi:type="object">OnePica\Affirm\Gateway\Http\Client\ClientService</argument>
-            <argument name="validator" xsi:type="object">OnePica\Affirm\Gateway\Validator\Client\PaymentActionsValidatorPreAuthorize</argument>
+            <argument name="client" xsi:type="object">Astound\Affirm\Gateway\Http\Client\ClientService</argument>
+            <argument name="validator" xsi:type="object">Astound\Affirm\Gateway\Validator\Client\PaymentActionsValidatorPreAuthorize</argument>
         </arguments>
     </virtualType>
     <!-- Pre Authorize command -->
@@ -141,9 +141,9 @@
         <arguments>
             <argument name="requestBuilder" xsi:type="object">AffirmGatewayCaptureRequest</argument>
             <argument name="transferFactory" xsi:type="object">AffirmClientGatewayTransferFactory</argument>
-            <argument name="client" xsi:type="object">OnePica\Affirm\Gateway\Http\Client\ClientService</argument>
-            <argument name="validator" xsi:type="object">OnePica\Affirm\Gateway\Validator\Client\PaymentActionsValidator</argument>
-            <argument name="handler" xsi:type="object">OnePica\Affirm\Gateway\Response\TransactionCaptureHandler</argument>
+            <argument name="client" xsi:type="object">Astound\Affirm\Gateway\Http\Client\ClientService</argument>
+            <argument name="validator" xsi:type="object">Astound\Affirm\Gateway\Validator\Client\PaymentActionsValidator</argument>
+            <argument name="handler" xsi:type="object">Astound\Affirm\Gateway\Response\TransactionCaptureHandler</argument>
         </arguments>
     </virtualType>
     <!-- Capture command -->
@@ -153,9 +153,9 @@
         <arguments>
             <argument name="requestBuilder" xsi:type="object">AffirmGatewayRefundRequest</argument>
             <argument name="transferFactory" xsi:type="object">AffirmClientGatewayTransferFactory</argument>
-            <argument name="client" xsi:type="object">OnePica\Affirm\Gateway\Http\Client\ClientService</argument>
-            <argument name="validator" xsi:type="object">OnePica\Affirm\Gateway\Validator\Client\PaymentActionsValidator</argument>
-            <argument name="handler" xsi:type="object">OnePica\Affirm\Gateway\Response\TransactionRefundHandler</argument>
+            <argument name="client" xsi:type="object">Astound\Affirm\Gateway\Http\Client\ClientService</argument>
+            <argument name="validator" xsi:type="object">Astound\Affirm\Gateway\Validator\Client\PaymentActionsValidator</argument>
+            <argument name="handler" xsi:type="object">Astound\Affirm\Gateway\Response\TransactionRefundHandler</argument>
         </arguments>
     </virtualType>
     <!-- Refund command -->
@@ -165,17 +165,17 @@
         <arguments>
             <argument name="requestBuilder" xsi:type="object">AffirmGatewayVoidRequest</argument>
             <argument name="transferFactory" xsi:type="object">AffirmClientGatewayTransferFactory</argument>
-            <argument name="client" xsi:type="object">OnePica\Affirm\Gateway\Http\Client\ClientService</argument>
-            <argument name="validator" xsi:type="object">OnePica\Affirm\Gateway\Validator\Client\PaymentActionsValidatorVoid</argument>
-            <!--<argument name="handler" xsi:type="object">OnePica\Affirm\Gateway\Response\TransactionRefundHandler</argument>-->
+            <argument name="client" xsi:type="object">Astound\Affirm\Gateway\Http\Client\ClientService</argument>
+            <argument name="validator" xsi:type="object">Astound\Affirm\Gateway\Validator\Client\PaymentActionsValidatorVoid</argument>
+            <!--<argument name="handler" xsi:type="object">Astound\Affirm\Gateway\Response\TransactionRefundHandler</argument>-->
         </arguments>
     </virtualType>
     <!-- Void command -->
 
-    <type name="OnePica\Affirm\Gateway\Http\Client\ClientService">
+    <type name="Astound\Affirm\Gateway\Http\Client\ClientService">
         <arguments>
             <argument name="logger" xsi:type="object">AffirmLogger</argument>
-            <argument name="converter" xsi:type="object">OnePica\Affirm\Gateway\Http\Converter\JsonToArray</argument>
+            <argument name="converter" xsi:type="object">Astound\Affirm\Gateway\Http\Converter\JsonToArray</argument>
         </arguments>
     </type>
 
@@ -189,13 +189,13 @@
     <virtualType name="AffirmGatewayAuthorizationRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
         <arguments>
             <argument name="builders" xsi:type="array">
-                <item name="transaction" xsi:type="string">OnePica\Affirm\Gateway\Request\AuthorizationRequest</item>
+                <item name="transaction" xsi:type="string">Astound\Affirm\Gateway\Request\AuthorizationRequest</item>
             </argument>
         </arguments>
     </virtualType>
     <!-- Authorization Request Builder-->
 
-    <type name="OnePica\Affirm\Gateway\Request\AbstractDataBuilder">
+    <type name="Astound\Affirm\Gateway\Request\AbstractDataBuilder">
         <arguments>
             <argument name="config" xsi:type="object">OnePicaAffirmGatewayConfig</argument>
         </arguments>
@@ -205,7 +205,7 @@
     <virtualType name="AffirmGatewayPreAuthorizationRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
         <arguments>
             <argument name="builders" xsi:type="array">
-                <item name="transaction" xsi:type="string">OnePica\Affirm\Gateway\Request\PreAuthorizationRequest</item>
+                <item name="transaction" xsi:type="string">Astound\Affirm\Gateway\Request\PreAuthorizationRequest</item>
             </argument>
         </arguments>
     </virtualType>
@@ -214,7 +214,7 @@
     <virtualType name="AffirmGatewayCaptureRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
         <arguments>
             <argument name="builders" xsi:type="array">
-                <item name="transaction" xsi:type="string">OnePica\Affirm\Gateway\Request\CaptureRequest</item>
+                <item name="transaction" xsi:type="string">Astound\Affirm\Gateway\Request\CaptureRequest</item>
             </argument>
         </arguments>
     </virtualType>
@@ -222,7 +222,7 @@
     <virtualType name="AffirmGatewayRefundRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
         <arguments>
             <argument name="builders" xsi:type="array">
-                <item name="transaction" xsi:type="string">OnePica\Affirm\Gateway\Request\RefundRequest</item>
+                <item name="transaction" xsi:type="string">Astound\Affirm\Gateway\Request\RefundRequest</item>
             </argument>
         </arguments>
     </virtualType>
@@ -230,57 +230,57 @@
     <virtualType name="AffirmGatewayVoidRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
         <arguments>
             <argument name="builders" xsi:type="array">
-                <item name="transaction" xsi:type="string">OnePica\Affirm\Gateway\Request\VoidRequest</item>
+                <item name="transaction" xsi:type="string">Astound\Affirm\Gateway\Request\VoidRequest</item>
             </argument>
         </arguments>
     </virtualType>
 
     <!-- Authorization Transfer Factory -->
-    <virtualType name="AffirmClientGatewayTransferFactory" type="OnePica\Affirm\Gateway\Http\TransferFactory">
+    <virtualType name="AffirmClientGatewayTransferFactory" type="Astound\Affirm\Gateway\Http\TransferFactory">
         <arguments>
             <argument name="action" xsi:type="object">AffirmClientTransactionAction</argument>
             <argument name="config" xsi:type="object">OnePicaAffirmGatewayConfig</argument>
         </arguments>
     </virtualType>
 
-    <virtualType name="AffirmClientTransactionAction" type="OnePica\Affirm\Gateway\Helper\Request\Action">
+    <virtualType name="AffirmClientTransactionAction" type="Astound\Affirm\Gateway\Helper\Request\Action">
         <arguments>
-            <argument name="action" xsi:type="const">OnePica\Affirm\Gateway\Helper\Request\Action::API_CHARGES_PATH</argument>
+            <argument name="action" xsi:type="const">Astound\Affirm\Gateway\Helper\Request\Action::API_CHARGES_PATH</argument>
         </arguments>
     </virtualType>
     <!-- Authorization Transfer Factory -->
 
-    <type name="OnePica\Affirm\Gateway\Helper\Request\Action">
+    <type name="Astound\Affirm\Gateway\Helper\Request\Action">
         <arguments>
             <argument name="config" xsi:type="object">OnePicaAffirmGatewayConfig</argument>
         </arguments>
     </type>
 
     <!-- Pre Authorization Transfer Factory -->
-    <virtualType name="AffirmPreAuthorizationGatewayTransferFactory" type="OnePica\Affirm\Gateway\Http\TransferFactory">
+    <virtualType name="AffirmPreAuthorizationGatewayTransferFactory" type="Astound\Affirm\Gateway\Http\TransferFactory">
         <arguments>
             <argument name="action" xsi:type="object">AffirmPreAuthorizationTransactionAction</argument>
             <argument name="config" xsi:type="object">OnePicaAffirmGatewayConfig</argument>
         </arguments>
     </virtualType>
 
-    <virtualType name="AffirmPreAuthorizationTransactionAction" type="OnePica\Affirm\Gateway\Helper\Request\Action">
+    <virtualType name="AffirmPreAuthorizationTransactionAction" type="Astound\Affirm\Gateway\Helper\Request\Action">
         <arguments>
-            <argument name="action" xsi:type="const">OnePica\Affirm\Gateway\Helper\Request\Action::API_CHECKOUT_PATH</argument>
+            <argument name="action" xsi:type="const">Astound\Affirm\Gateway\Helper\Request\Action::API_CHECKOUT_PATH</argument>
         </arguments>
     </virtualType>
     <!-- Pre Authorization Transfer Factory -->
 
     <!-- Added plugin to the edit and save new order controller in admin  -->
     <type name="Magento\Sales\Controller\Adminhtml\Order\Edit\Save">
-        <plugin name="before-edit-admin" type="OnePica\Affirm\Model\Plugin\Order\EditOrder" sortOrder="1"/>
+        <plugin name="before-edit-admin" type="Astound\Affirm\Model\Plugin\Order\EditOrder" sortOrder="1"/>
     </type>
     <type name="Magento\Sales\Controller\Adminhtml\Order\Create\Save">
-        <plugin name="before-create-admin" type="OnePica\Affirm\Model\Plugin\Order\Create" sortOrder="1"/>
+        <plugin name="before-create-admin" type="Astound\Affirm\Model\Plugin\Order\Create" sortOrder="1"/>
     </type>
 
     <!-- Init payment helper -->
-    <type name="OnePica\Affirm\Helper\Payment">
+    <type name="Astound\Affirm\Helper\Payment">
         <arguments>
             <argument name="payment" xsi:type="object">OnePicaAffirmGatewayFacade</argument>
         </arguments>

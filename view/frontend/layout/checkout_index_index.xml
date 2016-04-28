@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <!--
 /**
- * OnePica
+ * Astound
  * NOTICE OF LICENSE
  * This source file is subject to the Open Software License (OSL 3.0)
  * that is bundled with this package in the file LICENSE.txt.
@@ -12,14 +12,14 @@
  * to codemaster@onepica.com so we can send you a copy immediately.
  *
  * @category  Affirm
- * @package   OnePica_Affirm
+ * @package   Astound_Affirm
  * @copyright Copyright (c) 2016 One Pica, Inc. (http://www.onepica.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <head>
-        <css src="OnePica_Affirm::affirm.css"/>
+        <css src="Astound_Affirm::affirm.css"/>
     </head>
     <body>
         <referenceBlock name="checkout.root">
@@ -39,7 +39,7 @@
                                                             <!-- merge payment method renders here -->
                                                             <item name="children" xsi:type="array">
                                                                 <item name="affirm_gateway" xsi:type="array">
-                                                                    <item name="component" xsi:type="string">OnePica_Affirm/js/view/payment/affirm_gateway</item>
+                                                                    <item name="component" xsi:type="string">Astound_Affirm/js/view/payment/affirm_gateway</item>
                                                                     <item name="methods" xsi:type="array">
                                                                         <item name="affirm_gateway" xsi:type="array">
                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
