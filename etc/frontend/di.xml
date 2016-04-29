@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <!--
 /**
- * OnePica
+ * Astound
  * Affirm Module activation file.
  *
  * @category  Affirm
- * @package   OnePica_Affirm
+ * @package   Astound_Affirm
  * @copyright Copyright (c) 2016 One Pica, Inc. (http://www.onepica.com)
  */
 -->
@@ -13,18 +13,18 @@
     <type name="Magento\Checkout\Model\CompositeConfigProvider">
         <arguments>
             <argument name="configProviders" xsi:type="array">
-                <item name="affirm_gateway_config_provider" xsi:type="object">OnePica\Affirm\Model\Ui\ConfigProvider</item>
+                <item name="affirm_gateway_config_provider" xsi:type="object">Astound\Affirm\Model\Ui\ConfigProvider</item>
             </argument>
         </arguments>
     </type>
-    <type name="OnePica\Affirm\Block\Info">
+    <type name="Astound\Affirm\Block\Info">
         <arguments>
             <argument name="data" xsi:type="array">
                 <item xsi:type="string" name="is_secure_mode">1</item>
             </argument>
         </arguments>
     </type>
-    <type name="OnePica\Affirm\Model\Ui\ConfigProvider">
+    <type name="Astound\Affirm\Model\Ui\ConfigProvider">
         <arguments>
             <argument name="config" xsi:type="object">OnePicaAffirmGatewayConfig</argument>
         </arguments>

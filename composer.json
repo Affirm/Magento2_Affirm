@@ -1,5 +1,5 @@
 {
-    "name": "onepica/module-affirm2",
+    "name": "astound/module-affirm2",
     "description": "Affirm's extension for the Magento 2 https://www.affirm.com/",
     "require": {
         "php": "~5.5.0|~5.6.0|~7.0.0",
@@ -22,7 +22,7 @@
             "registration.php"
         ],
         "psr-4": {
-            "OnePica\\Affirm\\": ""
+            "Astound\\Affirm\\": ""
         }
     }
 }

@@ -1,5 +1,5 @@
 <?php
-namespace OnePica\Affirm\Helper;
+namespace Astound\Affirm\Helper;
 
 use \Magento\Checkout\Model\Session;
 use Magento\Payment\Model\Method\AbstractMethod;
@@ -13,7 +13,7 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
  * For get data from Gateway API
  * Facade class
  *
- * @package OnePica\Affirm\Helper
+ * @package Astound\Affirm\Helper
  */
 class Payment
 {

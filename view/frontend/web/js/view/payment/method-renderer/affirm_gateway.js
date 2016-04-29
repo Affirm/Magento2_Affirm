@@ -1,5 +1,5 @@
 /**
- * OnePica
+ * Astound
  * NOTICE OF LICENSE
  * This source file is subject to the Open Software License (OSL 3.0)
  * that is bundled with this package in the file LICENSE.txt.
@@ -10,7 +10,7 @@
  * to codemaster@onepica.com so we can send you a copy immediately.
  *
  * @category  Affirm
- * @package   OnePica_Affirm
+ * @package   Astound_Affirm
  * @copyright Copyright (c) 2016 One Pica, Inc. (http://www.onepica.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -26,9 +26,9 @@ define(
         'Magento_Checkout/js/model/error-processor',
         'Magento_Ui/js/model/messages',
         'Magento_Checkout/js/action/set-payment-information',
-        'OnePica_Affirm/js/action/prepare-affirm-checkout',
-        'OnePica_Affirm/js/action/send-to-affirm-checkout',
-        'OnePica_Affirm/js/action/verify-affirm'
+        'Astound_Affirm/js/action/prepare-affirm-checkout',
+        'Astound_Affirm/js/action/send-to-affirm-checkout',
+        'Astound_Affirm/js/action/verify-affirm'
     ],
     function ($, Component, quote, additionalValidators,
               urlBuilder, errorProcessor, Messages, setPaymentAction,
@@ -38,7 +38,7 @@ define(
 
         return Component.extend({
             defaults: {
-                template: 'OnePica_Affirm/payment/form',
+                template: 'Astound_Affirm/payment/form',
                 transactionResult: ''
             },
 

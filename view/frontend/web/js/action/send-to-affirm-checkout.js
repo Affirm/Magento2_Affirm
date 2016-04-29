@@ -6,12 +6,12 @@
 define([
     "jquery",
     "mage/translate",
-    "OnePica_Affirm/js/affirm",
+    "Astound_Affirm/js/affirm",
     "Magento_Checkout/js/model/full-screen-loader",
     "Magento_Checkout/js/model/quote",
     "mage/url",
     'Magento_Customer/js/model/customer',
-    "OnePica_Affirm/js/model/affirm"
+    "Astound_Affirm/js/model/affirm"
 ], function ($, $t, loadScript, fullScreenLoader, quote, url, customer, affirmCheckout) {
 
     return function(response) {

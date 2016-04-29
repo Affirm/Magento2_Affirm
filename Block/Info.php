@@ -1,6 +1,6 @@
 <?php
 /**
- * OnePica
+ * Astound
  * NOTICE OF LICENSE
  * This source file is subject to the Open Software License (OSL 3.0)
  * that is bundled with this package in the file LICENSE.txt.
@@ -11,12 +11,12 @@
  * to codemaster@onepica.com so we can send you a copy immediately.
  *
  * @category  Affirm
- * @package   OnePica_Affirm
+ * @package   Astound_Affirm
  * @copyright Copyright (c) 2016 One Pica, Inc. (http://www.onepica.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-namespace OnePica\Affirm\Block;
+namespace Astound\Affirm\Block;
 
 use Magento\Framework\Phrase;
 use Magento\Payment\Block\ConfigurableInfo;
@@ -24,7 +24,7 @@ use Magento\Payment\Block\ConfigurableInfo;
 /**
  * Payment Block Info class
  *
- * @package OnePica\Affirm\Block
+ * @package Astound\Affirm\Block
  */
 class Info extends ConfigurableInfo
 {
@@ -38,7 +38,7 @@ class Info extends ConfigurableInfo
      *
      * @var string
      */
-    protected $_template = 'OnePica_Affirm::payment/info/edit.phtml';
+    protected $_template = 'Astound_Affirm::payment/info/edit.phtml';
 
     /**
      * Retrieve translated label

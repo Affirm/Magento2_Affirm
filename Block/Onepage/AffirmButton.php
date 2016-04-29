@@ -1,6 +1,6 @@
 <?php
 /**
- * OnePica
+ * Astound
  * NOTICE OF LICENSE
  * This source file is subject to the Open Software License (OSL 3.0)
  * that is bundled with this package in the file LICENSE.txt.
@@ -11,27 +11,27 @@
  * to codemaster@onepica.com so we can send you a copy immediately.
  *
  * @category  Affirm
- * @package   OnePica_Affirm
+ * @package   Astound_Affirm
  * @copyright Copyright (c) 2016 One Pica, Inc. (http://www.onepica.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-namespace OnePica\Affirm\Block\Onepage;
+namespace Astound\Affirm\Block\Onepage;
 
 use Magento\Framework\View\Element\Template;
-use OnePica\Affirm\Helper\Payment;
+use Astound\Affirm\Helper\Payment;
 
 /**
  * Class AffirmButton
  *
- * @package OnePica\Affirm\Block\Onepage
+ * @package Astound\Affirm\Block\Onepage
  */
 class AffirmButton extends Template
 {
     /**
      * Affirm payment model instance
      *
-     * @var \OnePica\Affirm\Helper\Payment
+     * @var \Astound\Affirm\Helper\Payment
      */
     protected $helper;
 
@@ -54,7 +54,7 @@ class AffirmButton extends Template
      *
      * @var string
      */
-    protected $_template = 'OnePica_Affirm::onepage/button.phtml';
+    protected $_template = 'Astound_Affirm::onepage/button.phtml';
 
     /**
      * Affirm checkout button block
@@ -66,7 +66,7 @@ class AffirmButton extends Template
      */
     public function __construct(
         Template\Context $context,
-        \OnePica\Affirm\Helper\Payment $helper,
+        \Astound\Affirm\Helper\Payment $helper,
         \Magento\Checkout\Model\Session $session,
         array $data = []
     ) {

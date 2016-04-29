@@ -6,6 +6,6 @@
 
 \Magento\Framework\Component\ComponentRegistrar::register(
     \Magento\Framework\Component\ComponentRegistrar::MODULE,
-    'OnePica_Affirm',
+    'Astound_Affirm',
     __DIR__
 );

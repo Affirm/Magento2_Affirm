@@ -1,6 +1,6 @@
 <?php
 /**
- * OnePica
+ * Astound
  * NOTICE OF LICENSE
  * This source file is subject to the Open Software License (OSL 3.0)
  * that is bundled with this package in the file LICENSE.txt.
@@ -11,22 +11,22 @@
  * to codemaster@onepica.com so we can send you a copy immediately.
  *
  * @category  Affirm
- * @package   OnePica_Affirm
+ * @package   Astound_Affirm
  * @copyright Copyright (c) 2016 One Pica, Inc. (http://www.onepica.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-namespace OnePica\Affirm\Model;
+namespace Astound\Affirm\Model;
 
-use OnePica\Affirm\Api\AffirmCheckoutManagerInterface;
+use Astound\Affirm\Api\AffirmCheckoutManagerInterface;
 use Magento\Checkout\Model\Session;
-use OnePica\Affirm\Gateway\Helper\Util;
+use Astound\Affirm\Gateway\Helper\Util;
 use Magento\Framework\App\ProductMetadataInterface;
 use Magento\Framework\ObjectManagerInterface;
 /**
  * Class AffirmCheckoutManager
  *
- * @package OnePica\Affirm\Model
+ * @package Astound\Affirm\Model
  */
 class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
 {
@@ -129,7 +129,7 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
             $response['order_increment_id'] = $orderIncrementId;
         }
         if ($this->productMetadata->getEdition() == 'Enterprise') {
-            $giftWrapperItemsManager = $this->objectManager->create('OnePica\Affirm\Api\GiftWrapManagerInterface');
+            $giftWrapperItemsManager = $this->objectManager->create('Astound\Affirm\Api\GiftWrapManagerInterface');
             $wrapped = $giftWrapperItemsManager->getWrapItems();
             if ($wrapped) {
                 $response['wrapped_items'] = $wrapped;
