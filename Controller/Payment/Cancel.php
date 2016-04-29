@@ -15,6 +15,7 @@
  * @copyright Copyright (c) 2016 Astound, Inc. (http://www.astoundcommerce.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+
 namespace Astound\Affirm\Controller\Payment;
 
 use Magento\Framework\App\ResponseInterface;
