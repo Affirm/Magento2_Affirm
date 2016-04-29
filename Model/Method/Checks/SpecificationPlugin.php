@@ -16,31 +16,31 @@
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-namespace OnePica\Affirm\Model\Method\Checks;
+namespace Astound\Affirm\Model\Method\Checks;
 
 use Magento\Payment\Model\MethodInterface;
 use Magento\Payment\Model\Checks\SpecificationInterface;
-use OnePica\Affirm\Model\Ui\ConfigProvider;
+use Astound\Affirm\Model\Ui\ConfigProvider;
 use Magento\Quote\Model\Quote;
 
 /**
  * Class SpecificationPlugin
  *
- * @package OnePica\Affirm\Model\Method\Checks
+ * @package Astound\Affirm\Model\Method\Checks
  */
 class SpecificationPlugin
 {
     /**
-     * @var \OnePica\Affirm\Model\Config
+     * @var \Astound\Affirm\Model\Config
      */
     protected $config;
 
     /**
-     * Get configd
+     * Get config
      *
-     * @param \OnePica\Affirm\Model\ConfigFactory $configFactory
+     * @param \Astound\Affirm\Model\ConfigFactory $configFactory
      */
-    public function __construct(\OnePica\Affirm\Model\ConfigFactory $configFactory)
+    public function __construct(\Astound\Affirm\Model\ConfigFactory $configFactory)
     {
         $this->config = $configFactory->create();
     }
