@@ -5,7 +5,7 @@
  *
  * @category  Affirm
  * @package   Astound_Affirm
- * @copyright Copyright (c) 2016 One Pica, Inc. (http://www.onepica.com)
+ * @copyright Copyright (c) 2016 Astound, Inc. (http://www.astoundcommerce.com)
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
