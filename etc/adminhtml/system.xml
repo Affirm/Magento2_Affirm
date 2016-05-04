@@ -1,11 +1,11 @@
 <!--
 /**
- * Astound
+ * OnePica
  * Affirm system configuration.
  *
  * @category  Affirm
- * @package   Astound_Affirm
- * @copyright Copyright (c) 2016 Astound, Inc. (http://www.astoundcommerce.com)
+ * @package   OnePica_Affirm
+ * @copyright Copyright (c) 2016 One Pica, Inc. (http://www.onepica.com)
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
@@ -19,7 +19,7 @@
                 </field>
                 <field id="mode" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Mode</label>
-                    <source_model>Astound\Affirm\Model\Adminhtml\Source\ModeAction</source_model>
+                    <source_model>OnePica\Affirm\Model\Adminhtml\Source\ModeAction</source_model>
                     <config_path>payment/affirm_gateway/private_api_key</config_path>
                 </field>
                 <field id="public_api_key_sandbox" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
@@ -67,7 +67,7 @@
                 </field>
                 <field id="payment_action" translate="label" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment Action</label>
-                    <source_model>Astound\Affirm\Model\Adminhtml\Source\PaymentAction</source_model>
+                    <source_model>OnePica\Affirm\Model\Adminhtml\Source\PaymentAction</source_model>
                     <config_path>payment/affirm_gateway/payment_action</config_path>
                 </field>
                 <field id="min_order_total" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="0">
@@ -104,6 +104,81 @@
                 <field id="checkout_button_code" translate="label" type="textarea" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Checkout Button Code</label>
                     <depends><field id="enable_checkout_button">1</field></depends>
+                </field>
+            </group>
+        </section>
+        <section id="affirm" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Affirm Promos</label>
+            <tab>general</tab>
+            <resource>OnePica_Affirm::configuration</resource>
+            <group id="affirm_promo" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General Settings</label>
+                <field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="promo_key" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Affirm Promo Key</label>
+                </field>
+            </group>
+            <group id="affirm_promo_homepage" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Home Page Settings</label>
+                <field id="display" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Display</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="size" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Promo Size</label>
+                    <source_model>OnePica\Affirm\Model\Config\System\Source\Size</source_model>
+                </field>
+                <field id="position" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Promo Position</label>
+                    <source_model>OnePica\Affirm\Model\Config\System\Source\Position</source_model>
+                </field>
+            </group>
+            <group id="affirm_promo_category" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Catalog Category Page Settings</label>
+                <field id="display" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Display</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="size" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Promo Size</label>
+                    <source_model>OnePica\Affirm\Model\Config\System\Source\Size</source_model>
+                </field>
+                <field id="position" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Promo Position</label>
+                    <source_model>OnePica\Affirm\Model\Config\System\Source\Position</source_model>
+                </field>
+            </group>
+            <group id="affirm_promo_product" translate="label" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Catalog Product Page Settings</label>
+                <field id="display" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Display</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="size" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Promo Size</label>
+                    <source_model>OnePica\Affirm\Model\Config\System\Source\Size</source_model>
+                </field>
+                <field id="position" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Promo Position</label>
+                    <source_model>OnePica\Affirm\Model\Config\System\Source\Position</source_model>
+                </field>
+            </group>
+            <group id="affirm_promo_checkout_cart" translate="label" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Checkout Cart Page Settings</label>
+                <field id="display" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Display</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="size" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Promo Size</label>
+                    <source_model>OnePica\Affirm\Model\Config\System\Source\Size</source_model>
+                </field>
+                <field id="position" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Promo Position</label>
+                    <source_model>OnePica\Affirm\Model\Config\System\Source\Position</source_model>
                 </field>
             </group>
         </section>
