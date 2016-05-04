@@ -12,7 +12,7 @@
                 <resource id="Magento_Backend::stores">
                     <resource id="Magento_Backend::stores_settings">
                         <resource id="Magento_Config::config" title="Configuration" sortOrder="20">
-                            <resource id="OnePica_Affirm::configuration" title="Affirm promo configuration" sortOrder="160" />
+                            <resource id="Astound_Affirm::configuration" title="Affirm promo configuration" sortOrder="160" />
                         </resource>
                     </resource>
                 </resource>
