@@ -23,6 +23,7 @@ use Magento\Checkout\Model\Session;
 use Astound\Affirm\Gateway\Helper\Util;
 use Magento\Framework\App\ProductMetadataInterface;
 use Magento\Framework\ObjectManagerInterface;
+
 /**
  * Class AffirmCheckoutManager
  *

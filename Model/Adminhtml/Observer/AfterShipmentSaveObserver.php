@@ -23,6 +23,7 @@ use Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\Framework\HTTP\ZendClientFactory;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Event\Observer;
+use Magento\Payment\Model\Method\Logger;
 use Astound\Affirm\Model\Ui\ConfigProvider;
 
 /**
@@ -98,7 +99,6 @@ class AfterShipmentSaveObserver implements ObserverInterface
         $order = $this->orderRepository->get((int) $orderId);
 
         if ($this->isAffirmPaymentMethod($order)) {
-
             $shippingConfirmation = $shipment->getIncrementId();
             $tracks = $shipment->getTracks();
             $carriers = [];
@@ -179,4 +179,3 @@ class AfterShipmentSaveObserver implements ObserverInterface
         return trim($gateway, '/') . sprintf('%s%s', self::API_CHARGES_PATH, $additionalPath);
     }
 }
-
