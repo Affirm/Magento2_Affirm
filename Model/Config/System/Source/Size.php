@@ -31,8 +31,6 @@ class Size implements \Magento\Framework\Option\ArrayInterface
      * @var array
      */
     public static $sizes = [
-        '196x193',
-        '560x63',
         '120x90',
         '150x100',
         '170x100',
