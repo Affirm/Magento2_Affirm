@@ -6,7 +6,8 @@
 var config = {
     map: {
         '*': {
-            synchPost: 'Astound_Affirm/js/action/send-request'
+            synchPost: 'Astound_Affirm/js/action/send-request',
+            affirmWidget: 'Astound_Affirm/js/affirmWidget'
         }
     }
 };
