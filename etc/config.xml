@@ -56,21 +56,21 @@
             <affirm_promo_homepage>
                 <display>1</display>
                 <size>170x100</size>
-                <position>right-top</position>
+                <position>0</position>
             </affirm_promo_homepage>
             <affirm_promo_category>
                 <display>1</display>
                 <size>170x100</size>
-                <position>left-top</position>
+                <position>0</position>
             </affirm_promo_category>
             <affirm_promo_product>
                 <display>1</display>
                 <size>468x60</size>
-                <position>right-top</position>
+                <position>0</position>
             </affirm_promo_product>
             <affirm_promo_checkout_cart>
                 <display>1</display>
-                <size>468x60</size>
+                <size>0</size>
                 <position>center-top</position>
             </affirm_promo_checkout_cart>
         </affirm>

@@ -163,7 +163,7 @@
                 </field>
                 <field id="position" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Promo Position</label>
-                    <source_model>Astound\Affirm\Model\Config\System\Source\Position</source_model>
+                    <source_model>Astound\Affirm\Model\Config\System\Source\Position::getBmlPositionsCPP</source_model>
                 </field>
             </group>
             <group id="affirm_promo_checkout_cart" translate="label" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -178,7 +178,7 @@
                 </field>
                 <field id="position" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Promo Position</label>
-                    <source_model>Astound\Affirm\Model\Config\System\Source\Position</source_model>
+                    <source_model>Astound\Affirm\Model\Config\System\Source\Position::getCCPosition</source_model>
                 </field>
             </group>
         </section>

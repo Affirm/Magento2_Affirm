@@ -33,12 +33,40 @@ class Position implements \Magento\Framework\Option\ArrayInterface
     public function toOptionArray()
     {
         return [
-            'left-top' => '↖ left-top',
-            'left-bottom' => '↙ left-bottom',
-            'center-top' => '↑ center-top',
-            'center-bottom' => '↓ center-bottom',
-            'right-top' => '↗ right-top',
-            'right-bottom' => '↘ right-bottom'
+            '0' => __('↑ center-top'),
+            '1' => __('↓ center-bottom'),
+            '2' => __('↖ sidebar-top'),
+            '3' => __('↙ sidebar-bottom')
+        ];
+    }
+
+    /**
+     * Get checkout cart position
+     *
+     * @return array
+     */
+    public function getCCPosition()
+    {
+        return [
+            '0' => __('↑ center-top'),
+            '1' => __('↓ center-bottom'),
+            '2' => __('↑ Near checkout button top'),
+            '3' => __('↓ Near checkout button bottom')
+        ];
+    }
+
+    /**
+     * Bml positions source getter for Catalog Product Page
+     *
+     * @return array
+     */
+    public function getBmlPositionsCPP()
+    {
+        return [
+            '0' => __('↑ Header (center) top'),
+            '1' => __('↓ Header (center) bottom'),
+            '2' => __('↑ Near checkout button top'),
+            '3' => __('↓ Near checkout button bottom')
         ];
     }
 }
