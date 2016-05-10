@@ -23,6 +23,8 @@ use Magento\Checkout\Model\Session;
 use Astound\Affirm\Gateway\Helper\Util;
 use Magento\Framework\App\ProductMetadataInterface;
 use Magento\Framework\ObjectManagerInterface;
+use Symfony\Component\Config\Definition\Exception\Exception;
+
 /**
  * Class AffirmCheckoutManager
  *
@@ -105,6 +107,7 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
      * form affirm checkout
      *
      * @return string
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function initCheckout()
     {
@@ -123,7 +126,23 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
                 'discount_amount' => Util::formatToCents($discountAmount)
             ];
         }
-
+        try {
+            $country = $this
+                ->quote
+                ->getBillingAddress()
+                ->getCountry();
+            $result = $this->quote
+                ->getPayment()
+                ->getMethodInstance()
+                ->canUseForCountry($country);
+            if (!$result) {
+                throw new \Magento\Framework\Exception\LocalizedException(
+                    __('Your billing country isn\'t allowed by Affirm.')
+                );
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
         if ($orderIncrementId) {
             $this->quoteRepository->save($this->quote);
             $response['order_increment_id'] = $orderIncrementId;
