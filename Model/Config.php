@@ -279,6 +279,20 @@ class Config
     }
 
     /**
+     * Get html container info
+     *
+     * @param $section
+     * @return int|mixed
+     */
+    public function getHtmlContainer($section)
+    {
+        $container = $this->scopeConfig->getValue(
+            'affirm/' . 'affirm_developer' . '/' . $section . '_container'
+        );
+        return $container ? $container : 0;
+    }
+
+    /**
      * Get Bml position
      *
      * @param $section

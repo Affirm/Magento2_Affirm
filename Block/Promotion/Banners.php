@@ -1,7 +1,21 @@
 <?php
 /**
+ * Astound
+ * NOTICE OF LICENSE
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to codemaster@astoundcommerce.com so we can send you a copy immediately.
  *
+ * @category  Affirm
+ * @package   Astound_Affirm
+ * @copyright Copyright (c) 2016 Astound, Inc. (http://www.astoundcommerce.com)
+ * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+
 namespace Astound\Affirm\Block\Promotion;
 
 use Magento\Framework\View\Element\AbstractBlock;
@@ -17,11 +31,29 @@ use Astound\Affirm\Model\Config;
 class Banners extends \Magento\Framework\View\Element\Template
 {
     /**
+     * Start tag for html container
+     *
+     * @var string
+     */
+    protected $startTag;
+
+    /**
+     * Ended tag for html container
+     *
+     * @var string
+     */
+    protected $endTag;
+
+    /**
+     * Section in which the banner will be visible
+     *
      * @var string
      */
     protected $section;
 
     /**
+     * Position of the banner
+     *
      * @var string
      */
     protected $position;
@@ -87,13 +119,13 @@ class Banners extends \Magento\Framework\View\Element\Template
         }
         $display  = $this->affirmPaymentConfig->getBmlDisplay($this->section);
         $position = $this->affirmPaymentConfig->getBmlPosition($this->section);
-
         if (!$display) {
             return '';
         }
         if ($this->position != $position) {
             return '';
         }
+        $this->processContainer($this->section);
         $this->setPromoKey($this->affirmPaymentConfig->getPromoKey());
         $this->setSize($this->affirmPaymentConfig->getBmlSize($this->section));
         return parent::_toHtml();
@@ -116,5 +148,45 @@ class Banners extends \Magento\Framework\View\Element\Template
             }
         }
         return json_encode($options);
+    }
+
+    /**
+     * Process container
+     *
+     * @param $section
+     */
+    protected function processContainer($section)
+    {
+        $container = $this->affirmPaymentConfig
+            ->getHtmlContainer($section);
+        if ($container) {
+            $containerParts = explode('{container}', $container);
+            if ($containerParts && is_array($containerParts)) {
+                // Get open tag for container
+                $this->startTag = current($containerParts);
+                // Get close tag for the container
+                $this->endTag = end($containerParts);
+            }
+        }
+    }
+
+    /**
+     * Get start container Tag
+     *
+     * @return string
+     */
+    public function getStartContainerTag()
+    {
+        return $this->startTag ? $this->startTag: '';
+    }
+
+    /**
+     * Get end container tag
+     *
+     * @return string
+     */
+    public function getEndContainerTag()
+    {
+        return $this->endTag ? $this->endTag: '';
     }
 }

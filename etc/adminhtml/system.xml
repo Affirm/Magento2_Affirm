@@ -181,6 +181,33 @@
                     <source_model>Astound\Affirm\Model\Config\System\Source\Position::getCCPosition</source_model>
                 </field>
             </group>
+            <group id="affirm_developer" translate="label" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Developer settings</label>
+                <field id="homepage_container" translate="label" type="textarea" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Home page container</label>
+                    <comment>
+                        <![CDATA[Place html code with "{container}"-tag inside, which will be replaced with your promo block.]]>
+                    </comment>
+                </field>
+                <field id="category_container" translate="label" type="textarea" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Catalog Category Container</label>
+                    <comment>
+                        <![CDATA[Place html code with "{container}"-tag inside, which will be replaced with your promo block.]]>
+                    </comment>
+                </field>
+                <field id="product_container" translate="label" type="textarea" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Catalog Product Container</label>
+                    <comment>
+                        <![CDATA[Place html code with "{container}"-tag inside, which will be replaced with your promo block.]]>
+                    </comment>
+                </field>
+                <field id="checkout_cart_container" translate="label" type="textarea" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Checkout Cart Container</label>
+                    <comment>
+                        <![CDATA[Place html code with "{container}"-tag inside, which will be replaced with your promo block.]]>
+                    </comment>
+                </field>
+            </group>
         </section>
     </system>
 </config>
