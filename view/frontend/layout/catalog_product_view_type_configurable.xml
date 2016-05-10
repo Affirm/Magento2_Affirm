@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!--
 /**
- * Copyright © 2015 Magento. All rights reserved.
+ * Copyright © 2016 Magento. All rights reserved.
  * See COPYING.txt for license details.
  */
 -->
@@ -21,7 +21,7 @@
                 </arguments>
             </block>
         </referenceContainer>
-        <referenceContainer name="product.info.addtocart">
+        <referenceContainer name="product.info.options.wrapper">
             <block class="Astound\Affirm\Block\Promotion\Banners" name="bml.right.banner.top" template="Astound_Affirm::promotion/bml.phtml" before="-">
                 <arguments>
                     <argument name="section" xsi:type="string">product</argument>

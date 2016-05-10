@@ -33,10 +33,10 @@ class Position implements \Magento\Framework\Option\ArrayInterface
     public function toOptionArray()
     {
         return [
-            '0' => __('↑ center-top'),
-            '1' => __('↓ center-bottom'),
-            '2' => __('↖ sidebar-top'),
-            '3' => __('↙ sidebar-bottom')
+            '0' => __('↑ Center top'),
+            '1' => __('↓ Center bottom'),
+            '2' => __('↖ Sidebar top'),
+            '3' => __('↙ Sidebar bottom')
         ];
     }
 
@@ -48,10 +48,9 @@ class Position implements \Magento\Framework\Option\ArrayInterface
     public function getCCPosition()
     {
         return [
-            '0' => __('↑ center-top'),
-            '1' => __('↓ center-bottom'),
-            '2' => __('↑ Near checkout button top'),
-            '3' => __('↓ Near checkout button bottom')
+            '0' => __('↑ Center Top'),
+            '1' => __('↓ Center bottom'),
+            '2' => __('↑ Near checkout button'),
         ];
     }
 
@@ -65,8 +64,7 @@ class Position implements \Magento\Framework\Option\ArrayInterface
         return [
             '0' => __('↑ Header (center) top'),
             '1' => __('↓ Header (center) bottom'),
-            '2' => __('↑ Near checkout button top'),
-            '3' => __('↓ Near checkout button bottom')
+            '2' => __('↑ Near checkout button')
         ];
     }
 }
