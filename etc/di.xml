@@ -278,6 +278,9 @@
     <type name="Magento\Sales\Controller\Adminhtml\Order\Create\Save">
         <plugin name="before-create-admin" type="Astound\Affirm\Model\Plugin\Order\Create" sortOrder="1"/>
     </type>
+    <type name="Magento\Sales\Controller\Adminhtml\Order\AddressSave">
+        <plugin name="before-edit-address-admin" type="Astound\Affirm\Model\Plugin\Order\Address\Save" sortOrder="1"/>
+    </type>
 
     <!-- Init payment helper -->
     <type name="Astound\Affirm\Helper\Payment">
