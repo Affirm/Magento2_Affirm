@@ -107,7 +107,7 @@
                 </field>
             </group>
         </section>
-        <section id="affirm" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+        <section id="affirm" translate="label" type="text" sortOrder="1200" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Affirm Promos</label>
             <tab>general</tab>
             <resource>Astound_Affirm::configuration</resource>

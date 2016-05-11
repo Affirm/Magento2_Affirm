@@ -70,9 +70,15 @@
             </affirm_promo_product>
             <affirm_promo_checkout_cart>
                 <display>1</display>
-                <size>0</size>
+                <size>468x60</size>
                 <position>center-top</position>
             </affirm_promo_checkout_cart>
+            <affirm_developer>
+                <homepage_container><![CDATA[<div style="width: 100%; text-align: center; padding-bottom: 7px ">{container}</div>]]></homepage_container>
+                <category_container><![CDATA[<div style="width: 100%; text-align: center; padding-bottom: 7px ">{container}</div>]]></category_container>
+                <product_container><![CDATA[<div style="width: 100%; text-align: center; padding-bottom: 7px ">{container}</div>]]></product_container>
+                <checkout_cart_container><![CDATA[<div style="width: 100%; text-align: center; padding-bottom: 7px ">{container}</div>]]></checkout_cart_container>
+            </affirm_developer>
         </affirm>
     </default>
 </config>
