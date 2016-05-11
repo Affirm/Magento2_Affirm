@@ -93,6 +93,6 @@ class Save
             $resultRedirect->setPath('sales/order/address', ['_current' => true]);
             return $resultRedirect;
         }
-        $method();
+        return $method();
     }
 }
