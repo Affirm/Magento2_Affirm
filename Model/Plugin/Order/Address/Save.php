@@ -86,7 +86,9 @@ class Save
         $order = $orderCollection->getFirstItem();
 
         if ($order->getId() && $order->getPayment()->getMethod() == ConfigProvider::CODE) {
-            $this->_messageManager->addError('Please contact Affirm for updating shipping/billing address.');
+            $this->_messageManager->addWarning(
+                __('Editing address is not available. Please contact Affirm for updating shipping/billing address.')
+            );
             $resultRedirect = $this->forwardRedirectFactory->create();
             $resultRedirect->setPath('sales/order/address', ['_current' => true]);
             return $resultRedirect;
