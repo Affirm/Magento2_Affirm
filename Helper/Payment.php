@@ -7,6 +7,7 @@ use Magento\Theme\Model\View\Design;
 use Magento\Store\Model\StoreManagerInterface;
 use \Magento\Catalog\Helper\Image as ImageHelper;
 use Magento\Framework\App\Config\ScopeConfigInterface;
+
 /**
  * Payment helper
  * The class is responsible
