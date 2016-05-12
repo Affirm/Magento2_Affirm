@@ -60,6 +60,6 @@ class EditOrder
             $resultRedirect->setPath('affirm/affirm/error');
             return $resultRedirect;
         }
-        $method();
+        return $method();
     }
 }
