@@ -246,7 +246,7 @@
                     </comment>
                 </field>
                 <field id="month" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
-                    <label>Affirm Promo Months</label>
+                    <label>As Low As Functionality</label>
                     <source_model>Astound\Affirm\Model\Config\System\Source\Months</source_model>
                 </field>
             </group>
