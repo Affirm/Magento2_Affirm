@@ -18,16 +18,16 @@
 
 namespace Astound\Affirm\Model\Plugin\Order\Address;
 
-use Magento\Sales\Controller\Adminhtml\Order\AddressSave;
+use Magento\Sales\Controller\Adminhtml\Order\Address;
 use Magento\Framework\Controller\Result\RedirectFactory ;
 use Magento\Framework\Message\ManagerInterface;
 use Magento\Sales\Model\ResourceModel\Order\CollectionFactory;
 use Astound\Affirm\Model\Ui\ConfigProvider;
 
 /**
- * Class Save
+ * Class Edit
  */
-class Save
+class Edit
 {
     /**
      * Result redirect factory
@@ -70,11 +70,11 @@ class Save
     /**
      * Plugin for edit order address in admin
      *
-     * @param AddressSave $controller
+     * @param Address $controller
      * @param callable   $method
      * @return \Magento\Framework\Controller\Result\Redirect
      */
-    public function aroundExecute(AddressSave $controller, \Closure $method)
+    public function aroundExecute(Address $controller, \Closure $method)
     {
         $addressId = $controller->getRequest()->getParam('address_id');
         $orderCollection = $this->_collectionFactory->create()->addAttributeToSearchFilter(
@@ -90,7 +90,7 @@ class Save
                 __('Editing address is not available. Please contact Affirm for updating shipping/billing address.')
             );
             $resultRedirect = $this->forwardRedirectFactory->create();
-            $resultRedirect->setPath('sales/order/address', ['_current' => true]);
+            $resultRedirect->setPath('sales/order/view', ['order_id' => $order->getId()]);
             return $resultRedirect;
         }
         return $method();
