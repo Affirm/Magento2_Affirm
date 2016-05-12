@@ -229,7 +229,7 @@
                     </comment>
                 </field>
             </group>
-            <group id="affirm_settings" translate="label" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="affirm_aslowas" translate="label" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>As Low As Functionality</label>
                 <field id="enabled_pdp" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Enable for PDP</label>
