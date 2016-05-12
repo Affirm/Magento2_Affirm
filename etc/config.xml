@@ -79,6 +79,12 @@
                 <product_container><![CDATA[<div style="width: 100%; text-align: center; padding-bottom: 7px ">{container}</div>]]></product_container>
                 <checkout_cart_container><![CDATA[<div style="width: 100%; text-align: center; padding-bottom: 7px ">{container}</div>]]></checkout_cart_container>
             </affirm_developer>
+            <affirm_settings>
+                <enabled_pdp>0</enabled_pdp>
+                <enabled_sc>0</enabled_sc>
+                <apr_value>0.10</apr_value>
+                <month>12</month>
+            </affirm_settings>
         </affirm>
     </default>
 </config>
