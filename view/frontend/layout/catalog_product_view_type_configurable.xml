@@ -17,36 +17,27 @@
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 -->
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
-        <referenceContainer name="checkout.cart.methods">
-            <block class="Astound\Affirm\Block\Onepage\AffirmButton" name="affirm.cart.shortcut.buttons" before="checkout.cart.methods.multishipping" />
-        </referenceContainer>
         <referenceContainer name="top.container">
             <block class="Astound\Affirm\Block\Promotion\Banners" name="affirm_banner_center_top" as="bml.main.top" template="Astound_Affirm::promotion/bml.phtml" before="-">
                 <arguments>
-                    <argument name="section" xsi:type="string">checkout_cart</argument>
+                    <argument name="section" xsi:type="string">product</argument>
                     <argument name="position" xsi:type="number">0</argument>
                 </arguments>
             </block>
             <block class="Astound\Affirm\Block\Promotion\Banners" name="affirm_banner_center_bottom" as="bml.main.bottom" template="Astound_Affirm::promotion/bml.phtml" after="-">
                 <arguments>
-                    <argument name="section" xsi:type="string">checkout_cart</argument>
+                    <argument name="section" xsi:type="string">product</argument>
                     <argument name="position" xsi:type="number">1</argument>
                 </arguments>
             </block>
         </referenceContainer>
-        <referenceContainer name="checkout.cart.methods">
-            <block class="Astound\Affirm\Block\Promotion\Banners" name="affirm_banner_methods_top" as="bml.cart.methods.top" template="Astound_Affirm::promotion/bml.phtml" before="-">
+        <referenceContainer name="product.info.options.wrapper">
+            <block class="Astound\Affirm\Block\Promotion\Banners" name="bml.right.banner.top" template="Astound_Affirm::promotion/bml.phtml" before="-">
                 <arguments>
-                    <argument name="section" xsi:type="string">checkout_cart</argument>
+                    <argument name="section" xsi:type="string">product</argument>
                     <argument name="position" xsi:type="number">2</argument>
-                </arguments>
-            </block>
-            <block class="Astound\Affirm\Block\Promotion\Banners" name="affirm_banner_methods_bottom" as="bml.cart.methods.bottom" template="Astound_Affirm::promotion/bml.phtml" after="-">
-                <arguments>
-                    <argument name="section" xsi:type="string">checkout_cart</argument>
-                    <argument name="position" xsi:type="number">3</argument>
                 </arguments>
             </block>
         </referenceContainer>

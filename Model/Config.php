@@ -20,6 +20,7 @@ namespace Astound\Affirm\Model;
 
 use \Magento\Framework\App\Config\ScopeConfigInterface;
 use \Magento\Store\Model\ScopeInterface;
+use \Magento\Store\Model\StoreManagerInterface;
 
 /**
  * Config class
@@ -44,6 +45,7 @@ class Config
     const KEY_SORT_ORDER = 'sort_order';
     const KEY_API_URL_SANDBOX = 'api_url_sandbox';
     const KEY_API_URL_PRODUCTION = 'api_url_production';
+    const METHOD_BML = 'affirm_promo';
     /**#@-*/
 
     /**
@@ -68,6 +70,13 @@ class Config
     protected $storeId;
 
     /**
+     * Store manager object
+     *
+     * @var \Magento\Store\Model\StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
      * Permissions to config fields
      *
      * @var array
@@ -85,14 +94,14 @@ class Config
     ];
 
     /**
-     * Config class initialization
-     *
-     * @param ScopeConfigInterface $scopeConfig
+     * @param ScopeConfigInterface  $scopeConfig
+     * @param StoreManagerInterface $storeManager
      */
-    public function __construct(
-        ScopeConfigInterface $scopeConfig
-    ) {
+    public function __construct(ScopeConfigInterface $scopeConfig, StoreManagerInterface $storeManager)
+    {
         $this->scopeConfig = $scopeConfig;
+        $this->storeManager = $storeManager;
+        $currentWebsiteId = $storeManager->getStore()->getWebsiteId();
     }
 
     /**
@@ -253,5 +262,90 @@ class Config
     public function getApiUrlProduction()
     {
         return $this->getConfigData(self::KEY_API_URL_PRODUCTION);
+    }
+
+    /**
+     * Get Display option from stored config
+     * @param string $section
+     *
+     * @return mixed
+     */
+    public function getBmlDisplay($section)
+    {
+        $display = $this->scopeConfig->getValue(
+            'affirm/' . self::METHOD_BML . '_' . $section . '/' . 'display'
+        );
+        return $display ? $display : 0;
+    }
+
+    /**
+     * Get html container info
+     *
+     * @param $section
+     * @return int|mixed
+     */
+    public function getHtmlContainer($section)
+    {
+        $container = $this->scopeConfig->getValue(
+            'affirm/' . 'affirm_developer' . '/' . $section . '_container'
+        );
+        return $container ? $container : 0;
+    }
+
+    /**
+     * Get Bml position
+     *
+     * @param $section
+     * @return int|mixed
+     */
+    public function getBmlPosition($section)
+    {
+        $position = $this->scopeConfig->getValue(
+            'affirm/' . self::METHOD_BML . '_' . $section . '/' . 'position',
+            ScopeInterface::SCOPE_WEBSITE,
+            $this->getCurrentWebsiteId()
+        );
+        return $position ? $position : 0;
+    }
+
+    /**
+     * Get Bml size
+     *
+     * @param $section
+     * @return int|mixed
+     */
+    public function getBmlSize($section)
+    {
+        $size = $this->scopeConfig->getValue(
+            'affirm/' . self::METHOD_BML . '_' . $section . '/' . 'size',
+            ScopeInterface::SCOPE_WEBSITE,
+            $this->getCurrentWebsiteId()
+        );
+        return $size ? $size : 0;
+    }
+
+    /**
+     * Get promo key
+     *
+     * @return mixed
+     */
+    public function getPromoKey()
+    {
+        return $this->scopeConfig
+            ->getValue(
+                'affirm/affirm_promo/promo_key',
+                ScopeInterface::SCOPE_WEBSITE,
+                $this->getCurrentWebsiteId()
+            );
+    }
+
+    /**
+     * Get current website id
+     *
+     * @return int
+     */
+    protected function getCurrentWebsiteId()
+    {
+        return $this->storeManager->getStore()->getWebsiteId();
     }
 }

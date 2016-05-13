@@ -1,5 +1,4 @@
-<?xml version="1.0"?>
-<!--
+<?php
 /**
  * Astound
  * NOTICE OF LICENSE
@@ -16,7 +15,11 @@
  * @copyright Copyright (c) 2016 Astound, Inc. (http://www.astoundcommerce.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
--->
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
-    <body/>
-</page>
+?>
+
+<?php echo $this->getStartContainerTag(); ?>
+    <div class="affirm-promo" data-mage-init='{"affirmWidget":<?php echo $block->getOptions() ?>}'
+        data-promo-key="<?php echo $block->getPromoKey(); ?>"
+        data-promo-size="<?php echo $block->getSize(); ?>">
+    </div>
+<?php echo $this->getEndContainerTag(); ?>

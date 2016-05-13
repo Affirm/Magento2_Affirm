@@ -48,5 +48,37 @@
                 <checkout_button_code>http://d33v4339jhl8k0.cloudfront.net/docs/assets/54ab19f8e4b08393789ca141/images/54ebbdc6e4b086c0c0968fa2/file-cmGEKUeWtK.png</checkout_button_code>
             </affirm_gateway>
         </payment>
+        <affirm>
+            <affirm_promo>
+                <enabled>0</enabled>
+                <promo_key>W6WU7UK82RS34HDH</promo_key>
+            </affirm_promo>
+            <affirm_promo_homepage>
+                <display>1</display>
+                <size>170x100</size>
+                <position>0</position>
+            </affirm_promo_homepage>
+            <affirm_promo_category>
+                <display>1</display>
+                <size>170x100</size>
+                <position>0</position>
+            </affirm_promo_category>
+            <affirm_promo_product>
+                <display>1</display>
+                <size>468x60</size>
+                <position>0</position>
+            </affirm_promo_product>
+            <affirm_promo_checkout_cart>
+                <display>1</display>
+                <size>468x60</size>
+                <position>center-top</position>
+            </affirm_promo_checkout_cart>
+            <affirm_developer>
+                <homepage_container><![CDATA[<div style="width: 100%; text-align: center; padding-bottom: 7px ">{container}</div>]]></homepage_container>
+                <category_container><![CDATA[<div style="width: 100%; text-align: center; padding-bottom: 7px ">{container}</div>]]></category_container>
+                <product_container><![CDATA[<div style="width: 100%; text-align: center; padding-bottom: 7px ">{container}</div>]]></product_container>
+                <checkout_cart_container><![CDATA[<div style="width: 100%; text-align: center; padding-bottom: 7px ">{container}</div>]]></checkout_cart_container>
+            </affirm_developer>
+        </affirm>
     </default>
 </config>

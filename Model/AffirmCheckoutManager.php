@@ -137,7 +137,7 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
                 ->canUseForCountry($country);
             if (!$result) {
                 throw new \Magento\Framework\Exception\LocalizedException(
-                    __('You can\'t use the payment type you selected to make payments to the billing country.')
+                    __('Your billing country isn\'t allowed by Affirm.')
                 );
             }
         } catch (Exception $e) {

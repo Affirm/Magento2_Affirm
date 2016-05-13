@@ -5,6 +5,7 @@ namespace Astound\Affirm\Model;
 use Astound\Affirm\Api\CheckoutPaymentManagerInterface;
 use \Magento\Checkout\Model\Session;
 use \Magento\Quote\Api\CartManagementInterface;
+
 /**
  * Class CheckoutPaymentManager
  *
