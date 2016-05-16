@@ -99,6 +99,13 @@ class Payment
     protected $scopeConfig;
 
     /**
+     * Is disable functionality
+     *
+     * @var bool
+     */
+    protected $isDisableFunctionality;
+
+    /**
      * Affirm payment helper initialization.
      *
      * @param \Magento\Payment\Model\Method\Adapter              $payment
@@ -175,5 +182,44 @@ class Payment
             return $this->payment->isAvailable($this->quote);
         }
         return false;
+    }
+
+    /**
+     * Is turn off flag
+     *
+     * @return int
+     */
+    public function isTurnOffNonAcceptedCurrency()
+    {
+        return $this->scopeConfig->getValue(
+            'payment/affirm_gateway/turn_off_non_accepted_currency',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * Is not accepted base currency store
+     *
+     * @return bool
+     */
+    public function isNotAcceptedBaseCurrencyStore()
+    {
+        $acceptedCurrencyCodes = $this->scopeConfig
+            ->getValue('payment/affirm_gateway/currency', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return $this->storeManager->getStore()->getBaseCurrencyCode() != $acceptedCurrencyCodes;
+    }
+
+    /**
+     * Is turn off functionality
+     *
+     * @return bool
+     */
+    public function isTurnOffFunctionality()
+    {
+        if (null === $this->isDisableFunctionality) {
+            $this->isDisableFunctionality = $this->isTurnOffNonAcceptedCurrency() &&
+                $this->isNotAcceptedBaseCurrencyStore();
+        }
+        return $this->isDisableFunctionality;
     }
 }
