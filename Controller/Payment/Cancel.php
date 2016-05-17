@@ -15,10 +15,13 @@
  * @copyright Copyright (c) 2016 Astound, Inc. (http://www.astoundcommerce.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+
 namespace Astound\Affirm\Controller\Payment;
 
+use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\App\Action\Action;
+use \Magento\Framework\Controller\Result\RedirectFactory;
 
 /**
  * Payment cancel action
@@ -28,14 +31,36 @@ use Magento\Framework\App\Action\Action;
 class Cancel extends Action
 {
     /**
-     * Dispatch request
+     * Redirect factory option
+     *
+     * @var \Magento\Framework\Controller\Result\RedirectFactory
+     */
+    protected $forwardRedirectFactory;
+
+    /**
+     * Injects redirect factory
+     *
+     * @param Context         $context
+     * @param RedirectFactory $redirectFactory
+     */
+    public function __construct(Context $context, RedirectFactory $redirectFactory)
+    {
+        $this->forwardRedirectFactory = $redirectFactory;
+        parent::__construct($context);
+    }
+
+    /**
+     * Affirm cancel action
+     * redirects to checkout cart in case if customer return from affirm to merchant.
      *
      * @return \Magento\Framework\Controller\ResultInterface|ResponseInterface
      * @throws \Magento\Framework\Exception\NotFoundException
      */
     public function execute()
     {
-        //TODO:
-        //TODO: Implement cancel logic
+        // Redirects customer to checkout cart page.
+        $resultRedirect = $this->forwardRedirectFactory->create();
+        $resultRedirect->setPath('checkout/cart/index');
+        return $resultRedirect;
     }
 }
