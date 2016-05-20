@@ -46,6 +46,7 @@ class Config
     const KEY_API_URL_SANDBOX = 'api_url_sandbox';
     const KEY_API_URL_PRODUCTION = 'api_url_production';
     const METHOD_BML = 'affirm_promo';
+    const KEY_ASLOWAS = 'affirm_aslowas';
     /**#@-*/
 
     /**
@@ -347,5 +348,17 @@ class Config
     protected function getCurrentWebsiteId()
     {
         return $this->storeManager->getStore()->getWebsiteId();
+    }
+
+    /**
+     * Aslow as activation flag
+     *
+     * @param $position
+     * @return int|mixed
+     */
+    public function isAslowasEnabled($position)
+    {
+        $flag = $this->scopeConfig->getValue('affirm/' . self::KEY_ASLOWAS . '/' . 'enabled_' . $position);
+        return $flag ? $flag: 0;
     }
 }
