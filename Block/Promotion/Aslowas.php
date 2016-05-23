@@ -43,7 +43,9 @@ class Aslowas extends \Magento\Framework\View\Element\Template
     protected $affirmPaymentConfig;
 
     /**
-     * @var
+     * Inject config provider
+     *
+     * @var \Astound\Affirm\Model\Ui\ConfigProvider
      */
     protected $configProvider;
 
