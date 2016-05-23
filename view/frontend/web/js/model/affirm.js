@@ -59,7 +59,8 @@ define([
                     unit_price : parseInt(quoteItems[i].price * 100),
                     qty : quoteItems[i].qty,
                     item_image_url : quoteItems[i].thumbnail,
-                    item_url : url.build(quoteItems[i].product.request_path)
+                    item_url : (quoteItems[i].product.request_path) ?
+                        url.build(quoteItems[i].product.request_path) : quoteItems[i].thumbnail
                 });
             }
         },

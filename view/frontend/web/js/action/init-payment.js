@@ -26,7 +26,7 @@ define([
                     ).done(
                     function (response) {
                         if (response) {
-                            $.mage.redirect(config.checkoutUrl);
+                            location.href = config.checkoutUrl;
                         }
                     }
                 ).fail(

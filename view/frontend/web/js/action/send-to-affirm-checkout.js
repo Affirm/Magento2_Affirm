@@ -22,8 +22,9 @@ define([
         if (giftWrapItems !== 'undefined') {
             affirmCheckout.addItems(giftWrapItems);
         }
-        affirm.ui.error.on("close", function(){
-            $.mage.redirect(window.checkoutConfig.payment['affirm_gateway'].merchant.cancel_url);
+        affirm.ui.error.on("close", function() {
+            //redirect to checkout cart in case if customer canceled or returned from error pop-up
+            $.mage.redirect(window.checkoutConfig.payment['affirm_gateway'].merchant.user_cancel_url);
         });
         checkoutObj = affirmCheckout.getData();
         affirm.checkout(checkoutObj);

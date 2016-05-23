@@ -1,0 +1,12 @@
+Api/                                          app/code/Astound/Affirm/Api/
+Block/                                        app/code/Astound/Affirm/Block/
+Controller/                                   app/code/Astound/Affirm/Controller/
+etc/                                          app/code/Astound/Affirm/etc/
+Gateway/                                      app/code/Astound/Affirm/Gateway/
+Helper/                                       app/code/Astound/Affirm/Helper/
+Model/                                        app/code/Astound/Affirm/Model/
+view/                                         app/code/Astound/Affirm/view/
+composer.json                                 app/code/Astound/Affirm/composer.json
+modman                                        app/code/Astound/Affirm/modman
+README.md                                     app/code/Astound/Affirm/README.md
+registration.php                              app/code/Astound/Affirm/registration.php
