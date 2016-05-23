@@ -50,6 +50,13 @@ class Aslowas extends \Magento\Framework\View\Element\Template
     protected $configProvider;
 
     /**
+     * Block type
+     *
+     * @var string
+     */
+    protected $type;
+
+    /**
      * Position of as low as block
      *
      * @var string
@@ -73,8 +80,14 @@ class Aslowas extends \Magento\Framework\View\Element\Template
         if (isset($data['position']) && $data['position']) {
             $this->position = $data['position'];
         }
+
         $this->affirmPaymentConfig = $configAffirm;
         $this->configProvider = $configProvider;
+
+        if (isset($data['type'])) {
+            $this->type = $data['type'];
+        }
+
         parent::__construct($context, $data);
     }
 
@@ -99,13 +112,18 @@ class Aslowas extends \Magento\Framework\View\Element\Template
         if ($this->affirmPaymentConfig->isAslowasEnabled($this->position)) {
             $this->data['apr'] = $this->getApr()? $this->getApr(): 0;
             $this->data['months'] = $this->getMonths() ? $this->getMonths(): 0;
-            $this->data['logo'] = $this->getLogo();
+            $this->data['logo'] = $this->getLogo() ? $this->getLogo(): '';
 
             $configProvider = $this->configProvider->getConfig();
             if ($configProvider['payment'][ConfigProvider::CODE]) {
                 $config = $configProvider['payment'][ConfigProvider::CODE];
                 $this->data['script'] = $config['script'];
                 $this->data['public_api_key'] = $config['apiKeyPublic'];
+            }
+            if ($this->type && $this->type == 'bundle') {
+                $this->data['selector'] = '.bundle-info';
+            } else {
+                $this->data['selector'] = '.product-info-main';
             }
         }
         return json_encode($this->data);
@@ -138,9 +156,6 @@ class Aslowas extends \Magento\Framework\View\Element\Template
      */
     public function getLogo()
     {
-        if ($this->_scopeConfig->getValue('affirm/affirm_aslowas/logo')) {
-            return $this->_scopeConfig->getValue('affirm/affirm_aslowas/logo');
-        }
-        return '';
+        return $this->_scopeConfig->getValue('affirm/affirm_aslowas/logo');
     }
 }

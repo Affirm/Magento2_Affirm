@@ -78,7 +78,7 @@ define([
              */
             handleEstimateResponse: function(payment_estimate) {
                 var dollars = payment_estimate.payment_string, element,
-                    content = $t("Starting at $") + dollars + $t(" a month with")+ ' ' + self.options.logo + ' ' + $t("Learn more.");
+                    content = $t("Starting at $") + dollars + $t(" a month with") + ' ' + self.options.logo + ' ' + $t("Learn more.");
                 element = document.getElementById('learn-more');
                 element.innerHTML = content;
                 if (payment_estimate && payment_estimate.open_modal) {

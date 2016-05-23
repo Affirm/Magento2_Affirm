@@ -231,6 +231,12 @@
             </group>
             <group id="affirm_aslowas" translate="label" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>As Low As Functionality</label>
+                <comment>
+                    <![CDATA[Pay attention! Please, specify public key inside Affirm payment method. Stores->Configuration->Sales->Payment Methods->Affirm.
+                        "As low as" will be visible only in case if product price or checkout cart total will be above of 50$.
+                    ]]>
+                </comment>
+                <fieldset_css>complex</fieldset_css>
                 <field id="enabled_pdp" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Enable for PDP</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
@@ -249,7 +255,7 @@
                     <label>Affirm Promo Months</label>
                     <source_model>Astound\Affirm\Model\Config\System\Source\Months</source_model>
                 </field>
-                <field id="logo" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="logo" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Affirm logo</label>
                     <source_model>Astound\Affirm\Model\Config\System\Source\Logo</source_model>
                 </field>

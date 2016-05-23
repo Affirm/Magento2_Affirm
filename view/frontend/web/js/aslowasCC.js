@@ -12,7 +12,7 @@ define(["jquery",
     "use strict"
     var self;
 
-    $.widget('mage.aslowas',{
+    $.widget('mage.aslowasCC',{
         options: {
         },
 
@@ -37,6 +37,7 @@ define(["jquery",
                 self.initPrice();
             });
         },
+
         /**
          * Handle update price event
          *
@@ -50,5 +51,5 @@ define(["jquery",
             }
         }
     });
-    return $.mage.aslowas
+    return $.mage.aslowasCC
 });

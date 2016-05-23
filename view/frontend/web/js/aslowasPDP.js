@@ -8,11 +8,13 @@ define(["jquery",
     "Astound_Affirm/js/model/aslowas",
     "jquery/ui"
 ], function ($, $t, aslowas) {
+
     "use strict"
+
     var self,
         selector = '.price-box';
 
-    $.widget('mage.aslowas',{
+    $.widget('mage.aslowasPDP',{
         options: {
         },
 
@@ -51,7 +53,7 @@ define(["jquery",
         updatePriceHandler: function(event) {
             var el = $(event.currentTarget),
                 price,
-                priceInfo = $(el).parents('.product-info-main').get(0),
+                priceInfo = $(el).parents(self.options.selector).get(0),
                 currentElement;
 
             if (priceInfo) {
@@ -59,10 +61,10 @@ define(["jquery",
                 currentElement = $(self.element).get(0);
                 if ($.contains(priceInfo, currentElement)) {
                     price = el[0].innerText;
-                    aslowas.process(price);
+                    aslowas.process(price, self.options);
                 }
             }
         }
     });
-    return $.mage.aslowas
+    return $.mage.aslowasPDP
 });
