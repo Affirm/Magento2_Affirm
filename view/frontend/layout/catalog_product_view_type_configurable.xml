@@ -41,5 +41,12 @@
                 </arguments>
             </block>
         </referenceContainer>
+        <referenceContainer name="product.info.main">
+            <block class="Astound\Affirm\Block\Promotion\Aslowas" name="bml.right.banner.top" template="Astound_Affirm::promotion/aslowasPDP.phtml" after="product.info.price">
+                <arguments>
+                    <argument name="position" xsi:type="string">pdp</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
     </body>
 </page>
