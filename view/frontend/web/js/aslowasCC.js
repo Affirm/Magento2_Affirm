@@ -22,7 +22,7 @@ define(["jquery",
         initPrice: function() {
             var price = quote.getTotals()();
             if (price && price.base_grand_total) {
-                aslowas.process(price && price.base_grand_total, this.options);
+                aslowas.process(price.base_grand_total, this.options);
             }
         },
 
