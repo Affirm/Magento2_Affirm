@@ -13,7 +13,6 @@ define(["jquery",
 
     var self,
         selector = '.price-box';
-
     $.widget('mage.aslowasPDP',{
         options: {
         },
