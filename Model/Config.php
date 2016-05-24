@@ -47,6 +47,7 @@ class Config
     const KEY_API_URL_PRODUCTION = 'api_url_production';
     const METHOD_BML = 'affirm_promo';
     const KEY_ASLOWAS = 'affirm_aslowas';
+    const CURRENCY_CODE = 'USD';
     /**#@-*/
 
     /**
@@ -54,7 +55,7 @@ class Config
      *
      * @var string
      */
-    protected $methodCode = 'affirm';
+    protected $methodCode = 'affirm_gateway';
 
     /**
      * Scope configuration object
@@ -83,18 +84,20 @@ class Config
      * @var array
      */
     protected $affirmSharedConfigFields = [
-        'active' => true,
-        'mode' => true,
+        'active'                           => true,
+        'mode'                             => true,
         'financial_product_key_production' => true,
-        'public_key_production' => true,
-        'private_key_production' => true,
-        'maximum_order_total' => true,
-        'minimum_order_total' => true,
-        'api_url_production' => true,
-        'api_url_sandbox' => true
+        'public_key_production'            => true,
+        'private_key_production'           => true,
+        'maximum_order_total'              => true,
+        'minimum_order_total'              => true,
+        'api_url_production'               => true,
+        'api_url_sandbox'                  => true
     ];
 
     /**
+     * Injected store manager and scope config
+     *
      * @param ScopeConfigInterface  $scopeConfig
      * @param StoreManagerInterface $storeManager
      */
@@ -102,7 +105,6 @@ class Config
     {
         $this->scopeConfig = $scopeConfig;
         $this->storeManager = $storeManager;
-        $currentWebsiteId = $storeManager->getStore()->getWebsiteId();
     }
 
     /**
@@ -121,6 +123,32 @@ class Config
         $code = $this->methodCode;
         $path = 'payment/' . $code . '/' . $field;
         return $this->scopeConfig->getValue($path, ScopeInterface::SCOPE_STORE, $storeId);
+    }
+
+    /**
+     * Is currency valid
+     *
+     * @return bool
+     */
+    public function isCurrencyValid()
+    {
+        $curFlag = $this->getConfigData('turn_off_non_accepted_currency');
+        $currentCurrency = $this->getCurrentStore()->getBaseCurrencyCode();
+        $isValid = true;
+        if ($currentCurrency != self::CURRENCY_CODE && $curFlag) {
+            $isValid = false;
+        }
+        return $isValid;
+    }
+
+    /**
+     * Get current store
+     *
+     * @return \Magento\Store\Api\Data\StoreInterface
+     */
+    public function getCurrentStore()
+    {
+        return $this->storeManager->getStore();
     }
 
     /**
