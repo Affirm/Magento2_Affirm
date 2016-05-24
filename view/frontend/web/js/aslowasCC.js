@@ -36,19 +36,6 @@ define(["jquery",
             $.when(aslowas.loadScript(self.options)).done(function() {
                 self.initPrice();
             });
-        },
-
-        /**
-         * Handle update price event
-         *
-         * @param event
-         */
-        updatePriceHandler: function(event) {
-            var el = $(event.currentTarget), price;
-            if ($.contains($(el).parents('.product-info-main')[0], self.element[0])) {
-                price = el[0].innerText;
-                aslowas.process(price);
-            }
         }
     });
     return $.mage.aslowasCC
