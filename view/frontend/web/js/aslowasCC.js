@@ -10,8 +10,8 @@ define(["jquery",
     "jquery/ui"
 ], function ($, $t, aslowas, quote) {
     "use strict"
-    var self;
 
+    var self;
     $.widget('mage.aslowasCC',{
         options: {
         },
