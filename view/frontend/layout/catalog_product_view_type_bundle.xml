@@ -20,7 +20,7 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceBlock name="bundle.summary">
-            <block class="Astound\Affirm\Block\Promotion\Aslowas" name="bml.right.banner.top" template="Astound_Affirm::promotion/aslowasPDP.phtml" after="-">
+            <block class="Astound\Affirm\Block\Promotion\ProductPage\AsLowAs" name="bml.right.banner.top" template="Astound_Affirm::promotion/aslowasPDP.phtml" after="-">
                 <arguments>
                     <argument name="position" xsi:type="string">pdp</argument>
                     <argument name="type" xsi:type="string">bundle</argument>

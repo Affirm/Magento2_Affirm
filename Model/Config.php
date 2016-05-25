@@ -54,7 +54,7 @@ class Config
      *
      * @var string
      */
-    protected $methodCode = 'affirm';
+    protected $methodCode = 'affirm_gateway';
 
     /**
      * Scope configuration object
@@ -95,6 +95,8 @@ class Config
     ];
 
     /**
+     * Inject scope and store manager object
+     *
      * @param ScopeConfigInterface  $scopeConfig
      * @param StoreManagerInterface $storeManager
      */
@@ -102,7 +104,6 @@ class Config
     {
         $this->scopeConfig = $scopeConfig;
         $this->storeManager = $storeManager;
-        $currentWebsiteId = $storeManager->getStore()->getWebsiteId();
     }
 
     /**
@@ -113,7 +114,7 @@ class Config
      *
      * @return mixed
      */
-    protected function getConfigData($field, $storeId = null)
+    public function getConfigData($field, $storeId = null)
     {
         if ($storeId == null) {
             $storeId = $this->storeId;
@@ -356,9 +357,10 @@ class Config
      * @param $position
      * @return int|mixed
      */
-    public function isAslowasEnabled($position)
+    public function isAsLowAsEnabled($position)
     {
         $flag = $this->scopeConfig->getValue('affirm/' . self::KEY_ASLOWAS . '/' . 'enabled_' . $position);
         return $flag ? $flag: 0;
     }
+
 }
