@@ -42,7 +42,8 @@ define(["underscore",
                 total: _self.total,
                 shipping: _self.prepareAddress('shipping'),
                 billing: _self.prepareAddress('billing'),
-                discounts: _self.discounts
+                discounts: _self.discounts,
+                metadata: _self.metadata
             }
         },
 
@@ -65,6 +66,18 @@ define(["underscore",
         },
 
         /**
+         * Init metadata
+         */
+        initMetadata: function() {
+            if (!this.metadata) {
+                this.metadata = {
+                    "shipping_type": quote.shippingMethod().carrier_title
+                };
+            }
+
+        },
+
+        /**
          * Set order id
          *
          * @param orderId
@@ -80,15 +93,9 @@ define(["underscore",
          */
         prepareTotals: function() {
             var totals = quote.getTotals()();
-            if (totals.base_shipping_amount) {
-                this.shippingAmount = this.convertPriceToCents(totals.base_shipping_amount);
-            }
-            if (totals.base_grand_total) {
-                this.total = this.convertPriceToCents(totals.base_grand_total);
-            }
-            if (totals.base_tax_amount) {
-                this.tax_amount = this.convertPriceToCents(totals.base_tax_amount);
-            }
+            this.shippingAmount = this.convertPriceToCents(totals.base_shipping_amount);
+            this.total = this.convertPriceToCents(totals.base_grand_total);
+            this.tax_amount = this.convertPriceToCents(totals.base_tax_amount);
         },
 
         /**
@@ -99,7 +106,8 @@ define(["underscore",
          */
         convertPriceToCents: function(price) {
             if (price && price > 0) {
-                return price * 100;
+                price = Math.round(price*100);
+                return price;
             }
             return 0;
         },
@@ -144,8 +152,8 @@ define(["underscore",
             }
             if (!customer.isLoggedIn()) {
                 result.email = quote.guestEmail;
-            } else if (address.email) {
-                result.email = address.email;
+            } else if (customer.customerData.email) {
+                result.email = customer.customerData.email;
             }
             return result;
         },
