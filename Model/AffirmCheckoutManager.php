@@ -116,9 +116,10 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
         $this->quote->reserveOrderId();
         $orderIncrementId = $this->quote->getReservedOrderId();
         $discountAmount = $this->quote->getBaseSubtotal() - $this->quote->getBaseSubtotalWithDiscount();
+        $shippingAddress = $this->quote->getShippingAddress();
+
         $response = [];
         if ($discountAmount > 0.001) {
-            $shippingAddress = $this->quote->getShippingAddress();
             $discountDescription = $shippingAddress->getDiscountDescription();
             $discountDescription = ($discountDescription) ? sprintf(__('Discount (%s)'), $discountDescription) :
                 sprintf(__('Discount'));
@@ -127,6 +128,7 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
             ];
         }
         try {
+            $isVirtual = $this->quote->getIsVirtual();
             $country = $this
                 ->quote
                 ->getBillingAddress()
@@ -138,6 +140,10 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
             if (!$result) {
                 throw new \Magento\Framework\Exception\LocalizedException(
                     __('Your billing country isn\'t allowed by Affirm.')
+                );
+            } elseif ($isVirtual) {
+                throw new \Magento\Framework\Exception\LocalizedException(
+                    __('You can\'t buy virtual or downloadable type of products with Affirm.')
                 );
             }
         } catch (Exception $e) {
