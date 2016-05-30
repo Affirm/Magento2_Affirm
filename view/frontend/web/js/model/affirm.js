@@ -32,6 +32,7 @@ define(["underscore",
             var _self = this;
             this.prepareItems();
             this.prepareTotals();
+            this.initMetadata();
             return {
                 merchant: _self.merchant,
                 config: _self.config,
