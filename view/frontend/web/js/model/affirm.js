@@ -70,7 +70,7 @@ define(["underscore",
          * Init metadata
          */
         initMetadata: function() {
-            if (!this.metadata) {
+            if (!this.metadata && quote.shippingMethod()) {
                 this.metadata = {
                     "shipping_type": quote.shippingMethod().carrier_title
                 };
