@@ -18,7 +18,7 @@
 
 namespace Astound\Affirm\Block\Promotion\CartPage;
 
-use Astound\Affirm\Block\Promotion\AsLowAsAbstract;
+use Astound\Affirm\Block\Promotion\AslowasAbstract;
 use Astound\Affirm\Model\Ui\ConfigProvider;
 use Magento\Framework\View\Element\Template;
 use Magento\Checkout\Model\Session;
