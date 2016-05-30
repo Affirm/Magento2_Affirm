@@ -28,7 +28,7 @@ use Magento\Checkout\Model\Session;
  *
  * @package Astound\Affirm\Block\Promotion\CartPage
  */
-class AsLowAs extends AsLowAsAbstract
+class Aslowas extends AslowasAbstract
 {
     /**
      * Checkout session

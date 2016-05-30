@@ -26,7 +26,7 @@ use Astound\Affirm\Model\Ui\ConfigProvider;
  *
  * @package Astound\Affirm\Block\Promotion\ProductPage
  */
-class AsLowAs extends AsLowAsAbstract
+class Aslowas extends AslowasAbstract
 {
     /**
      * As low as data

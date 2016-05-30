@@ -27,7 +27,7 @@ use Astound\Affirm\Model\Ui\ConfigProvider;
  *
  * @package Astound\Affirm\Block\Promotion
  */
-abstract class AsLowAsAbstract extends \Magento\Framework\View\Element\Template
+abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
 {
     /**
      * Data which should be converted to json from the Block data.

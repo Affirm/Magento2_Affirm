@@ -21,7 +21,7 @@
     <body>
         <referenceContainer name="checkout.cart.methods">
             <block class="Astound\Affirm\Block\Onepage\AffirmButton" name="affirm.cart.shortcut.buttons" before="checkout.cart.methods.multishipping" />
-            <block class="Astound\Affirm\Block\Promotion\CartPage\AsLowAs" name="aslowas.checkout.cart.widget" template="Astound_Affirm::promotion/aslowasCart.phtml" after="product.info.price">
+            <block class="Astound\Affirm\Block\Promotion\CartPage\Aslowas" name="aslowas.checkout.cart.widget" template="Astound_Affirm::promotion/aslowasCart.phtml" after="product.info.price">
                 <arguments>
                     <argument name="position" xsi:type="string">cc</argument>
                 </arguments>
