@@ -128,7 +128,6 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
             ];
         }
         try {
-            $isVirtual = $this->quote->getIsVirtual();
             $country = $this
                 ->quote
                 ->getBillingAddress()
@@ -140,10 +139,6 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
             if (!$result) {
                 throw new \Magento\Framework\Exception\LocalizedException(
                     __('Your billing country isn\'t allowed by Affirm.')
-                );
-            } elseif ($isVirtual) {
-                throw new \Magento\Framework\Exception\LocalizedException(
-                    __('You can\'t buy virtual or downloadable type of products with Affirm.')
                 );
             }
         } catch (Exception $e) {
