@@ -42,7 +42,7 @@ class Aslowas extends AslowasAbstract
      */
     public function validate()
     {
-        if ($this->isAllowed($this->position) && $this->affirmPaymentConfig->getConfigData('active')) {
+        if ($this->affirmPaymentConfig->getConfigData('active')) {
             return true;
         }
         return false;

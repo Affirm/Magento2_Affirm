@@ -200,7 +200,8 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
      */
     protected function _toHtml()
     {
-        if ($this->validate()) {
+        $isAllowed = $this->isAllowed($this->position);
+        if ($this->validate() && $isAllowed) {
             return parent::_toHtml();
         }
         return '';
