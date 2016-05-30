@@ -101,7 +101,6 @@ class Config
     {
         $this->scopeConfig = $scopeConfig;
         $this->storeManager = $storeManager;
-        $currentWebsiteId = $storeManager->getStore()->getWebsiteId();
     }
 
     /**
@@ -119,7 +118,8 @@ class Config
         }
         $code = $this->methodCode;
         $path = 'payment/' . $code . '/' . $field;
-        return $this->scopeConfig->getValue($path, ScopeInterface::SCOPE_STORE, $storeId);
+        $res = $this->scopeConfig->getValue($path, ScopeInterface::SCOPE_STORE, $storeId);
+        return $res;
     }
 
     /**
@@ -249,19 +249,28 @@ class Config
      *
      * @return mixed
      */
-    public function getApiUrlSandbox()
+    public function getApiUrl()
     {
-        return $this->getConfigData(self::KEY_API_URL_SANDBOX);
+        return ($this->getMode() == 'sandbox')?
+            $this->getConfigData(self::KEY_API_URL_SANDBOX):
+            $this->getConfigData(self::KEY_API_URL_PRODUCTION);
     }
 
     /**
-     * Retrieve api url production
+     * Get script uri
      *
-     * @return mixed
+     * @return string
      */
-    public function getApiUrlProduction()
+    public function getScript()
     {
-        return $this->getConfigData(self::KEY_API_URL_PRODUCTION);
+        if ($this->getConfigData('mode') == 'sandbox') {
+            $prefix = "cdn1-";
+            $apiString = preg_replace('~(http|https)://~', '', $this->getApiUrl());
+            return "https://" . $prefix . $apiString . "/js/v2/affirm.js";
+        } else {
+            $apiUrl = $this->getApiUrl();
+            return $apiUrl . '/js/v2/affirm.js';
+        }
     }
 
     /**
