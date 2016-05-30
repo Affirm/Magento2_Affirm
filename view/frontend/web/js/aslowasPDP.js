@@ -23,7 +23,7 @@ define(["jquery",
         initPrice: function() {
             var price = $(this.element)
                 .parent()
-                .find('.price-final_price .price')
+                .find("[data-price-type='finalPrice']")
                 .text();
             if (price) {
                 aslowas.process(price, this.options);
@@ -38,6 +38,7 @@ define(["jquery",
         _create: function() {
             self = this;
             var priceBox = $(selector);
+
             $.when(aslowas.loadScript(self.options)).done(function() {
                 self.initPrice();
                 priceBox.on('updatePrice', self.updatePriceHandler);
@@ -59,7 +60,7 @@ define(["jquery",
                 //get first element from the array
                 currentElement = $(self.element).get(0);
                 if ($.contains(priceInfo, currentElement)) {
-                    price = el[0].innerText;
+                    price = $(el[0]).find("[data-price-type='finalPrice']").text();
                     aslowas.process(price, self.options);
                 }
             }
