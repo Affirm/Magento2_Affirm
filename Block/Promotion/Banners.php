@@ -66,13 +66,6 @@ class Banners extends \Magento\Framework\View\Element\Template
     protected $affirmPaymentConfig;
 
     /**
-     * Affirm payment model instance
-     *
-     * @var \Astound\Affirm\Helper\Payment
-     */
-    protected $helper;
-
-    /**
      * Inject all needed objects
      *
      * @param Template\Context $context
@@ -84,7 +77,6 @@ class Banners extends \Magento\Framework\View\Element\Template
         Template\Context $context,
         \Astound\Affirm\Model\Config $configAffirm,
         \Astound\Affirm\Model\Ui\ConfigProvider $configProvider,
-        \Astound\Affirm\Helper\Payment $helper,
         array $data = []
     ) {
 
@@ -93,7 +85,6 @@ class Banners extends \Magento\Framework\View\Element\Template
         $this->position = isset($data['position']) ? $data['position']: '';
         $this->section = isset($data['section']) ? $data['section']: 0;
         $this->configProvider = $configProvider;
-        $this->helper = $helper;
     }
 
     /**
@@ -123,7 +114,7 @@ class Banners extends \Magento\Framework\View\Element\Template
      */
     protected function _toHtml()
     {
-        if (!$this->getIsActive() || $this->helper->isTurnOffFunctionality()) {
+        if (!$this->getIsActive()) {
             return '';
         }
         $display  = $this->affirmPaymentConfig->getBmlDisplay($this->section);
