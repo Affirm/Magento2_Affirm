@@ -53,7 +53,7 @@ class Config
      *
      * @var string
      */
-    protected $methodCode = 'affirm';
+    protected $methodCode = 'affirm_gateway';
 
     /**
      * Scope configuration object
