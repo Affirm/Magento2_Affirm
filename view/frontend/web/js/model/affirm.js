@@ -4,7 +4,8 @@
  */
 /*jshint browser:true jquery:true*/
 /*global alert*/
-define(["underscore",
+define([
+    "underscore",
     "Magento_Checkout/js/model/quote",
     "mage/url",
     'Magento_Customer/js/model/customer'

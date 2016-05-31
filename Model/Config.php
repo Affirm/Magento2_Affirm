@@ -46,6 +46,7 @@ class Config
     const KEY_API_URL_SANDBOX = 'api_url_sandbox';
     const KEY_API_URL_PRODUCTION = 'api_url_production';
     const METHOD_BML = 'affirm_promo';
+    const KEY_ASLOWAS = 'affirm_aslowas';
     /**#@-*/
 
     /**
@@ -94,6 +95,8 @@ class Config
     ];
 
     /**
+     * Inject scope and store manager object
+     *
      * @param ScopeConfigInterface  $scopeConfig
      * @param StoreManagerInterface $storeManager
      */
@@ -111,7 +114,7 @@ class Config
      *
      * @return mixed
      */
-    protected function getConfigData($field, $storeId = null)
+    public function getConfigData($field, $storeId = null)
     {
         if ($storeId == null) {
             $storeId = $this->storeId;
@@ -363,4 +366,17 @@ class Config
     {
         return $this->storeManager->getStore()->getWebsiteId();
     }
+
+    /**
+     * Aslow as activation flag
+     *
+     * @param $position
+     * @return int|mixed
+     */
+    public function isAsLowAsEnabled($position)
+    {
+        $flag = $this->scopeConfig->getValue('affirm/' . self::KEY_ASLOWAS . '/' . 'enabled_' . $position);
+        return $flag ? $flag: 0;
+    }
+
 }

@@ -1,4 +1,5 @@
-<?php
+<?xml version="1.0"?>
+<!--
 /**
  * Astound
  * NOTICE OF LICENSE
@@ -15,27 +16,16 @@
  * @copyright Copyright (c) 2016 Astound, Inc. (http://www.astoundcommerce.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
-namespace Astound\Affirm\Api;
-
-/**
- * Interface GiftWrapManagerInterface
- *
- * @package Astound\Affirm\Api
- */
-interface GiftWrapManagerInterface
-{
-    /**
-     * Retrieve all gift wrap items
-     *
-     * @return mixed
-     */
-    public function getWrapItems();
-
-    /**
-     * Retrieve printed card item
-     *
-     * @return mixed
-     */
-    public function getPrintedCardItem();
-}
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="bundle.summary">
+            <block class="Astound\Affirm\Block\Promotion\ProductPage\Aslowas" name="aslowas.bundle" template="Astound_Affirm::promotion/aslowasPDP.phtml" after="-">
+                <arguments>
+                    <argument name="position" xsi:type="string">pdp</argument>
+                    <argument name="type" xsi:type="string">bundle</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+    </body>
+</page>

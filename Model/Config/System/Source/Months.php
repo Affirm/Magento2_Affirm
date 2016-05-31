@@ -16,26 +16,28 @@
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-namespace Astound\Affirm\Api;
+namespace Astound\Affirm\Model\Config\System\Source;
+
+use \Magento\Framework\Option\ArrayInterface;
 
 /**
- * Interface GiftWrapManagerInterface
+ * Class Months
  *
- * @package Astound\Affirm\Api
+ * @package Astound\Affirm\Model\Config\System\Source
  */
-interface GiftWrapManagerInterface
+class Months implements ArrayInterface
 {
     /**
-     * Retrieve all gift wrap items
+     * Get month list
      *
-     * @return mixed
+     * @return array
      */
-    public function getWrapItems();
-
-    /**
-     * Retrieve printed card item
-     *
-     * @return mixed
-     */
-    public function getPrintedCardItem();
+    public function toOptionArray()
+    {
+        return [
+            3  => "3",
+            6  => "6",
+            12 => "12"
+        ];
+    }
 }

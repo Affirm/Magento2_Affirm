@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="sidebar.main">
+            <block class="Astound\Affirm\Block\Promotion\Banners" name="bml.right.banner.top" template="Astound_Affirm::promotion/bml.phtml" before="-">
+                <arguments>
+                    <argument name="section" xsi:type="string">category</argument>
+                    <argument name="position" xsi:type="number">2</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+    </body>
+</page>
