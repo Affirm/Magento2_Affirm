@@ -33,6 +33,7 @@ define([
             var _self = this;
             this.prepareItems();
             this.prepareTotals();
+            this.initMetadata();
             return {
                 merchant: _self.merchant,
                 config: _self.config,
@@ -43,7 +44,8 @@ define([
                 total: _self.total,
                 shipping: _self.prepareAddress('shipping'),
                 billing: _self.prepareAddress('billing'),
-                discounts: _self.discounts
+                discounts: _self.discounts,
+                metadata: _self.metadata
             }
         },
 
@@ -66,6 +68,18 @@ define([
         },
 
         /**
+         * Init metadata
+         */
+        initMetadata: function() {
+            if (!this.metadata && quote.shippingMethod()) {
+                this.metadata = {
+                    "shipping_type": quote.shippingMethod().carrier_title
+                };
+            }
+
+        },
+
+        /**
          * Set order id
          *
          * @param orderId
@@ -81,15 +95,9 @@ define([
          */
         prepareTotals: function() {
             var totals = quote.getTotals()();
-            if (totals.base_shipping_amount) {
-                this.shippingAmount = this.convertPriceToCents(totals.base_shipping_amount);
-            }
-            if (totals.base_grand_total) {
-                this.total = this.convertPriceToCents(totals.base_grand_total);
-            }
-            if (totals.base_tax_amount) {
-                this.tax_amount = this.convertPriceToCents(totals.base_tax_amount);
-            }
+            this.shippingAmount = this.convertPriceToCents(totals.base_shipping_amount);
+            this.total = this.convertPriceToCents(totals.base_grand_total);
+            this.tax_amount = this.convertPriceToCents(totals.base_tax_amount);
         },
 
         /**
@@ -100,7 +108,8 @@ define([
          */
         convertPriceToCents: function(price) {
             if (price && price > 0) {
-                return price * 100;
+                price = Math.round(price*100);
+                return price;
             }
             return 0;
         },
@@ -145,8 +154,8 @@ define([
             }
             if (!customer.isLoggedIn()) {
                 result.email = quote.guestEmail;
-            } else if (address.email) {
-                result.email = address.email;
+            } else if (customer.customerData.email) {
+                result.email = customer.customerData.email;
             }
             return result;
         },
