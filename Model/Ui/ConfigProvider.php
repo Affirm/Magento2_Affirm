@@ -23,6 +23,7 @@ use Magento\Checkout\Model\ConfigProviderInterface;
 use Magento\Payment\Gateway\ConfigInterface;
 use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Framework\App\ProductMetadataInterface;
+use Astound\Affirm\Model\Config as ConfigAffirm;
 
 /**
  * Class ConfigProvider
@@ -39,6 +40,13 @@ class ConfigProvider implements ConfigProviderInterface
     const SUCCESS = 0;
     const FRAUD = 1;
     /**#@-*/
+
+    /**
+     * Affirm config model
+     *
+     * @var \Astound\Affirm\Model\Config
+     */
+    protected $affirmConfig;
 
     /**
      * Injected config object
@@ -62,23 +70,26 @@ class ConfigProvider implements ConfigProviderInterface
     protected $productMetadata;
 
     /**
-     * Inject all config data
+     * Inject all needed object for getting data from config
      *
      * @param ConfigInterface          $config
      * @param UrlInterface             $urlInterface
      * @param CheckoutSession          $checkoutSession
      * @param ProductMetadataInterface $productMetadata
+     * @param ConfigAffirm             $configAffirm
      */
     public function __construct(
         ConfigInterface $config,
         UrlInterface $urlInterface,
         CheckoutSession $checkoutSession,
-        ProductMetadataInterface $productMetadata
+        ProductMetadataInterface $productMetadata,
+        ConfigAffirm $configAffirm
     ) {
         $this->config = $config;
         $this->urlBuilder = $urlInterface;
         $this->checkoutSession = $checkoutSession;
         $this->productMetadata = $productMetadata;
+        $this->affirmConfig = $configAffirm;
     }
 
     /**
@@ -98,9 +109,7 @@ class ConfigProvider implements ConfigProviderInterface
                     'apiKeyPublic' => $this->config->getValue('mode') == 'sandbox'
                         ? $this->config->getValue('public_api_key_sandbox'):
                         $this->config->getValue('public_api_key_production'),
-                    'apiUrl' => $this->config->getValue('mode') == 'sandbox'
-                        ? $this->config->getValue('api_url_sandbox'):
-                        $this->config->getValue('api_url_production'),
+                    'apiUrl' => $this->affirmConfig->getApiUrl(),
                     'merchant' => [
                         'user_confirmation_url' => $this->urlBuilder
                                 ->getUrl('affirm/payment/confirm', ['_secure' => true]),
@@ -112,9 +121,7 @@ class ConfigProvider implements ConfigProviderInterface
                                 $this->config->getValue('financial_product_key_sandbox'):
                                 $this->config->getValue('financial_product_key_production')
                     ],
-                    'script' => $this->config->getValue('mode') == 'sandbox'
-                        ? "https://cdn1-sandbox.affirm.com/js/v2/affirm.js" :
-                        "https://api.affirm.com/js/v2/affirm.js",
+                    'script' => $this->affirmConfig->getScript(),
                     'redirectUrl' => $this->urlBuilder->getUrl('affirm/checkout/start', ['_secure' => true]),
                     'afterAffirmConf' => $this->config->getValue('after_affirm_conf'),
                     'logoSrc' => $this->config->getValue('icon'),
