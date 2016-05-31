@@ -263,13 +263,19 @@ class Config
      */
     public function getScript()
     {
-        if ($this->getConfigData('mode') == 'sandbox') {
-            $prefix = "cdn1-";
-            $apiString = preg_replace('~(http|https)://~', '', $this->getApiUrl());
-            return "https://" . $prefix . $apiString . "/js/v2/affirm.js";
-        } else {
-            $apiUrl = $this->getApiUrl();
-            return $apiUrl . '/js/v2/affirm.js';
+        $apiUrl = $this->getApiUrl();
+        $prefix = "cdn1";
+        if ($apiUrl) {
+            if ($this->getConfigData('mode') == 'sandbox') {
+                $pattern = '~(http|https)://~';
+                $replacement = '-';
+            } else {
+                $pattern = '~(http|https)://api~';
+                $replacement = '';
+            }
+            $apiString = preg_replace($pattern, $replacement, $apiUrl);
+            $result = 'https://' . $prefix . $apiString . '/js/v2/affirm.js';
+            return $result;
         }
     }
 
