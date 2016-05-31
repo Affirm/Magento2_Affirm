@@ -32,12 +32,13 @@ use Symfony\Component\Config\Definition\Exception\Exception;
  */
 class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
 {
+
     /**
-     * Gift card code cart key
+     * Gift card id cart key
      *
      * @var string
      */
-    const CODE = 'c';
+    const ID = 'i';
 
     /**
      * Gift card amount cart key
@@ -158,7 +159,7 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
             if ($giftCards) {
                 $giftCards = unserialize($giftCards);
                 foreach ($giftCards as $giftCard) {
-                    $giftCardDiscountDescription = sprintf(__('Gift Card (%s)'), $giftCard[self::CODE]);
+                    $giftCardDiscountDescription = sprintf(__('Gift Card (%s)'), $giftCard[self::ID]);
                     $response['discounts'][$giftCardDiscountDescription] = [
                         'discount_amount' => Util::formatToCents($giftCard[self::AMOUNT])
                     ];
