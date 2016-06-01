@@ -11,23 +11,35 @@ define([
     "Magento_Checkout/js/model/quote",
     "mage/url",
     'Magento_Customer/js/model/customer',
-    "Astound_Affirm/js/model/affirm"
-], function ($, $t, loadScript, fullScreenLoader, quote, url, customer, affirmCheckout) {
+    "Astound_Affirm/js/model/affirm",
+    "Magento_Checkout/js/model/error-processor",
+    'Magento_Ui/js/model/messageList'
+], function ($, $t, loadScript, fullScreenLoader, quote, url, customer, affirmCheckout, errorProcessor, Messages) {
 
     return function(response) {
         fullScreenLoader.startLoader();
-        var result = JSON.parse(response), giftWrapItems = result.wrapped_items, checkoutObj;
+        var result = JSON.parse(response),
+            giftWrapItems = result.wrapped_items,
+            checkoutObj;
 
         affirmCheckout.prepareOrderData(result);
         if (giftWrapItems !== 'undefined') {
             affirmCheckout.addItems(giftWrapItems);
         }
-        affirm.ui.error.on("close", function() {
-            //redirect to checkout cart in case if customer canceled or returned from error pop-up
-            $.mage.redirect(window.checkoutConfig.payment['affirm_gateway'].merchant.user_cancel_url);
-        });
-        checkoutObj = affirmCheckout.getData();
-        affirm.checkout(checkoutObj);
-        affirm.checkout.post();
+        try {
+            affirm.ui.error.on("close", function() {
+                //redirect to checkout cart in case if customer canceled or returned from error pop-up
+                $.mage.redirect(window.checkoutConfig.payment['affirm_gateway'].merchant.user_cancel_url);
+            });
+            checkoutObj = affirmCheckout.getData();
+            affirm.checkout(checkoutObj);
+            affirm.checkout.post();
+        } catch (err) {
+            Messages.addErrorMessage({
+                'message': $t('We have a problem with your affirm script loading,' +
+                    ' please verify your API URL or other options in admin panel.')
+            });
+            fullScreenLoader.stopLoader();
+        }
     }
 });
