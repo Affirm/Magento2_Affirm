@@ -26,7 +26,7 @@
                     <label>Public API Key</label>
                     <depends><field id="mode">sandbox</field></depends>
                 </field>
-                <field id="private_api_key_sandbox" translate="label" type="obscure" sortOrder="40" showInDefault="1" showInWebsite="1">
+                <field id="private_api_key_sandbox" translate="label" type="obscure" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Private API Key</label>
                     <config_path>payment/affirm_gateway/private_api_key_sandbox</config_path>
                     <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
@@ -85,15 +85,15 @@
                     <label>Plain Text Appearance</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="title" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="title" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Title</label>
                     <depends><field id="control">1</field></depends>
                 </field>
-                <field id="icon" translate="label" type="text" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="icon" translate="label" type="text" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Icon</label>
                     <depends><field id="control">0</field></depends>
                 </field>
-                <field id="info" translate="label" type="textarea" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="info" translate="label" type="textarea" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Affirm Payment Method HTML</label>
                     <comment>This field will be showed in checkout on payment section.</comment>
                     <depends><field id="control">0</field></depends>
@@ -108,108 +108,108 @@
                 </field>
             </group>
         </section>
-        <section id="affirm" translate="label" type="text" sortOrder="1200" showInDefault="1" showInWebsite="1" showInStore="1">
+        <section id="affirm" translate="label" type="text" sortOrder="1200" showInDefault="1" showInWebsite="1" showInStore="0">
             <label>Affirm Promos</label>
             <tab>general</tab>
             <resource>Astound_Affirm::configuration</resource>
-            <group id="affirm_promo" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="affirm_promo" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                 <label>General Settings</label>
-                <field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enabled</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="promo_key" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="promo_key" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Affirm Promo Key</label>
                 </field>
             </group>
-            <group id="affirm_promo_homepage" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="affirm_promo_homepage" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
                 <label>Home Page Settings</label>
-                <field id="display" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="display" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Display</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="size" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="size" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Promo Size</label>
                     <source_model>Astound\Affirm\Model\Config\System\Source\Size</source_model>
                 </field>
-                <field id="position" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="position" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Promo Position</label>
                     <source_model>Astound\Affirm\Model\Config\System\Source\Position</source_model>
                 </field>
             </group>
-            <group id="affirm_promo_category" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="affirm_promo_category" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
                 <label>Catalog Category Page Settings</label>
-                <field id="display" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="display" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Display</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="size" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="size" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Promo Size</label>
                     <source_model>Astound\Affirm\Model\Config\System\Source\Size</source_model>
                 </field>
-                <field id="position" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="position" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Promo Position</label>
                     <source_model>Astound\Affirm\Model\Config\System\Source\Position</source_model>
                 </field>
             </group>
-            <group id="affirm_promo_product" translate="label" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="affirm_promo_product" translate="label" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
                 <label>Catalog Product Page Settings</label>
-                <field id="display" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="display" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Display</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="size" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="size" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Promo Size</label>
                     <source_model>Astound\Affirm\Model\Config\System\Source\Size</source_model>
                 </field>
-                <field id="position" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="position" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Promo Position</label>
                     <source_model>Astound\Affirm\Model\Config\System\Source\Position::getBmlPositionsCPP</source_model>
                 </field>
             </group>
-            <group id="affirm_promo_checkout_cart" translate="label" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="affirm_promo_checkout_cart" translate="label" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
                 <label>Checkout Cart Page Settings</label>
-                <field id="display" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="display" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Display</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="size" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="size" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Promo Size</label>
                     <source_model>Astound\Affirm\Model\Config\System\Source\Size</source_model>
                 </field>
-                <field id="position" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="position" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Promo Position</label>
                     <source_model>Astound\Affirm\Model\Config\System\Source\Position::getCCPosition</source_model>
                 </field>
             </group>
-            <group id="affirm_developer" translate="label" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="affirm_developer" translate="label" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
                 <label>Developer settings</label>
-                <field id="homepage_container" translate="label" type="textarea" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="homepage_container" translate="label" type="textarea" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Home page container</label>
                     <comment>
                         <![CDATA[Place html code with "{container}"-tag inside, which will be replaced with your promo block.]]>
                     </comment>
                 </field>
-                <field id="category_container" translate="label" type="textarea" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="category_container" translate="label" type="textarea" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Catalog Category Container</label>
                     <comment>
                         <![CDATA[Place html code with "{container}"-tag inside, which will be replaced with your promo block.]]>
                     </comment>
                 </field>
-                <field id="product_container" translate="label" type="textarea" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="product_container" translate="label" type="textarea" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Catalog Product Container</label>
                     <comment>
                         <![CDATA[Place html code with "{container}"-tag inside, which will be replaced with your promo block.]]>
                     </comment>
                 </field>
-                <field id="checkout_cart_container" translate="label" type="textarea" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="checkout_cart_container" translate="label" type="textarea" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Checkout Cart Container</label>
                     <comment>
                         <![CDATA[Place html code with "{container}"-tag inside, which will be replaced with your promo block.]]>
                     </comment>
                 </field>
             </group>
-            <group id="affirm_aslowas" translate="label" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="affirm_aslowas" translate="label" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0">
                 <label>As Low As Functionality</label>
                 <comment>
                     <![CDATA[Pay attention! Please, specify public key inside Affirm payment method. Stores->Configuration->Sales->Payment Methods->Affirm.
@@ -217,25 +217,25 @@
                     ]]>
                 </comment>
                 <fieldset_css>complex</fieldset_css>
-                <field id="enabled_pdp" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="enabled_pdp" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enable for PDP</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="enabled_cc" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="enabled_cc" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enable for Shopping Cart</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="apr_value" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="apr_value" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Affirm Apr Value</label>
                     <comment>
                         <![CDATA[(Number) [0.00 - 0.99]]]>
                     </comment>
                 </field>
-                <field id="month" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="month" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Affirm Promo Months</label>
                     <source_model>Astound\Affirm\Model\Config\System\Source\Months</source_model>
                 </field>
-                <field id="logo" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="logo" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Affirm logo</label>
                     <source_model>Astound\Affirm\Model\Config\System\Source\Logo</source_model>
                 </field>
