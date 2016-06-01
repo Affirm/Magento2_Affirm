@@ -36,6 +36,11 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 class Payment
 {
     /**
+     * Country code for address validation
+     */
+    const VALIDATE_COUNTRY = 'US';
+
+    /**
      * Affirm payment facade
      *
      * @var \Magento\Payment\Model\Method\Adapter
@@ -171,9 +176,38 @@ class Payment
                 $this->payment,
                 $this->quote
             );
-        if ($check) {
+        if ($check && $this->validateVirtual()) {
             return $this->payment->isAvailable($this->quote);
         }
         return false;
+    }
+
+    /**
+     * Validate for virtual quote and customers address.
+     *
+     * @return boolean
+     */
+    public function validateVirtual()
+    {
+        if ($this->quote->getIsVirtual() && !$this->quote->getCustomerIsGuest()) {
+            $countryId = self::VALIDATE_COUNTRY;
+            // get customer addresses list
+            $addresses = $this->quote->getCustomer()->getAddresses();
+            // get default shipping address for the customer
+            $defaultShipping = $this->quote->getCustomer()->getDefaultShipping();
+            /** @var $address \Magento\Customer\Api\Data\AddressInterface */
+            if ($defaultShipping) {
+                foreach ($addresses as $address) {
+                    if ($address->getId() == $defaultShipping) {
+                        $countryId = $address->getCountryId();
+                        break;
+                    }
+                }
+                if ($countryId != self::VALIDATE_COUNTRY) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
