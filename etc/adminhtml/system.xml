@@ -81,7 +81,7 @@
                     <config_path>payment/affirm_gateway/sort_order</config_path>
                     <frontend_class>validate-number</frontend_class>
                 </field>
-                <field id="control" translate="label" type="select" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="control" translate="label" type="select" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Plain Text Appearance</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>

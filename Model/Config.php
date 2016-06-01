@@ -291,7 +291,8 @@ class Config
     public function getBmlDisplay($section)
     {
         $display = $this->scopeConfig->getValue(
-            'affirm/' . self::METHOD_BML . '_' . $section . '/' . 'display'
+            'affirm/' . self::METHOD_BML . '_' . $section . '/' . 'display',
+            ScopeInterface::SCOPE_WEBSITE
         );
         return $display ? $display : 0;
     }
@@ -305,7 +306,8 @@ class Config
     public function getHtmlContainer($section)
     {
         $container = $this->scopeConfig->getValue(
-            'affirm/' . 'affirm_developer' . '/' . $section . '_container'
+            'affirm/' . 'affirm_developer' . '/' . $section . '_container',
+            ScopeInterface::SCOPE_WEBSITE
         );
         return $container ? $container : 0;
     }
@@ -375,7 +377,10 @@ class Config
      */
     public function isAsLowAsEnabled($position)
     {
-        $flag = $this->scopeConfig->getValue('affirm/' . self::KEY_ASLOWAS . '/' . 'enabled_' . $position);
+        $flag = $this->scopeConfig->getValue(
+            'affirm/' . self::KEY_ASLOWAS . '/' . 'enabled_' . $position,
+            ScopeInterface::SCOPE_WEBSITE
+        );
         return $flag ? $flag: 0;
     }
 
