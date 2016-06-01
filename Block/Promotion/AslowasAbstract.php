@@ -18,9 +18,9 @@
 
 namespace Astound\Affirm\Block\Promotion;
 
-use Magento\Framework\View\Element\AbstractBlock;
 use Magento\Framework\View\Element\Template;
 use Astound\Affirm\Model\Ui\ConfigProvider;
+use Magento\Store\Model\ScopeInterface;
 
 /**
  * Class Aslowas
@@ -157,7 +157,7 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
      */
     public function getMonths()
     {
-        return $this->_scopeConfig->getValue('affirm/affirm_aslowas/month');
+        return $this->_scopeConfig->getValue('affirm/affirm_aslowas/month', ScopeInterface::SCOPE_WEBSITE);
     }
 
     /**
@@ -167,7 +167,7 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
      */
     public function getApr()
     {
-        return $this->_scopeConfig->getValue('affirm/affirm_aslowas/apr_value');
+        return $this->_scopeConfig->getValue('affirm/affirm_aslowas/apr_value', ScopeInterface::SCOPE_WEBSITE);
     }
 
     /**
@@ -177,7 +177,7 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
      */
     public function getLogo()
     {
-        return $this->_scopeConfig->getValue('affirm/affirm_aslowas/logo');
+        return $this->_scopeConfig->getValue('affirm/affirm_aslowas/logo', ScopeInterface::SCOPE_WEBSITE);
     }
 
     /**

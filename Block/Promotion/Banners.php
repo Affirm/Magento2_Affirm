@@ -18,7 +18,7 @@
 
 namespace Astound\Affirm\Block\Promotion;
 
-use Magento\Framework\View\Element\AbstractBlock;
+use Magento\Store\Model\ScopeInterface;
 use Magento\Framework\View\Element\Template;
 use Astound\Affirm\Model\Ui\ConfigProvider;
 use Astound\Affirm\Model\Config;
@@ -94,7 +94,10 @@ class Banners extends \Magento\Framework\View\Element\Template
      */
     protected function getPublisherId()
     {
-        return $this->_scopeConfig->getValue('affirm/affirm_promo/promo_key');
+        return $this->_scopeConfig->getValue(
+            'affirm/affirm_promo/promo_key',
+            ScopeInterface::SCOPE_WEBSITE
+        );
     }
 
     /**
@@ -104,7 +107,10 @@ class Banners extends \Magento\Framework\View\Element\Template
      */
     protected function getIsActive()
     {
-        return $this->_scopeConfig->getValue('affirm/affirm_promo/enabled');
+        return $this->_scopeConfig->getValue(
+            'affirm/affirm_promo/enabled',
+            ScopeInterface::SCOPE_WEBSITE
+        );
     }
 
     /**
