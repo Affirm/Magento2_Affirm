@@ -40,7 +40,9 @@ class PaymentActionsValidator extends AbstractResponseValidator
             && $this->validateTotalAmount($response, $amountInCents);
 
         if (!$validationResult) {
-            $errorMessages = (isset($response[self::ERROR_MESSAGE])) ? [__($response[self::ERROR_MESSAGE])]:
+            $errorMessages = (isset($response[self::ERROR_MESSAGE])) ?
+                [__('Affirm error code:') . $response[self::RESPONSE_CODE] . __(' error: ') .
+                    __($response[self::ERROR_MESSAGE])]:
                 [__('Transaction has been declined, please, try again later.')];
         }
 
