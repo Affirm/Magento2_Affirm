@@ -90,6 +90,19 @@ class AffirmButton extends Template
     }
 
     /**
+     * Show button only if quote isn't virtual at all
+     *
+     * @return string
+     */
+    protected function _toHtml()
+    {
+        if ($this->isAvailable()) {
+            return parent::_toHtml();
+        }
+        return '';
+    }
+
+    /**
      * Get checkout url
      *
      * @return string
