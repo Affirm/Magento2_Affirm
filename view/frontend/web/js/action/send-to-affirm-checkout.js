@@ -36,9 +36,8 @@ define([
             affirm.checkout.post();
         } catch (err) {
             Messages.addErrorMessage({
-                'message': $t('We have a problem with your affirm script loading,' +
-                    ' please verify your API URL or other options in admin panel.')
-            });
+                    'message': $t('We have a problem with your affirm script loading, please verify your API URL!')}
+            );
             fullScreenLoader.stopLoader();
         }
     }
