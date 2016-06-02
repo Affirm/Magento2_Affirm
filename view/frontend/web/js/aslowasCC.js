@@ -33,9 +33,13 @@ define(["jquery",
          */
         _create: function() {
             self = this;
-            $.when(aslowas.loadScript(self.options)).done(function() {
+            if (typeof affirm == "undefined") {
+                $.when(aslowas.loadScript(self.options)).done(function() {
+                    self.initPrice();
+                });
+            } else {
                 self.initPrice();
-            });
+            }
         }
     });
     return $.mage.aslowasCC

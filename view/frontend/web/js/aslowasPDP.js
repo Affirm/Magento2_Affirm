@@ -38,11 +38,15 @@ define(["jquery",
         _create: function() {
             self = this;
             var priceBox = $(selector);
-
-            $.when(aslowas.loadScript(self.options)).done(function() {
+            if (typeof affirm == "undefined") {
+                $.when(aslowas.loadScript(self.options)).done(function() {
+                    self.initPrice();
+                    priceBox.on('updatePrice', self.updatePriceHandler);
+                });
+            } else {
                 self.initPrice();
                 priceBox.on('updatePrice', self.updatePriceHandler);
-            });
+            }
         },
 
         /**
