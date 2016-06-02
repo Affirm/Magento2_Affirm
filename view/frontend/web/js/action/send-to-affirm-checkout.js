@@ -12,9 +12,8 @@ define([
     "mage/url",
     'Magento_Customer/js/model/customer',
     "Astound_Affirm/js/model/affirm",
-    "Magento_Checkout/js/model/error-processor",
     'Magento_Ui/js/model/messageList'
-], function ($, $t, loadScript, fullScreenLoader, quote, url, customer, affirmCheckout, errorProcessor, Messages) {
+], function ($, $t, loadScript, fullScreenLoader, quote, url, customer, affirmCheckout, Messages) {
 
     return function(response) {
         fullScreenLoader.startLoader();
