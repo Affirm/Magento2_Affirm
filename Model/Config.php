@@ -46,6 +46,7 @@ class Config
     const KEY_API_URL_PRODUCTION = 'api_url_production';
     const METHOD_BML = 'affirm_promo';
     const KEY_ASLOWAS = 'affirm_aslowas';
+    const CURRENCY_CODE = 'USD';
     /**#@-*/
 
     /**
@@ -121,6 +122,32 @@ class Config
             return $res;
         }
         return false;
+    }
+
+
+    /**
+     * Is currency valid
+     *
+     * @return bool
+     */
+    public function isCurrencyValid()
+    {
+        $currentCurrency = $this->getCurrentStore()->getBaseCurrencyCode();
+        $isValid = true;
+        if ($currentCurrency != self::CURRENCY_CODE) {
+            $isValid = false;
+        }
+        return $isValid;
+    }
+
+    /**
+     * Get current store
+     *
+     * @return \Magento\Store\Api\Data\StoreInterface
+     */
+    public function getCurrentStore()
+    {
+        return $this->storeManager->getStore();
     }
 
     /**
