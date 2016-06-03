@@ -51,7 +51,7 @@ define([
              */
             hideAsLowAs: function() {
                 var element = document.getElementById('learn-more'),
-                    iText = ('innerText' in a) ? 'innerText' : 'textContent';
+                    iText = ('innerText' in element) ? 'innerText' : 'textContent';
                 element[iText] = "";
                 element.style.visibility = "hidden";
             },
