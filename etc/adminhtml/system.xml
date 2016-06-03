@@ -65,9 +65,11 @@
                 </field>
                 <field id="min_order_total" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Minimum Order Total</label>
+                    <frontend_class>validate-number</frontend_class>
                 </field>
                 <field id="max_order_total" translate="label" type="text" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Maximum Order Total</label>
+                    <frontend_class>validate-number</frontend_class>
                 </field>
                 <field id="sort_order" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Sort Order</label>
@@ -222,6 +224,7 @@
                     <comment>
                         <![CDATA[(Number) [0.00 - 0.99]]]>
                     </comment>
+                    <frontend_class>validate-number</frontend_class>
                 </field>
                 <field id="month" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Affirm Promo Months</label>
