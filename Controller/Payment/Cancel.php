@@ -21,7 +21,7 @@ namespace Astound\Affirm\Controller\Payment;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\App\Action\Action;
-use \Magento\Framework\Controller\Result\RedirectFactory;
+use Magento\Framework\Controller\Result\RedirectFactory;
 
 /**
  * Payment cancel action

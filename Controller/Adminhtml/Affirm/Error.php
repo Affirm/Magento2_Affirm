@@ -18,8 +18,8 @@
 
 namespace Astound\Affirm\Controller\Adminhtml\Affirm;
 
-use \Magento\Backend\App\Action\Context;
-use \Magento\Framework\View\Result\PageFactory;
+use Magento\Backend\App\Action\Context;
+use Magento\Framework\View\Result\PageFactory;
 
 /**
  * Class Error controller for error page

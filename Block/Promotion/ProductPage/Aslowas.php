@@ -18,7 +18,7 @@
 
 namespace Astound\Affirm\Block\Promotion\ProductPage;
 
-use \Astound\Affirm\Block\Promotion\AslowasAbstract;
+use Astound\Affirm\Block\Promotion\AslowasAbstract;
 
 /**
  * Class AsLowAs

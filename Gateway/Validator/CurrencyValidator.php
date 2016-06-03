@@ -17,7 +17,6 @@
  */
 namespace Astound\Affirm\Gateway\Validator;
 
-use Magento\Framework\Exception\NotFoundException;
 use Magento\Payment\Gateway\ConfigInterface;
 use Magento\Payment\Gateway\Validator\ResultInterface;
 use Magento\Payment\Gateway\Validator\ResultInterfaceFactory;

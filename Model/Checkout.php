@@ -18,8 +18,8 @@
 
 namespace Astound\Affirm\Model;
 
-use \Magento\Quote\Api\CartManagementInterface;
-use \Magento\Checkout\Model\Session;
+use Magento\Quote\Api\CartManagementInterface;
+use Magento\Checkout\Model\Session;
 use Magento\Sales\Model\Order\Email\Sender\OrderSender;
 use Magento\Sales\Model\ResourceModel\Report\Order;
 

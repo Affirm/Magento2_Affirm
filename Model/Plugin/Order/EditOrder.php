@@ -18,8 +18,8 @@
 
 namespace Astound\Affirm\Model\Plugin\Order;
 
-use \Magento\Sales\Controller\Adminhtml\Order\Create\Save as SaveAction;
-use \Magento\Framework\Controller\Result\RedirectFactory;
+use Magento\Sales\Controller\Adminhtml\Order\Create\Save as SaveAction;
+use Magento\Framework\Controller\Result\RedirectFactory;
 
 /**
  * Class Create

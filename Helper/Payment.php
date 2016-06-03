@@ -18,11 +18,11 @@
 
 namespace Astound\Affirm\Helper;
 
-use \Magento\Checkout\Model\Session;
+use Magento\Checkout\Model\Session;
 use Magento\Payment\Model\Method\AbstractMethod;
 use Magento\Theme\Model\View\Design;
 use Magento\Store\Model\StoreManagerInterface;
-use \Magento\Catalog\Helper\Image as ImageHelper;
+use Magento\Catalog\Helper\Image as ImageHelper;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 
 /**

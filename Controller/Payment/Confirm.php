@@ -19,13 +19,13 @@
 
 namespace Astound\Affirm\Controller\Payment;
 
-use \Magento\Framework\App\Action\Action;
-use \Magento\Framework\App\Action\Context;
-use \Magento\Framework\App\ResponseInterface;
-use \Magento\Quote\Api\CartManagementInterface;
-use \Magento\Checkout\Model\Session;
-use \Astound\Affirm\Model\Checkout;
-use \Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\App\Action\Action;
+use Magento\Framework\App\Action\Context;
+use Magento\Framework\App\ResponseInterface;
+use Magento\Quote\Api\CartManagementInterface;
+use Magento\Checkout\Model\Session;
+use Astound\Affirm\Model\Checkout;
+use Magento\Framework\Exception\LocalizedException;
 
 /**
  * Class Confirm
