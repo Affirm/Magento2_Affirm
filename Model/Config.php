@@ -110,15 +110,17 @@ class Config
      * Get config data
      *
      * @param      $field
-     * @param null $websiteId
+     * @param null $id
+     * @param string $scope
      * @return mixed
      */
-    public function getConfigData($field, $websiteId = null)
+    public function getConfigData($field, $id = null, $scope = ScopeInterface::SCOPE_STORE)
     {
-        $code = $this->methodCode;
-        $path = 'payment/' . $code . '/' . $field;
-        $res = $this->scopeConfig->getValue($path, ScopeInterface::SCOPE_WEBSITE, $this->getCurrentWebsiteId());
-        return $res;
+        if ($this->methodCode) {
+            $path = 'payment/' . $this->methodCode . '/' . $field;
+            $res = $this->scopeConfig->getValue($path, $scope, $id);
+            return $res;
+        }
     }
 
     /**
@@ -140,7 +142,11 @@ class Config
      */
     public function getPublicKeyProduction()
     {
-        return $this->getConfigData(self::KEY_PUBLIC_KEY_PRODUCTION);
+        return $this->getConfigData(
+            self::KEY_PUBLIC_KEY_PRODUCTION,
+            $this->getCurrentWebsiteId(),
+            ScopeInterface::SCOPE_WEBSITE
+        );
     }
 
     /**
@@ -150,7 +156,11 @@ class Config
      */
     public function getMode()
     {
-        return $this->getConfigData(self::KEY_MODE);
+        return $this->getConfigData(
+            self::KEY_MODE,
+            $this->getCurrentWebsiteId(),
+            ScopeInterface::SCOPE_WEBSITE
+        );
     }
 
     /**
@@ -160,7 +170,11 @@ class Config
      */
     public function getMinimumOrderTotal()
     {
-        return $this->getConfigData(self::KEY_MINIMUM_ORDER_TOTAL);
+        return $this->getConfigData(
+            self::KEY_MINIMUM_ORDER_TOTAL,
+            $this->getCurrentWebsiteId(),
+            ScopeInterface::SCOPE_WEBSITE
+        );
     }
 
     /**
@@ -170,7 +184,11 @@ class Config
      */
     public function getMaximumOrderTotal()
     {
-        return $this->getConfigData(self::KEY_MAXIMUM_ORDER_TOTAL);
+        return $this->getConfigData(
+            self::KEY_MAXIMUM_ORDER_TOTAL,
+            $this->getCurrentWebsiteId(),
+            ScopeInterface::SCOPE_WEBSITE
+        );
     }
 
     /**
@@ -180,7 +198,11 @@ class Config
      */
     public function getPrivateApiKeyProduction()
     {
-        return $this->getConfigData(self::KEY_PRIVATE_KEY_PRODUCTION);
+        return $this->getConfigData(
+            self::KEY_PRIVATE_KEY_PRODUCTION,
+            $this->getCurrentWebsiteId(),
+            ScopeInterface::SCOPE_WEBSITE
+        );
     }
 
     /**
@@ -190,7 +212,11 @@ class Config
      */
     public function getPublicApiKeyProduction()
     {
-        return $this->getConfigData(self::KEY_PUBLIC_KEY_PRODUCTION);
+        return $this->getConfigData(
+            self::KEY_PUBLIC_KEY_PRODUCTION,
+            $this->getCurrentWebsiteId(),
+            ScopeInterface::SCOPE_WEBSITE
+        );
     }
 
     /**
@@ -200,7 +226,11 @@ class Config
      */
     public function getFinancialProductKeyProduction()
     {
-        return $this->getConfigData(self::KEY_FINANCIAL_PRODUCT_KEY_PRODUCTION);
+        return $this->getConfigData(
+            self::KEY_FINANCIAL_PRODUCT_KEY_PRODUCTION,
+            $this->getCurrentWebsiteId(),
+            ScopeInterface::SCOPE_WEBSITE
+        );
     }
 
     /**
@@ -210,17 +240,11 @@ class Config
      */
     public function getFinancialProductKeySandbox()
     {
-        return $this->getConfigData(self::KEY_FINANCIAL_PRODUCT_KEY_SANDBOX);
-    }
-
-    /**
-     * Get public key
-     *
-     * @return mixed
-     */
-    public function getPublicKeySandbox()
-    {
-        return $this->getConfigData(self::KEY_PUBLIC_KEY_SANDBOX);
+        return $this->getConfigData(
+            self::KEY_FINANCIAL_PRODUCT_KEY_SANDBOX,
+            $this->getCurrentWebsiteId(),
+            ScopeInterface::SCOPE_WEBSITE
+        );
     }
 
     /**
@@ -230,7 +254,11 @@ class Config
      */
     public function getPrivateApiKeySandbox()
     {
-        return $this->getConfigData(self::KEY_PRIVATE_KEY_SANDBOX);
+        return $this->getConfigData(
+            self::KEY_PRIVATE_KEY_SANDBOX,
+            $this->getCurrentWebsiteId(),
+            ScopeInterface::SCOPE_WEBSITE
+        );
     }
 
     /**
@@ -240,7 +268,11 @@ class Config
      */
     public function getPublicApiKeySandbox()
     {
-        return $this->getConfigData(self::KEY_PUBLIC_KEY_SANDBOX);
+        return $this->getConfigData(
+            self::KEY_PUBLIC_KEY_SANDBOX,
+            $this->getCurrentWebsiteId(),
+            ScopeInterface::SCOPE_WEBSITE
+        );
     }
 
     /**
@@ -251,8 +283,16 @@ class Config
     public function getApiUrl()
     {
         return ($this->getMode() == 'sandbox')?
-            $this->getConfigData(self::KEY_API_URL_SANDBOX):
-            $this->getConfigData(self::KEY_API_URL_PRODUCTION);
+            $this->getConfigData(
+                self::KEY_API_URL_SANDBOX,
+                $this->getCurrentWebsiteId(),
+                ScopeInterface::SCOPE_WEBSITE
+            ):
+            $this->getConfigData(
+                self::KEY_API_URL_PRODUCTION,
+                $this->getCurrentWebsiteId(),
+                ScopeInterface::SCOPE_WEBSITE
+            );
     }
 
     /**
