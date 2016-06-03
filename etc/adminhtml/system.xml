@@ -20,7 +20,6 @@
                 <field id="mode" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Mode</label>
                     <source_model>Astound\Affirm\Model\Adminhtml\Source\ModeAction</source_model>
-                    <config_path>payment/affirm_gateway/private_api_key</config_path>
                 </field>
                 <field id="public_api_key_sandbox" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Public API Key</label>
@@ -35,12 +34,10 @@
                 </field>
                 <field id="api_url_sandbox" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>API URL</label>
-                    <config_path>payment/affirm_gateway/api_url_sandbox</config_path>
                     <depends><field id="mode">sandbox</field></depends>
                 </field>
                 <field id="financial_product_key_sandbox" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Financial Product Key</label>
-                    <config_path>payment/affirm_gateway/financial_product_key_sandbox</config_path>
                     <depends><field id="mode">sandbox</field></depends>
                 </field>
                 <field id="public_api_key_production" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
@@ -50,25 +47,21 @@
                 </field>
                 <field id="private_api_key_production" translate="label" type="obscure" sortOrder="40" showInDefault="1" showInWebsite="0">
                     <label>Private API Key</label>
-                    <config_path>payment/affirm_gateway/private_api_key_production</config_path>
                     <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                     <attribute type="shared">1</attribute>
                     <depends><field id="mode">production</field></depends>
                 </field>
                 <field id="api_url_production" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>API URL</label>
-                    <config_path>payment/affirm_gateway/api_url_production</config_path>
                     <depends><field id="mode">production</field></depends>
                 </field>
                 <field id="financial_product_key_production" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Financial Product Key</label>
-                    <config_path>payment/affirm_gateway/financial_product_key_production</config_path>
                     <depends><field id="mode">production</field></depends>
                 </field>
                 <field id="payment_action" translate="label" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment Action</label>
                     <source_model>Astound\Affirm\Model\Adminhtml\Source\PaymentAction</source_model>
-                    <config_path>payment/affirm_gateway/payment_action</config_path>
                 </field>
                 <field id="min_order_total" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Minimum Order Total</label>
@@ -78,7 +71,6 @@
                 </field>
                 <field id="sort_order" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Sort Order</label>
-                    <config_path>payment/affirm_gateway/sort_order</config_path>
                     <frontend_class>validate-number</frontend_class>
                 </field>
                 <field id="control" translate="label" type="select" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">

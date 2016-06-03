@@ -16,7 +16,6 @@ define(["jquery",
     $.widget('mage.aslowasPDP',{
         options: {
         },
-
         /**
          * Specify default price
          */

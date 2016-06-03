@@ -107,21 +107,17 @@ class Config
     }
 
     /**
-     * Retrieve information from payment configuration
+     * Get config data
      *
-     * @param string $field
-     * @param null|string $storeId
-     *
+     * @param      $field
+     * @param null $websiteId
      * @return mixed
      */
-    public function getConfigData($field, $storeId = null)
+    public function getConfigData($field, $websiteId = null)
     {
-        if ($storeId == null) {
-            $storeId = $this->storeId;
-        }
         $code = $this->methodCode;
         $path = 'payment/' . $code . '/' . $field;
-        $res = $this->scopeConfig->getValue($path, ScopeInterface::SCOPE_STORE, $storeId);
+        $res = $this->scopeConfig->getValue($path, ScopeInterface::SCOPE_WEBSITE, $this->getCurrentWebsiteId());
         return $res;
     }
 
