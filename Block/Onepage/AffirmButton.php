@@ -20,6 +20,7 @@ namespace Astound\Affirm\Block\Onepage;
 
 use Magento\Framework\View\Element\Template;
 use Astound\Affirm\Helper\Payment;
+use Magento\Store\Model\ScopeInterface;
 
 /**
  * Class AffirmButton
@@ -82,7 +83,10 @@ class AffirmButton extends Template
      */
     public function getButtonImageSrc()
     {
-        $buttonSrc = $this->_scopeConfig->getValue('payment/affirm_gateway/checkout_button_code');
+        $buttonSrc = $this->_scopeConfig->getValue(
+            'payment/affirm_gateway/checkout_button_code',
+            ScopeInterface::SCOPE_WEBSITE
+        );
         if ($buttonSrc) {
             return $buttonSrc;
         }
@@ -129,6 +133,9 @@ class AffirmButton extends Template
      */
     public function isButtonEnabled()
     {
-        return $this->_scopeConfig->getValue('payment/affirm_gateway/enable_checkout_button');
+        return $this->_scopeConfig->getValue(
+            'payment/affirm_gateway/enable_checkout_button',
+            ScopeInterface::SCOPE_WEBSITE
+        );
     }
 }

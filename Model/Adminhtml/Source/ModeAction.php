@@ -18,8 +18,8 @@
 
 namespace Astound\Affirm\Model\Adminhtml\Source;
 
-use \Magento\Framework\Option\ArrayInterface;
-use \Astound\Affirm\Model\Credential;
+use Magento\Framework\Option\ArrayInterface;
+use Astound\Affirm\Model\Credential;
 
 /**
  * Class ModeAction

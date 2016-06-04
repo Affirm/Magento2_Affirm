@@ -41,7 +41,19 @@ define([
                 };
                 if (priceInt > 5000) {
                     self.processAsLowAs(optionsPrice);
+                } else {
+                    self.hideAsLowAs();
                 }
+            },
+
+            /**
+             * Hide As Low As
+             */
+            hideAsLowAs: function() {
+                var element = document.getElementById('learn-more'),
+                    iText = ('innerText' in element) ? 'innerText' : 'textContent';
+                element[iText] = "";
+                element.style.visibility = "hidden";
             },
 
             /**

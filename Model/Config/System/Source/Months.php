@@ -18,7 +18,7 @@
 
 namespace Astound\Affirm\Model\Config\System\Source;
 
-use \Magento\Framework\Option\ArrayInterface;
+use Magento\Framework\Option\ArrayInterface;
 
 /**
  * Class Months

@@ -18,8 +18,8 @@
 
 namespace Astound\Affirm\Model\Adminhtml\Source;
 
-use \Magento\Framework\Option\ArrayInterface;
-use \Magento\Payment\Model\Method\AbstractMethod;
+use Magento\Framework\Option\ArrayInterface;
+use Magento\Payment\Model\Method\AbstractMethod;
 
 /**
  * Class PaymentAction
