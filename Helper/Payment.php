@@ -169,6 +169,9 @@ class Payment
             AbstractMethod::CHECK_USE_FOR_CURRENCY,
             AbstractMethod::CHECK_ORDER_TOTAL_MIN_MAX,
         ];
+        if ($this->quote->getIsVirtual() && !$this->quote->getCustomerId()) {
+            $checkData[] = AbstractMethod::CHECK_USE_FOR_COUNTRY;
+        }
 
         $check = $this->methodSpecificationFactory
             ->create($checkData)
@@ -176,6 +179,7 @@ class Payment
                 $this->payment,
                 $this->quote
             );
+
         if ($check && $this->validateVirtual()) {
             return $this->payment->isAvailable($this->quote);
         }

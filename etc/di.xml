@@ -275,6 +275,9 @@
     <type name="Magento\Sales\Controller\Adminhtml\Order\Edit\Save">
         <plugin name="before-edit-admin" type="Astound\Affirm\Model\Plugin\Order\EditOrder" sortOrder="1"/>
     </type>
+    <type name="Magento\Payment\Model\Checks\CanUseForCountry">
+        <plugin name="payment-validation" type="Astound\Affirm\Model\Plugin\Payment\Checks\CanUseForCountry" sortOrder="1"/>
+    </type>
     <type name="Magento\Sales\Controller\Adminhtml\Order\Create\Save">
         <plugin name="before-create-admin" type="Astound\Affirm\Model\Plugin\Order\Create" sortOrder="1"/>
     </type>
