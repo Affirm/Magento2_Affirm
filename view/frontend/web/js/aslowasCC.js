@@ -19,10 +19,18 @@ define(["jquery",
         /**
          * Specify default price
          */
-        initPrice: function() {
-            var price = quote.getTotals()();
+        initPrice: function(newValue) {
+            var price = quote.getTotals()(), result;
+            if (newValue) {
+                price = newValue;
+            }
             if (price && price.base_grand_total) {
-                aslowas.process(price.base_grand_total, this.options);
+                if (newValue) {
+                    result = price.base_grand_total.toString();
+                } else {
+                    result = price.base_grand_total;
+                }
+                aslowas.process(result, this.options);
             }
         },
 
@@ -40,6 +48,9 @@ define(["jquery",
             } else {
                 self.initPrice();
             }
+            quote.totals.subscribe(function(newValue) {
+                self.initPrice(newValue);
+            });
         }
     });
     return $.mage.aslowasCC
