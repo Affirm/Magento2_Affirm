@@ -15,8 +15,10 @@
  * @copyright Copyright (c) 2016 Astound, Inc. (http://www.astoundcommerce.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+
 namespace Astound\Affirm\Model;
 
+use Magento\Payment\Model\Method\ConfigInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Store\Model\ScopeInterface;
 use Magento\Store\Model\StoreManagerInterface;
@@ -26,7 +28,7 @@ use Magento\Store\Model\StoreManagerInterface;
  *
  * @package Astound\Affirm\Model
  */
-class Config
+class Config implements ConfigInterface
 {
     /**#@+
      * Define constants
@@ -48,6 +50,13 @@ class Config
     const KEY_ASLOWAS = 'affirm_aslowas';
     const CURRENCY_CODE = 'USD';
     /**#@-*/
+
+    /**
+     * Website Id
+     *
+     * @var int
+     */
+    protected $websiteId;
 
     /**
      * Payment code
@@ -76,6 +85,13 @@ class Config
      * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
+
+    /**
+     * Path pattern
+     *
+     * @var $pathPattern
+     */
+    protected $pathPattern;
 
     /**
      * Permissions to config fields
@@ -124,7 +140,6 @@ class Config
         return false;
     }
 
-
     /**
      * Is currency valid
      *
@@ -132,7 +147,8 @@ class Config
      */
     public function isCurrencyValid()
     {
-        $currentCurrency = $this->getCurrentStore()->getBaseCurrencyCode();
+        $currentCurrency = $this->getCurrentStore()
+            ->getBaseCurrencyCode();
         $isValid = true;
         if ($currentCurrency != self::CURRENCY_CODE) {
             $isValid = false;
@@ -163,31 +179,13 @@ class Config
     }
 
     /**
-     * Get public key
-     *
-     * @return mixed
-     */
-    public function getPublicKeyProduction()
-    {
-        return $this->getConfigData(
-            self::KEY_PUBLIC_KEY_PRODUCTION,
-            $this->getCurrentWebsiteId(),
-            ScopeInterface::SCOPE_WEBSITE
-        );
-    }
-
-    /**
      * Get payment method mode
      *
      * @return mixed
      */
     public function getMode()
     {
-        return $this->getConfigData(
-            self::KEY_MODE,
-            $this->getCurrentWebsiteId(),
-            ScopeInterface::SCOPE_WEBSITE
-        );
+        return $this->getValue('mode');
     }
 
     /**
@@ -197,11 +195,7 @@ class Config
      */
     public function getMinimumOrderTotal()
     {
-        return $this->getConfigData(
-            self::KEY_MINIMUM_ORDER_TOTAL,
-            $this->getCurrentWebsiteId(),
-            ScopeInterface::SCOPE_WEBSITE
-        );
+        return $this->getConfigData($this->getWebsiteId());
     }
 
     /**
@@ -211,11 +205,7 @@ class Config
      */
     public function getMaximumOrderTotal()
     {
-        return $this->getConfigData(
-            self::KEY_MAXIMUM_ORDER_TOTAL,
-            $this->getCurrentWebsiteId(),
-            ScopeInterface::SCOPE_WEBSITE
-        );
+        return $this->getValue(self::KEY_MAXIMUM_ORDER_TOTAL);
     }
 
     /**
@@ -223,27 +213,11 @@ class Config
      *
      * @return mixed
      */
-    public function getPrivateApiKeyProduction()
+    public function getPrivateApiKey()
     {
-        return $this->getConfigData(
-            self::KEY_PRIVATE_KEY_PRODUCTION,
-            $this->getCurrentWebsiteId(),
-            ScopeInterface::SCOPE_WEBSITE
-        );
-    }
-
-    /**
-     * Return public api key
-     *
-     * @return mixed
-     */
-    public function getPublicApiKeyProduction()
-    {
-        return $this->getConfigData(
-            self::KEY_PUBLIC_KEY_PRODUCTION,
-            $this->getCurrentWebsiteId(),
-            ScopeInterface::SCOPE_WEBSITE
-        );
+        return ($this->getValue('sandbox'))?
+            $this->getValue(self::KEY_PRIVATE_KEY_SANDBOX):
+            $this->getValue(self::KEY_PRIVATE_KEY_PRODUCTION);
     }
 
     /**
@@ -251,40 +225,11 @@ class Config
      *
      * @return mixed
      */
-    public function getFinancialProductKeyProduction()
+    public function getFinancialProductKey()
     {
-        return $this->getConfigData(
-            self::KEY_FINANCIAL_PRODUCT_KEY_PRODUCTION,
-            $this->getCurrentWebsiteId(),
-            ScopeInterface::SCOPE_WEBSITE
-        );
-    }
-    /**
-     * Return financial product key
-     *
-     * @return mixed
-     */
-    public function getFinancialProductKeySandbox()
-    {
-        return $this->getConfigData(
-            self::KEY_FINANCIAL_PRODUCT_KEY_SANDBOX,
-            $this->getCurrentWebsiteId(),
-            ScopeInterface::SCOPE_WEBSITE
-        );
-    }
-
-    /**
-     * Return private api key
-     *
-     * @return mixed
-     */
-    public function getPrivateApiKeySandbox()
-    {
-        return $this->getConfigData(
-            self::KEY_PRIVATE_KEY_SANDBOX,
-            $this->getCurrentWebsiteId(),
-            ScopeInterface::SCOPE_WEBSITE
-        );
+        return ($this->getValue('mode') == 'sandbox') ?
+            $this->getValue(self::KEY_FINANCIAL_PRODUCT_KEY_SANDBOX):
+            $this->getValue(self::KEY_FINANCIAL_PRODUCT_KEY_PRODUCTION);
     }
 
     /**
@@ -292,13 +237,18 @@ class Config
      *
      * @return mixed
      */
-    public function getPublicApiKeySandbox()
+    public function getPublicApiKey()
     {
-        return $this->getConfigData(
-            self::KEY_PUBLIC_KEY_SANDBOX,
-            $this->getCurrentWebsiteId(),
-            ScopeInterface::SCOPE_WEBSITE
-        );
+        return ($this->getValue('mode'))?
+            $this->getConfigData(
+                self::KEY_PUBLIC_KEY_SANDBOX,
+                $this->getCurrentWebsiteId(),
+                ScopeInterface::SCOPE_WEBSITE
+            ):$this->getConfigData(
+                self::KEY_PRIVATE_KEY_SANDBOX,
+                $this->getCurrentWebsiteId(),
+                ScopeInterface::SCOPE_WEBSITE
+            );
     }
 
     /**
@@ -309,16 +259,8 @@ class Config
     public function getApiUrl()
     {
         return ($this->getMode() == 'sandbox')?
-            $this->getConfigData(
-                self::KEY_API_URL_SANDBOX,
-                $this->getCurrentWebsiteId(),
-                ScopeInterface::SCOPE_WEBSITE
-            ):
-            $this->getConfigData(
-                self::KEY_API_URL_PRODUCTION,
-                $this->getCurrentWebsiteId(),
-                ScopeInterface::SCOPE_WEBSITE
-            );
+            $this->getValue(self::KEY_API_URL_SANDBOX):
+            $this->getValue(self::KEY_API_URL_PRODUCTION);
     }
 
     /**
@@ -331,7 +273,7 @@ class Config
         $apiUrl = $this->getApiUrl();
         $prefix = "cdn1";
         if ($apiUrl) {
-            if ($this->getConfigData('mode') == 'sandbox') {
+            if ($this->getValue('mode') == 'sandbox') {
                 $pattern = '~(http|https)://~';
                 $replacement = '-';
             } else {
@@ -355,7 +297,8 @@ class Config
     {
         $display = $this->scopeConfig->getValue(
             'affirm/' . self::METHOD_BML . '_' . $section . '/' . 'display',
-            ScopeInterface::SCOPE_WEBSITE
+            ScopeInterface::SCOPE_WEBSITE,
+            $this->getWebsiteId()
         );
         return $display ? $display : 0;
     }
@@ -402,7 +345,7 @@ class Config
         $size = $this->scopeConfig->getValue(
             'affirm/' . self::METHOD_BML . '_' . $section . '/' . 'size',
             ScopeInterface::SCOPE_WEBSITE,
-            $this->getCurrentWebsiteId()
+            $this->getWebsiteId()
         );
         return $size ? $size : 0;
     }
@@ -416,9 +359,9 @@ class Config
     {
         return $this->scopeConfig
             ->getValue(
-                'affirm/affirm_promo/promo_key',
+                'affirm/' . self::METHOD_BML . '/promo_key',
                 ScopeInterface::SCOPE_WEBSITE,
-                $this->getCurrentWebsiteId()
+                $this->getWebsiteId()
             );
     }
 
@@ -445,5 +388,84 @@ class Config
             ScopeInterface::SCOPE_WEBSITE
         );
         return $flag ? $flag: 0;
+    }
+
+    /**
+     * Returns payment configuration value
+     *
+     * @param string $key
+     * @param null   $storeId
+     * @return mixed
+     */
+    public function getValue($key, $storeId = null)
+    {
+        $underscored = strtolower(preg_replace('/(.)([A-Z])/', "$1_$2", $key));
+        $path = $this->_getSpecificConfigPath($underscored);
+        if ($path !== null) {
+            $value = $this->scopeConfig->getValue(
+                $path,
+                ScopeInterface::SCOPE_WEBSITE,
+                $this->getWebsiteId()
+            );
+            return $value;
+        }
+        return false;
+    }
+
+    /**
+     * Sets method code
+     *
+     * @param string $methodCode
+     * @return void
+     */
+    public function setMethodCode($methodCode)
+    {
+        $this->methodCode = $methodCode;
+    }
+
+    /**
+     * Sets path pattern
+     *
+     * @param string $pathPattern
+     * @return void
+     */
+    public function setPathPattern($pathPattern)
+    {
+        $this->pathPattern = $pathPattern;
+    }
+
+    /**
+     * Map any supported payment method into a config path by specified field name
+     *
+     * @param string $fieldName
+     * @return string|null
+     */
+    protected function _getSpecificConfigPath($fieldName)
+    {
+        if ($this->pathPattern) {
+            return sprintf($this->pathPattern, $this->methodCode, $fieldName);
+        }
+
+        return "payment/{$this->methodCode}/{$fieldName}";
+    }
+
+    /**
+     * Set website id
+     *
+     * @param $websiteId
+     */
+    public function setWebsiteId($websiteId)
+    {
+        $this->websiteId = $websiteId;
+    }
+
+    /**
+     * Get website id
+     *
+     * @return int
+     */
+    public function getWebsiteId()
+    {
+        return $this->websiteId;
     }
 }

@@ -106,9 +106,7 @@ class ConfigProvider implements ConfigProviderInterface
                         self::SUCCESS => __('Success'),
                         self::FRAUD => __('Fraud')
                     ],
-                    'apiKeyPublic' => $this->config->getValue('mode') == 'sandbox'
-                        ? $this->config->getValue('public_api_key_sandbox'):
-                        $this->config->getValue('public_api_key_production'),
+                    'apiKeyPublic' => $this->affirmConfig->getPublicApiKey(),
                     'apiUrl' => $this->affirmConfig->getApiUrl(),
                     'merchant' => [
                         'user_confirmation_url' => $this->urlBuilder
@@ -117,17 +115,14 @@ class ConfigProvider implements ConfigProviderInterface
                                 ->getUrl('affirm/payment/cancel', ['_secure' => true]),
                     ],
                     'config' => [
-                        'financial_product_key' => $this->config->getValue('mode') == 'sandbox' ?
-                                $this->config->getValue('financial_product_key_sandbox'):
-                                $this->config->getValue('financial_product_key_production')
+                        'financial_product_key' => $this->affirmConfig->getFinancialProductKey()
                     ],
                     'script' => $this->affirmConfig->getScript(),
                     'redirectUrl' => $this->urlBuilder->getUrl('affirm/checkout/start', ['_secure' => true]),
                     'afterAffirmConf' => $this->config->getValue('after_affirm_conf'),
                     'logoSrc' => $this->config->getValue('icon'),
                     'info' => $this->config->getValue('info'),
-                    'visibleType' => $this->config->getValue('control') ? true: false,
-                    'edition' => $this->productMetadata->getEdition() ? true: false
+                    'visibleType' => $this->config->getValue('control') ? true: false
                 ]
             ]
         ];

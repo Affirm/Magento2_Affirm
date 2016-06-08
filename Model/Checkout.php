@@ -22,6 +22,8 @@ use Magento\Quote\Api\CartManagementInterface;
 use Magento\Checkout\Model\Session;
 use Magento\Sales\Model\Order\Email\Sender\OrderSender;
 use Magento\Sales\Model\ResourceModel\Report\Order;
+use Magento\Customer\Api\Data\CustomerInterface as CustomerDataObject;
+use Astound\Affirm\Model\Config as AffirmConfig;
 
 /**
  * Class Checkout for Affirm
@@ -31,6 +33,13 @@ use Magento\Sales\Model\ResourceModel\Report\Order;
  */
 class Checkout
 {
+    /**
+     * Customer ID
+     *
+     * @var int
+     */
+    protected $customerId;
+
     /**
      * Checkout session object
      *
@@ -80,21 +89,27 @@ class Checkout
      */
     protected $orderSender;
 
+
+    protected $config;
+
     /**
-     * Init objects
+     * Init config object
      *
-     * @param CartManagementInterface                   $cartManagement
-     * @param Session                                   $checkoutSession
-     * @param \Magento\Customer\Model\Session           $customerSession
-     * @param \Magento\Checkout\Helper\Data             $checkoutData
-     * @param OrderSender                               $orderSender
+     * @param CartManagementInterface         $cartManagement
+     * @param Session                         $checkoutSession
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Checkout\Helper\Data   $checkoutData
+     * @param OrderSender                     $orderSender
+     * @param array                           $params
      */
     public function __construct(
         CartManagementInterface $cartManagement,
         Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Helper\Data $checkoutData,
-        OrderSender $orderSender
+        OrderSender $orderSender,
+        AffirmConfig $config,
+        $params = array()
     ) {
         $this->checkoutSession = $checkoutSession;
         $this->quoteManagement = $cartManagement;
@@ -102,6 +117,16 @@ class Checkout
         $this->customerSession = $customerSession;
         $this->checkoutData = $checkoutData;
         $this->orderSender = $orderSender;
+        $this->config = $config;
+        if (isset($params['quote'])) {
+            $this->quote = $params['quote'];
+        }
+        if (isset($params['config']) && $params['config'] instanceof AffirmConfig) {
+            $this->config = $params['config'];
+        }
+
+        $this->_customerSession = isset($params['session'])
+        && $params['session'] instanceof \Magento\Customer\Model\Session ? $params['session'] : $customerSession;
     }
 
     /**
@@ -204,12 +229,25 @@ class Checkout
         $this->quote->getBillingAddress()->setShouldIgnoreValidation(true);
         if (!$this->quote->getIsVirtual()) {
             $this->quote->getShippingAddress()->setShouldIgnoreValidation(true);
-            if (!$this->quote->getValue('requireBillingAddress')
+            if (!$this->config->getValue('requireBillingAddress')
                 && !$this->quote->getBillingAddress()->getEmail()
             ) {
                 $this->quote->getBillingAddress()->setSameAsBilling(1);
             }
         }
+    }
+
+    /**
+     * Setter for customer
+     *
+     * @param CustomerDataObject $customerData
+     * @return $this
+     */
+    public function setCustomerData(CustomerDataObject $customerData)
+    {
+        $this->quote->assignCustomer($customerData);
+        $this->customerId = $customerData->getId();
+        return $this;
     }
 
     /**
@@ -235,5 +273,23 @@ class Checkout
             $payment->setAdditionalInformation('checkout_token', $token);
             $payment->save();
         }
+    }
+
+    /**
+     * Setter for customer with billing and shipping address changing ability
+     *
+     * @param CustomerDataObject $customerData
+     * @param Address|null $billingAddress
+     * @param Address|null $shippingAddress
+     * @return $this
+     */
+    public function setCustomerWithAddressChange(
+        CustomerDataObject $customerData,
+        $billingAddress = null,
+        $shippingAddress = null
+    ) {
+        $this->quote->assignCustomerWithAddressChange($customerData, $billingAddress, $shippingAddress);
+        $this->customerId = $customerData->getId();
+        return $this;
     }
 }
