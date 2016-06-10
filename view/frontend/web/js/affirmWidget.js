@@ -2,47 +2,34 @@
  * Copyright © 2016 Astound. All rights reserved.
  * See COPYING.txt for license details.
  */
+
 /*jshint jquery:true*/
 define([
     "jquery",
-    "jquery/ui",
-    "Astound_Affirm/js/model/aslowas"
-], function ($) {
+    "Astound_Affirm/js/model/aslowas",
+    "jquery/ui"
+], function ($, aslowas) {
 
     "use strict"
 
     $.widget('mage.affirmWidget', {
+
+        /**
+         * Widget options
+         */
         options: {},
+
+        /**
+         * Init widget method
+         *
+         * @private
+         */
         _create: function() {
             if (typeof affirm == "undefined") {
-                (function(l, g, m, e, a, f, b) {
-                    var d, c = l[m] || {},
-                        h = document.createElement(f),
-                        n = document.getElementsByTagName(f)[0],
-                        k = function(a, b, c) {
-                        return function() {
-                            a[b]._.push([c, arguments])
-                        }
-                    };
-                    c[e] = k(c, e, "set");
-                    d = c[e];
-                    c[a] = {};
-                    c[a]._ = [];
-                    d._ = [];
-                    c[a][b] = k(c, a, b);
-                    a = 0;
-                    for (b = "set add save post open empty reset on off trigger ready setProduct".split(" "); a < b.length; a++) d[b[a]] = k(c, e, b[a]);
-                    a = 0;
-                    for (b = ["get", "token", "url", "items"]; a < b.length; a++) d[b[a]] = function() {};
-                    h.async = !0;
-                    h.src = g[f];
-                    n.parentNode.insertBefore(h, n);
-                    delete g[f];
-                    d(g);
-                    l[m] = c
-                })(window, this.options, "affirm", "checkout", "ui", "script", "ready");
+                aslowas.loadScript(this.options);
             }
         }
     });
+
     return $.mage.affirmWidget
 });
