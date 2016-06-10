@@ -3,13 +3,15 @@
  * See COPYING.txt for license details.
  */
 /*jshint jquery:true*/
-define(["jquery",
-    "mage/translate",
+define([
+    "jquery",
     "jquery/ui",
     "Astound_Affirm/js/model/aslowas"
-], function ($, $t) {
+], function ($) {
+
     "use strict"
-    $.widget('mage.affirmWidget',{
+
+    $.widget('mage.affirmWidget', {
         options: {},
         _create: function() {
             if (typeof affirm == "undefined") {
