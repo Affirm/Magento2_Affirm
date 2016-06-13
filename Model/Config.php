@@ -239,16 +239,9 @@ class Config implements ConfigInterface
      */
     public function getPublicApiKey()
     {
-        return ($this->getValue('mode'))?
-            $this->getConfigData(
-                self::KEY_PUBLIC_KEY_SANDBOX,
-                $this->getCurrentWebsiteId(),
-                ScopeInterface::SCOPE_WEBSITE
-            ):$this->getConfigData(
-                self::KEY_PRIVATE_KEY_SANDBOX,
-                $this->getCurrentWebsiteId(),
-                ScopeInterface::SCOPE_WEBSITE
-            );
+        return ($this->getValue('mode') == 'sandbox')?
+            $this->getValue(self::KEY_PUBLIC_KEY_SANDBOX):
+            $this->getValue(self::KEY_PUBLIC_KEY_PRODUCTION);
     }
 
     /**
@@ -289,16 +282,15 @@ class Config implements ConfigInterface
 
     /**
      * Get Display option from stored config
-     * @param string $section
      *
+     * @param string $section
      * @return mixed
      */
     public function getBmlDisplay($section)
     {
         $display = $this->scopeConfig->getValue(
             'affirm/' . self::METHOD_BML . '_' . $section . '/' . 'display',
-            ScopeInterface::SCOPE_WEBSITE,
-            $this->getWebsiteId()
+            ScopeInterface::SCOPE_WEBSITE
         );
         return $display ? $display : 0;
     }
@@ -328,8 +320,7 @@ class Config implements ConfigInterface
     {
         $position = $this->scopeConfig->getValue(
             'affirm/' . self::METHOD_BML . '_' . $section . '/' . 'position',
-            ScopeInterface::SCOPE_WEBSITE,
-            $this->getCurrentWebsiteId()
+            ScopeInterface::SCOPE_WEBSITE
         );
         return $position ? $position : 0;
     }

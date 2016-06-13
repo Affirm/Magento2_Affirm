@@ -52,15 +52,40 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetBmlDisplay($section, $expectedValue, $expected)
     {
-
-        $this->storeManager->expects($this->once())
-            ->method('getStore')->willReturn($this->storeMock);
         $this->scopeConfig->expects($this->any())
             ->method('getValue')
             ->will($this->returnValueMap([
                 ['affirm/' . Config::METHOD_BML . '_' . $section . '/' . 'display', 'website', null, $expectedValue]
             ]));
         $this->assertEquals($expected, $this->model->getBmlDisplay($section));
+    }
+
+    /**
+     * Test get bml position method
+     *
+     * @param $section
+     * @param $expectedValue
+     * @param $expected
+     * @dataProvider positionProvider
+     */
+    public function testGetBmlPosition($section, $expectedValue, $expected)
+    {
+        $this->scopeConfig->expects($this->any())
+            ->method('getValue')
+            ->will($this->returnValueMap([
+                ['affirm/' . Config::METHOD_BML . '_' . $section . '/' . 'position', 'website', null, $expectedValue]
+            ]));
+        $this->assertEquals($expected, $this->model->getBmlPosition($section));
+    }
+
+    /**
+     * @return array
+     */
+    public function positionProvider()
+    {
+        return [
+            ['product', 0, 0]
+        ];
     }
 
     /**
