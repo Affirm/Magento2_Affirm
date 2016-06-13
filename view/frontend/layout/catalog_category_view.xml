@@ -26,6 +26,8 @@
                     <argument name="position" xsi:type="number">0</argument>
                 </arguments>
             </block>
+        </referenceContainer>
+        <referenceContainer name="content">
             <block class="Astound\Affirm\Block\Promotion\Banners" name="affirm_banner_center_bottom" as="bml.main.bottom" template="Astound_Affirm::promotion/bml.phtml" after="-">
                 <arguments>
                     <argument name="section" xsi:type="string">category</argument>
