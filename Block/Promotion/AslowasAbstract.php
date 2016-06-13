@@ -82,7 +82,7 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
             $this->position = $data['position'];
         }
 
-        $currentWebsiteId = $this->getWebsiteId();
+        $currentWebsiteId = $context->getStoreManager()->getStore()->getWebsiteId();
         $this->affirmPaymentConfig = $configAffirm;
         $this->affirmPaymentConfig->setWebsiteId($currentWebsiteId);
         $this->configProvider = $configProvider;
@@ -218,16 +218,4 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
      */
     abstract public function validate();
 
-    /**
-     * Get current website id
-     *
-     * @return int
-     */
-    public function getWebsiteId()
-    {
-        $websiteId = $this->_storeManager
-            ->getStore()
-            ->getWebsiteId();
-        return $websiteId;
-    }
 }

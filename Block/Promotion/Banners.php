@@ -130,9 +130,11 @@ class Banners extends \Magento\Framework\View\Element\Template
         if (!$display) {
             return '';
         }
+
         if ($this->position != $position) {
             return '';
         }
+
         $this->processContainer($this->section);
         $this->setPromoKey($this->affirmPaymentConfig->getPromoKey());
         $this->setSize($this->affirmPaymentConfig->getBmlSize($this->section));
