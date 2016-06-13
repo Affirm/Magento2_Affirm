@@ -82,6 +82,7 @@ class Banners extends \Magento\Framework\View\Element\Template
 
         parent::__construct($context, $data);
         $this->affirmPaymentConfig = $configAffirm;
+//        $this->affirmPaymentConfig->setWebsiteId($this->_storeManager->getStore()->getWebsiteId());
         $this->position = isset($data['position']) ? $data['position']: '';
         $this->section = isset($data['section']) ? $data['section']: 0;
         $this->configProvider = $configProvider;
@@ -125,6 +126,7 @@ class Banners extends \Magento\Framework\View\Element\Template
         }
         $display  = $this->affirmPaymentConfig->getBmlDisplay($this->section);
         $position = $this->affirmPaymentConfig->getBmlPosition($this->section);
+
         if (!$display) {
             return '';
         }

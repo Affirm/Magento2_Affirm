@@ -82,7 +82,9 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
             $this->position = $data['position'];
         }
 
+        $currentWebsiteId = $this->getWebsiteId();
         $this->affirmPaymentConfig = $configAffirm;
+        $this->affirmPaymentConfig->setWebsiteId($currentWebsiteId);
         $this->configProvider = $configProvider;
 
         if (isset($data['type'])) {
@@ -215,4 +217,17 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
      * @return boolean
      */
     abstract public function validate();
+
+    /**
+     * Get current website id
+     *
+     * @return int
+     */
+    public function getWebsiteId()
+    {
+        $websiteId = $this->_storeManager
+            ->getStore()
+            ->getWebsiteId();
+        return $websiteId;
+    }
 }
