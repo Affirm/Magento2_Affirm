@@ -76,7 +76,7 @@ class Aslowas extends AslowasAbstract
     public function validate()
     {
         if ($this->getQuote()) {
-            $total = $this->getQuote()->getBaseSubtotal();
+            $total = $this->getQuote()->getBaseGrandTotal();
             $isAvailableFlag = $this->getPaymentConfigValue('active');
             $maxLimit = $this->getPaymentConfigValue('max_order_total');
             $minLimit = $this->getPaymentConfigValue('min_order_total');
