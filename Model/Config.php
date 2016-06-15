@@ -125,7 +125,7 @@ class Config implements ConfigInterface
     /**
      * Get config data
      *
-     * @param      $field
+     * @param $field
      * @param null $id
      * @param string $scope
      * @return mixed
@@ -147,7 +147,7 @@ class Config implements ConfigInterface
      */
     public function isCurrencyValid()
     {
-        $currentCurrency = $this->getCurrentStore()
+        $currentCurrency = $this->storeManager->getStore()
             ->getBaseCurrencyCode();
         $isValid = true;
         if ($currentCurrency != self::CURRENCY_CODE) {
@@ -189,33 +189,13 @@ class Config implements ConfigInterface
     }
 
     /**
-     * Return minimal order total
-     *
-     * @return mixed
-     */
-    public function getMinimumOrderTotal()
-    {
-        return $this->getConfigData($this->getWebsiteId());
-    }
-
-    /**
-     * Return maximum order total
-     *
-     * @return mixed
-     */
-    public function getMaximumOrderTotal()
-    {
-        return $this->getValue(self::KEY_MAXIMUM_ORDER_TOTAL);
-    }
-
-    /**
      * Return private api key
      *
      * @return mixed
      */
     public function getPrivateApiKey()
     {
-        return ($this->getValue('sandbox'))?
+        return ($this->getValue('mode') == 'sandbox') ?
             $this->getValue(self::KEY_PRIVATE_KEY_SANDBOX):
             $this->getValue(self::KEY_PRIVATE_KEY_PRODUCTION);
     }
@@ -395,8 +375,7 @@ class Config implements ConfigInterface
         if ($path !== null) {
             $value = $this->scopeConfig->getValue(
                 $path,
-                ScopeInterface::SCOPE_WEBSITE,
-                $this->getWebsiteId()
+                ScopeInterface::SCOPE_WEBSITE
             );
             return $value;
         }

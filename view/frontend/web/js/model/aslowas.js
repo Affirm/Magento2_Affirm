@@ -29,6 +29,7 @@ define([
                 if (options) {
                     self.options = options;
                 }
+
                 /**
                  * Specify options
                  *
