@@ -76,10 +76,17 @@ class Aslowas extends AslowasAbstract
     public function validate()
     {
         if ($this->getQuote()) {
+            // Get base grand total
             $total = $this->getQuote()->getBaseGrandTotal();
+
+            // Payment availability flag
             $isAvailableFlag = $this->getPaymentConfigValue('active');
+
+            //Get max and min flags amounts from payment configuration
             $maxLimit = $this->getPaymentConfigValue('max_order_total');
             $minLimit = $this->getPaymentConfigValue('min_order_total');
+
+            //Validate aslowas block based on appropriate values and conditions
             if ($isAvailableFlag && $minLimit && $maxLimit && $total < $maxLimit && $total > $minLimit) {
                 return true;
             }

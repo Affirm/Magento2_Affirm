@@ -21,6 +21,7 @@ namespace Astound\Affirm\Block\Promotion;
 use Magento\Framework\View\Element\Template;
 use Astound\Affirm\Model\Ui\ConfigProvider;
 use Magento\Store\Model\ScopeInterface;
+use Astound\Affirm\Model\Config as Config;
 
 /**
  * Class Aslowas
@@ -75,7 +76,7 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
     public function __construct(
         Template\Context $context,
         ConfigProvider $configProvider,
-        \Astound\Affirm\Model\Config $configAffirm,
+        Config $configAffirm,
         array $data = []
     ) {
         if (isset($data['position']) && $data['position']) {
@@ -217,5 +218,4 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
      * @return boolean
      */
     abstract public function validate();
-
 }

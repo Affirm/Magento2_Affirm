@@ -90,6 +90,11 @@ class Checkout
     protected $orderSender;
 
 
+    /**
+     * Affirm payment config model
+     *
+     * @var \Astound\Affirm\Model\Config
+     */
     protected $config;
 
     /**
@@ -100,6 +105,7 @@ class Checkout
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Helper\Data   $checkoutData
      * @param OrderSender                     $orderSender
+     * @param Config                          $config
      * @param array                           $params
      */
     public function __construct(
