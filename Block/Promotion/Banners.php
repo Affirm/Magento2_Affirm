@@ -120,8 +120,8 @@ class Banners extends \Magento\Framework\View\Element\Template
      */
     protected function _toHtml()
     {
-        if (!$this->getIsActive() || !$this->affirmPaymentConfig->isCurrencyValid()) {
-            return '';
+        if (!$this->getIsActive() || $this->affirmPaymentConfig->isTurnOffFunctionality()) {
+                return '';
         }
         $display  = $this->affirmPaymentConfig->getBmlDisplay($this->section);
         $position = $this->affirmPaymentConfig->getBmlPosition($this->section);

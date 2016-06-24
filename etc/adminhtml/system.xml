@@ -92,6 +92,10 @@
                     <comment>This field will be showed in checkout on payment section.</comment>
                     <depends><field id="control">0</field></depends>
                 </field>
+                <field id="turn_off_for_non_dollar_currency" translate="label" type="select" sortOrder="145" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Turn off for non-US dollar currency</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
                 <field id="enable_checkout_button" translate="label" type="select" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enabled Checkout Button</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>

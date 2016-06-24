@@ -114,7 +114,8 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
      */
     protected function isAllowed($position)
     {
-        return $this->affirmPaymentConfig->isAslowasEnabled($position) && $this->affirmPaymentConfig->isCurrencyValid();
+        return $this->affirmPaymentConfig->isAslowasEnabled($position) &&
+            !$this->affirmPaymentConfig->isTurnOffFunctionality();
     }
 
     /**
