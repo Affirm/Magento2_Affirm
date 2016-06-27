@@ -151,6 +151,9 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
                 $this->setData('script', $config['script']);
                 $this->setData('public_api_key', $config['apiKeyPublic']);
             }
+            // Set max and min options amounts from payment configuration
+            $this->setData('min_order_total', $this->getPaymentConfigValue('min_order_total'));
+            $this->setData('max_order_total', $this->getPaymentConfigValue('max_order_total'));
         }
     }
 

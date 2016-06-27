@@ -66,8 +66,12 @@ define([
                 var self = this;
                 affirm.ui.ready(function() {
                     if (options.amount) {
-                        self.updateAffirmAsLowAs(options.amount);
-                        affirm.ui.payments.get_estimate(options, self.handleEstimateResponse);
+                        var isUpdate = self.updateAffirmAsLowAs(options.amount);
+                        if (isUpdate) {
+                            affirm.ui.payments.get_estimate(options, self.handleEstimateResponse);
+                        } else {
+                            self.hideAsLowAs();
+                        }
                     }
                 });
             },
@@ -79,11 +83,17 @@ define([
              */
             updateAffirmAsLowAs: function(c) {
                 if ((c == null) || (c > 175000) || (c < 5000)) {
-                    return;
+                    return false;
+                }
+                if (!this.options.min_order_total || !this.options.max_order_total ||
+                    (c > this.options.max_order_total*100) || (c < this.options.min_order_total*100)
+                ) {
+                    return false;
                 }
                 if (c) {
                     this.options.amount = c;
                 }
+                return true;
             },
 
             /**

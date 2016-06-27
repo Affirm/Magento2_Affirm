@@ -32,7 +32,7 @@ class Aslowas extends AslowasAbstract
      *
      * @var array
      */
-    protected $data = ['apr', 'months', 'logo', 'script', 'public_api_key', 'selector'];
+    protected $data = ['apr', 'months', 'logo', 'script', 'public_api_key', 'min_order_total', 'max_order_total', 'selector'];
 
     /**
      * Validate block before showing on front
