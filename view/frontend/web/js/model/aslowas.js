@@ -90,11 +90,6 @@ define([
                 ) {
                     return false;
                 }
-                //if (!this.options.min_order_total || !this.options.max_order_total ||
-                //    (c > this.options.max_order_total*100) || (c < this.options.min_order_total*100)
-                //) {
-                //    return false;
-                //}
                 if (c) {
                     this.options.amount = c;
                 }
