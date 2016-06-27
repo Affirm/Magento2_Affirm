@@ -85,11 +85,16 @@ define([
                 if ((c == null) || (c > 175000) || (c < 5000)) {
                     return false;
                 }
-                if (!this.options.min_order_total || !this.options.max_order_total ||
-                    (c > this.options.max_order_total*100) || (c < this.options.min_order_total*100)
+                if ((this.options.min_order_total && c < this.options.min_order_total*100) ||
+                    (this.options.max_order_total && c > this.options.max_order_total*100)
                 ) {
                     return false;
                 }
+                //if (!this.options.min_order_total || !this.options.max_order_total ||
+                //    (c > this.options.max_order_total*100) || (c < this.options.min_order_total*100)
+                //) {
+                //    return false;
+                //}
                 if (c) {
                     this.options.amount = c;
                 }
