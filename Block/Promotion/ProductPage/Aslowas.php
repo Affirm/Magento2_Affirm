@@ -32,7 +32,8 @@ class Aslowas extends AslowasAbstract
      *
      * @var array
      */
-    protected $data = ['apr', 'months', 'logo', 'script', 'public_api_key', 'min_order_total', 'max_order_total', 'selector'];
+    protected $data = ['apr', 'months', 'logo', 'script', 'public_api_key', 'min_order_total', 'max_order_total',
+        'selector', 'currency_rate'];
 
     /**
      * Validate block before showing on front
@@ -59,6 +60,12 @@ class Aslowas extends AslowasAbstract
             $this->setData('selector', '.bundle-info');
         } else {
             $this->setData('selector', '.product-info-main');
+        }
+        if (!$this->affirmPaymentConfig->isCurrentCurrencyValid()) {
+            $rate = $this->affirmPaymentConfig->getCurrencyRates();
+            if ($rate) {
+                $this->setData('currency_rate', $rate);
+            }
         }
         parent::process();
     }

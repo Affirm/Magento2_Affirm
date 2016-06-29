@@ -22,6 +22,7 @@ use Magento\Payment\Model\Method\ConfigInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Store\Model\ScopeInterface;
 use Magento\Store\Model\StoreManagerInterface;
+use Magento\Directory\Model\Currency;
 
 /**
  * Config class
@@ -94,6 +95,13 @@ class Config implements ConfigInterface
     protected $pathPattern;
 
     /**
+     * Currency
+     *
+     * @var $currency
+     */
+    protected $currency;
+
+    /**
      * Permissions to config fields
      *
      * @var array
@@ -116,10 +124,11 @@ class Config implements ConfigInterface
      * @param ScopeConfigInterface  $scopeConfig
      * @param StoreManagerInterface $storeManager
      */
-    public function __construct(ScopeConfigInterface $scopeConfig, StoreManagerInterface $storeManager)
+    public function __construct(ScopeConfigInterface $scopeConfig, StoreManagerInterface $storeManager, Currency $currency)
     {
         $this->scopeConfig = $scopeConfig;
         $this->storeManager = $storeManager;
+        $this->currency = $currency;
     }
 
     /**
@@ -149,7 +158,7 @@ class Config implements ConfigInterface
     }
 
     /**
-     * Is currency valid
+     * Is base currency valid
      *
      * @return bool
      */
@@ -162,6 +171,35 @@ class Config implements ConfigInterface
             $isValid = false;
         }
         return $isValid;
+    }
+
+    /**
+     * Is current currency valid
+     *
+     * @return bool
+     */
+    public function isCurrentCurrencyValid()
+    {
+        $currentCurrency = $this->storeManager->getStore()
+            ->getCurrentCurrencyCode();
+        $isValid = true;
+        if ($currentCurrency != self::CURRENCY_CODE) {
+            $isValid = false;
+        }
+        return $isValid;
+    }
+
+    /**
+     * Get currency rates
+     *
+     * @return bool
+     */
+    public function getCurrencyRates()
+    {
+        $currentStore = $this->getCurrentStore();
+        $currencyCode = $currentStore->getCurrentCurrencyCode();
+        $rates = $this->currency->getCurrencyRates('USD', $currencyCode);
+        return isset($rates[$currencyCode]) ? $rates[$currencyCode] : false;
     }
 
     /**
