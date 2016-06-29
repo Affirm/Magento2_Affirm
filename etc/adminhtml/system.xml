@@ -228,7 +228,7 @@
                     <comment>
                         <![CDATA[(Number) [0.00 - 0.99]]]>
                     </comment>
-                    <frontend_class>validate-number</frontend_class>
+                    <frontend_class>required-entry validate-number</frontend_class>
                 </field>
                 <field id="month" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Affirm Promo Months</label>

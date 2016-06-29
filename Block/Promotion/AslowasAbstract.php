@@ -127,7 +127,7 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
      */
     public function getWidgetData()
     {
-        if ($this->data && $this->getApr()  && $this->getLogo() && $this->getMonths()) {
+        if ($this->data && $this->getLogo() && $this->getMonths()) {
             return $this->convertToJson($this->data);
         }
         return '';
@@ -140,7 +140,7 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
      */
     public function process()
     {
-        if ($this->getApr()  && $this->getLogo() && $this->getMonths()) {
+        if ($this->getLogo() && $this->getMonths()) {
             $this->setData('apr', $this->getApr());
             $this->setData('months', $this->getMonths());
             $this->setData('logo', $this->getLogo());
