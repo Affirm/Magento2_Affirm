@@ -26,7 +26,7 @@ define([
                 formatted = Number(price.replace(/[^0-9\.]+/g,""));
                 if (options.currency_rate) {
                     formatted = formatted / options.currency_rate;
-                    formatted = formatted.toFixed(2)
+                    formatted = formatted.toFixed(2);
                 }
                 priceInt = formatted * 100;
 

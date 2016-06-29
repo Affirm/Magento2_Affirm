@@ -61,8 +61,8 @@ class Aslowas extends AslowasAbstract
         } else {
             $this->setData('selector', '.product-info-main');
         }
-        if (!$this->affirmPaymentConfig->isCurrentCurrencyValid()) {
-            $rate = $this->affirmPaymentConfig->getCurrencyRates();
+        if (!$this->affirmPaymentConfig->isCurrentStoreCurrencyUSD()) {
+            $rate = $this->affirmPaymentConfig->getUSDCurrencyRate();
             if ($rate) {
                 $this->setData('currency_rate', $rate);
             }

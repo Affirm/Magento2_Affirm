@@ -123,9 +123,13 @@ class Config implements ConfigInterface
      *
      * @param ScopeConfigInterface  $scopeConfig
      * @param StoreManagerInterface $storeManager
+     * @param Currency $currency
      */
-    public function __construct(ScopeConfigInterface $scopeConfig, StoreManagerInterface $storeManager, Currency $currency)
-    {
+    public function __construct(
+        ScopeConfigInterface $scopeConfig,
+        StoreManagerInterface $storeManager,
+        Currency $currency
+    ) {
         $this->scopeConfig = $scopeConfig;
         $this->storeManager = $storeManager;
         $this->currency = $currency;
@@ -174,32 +178,32 @@ class Config implements ConfigInterface
     }
 
     /**
-     * Is current currency valid
+     * Is current currency USD
      *
      * @return bool
      */
-    public function isCurrentCurrencyValid()
+    public function isCurrentStoreCurrencyUSD()
     {
         $currentCurrency = $this->storeManager->getStore()
             ->getCurrentCurrencyCode();
-        $isValid = true;
+        $isUSD = true;
         if ($currentCurrency != self::CURRENCY_CODE) {
-            $isValid = false;
+            $isUSD = false;
         }
-        return $isValid;
+        return $isUSD;
     }
 
     /**
-     * Get currency rates
+     * Get USD currency rate for current currency
      *
      * @return bool
      */
-    public function getCurrencyRates()
+    public function getUSDCurrencyRate()
     {
         $currentStore = $this->getCurrentStore();
         $currencyCode = $currentStore->getCurrentCurrencyCode();
-        $rates = $this->currency->getCurrencyRates('USD', $currencyCode);
-        return isset($rates[$currencyCode]) ? $rates[$currencyCode] : false;
+        $rate = $this->currency->getCurrencyRates('USD', $currencyCode);
+        return isset($rate[$currencyCode]) ? $rate[$currencyCode] : false;
     }
 
     /**
