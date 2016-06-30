@@ -73,7 +73,7 @@ define([
         initMetadata: function() {
             if (!this.metadata.shipping_type && quote.shippingMethod()) {
                 this.metadata.shipping_type =
-                    quote.shippingMethod().carrier_title + ' - ' + quote.shippingMethod().method_title
+                    quote.shippingMethod().carrier_title + ' - ' + quote.shippingMethod().method_title;
             }
         },
 
