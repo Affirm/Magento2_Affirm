@@ -83,23 +83,33 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
     protected $productMetadata;
 
     /**
+     * Module resource
+     *
+     * @var \Magento\Framework\Module\ResourceInterface
+     */
+    protected $moduleResource;
+
+    /**
      * Initialize affirm checkout
      *
      * @param Session                                    $checkoutSession
      * @param \Magento\Quote\Api\CartRepositoryInterface $quoteRepository
      * @param ProductMetadataInterface                   $productMetadata
+     * @param \Magento\Framework\Module\ResourceInterface $moduleResource
      * @param ObjectManagerInterface                     $objectManager
      */
     public function __construct(
         Session $checkoutSession,
         \Magento\Quote\Api\CartRepositoryInterface $quoteRepository,
         ProductMetadataInterface $productMetadata,
+        \Magento\Framework\Module\ResourceInterface $moduleResource,
         ObjectManagerInterface $objectManager
     ) {
         $this->checkoutSession = $checkoutSession;
         $this->quote = $this->checkoutSession->getQuote();
         $this->quoteRepository = $quoteRepository;
         $this->productMetadata = $productMetadata;
+        $this->moduleResource = $moduleResource;
         $this->objectManager = $objectManager;
     }
 
@@ -166,6 +176,11 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
                 }
             }
         }
+        $response['metadata'] = [
+            'platform_type' => $this->productMetadata->getName() . ' ' . $this->productMetadata->getEdition(),
+            'platform_version' => $this->productMetadata->getVersion(),
+            'platform_affirm' => $this->moduleResource->getDbVersion('Astound_Affirm')
+        ];
         return json_encode($response);
     }
 }

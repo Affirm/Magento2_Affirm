@@ -71,10 +71,9 @@ define([
          * Init metadata
          */
         initMetadata: function() {
-            if (!this.metadata && quote.shippingMethod()) {
-                this.metadata = {
-                    "shipping_type": quote.shippingMethod().carrier_title + ' - ' + quote.shippingMethod().method_title
-            };
+            if (!this.metadata.shipping_type && quote.shippingMethod()) {
+                this.metadata.shipping_type =
+                    quote.shippingMethod().carrier_title + ' - ' + quote.shippingMethod().method_title
             }
         },
 
@@ -171,6 +170,9 @@ define([
             if (data.discounts) {
                 this.setDiscounts(data.discounts);
             }
+            if (data.metadata) {
+                this.setMetadata(data.metadata);
+            }
         },
 
         /**
@@ -192,6 +194,17 @@ define([
         setDiscounts: function(discounts) {
             if (discounts) {
                 this.discounts = discounts;
+            }
+        },
+
+        /**
+         * Specify metadata
+         *
+         * @param metadata
+         */
+        setMetadata: function(metadata) {
+            if (metadata) {
+                this.metadata = metadata;
             }
         }
     }
