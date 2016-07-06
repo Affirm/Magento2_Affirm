@@ -44,7 +44,6 @@
                 <icon>https://cdn1.affirm.com/images/badges/affirm-logo_78x54.png</icon>
                 <info>Buy with Monthly Payments</info>
                 <virtual_terminal_url>http://help.merchants.affirm.com/article/67-virtual-terminal-overview</virtual_terminal_url>
-                <turn_off_for_non_dollar_currency>0</turn_off_for_non_dollar_currency>
                 <enable_checkout_button>0</enable_checkout_button>
                 <checkout_button_code>http://d33v4339jhl8k0.cloudfront.net/docs/assets/54ab19f8e4b08393789ca141/images/54ebbdc6e4b086c0c0968fa2/file-cmGEKUeWtK.png</checkout_button_code>
             </affirm_gateway>

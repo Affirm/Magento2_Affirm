@@ -158,7 +158,7 @@ class Config implements ConfigInterface
      */
     public function isTurnOffFunctionality()
     {
-        return $this->getValue('turn_off_for_non_dollar_currency') && !$this->isCurrencyValid();
+        return !$this->isCurrencyValid();
     }
 
     /**
