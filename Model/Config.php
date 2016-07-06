@@ -154,14 +154,6 @@ class Config implements ConfigInterface
     }
 
     /**
-     * Is turn off functionality
-     */
-    public function isTurnOffFunctionality()
-    {
-        return !$this->isCurrencyValid();
-    }
-
-    /**
      * Is base currency valid
      *
      * @return bool
