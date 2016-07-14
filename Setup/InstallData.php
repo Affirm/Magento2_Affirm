@@ -75,22 +75,23 @@ class InstallData implements InstallDataInterface
         $attributeCode = 'affirm_customer_mfp';
 
         $customerSetup->addAttribute(Customer::ENTITY, $attributeCode, [
-            'type' => 'varchar',
-            'label' => 'Multiple Financing Program value',
-            'input' => 'text',
-            'required' => false,
-            'visible' => false,
-            'user_defined' => true,
-            'sort_order' => 1000,
-            'position' => 1000,
-            'system' => 0,
+            'type'         => 'varchar',
+            'input'        => 'text',
+            'required'     => 0,
+            'label'        => 'Multiple Financing Program value',
+            'global'       => 1,
+            'visible'      => 1,
+            'user_defined' => 1,
+            'sort_order'   => 1000,
+            'position'     => 1000,
+            'system'       => 0
         ]);
 
         $attribute = $customerSetup->getEavConfig()->getAttribute(Customer::ENTITY, $attributeCode)
             ->addData([
-                'attribute_set_id' => $attributeSetId,
+                'attribute_set_id'   => $attributeSetId,
                 'attribute_group_id' => $attributeGroupId,
-                'used_in_forms' => ['adminhtml_customer'],
+                'used_in_forms'      => ['adminhtml_customer'],
             ]);
 
         $attribute->save();
