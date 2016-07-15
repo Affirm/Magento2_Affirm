@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Astound
+ * Affirm system configuration.
+ *
+ * @category  Affirm
+ * @package   Astound_Affirm
+ * @copyright Copyright (c) 2016 Astound, Inc. (http://www.astoundcommerce.com)
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="controller_action_predispatch">
+        <observer name="initialize_financing_program_parameter" instance="Astound\Affirm\Model\Observer\IdentifyFinancingProgram" />
+    </event>
+    <event name="customer_login">
+        <observer name="update_financing_program_parameter_on_login" instance="Astound\Affirm\Model\Observer\UpdateFinancingProgramOnLogin" />
+    </event>
+</config>
