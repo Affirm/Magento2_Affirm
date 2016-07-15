@@ -68,7 +68,9 @@ class IdentifyFinancingProgram implements ObserverInterface
         $customer = $this->_customerSession->getCustomer();
         $customerMFPValue = $customer->getAffirmCustomerMfp();
         if (empty($customerMFPValue) || ($financingProgramValue != $customerMFPValue)) {
-            $customer->setAffirmCustomerMfp($financingProgramValue);
+            $customerData = $customer->getDataModel();
+            $customerData->setCustomAttribute('affirm_customer_mfp', $financingProgramValue);
+            $customer->updateData($customerData);
             $customer->save();
             //in case if customer logout to keep actual value during session
             $this->_updateGuestCustomerMFP($financingProgramValue);

@@ -51,7 +51,9 @@ class UpdateFinancingProgramOnLogin implements ObserverInterface
             if (!empty($sessionFinancingProgramValue) &&
                 ($customer->getAffirmCustomerMfp() != $sessionFinancingProgramValue)
             ) {
-                $customer->setAffirmCustomerMfp($sessionFinancingProgramValue);
+                $customerData = $customer->getDataModel();
+                $customerData->setCustomAttribute('affirm_customer_mfp', $sessionFinancingProgramValue);
+                $customer->updateData($customerData);
                 $customer->save();
             }
         }
