@@ -64,7 +64,7 @@ class Date extends \Magento\Config\Block\System\Config\Form\Field
         $html .= '<script type="text/javascript">
             require(["jquery", "jquery/ui"], function () {
                 jQuery(document).ready(function () {
-                    jQuery("#' . $element->getHtmlId() . '").datepicker( { dateFormat: "dd/mm/yy" } );
+                    jQuery("#' . $element->getHtmlId() . '").datepicker( { dateFormat: "mm/dd/yy" } );
                     var el = document.getElementById("' . $element->getHtmlId() . '");
                     el.className = el.className + " datepicker";
                 });

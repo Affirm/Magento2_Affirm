@@ -19,8 +19,9 @@
 namespace Astound\Affirm\Model;
 
 use Astound\Affirm\Api\AffirmCheckoutManagerInterface;
-use Magento\Checkout\Model\Session;
 use Astound\Affirm\Gateway\Helper\Util;
+use Astound\Affirm\Helper\FinancingProgram;
+use Magento\Checkout\Model\Session;
 use Magento\Framework\App\ProductMetadataInterface;
 use Magento\Framework\ObjectManagerInterface;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -90,6 +91,13 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
     protected $moduleResource;
 
     /**
+     * Affirm financing program helper
+     *
+     * @var \Astound\Affirm\Helper\FinancingProgram
+     */
+    protected $helper;
+
+    /**
      * Initialize affirm checkout
      *
      * @param Session                                    $checkoutSession
@@ -97,13 +105,15 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
      * @param ProductMetadataInterface                   $productMetadata
      * @param \Magento\Framework\Module\ResourceInterface $moduleResource
      * @param ObjectManagerInterface                     $objectManager
+     * @param FinancingProgram $helper
      */
     public function __construct(
         Session $checkoutSession,
         \Magento\Quote\Api\CartRepositoryInterface $quoteRepository,
         ProductMetadataInterface $productMetadata,
         \Magento\Framework\Module\ResourceInterface $moduleResource,
-        ObjectManagerInterface $objectManager
+        ObjectManagerInterface $objectManager,
+        FinancingProgram $helper
     ) {
         $this->checkoutSession = $checkoutSession;
         $this->quote = $this->checkoutSession->getQuote();
@@ -111,6 +121,7 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
         $this->productMetadata = $productMetadata;
         $this->moduleResource = $moduleResource;
         $this->objectManager = $objectManager;
+        $this->helper = $helper;
     }
 
     /**
@@ -181,6 +192,10 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
             'platform_version' => $this->productMetadata->getVersion(),
             'platform_affirm' => $this->moduleResource->getDbVersion('Astound_Affirm')
         ];
+        $financingProgramValue = $this->helper->getFinancingProgramValue();
+        if ($financingProgramValue) {
+            $response['financing_program'] = $financingProgramValue;
+        }
         return json_encode($response);
     }
 }

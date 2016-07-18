@@ -45,7 +45,8 @@ define([
                 shipping: _self.prepareAddress('shipping'),
                 billing: _self.prepareAddress('billing'),
                 discounts: _self.discounts,
-                metadata: _self.metadata
+                metadata: _self.metadata,
+                financing_program: _self.financing_program
             }
         },
 
@@ -173,6 +174,9 @@ define([
             if (data.metadata) {
                 this.setMetadata(data.metadata);
             }
+            if (data.financing_program) {
+                this.setFinancingProgram(data.financing_program);
+            }
         },
 
         /**
@@ -205,6 +209,17 @@ define([
         setMetadata: function(metadata) {
             if (metadata) {
                 this.metadata = metadata;
+            }
+        },
+
+        /**
+         * Specify financing program
+         *
+         * @param financing_program
+         */
+        setFinancingProgram: function(financing_program) {
+            if (financing_program) {
+                this.financing_program = financing_program;
             }
         }
     }
