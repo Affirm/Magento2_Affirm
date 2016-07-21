@@ -45,8 +45,7 @@ define([
                 shipping: _self.prepareAddress('shipping'),
                 billing: _self.prepareAddress('billing'),
                 discounts: _self.discounts,
-                metadata: _self.metadata,
-                financing_program: _self.financing_program
+                metadata: _self.metadata
             }
         },
 
@@ -221,6 +220,15 @@ define([
             if (financing_program) {
                 this.financing_program = financing_program;
             }
+        },
+
+        /**
+         * Get specified financing program
+         *
+         * @return string
+         */
+        getFinancingProgram: function() {
+            return this.financing_program;
         }
     }
 });

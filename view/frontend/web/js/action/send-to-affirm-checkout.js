@@ -38,6 +38,10 @@ define([
                 $.mage.redirect(window.checkoutConfig.payment['affirm_gateway'].merchant.user_cancel_url);
             });
             checkoutObj = affirmCheckout.getData();
+            if (affirmCheckout.getFinancingProgram()) {
+                checkoutObj.financing_program = affirmCheckout.getFinancingProgram();
+            }
+
             affirm.checkout(checkoutObj);
             affirm.checkout.post();
         } catch (err) {
