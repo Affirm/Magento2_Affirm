@@ -221,7 +221,7 @@
                 <label>As Low As Functionality</label>
                 <comment>
                     <![CDATA[Pay attention! Please, specify public key inside Affirm payment method. Stores->Configuration->Sales->Payment Methods->Affirm.
-                        "As low as" will be visible only in case if product price or checkout cart total will be above of 50$.
+                        "As low as" will be visible only in case if product price or checkout cart total will be above of $50.
                     ]]>
                 </comment>
                 <fieldset_css>complex</fieldset_css>
