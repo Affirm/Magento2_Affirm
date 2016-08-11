@@ -52,12 +52,59 @@ class Info extends ConfigurableInfo
     }
 
     /**
+     * Is admin panel
+     *
+     * @return bool
+     */
+    protected function isInAdminPanel()
+    {
+        return $this->_appState->getAreaCode() == \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE;
+    }
+
+    /**
+     * Get domain url
+     *
+     * @return string
+     */
+    protected function getDomainUrl()
+    {
+        return $this->_scopeConfig->getValue('payment/affirm_gateway/mode') == 'sandbox' ?
+            'sandbox.affirm.com' : 'www.affirm.com';
+    }
+
+    /**
+     * Get admin affirm URL
+     *
+     * @return string
+     */
+    protected function getAdminAffirmUrl()
+    {
+        $loanId = $this->getInfo()->getOrder()->getPayment()->getAdditionalInformation('charge_id');
+        return sprintf('https://%s/dashboard/#/details/%s', $this->getDomainUrl(), $loanId);
+    }
+
+    /**
+     * Get frontend affirm URL
+     *
+     * @return string
+     */
+    protected function getFrontendAffirmUrl()
+    {
+        $loanId = $this->getInfo()->getOrder()->getPayment()->getAdditionalInformation('charge_id');
+        return sprintf("https://%s/u/#/loans/%s", $this->getDomainUrl(), $loanId);
+    }
+
+    /**
      * Retrieve affirm main url
      *
      * @return string
      */
     public function getAffirmMainUrl()
     {
-        return self::AFFIRM_MAIN_URL;
+        if ($this->isInAdminPanel()) {
+            return $this->getAdminAffirmUrl();
+        } else {
+            return $this->getFrontendAffirmUrl();
+        }
     }
 }
