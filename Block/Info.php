@@ -29,11 +29,6 @@ use Magento\Payment\Block\ConfigurableInfo;
 class Info extends ConfigurableInfo
 {
     /**
-     * Get affirm main url
-     */
-    const AFFIRM_MAIN_URL = 'https://www.affirm.com/u';
-
-    /**
      * Changed standard template
      *
      * @var string
