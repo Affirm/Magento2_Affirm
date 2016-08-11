@@ -60,7 +60,7 @@ class Cancel extends Action
     {
         // Redirects customer to checkout cart page.
         $resultRedirect = $this->forwardRedirectFactory->create();
-        $resultRedirect->setPath('checkout/cart/index');
+        $resultRedirect->setPath('checkout');
         return $resultRedirect;
     }
 }
