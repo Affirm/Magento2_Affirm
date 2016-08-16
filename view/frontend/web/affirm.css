@@ -18,7 +18,8 @@
 
 .affirm-payment-icon {
     vertical-align: middle !important;
-    max-height: 3em;
+    max-height: 42px;
+    max-width: 60px;
     width: auto;
     margin-top: -.3em;
 }
