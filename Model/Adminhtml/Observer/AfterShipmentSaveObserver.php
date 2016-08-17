@@ -99,13 +99,15 @@ class AfterShipmentSaveObserver implements ObserverInterface
         $order = $this->orderRepository->get((int) $orderId);
 
         if ($this->isAffirmPaymentMethod($order)) {
-            $shippingConfirmation = $shipment->getIncrementId();
             $tracks = $shipment->getTracks();
             $carriers = [];
+            $confirmation = [];
             foreach ($tracks as $track) {
                 $carriers[] = $track->getTitle();
+                $confirmation[] = $track->getTrackNumber();
             }
             $shippingCarrier = implode(',', $carriers);
+            $shippingConfirmation = implode(',', $confirmation);
             $orderIncrementId = $order->getIncrementId();
             $chargeId = $order->getPayment()->getAdditionalInformation(self::CHARGE_ID);
 
