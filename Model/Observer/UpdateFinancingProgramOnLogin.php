@@ -30,6 +30,7 @@ class UpdateFinancingProgramOnLogin implements ObserverInterface
     /**
      * Init
      *
+     * @param Session $customerSession
      */
     public function __construct(
         Session $customerSession
