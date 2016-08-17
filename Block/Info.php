@@ -20,6 +20,7 @@ namespace Astound\Affirm\Block;
 
 use Magento\Framework\Phrase;
 use Magento\Payment\Block\ConfigurableInfo;
+//use Astound\Affirm\Model\Config as Config;
 
 /**
  * Payment Block Info class
@@ -68,6 +69,18 @@ class Info extends ConfigurableInfo
     }
 
     /**
+     * Get Public Api Key
+     *
+     * @return string
+     */
+    protected function getPublicApiKey()
+    {
+        return $this->_scopeConfig->getValue('payment/affirm_gateway/mode') == 'sandbox' ?
+            $this->_scopeConfig->getValue('payment/affirm_gateway/public_api_key_sandbox') :
+            $this->_scopeConfig->getValue('payment/affirm_gateway/public_api_key_production');
+    }
+
+    /**
      * Get admin affirm URL
      *
      * @return string
@@ -86,7 +99,7 @@ class Info extends ConfigurableInfo
     protected function getFrontendAffirmUrl()
     {
         $loanId = $this->getInfo()->getOrder()->getPayment()->getAdditionalInformation('charge_id');
-        return sprintf("https://%s/u/#/loans/%s", $this->getDomainUrl(), $loanId);
+        return sprintf("https://%s/u/#/loans/%s?trk=%s", $this->getDomainUrl(), $loanId, $this->getPublicApiKey());
     }
 
     /**
