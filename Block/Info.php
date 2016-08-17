@@ -20,7 +20,6 @@ namespace Astound\Affirm\Block;
 
 use Magento\Framework\Phrase;
 use Magento\Payment\Block\ConfigurableInfo;
-//use Astound\Affirm\Model\Config as Config;
 
 /**
  * Payment Block Info class
