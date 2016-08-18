@@ -480,4 +480,24 @@ class Config implements ConfigInterface
     {
         return $this->websiteId;
     }
+
+    /**
+     * Get all As Low As config
+     *
+     * @return array
+     */
+    public function getAllAsLowAsConfig()
+    {//todo's
+        return [
+            'apr' => '0.10',
+            'months' => '12',
+            'logo' => 'test.jpg',
+            'script' => $this->getScript(),
+            'public_api_key' => $this->getPublicApiKey(),
+            'min_order_total' => '0.01',
+            'max_order_total' => '100000',
+            'selector' => '',
+            'currency_rate' => null
+        ];
+    }
 }

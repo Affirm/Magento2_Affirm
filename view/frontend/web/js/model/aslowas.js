@@ -14,6 +14,26 @@ define([
         var self;
         return {
             options: {},
+            aSLowAsElement: 'learn-more',
+
+            /**
+             * Get AsLowAs html element
+             *
+             * @returns {*}
+             */
+            getAsLowAsElement: function() {
+                return this.options.aSLowAsElement ? this.options.aSLowAsElement : this.aSLowAsElement;
+            },
+
+            /**
+             * Update AsLowAs html element
+             *
+             * @returns {*}
+             */
+            updateASLowAsElement: function(aSLowAsElement) {
+                this.aSLowAsElement = aSLowAsElement;
+                return this;
+            },
 
             /**
              * Process price
@@ -55,7 +75,7 @@ define([
              * Hide As Low As
              */
             hideAsLowAs: function() {
-                var element = document.getElementById('learn-more'),
+                var element = document.getElementById(self.getAsLowAsElement()),
                     iText = ('innerText' in element) ? 'innerText' : 'textContent';
                 element[iText] = "";
                 element.style.visibility = "hidden";
@@ -106,7 +126,7 @@ define([
             handleEstimateResponse: function(payment_estimate) {
                 var dollars = payment_estimate.payment_string, element,
                     content = $t("Starting at $") + dollars + $t(" a month with") + ' ' + self.options.logo + ' ' + $t("Learn more.");
-                element = document.getElementById('learn-more');
+                element = document.getElementById(self.getAsLowAsElement());
                 element.innerHTML = content;
                 if (payment_estimate && payment_estimate.open_modal) {
                     element.onclick = payment_estimate.open_modal;

@@ -6,8 +6,8 @@
 define(["jquery",
     "mage/translate",
     "Astound_Affirm/js/model/aslowas",
-    "Magento_Checkout/js/model/quote"
-], function ($, $t, aslowas, quote) {
+    "Magento_Customer/js/customer-data"
+], function ($, $t, aslowas, customerData) {
     "use strict"
 
     var self;
@@ -18,18 +18,12 @@ define(["jquery",
         /**
          * Specify default price
          */
-        initPrice: function(newValue) {
-            var price = quote.getTotals()(), result;
-            if (newValue) {
-                price = newValue;
-            }
-            if (price && price.base_grand_total) {
-                if (newValue) {
-                    result = price.base_grand_total.toString();
-                } else {
-                    result = price.base_grand_total;
-                }
-                aslowas.process(result, this.options);
+        initPrice: function() {
+            var cart = customerData.get('cart');
+            var priceData = cart().subtotal_excl_tax;
+            this.options.aSLowAsElement = 'learn-more-mini-cart';//todo's
+            if (priceData) {
+                aslowas.process(priceData, this.options);
             }
         },
 
@@ -47,9 +41,6 @@ define(["jquery",
             } else {
                 self.initPrice();
             }
-            quote.totals.subscribe(function(newValue) {
-                self.initPrice(newValue);
-            });
         }
     });
     return $.mage.aslowasCC

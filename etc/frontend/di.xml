@@ -29,4 +29,7 @@
             <argument name="config" xsi:type="object">OnePicaAffirmGatewayConfig</argument>
         </arguments>
     </type>
+    <type name="Magento\Checkout\Block\Cart\Sidebar">
+        <plugin name="affirm_aslowas_cart" type="\Astound\Affirm\Model\Plugin\MiniCart\AsLowAs\ConfigPlugin" />
+    </type>
 </config>
