@@ -126,7 +126,8 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
      */
     public function getWidgetData()
     {
-        if ($this->data && $this->getLogo() && $this->getMonths()) {
+        if ($this->data && $this->affirmPaymentConfig->getAsLowAsLogo() &&
+            $this->affirmPaymentConfig->getAsLowAsMonths()) {
             return $this->convertToJson($this->data);
         }
         return '';
@@ -139,10 +140,10 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
      */
     public function process()
     {
-        if ($this->getLogo() && $this->getMonths()) {
-            $this->setData('apr', $this->getApr());
-            $this->setData('months', $this->getMonths());
-            $this->setData('logo', $this->getLogo());
+        if ($this->affirmPaymentConfig->getAsLowAsLogo() && $this->affirmPaymentConfig->getAsLowAsMonths()) {
+            $this->setData('apr', $this->affirmPaymentConfig->getAsLowAsApr());
+            $this->setData('months', $this->affirmPaymentConfig->getAsLowAsMonths());
+            $this->setData('logo', $this->affirmPaymentConfig->getAsLowAsLogo());
 
             $configProvider = $this->configProvider->getConfig();
             if ($configProvider['payment'][ConfigProvider::CODE]) {
@@ -154,36 +155,6 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
             $this->setData('min_order_total', $this->getPaymentConfigValue('min_order_total'));
             $this->setData('max_order_total', $this->getPaymentConfigValue('max_order_total'));
         }
-    }
-
-    /**
-     * Get config data about saved in admin config month data.
-     *
-     * @return mixed
-     */
-    public function getMonths()
-    {
-        return $this->_scopeConfig->getValue('affirm/affirm_aslowas/month', ScopeInterface::SCOPE_WEBSITE);
-    }
-
-    /**
-     * Get config data about saved in admin config the apr value.
-     *
-     * @return mixed
-     */
-    public function getApr()
-    {
-        return $this->_scopeConfig->getValue('affirm/affirm_aslowas/apr_value', ScopeInterface::SCOPE_WEBSITE);
-    }
-
-    /**
-     * Get config data about saved affirm logo.
-     *
-     * @return mixed|string
-     */
-    public function getLogo()
-    {
-        return $this->_scopeConfig->getValue('affirm/affirm_aslowas/logo', ScopeInterface::SCOPE_WEBSITE);
     }
 
     /**

@@ -11,18 +11,23 @@ define(["jquery",
     "use strict"
 
     var self;
-    $.widget('mage.aslowasCC',{
+    $.widget('mage.aslowasMC',{
         options: {
         },
+        aSLowAsElement: 'learn-more-mini-cart',
 
         /**
          * Specify default price
          */
         initPrice: function() {
-            var cart = customerData.get('cart');
-            var priceData = cart().subtotal_excl_tax;
-            this.options.aSLowAsElement = 'learn-more-mini-cart';//todo's
+            var priceData, cart = customerData.get('cart');
+            if (!this.options.display_cart_subtotal_excl_tax && this.options.display_cart_subtotal_incl_tax) {
+                priceData = cart().subtotal_incl_tax;
+            } else {
+                priceData = cart().subtotal_excl_tax;
+            }
             if (priceData) {
+                this.options.aSLowAsElement = this.aSLowAsElement;
                 aslowas.process(priceData, this.options);
             }
         },
@@ -34,6 +39,9 @@ define(["jquery",
          */
         _create: function() {
             self = this;
+            if (!self.options.asLowAsActiveMiniCart) {
+                return;
+            }
             if (typeof affirm == "undefined") {
                 $.when(aslowas.loadScript(self.options)).done(function() {
                     self.initPrice();
@@ -43,5 +51,5 @@ define(["jquery",
             }
         }
     });
-    return $.mage.aslowasCC
+    return $.mage.aslowasMC
 });

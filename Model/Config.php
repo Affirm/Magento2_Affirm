@@ -23,6 +23,7 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Store\Model\ScopeInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Directory\Model\Currency;
+use Magento\Tax\Model\Config as TaxConfig;
 
 /**
  * Config class
@@ -119,20 +120,30 @@ class Config implements ConfigInterface
     ];
 
     /**
+     * Tax config
+     *
+     * @var \Magento\Tax\Model\Config
+     */
+    protected $taxConfig;
+
+    /**
      * Inject scope and store manager object
      *
      * @param ScopeConfigInterface  $scopeConfig
      * @param StoreManagerInterface $storeManager
      * @param Currency $currency
+     * @param TaxConfig $taxConfig
      */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
         StoreManagerInterface $storeManager,
-        Currency $currency
+        Currency $currency,
+        TaxConfig $taxConfig
     ) {
         $this->scopeConfig = $scopeConfig;
         $this->storeManager = $storeManager;
         $this->currency = $currency;
+        $this->taxConfig = $taxConfig;
     }
 
     /**
@@ -404,6 +415,42 @@ class Config implements ConfigInterface
     }
 
     /**
+     * Get As Low As apr
+     *
+     * @return int
+     */
+    public function getAsLowAsApr()
+    {
+        return $this->scopeConfig->getValue(
+            'affirm/' . self::KEY_ASLOWAS . '/' . 'apr_value', ScopeInterface::SCOPE_WEBSITE
+        );
+    }
+
+    /**
+     * Get config data about saved in admin config month data.
+     *
+     * @return int
+     */
+    public function getAsLowAsMonths()
+    {
+        return $this->scopeConfig->getValue(
+            'affirm/' . self::KEY_ASLOWAS . '/' . 'month', ScopeInterface::SCOPE_WEBSITE
+        );
+    }
+
+    /**
+     * Get config data about saved affirm logo.
+     *
+     * @return mixed|string
+     */
+    public function getAsLowAsLogo()
+    {
+        return $this->scopeConfig->getValue(
+            'affirm/' . self::KEY_ASLOWAS . '/' . 'logo', ScopeInterface::SCOPE_WEBSITE
+        );
+    }
+
+    /**
      * Returns payment configuration value
      *
      * @param string $key
@@ -487,17 +534,20 @@ class Config implements ConfigInterface
      * @return array
      */
     public function getAllAsLowAsConfig()
-    {//todo's
+    {//todo's ref + disabled config
         return [
-            'apr' => '0.10',
-            'months' => '12',
-            'logo' => 'test.jpg',
+            'asLowAsActiveMiniCart' => $this->getConfigData('active') && $this->isAslowasEnabled('cc') &&
+                $this->isCurrencyValid(),
+            'apr' => $this->getAsLowAsApr(),
+            'months' => $this->getAsLowAsMonths(),
+            'logo' => $this->getAsLowAsLogo(),
             'script' => $this->getScript(),
             'public_api_key' => $this->getPublicApiKey(),
-            'min_order_total' => '0.01',
-            'max_order_total' => '100000',
-            'selector' => '',
-            'currency_rate' => null
+            'min_order_total' => $this->getConfigData('min_order_total'),
+            'max_order_total' => $this->getConfigData('max_order_total'),
+            'currency_rate' => !$this->isCurrentStoreCurrencyUSD() ? $this->getUSDCurrencyRate() : null,
+            'display_cart_subtotal_incl_tax' => (int) $this->taxConfig->displayCartSubtotalInclTax(),
+            'display_cart_subtotal_excl_tax' => (int) $this->taxConfig->displayCartSubtotalExclTax()
         ];
     }
 }

@@ -26,16 +26,6 @@ define([
             },
 
             /**
-             * Update AsLowAs html element
-             *
-             * @returns {*}
-             */
-            updateASLowAsElement: function(aSLowAsElement) {
-                this.aSLowAsElement = aSLowAsElement;
-                return this;
-            },
-
-            /**
              * Process price
              *
              * @param price

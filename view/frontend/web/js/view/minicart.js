@@ -77,6 +77,7 @@ define([
 
     return Component.extend({
         asLowAsMCOptions: {
+            asLowAsActiveMiniCart: window.checkout.asLowAsActiveMiniCart,
             apr: window.checkout.apr,
             months: window.checkout.months,
             logo: window.checkout.logo,
@@ -84,8 +85,9 @@ define([
             public_api_key: window.checkout.public_api_key,
             min_order_total: window.checkout.min_order_total,
             max_order_total: window.checkout.max_order_total,
-            selector: window.checkout.selector,
-            currency_rate: window.checkout.currency_rate
+            currency_rate: window.checkout.currency_rate,
+            display_cart_subtotal_incl_tax: window.checkout.display_cart_subtotal_incl_tax,
+            display_cart_subtotal_excl_tax: window.checkout.display_cart_subtotal_excl_tax
         },
         shoppingCartUrl: window.checkout.shoppingCartUrl,
         cart: {},
@@ -169,7 +171,7 @@ define([
         /**
          * Call As Low As mini cart widget
          *
-         * @returns {*}
+         * @returns bool
          */
         initAsLowAsMiniCart: function() {
             aslowasMC(this.asLowAsMCOptions);
