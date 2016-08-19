@@ -534,7 +534,7 @@ class Config implements ConfigInterface
      * @return array
      */
     public function getAllAsLowAsConfig()
-    {//todo's ref + disabled config
+    {
         return [
             'asLowAsActiveMiniCart' => $this->getConfigData('active') && $this->isAslowasEnabled('cc') &&
                 $this->isCurrencyValid(),
