@@ -14,7 +14,7 @@ $specificInfo = $block->getSpecificInformation();
 $title = $block->escapeHtml($block->getMethod()->getTitle());
 ?>
 <dl class="payment-method">
-    <dt class="title"><a href="<?php echo $block->getAffirmMainUrl(); ?>"><?php /* @noEscape */ echo __('Affirm'); ?></a></dt>
+    <dt class="title"><a href="<?php echo $block->getAffirmMainUrl(); ?>" target="_blank"><?php /* @noEscape */ echo __('Affirm'); ?></a></dt>
     <?php if ($specificInfo):?>
         <dd class="content">
             <table class="data table">
