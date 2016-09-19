@@ -56,10 +56,10 @@ class UpgradeData implements UpgradeDataInterface
         /** @var EavSetup $eavSetup */
         $eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
 
-        /**
-         * Add attributes to the product eav/attribute
-         */
         if (version_compare($context->getVersion(), '0.4.2', '<')) {
+            /**
+             * Add attributes to the product eav/attribute
+             */
             $eavSetup->addAttribute(
                 \Magento\Catalog\Model\Product::ENTITY,
                 'affirm_product_mfp',
@@ -98,6 +98,99 @@ class UpgradeData implements UpgradeDataInterface
                     'input' => 'text',
                     'required' => 0,
                     'sort_order' => 100,
+                    'global' => \Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface::SCOPE_WEBSITE,
+                    'group' => 'General Information',
+                    'is_used_in_grid' => 0,
+                    'is_visible_in_grid' => 0,
+                    'is_filterable_in_grid' => 0,
+                ]
+            );
+        }
+
+        if (version_compare($context->getVersion(), '0.4.3', '<')) {
+            /**
+             * Add attributes to the product eav/attribute
+             */
+            $eavSetup->addAttribute(
+                \Magento\Catalog\Model\Product::ENTITY,
+                'affirm_product_mfp_type',
+                [
+                    'type' => 'int',
+                    'backend' => '',
+                    'frontend' => '',
+                    'label' => 'Multiple Financing Program type',
+                    'input' => 'select',
+                    'class' => '',
+                    'source' => 'Astound\Affirm\Model\Entity\Attribute\Source\FinancingProgramType',
+                    'global' => \Magento\Catalog\Model\ResourceModel\Eav\Attribute::SCOPE_WEBSITE,
+                    'group' => 'General',
+                    'visible' => 1,
+                    'required' => 0,
+                    'user_defined' => 0,
+                    'searchable' => 0,
+                    'filterable' => 0,
+                    'comparable' => 0,
+                    'visible_on_front' => 0,
+                    'used_in_product_listing' => 0,
+                    'unique' => 0,
+                    'apply_to' => '',
+                ]
+            );
+            $eavSetup->addAttribute(
+                \Magento\Catalog\Model\Product::ENTITY,
+                'affirm_product_mfp_priority',
+                [
+                    'type' => 'int',
+                    'backend' => '',
+                    'frontend' => '',
+                    'label' => 'Multiple Financing Program priority',
+                    'input' => 'text',
+                    'class' => 'validate-number',
+                    'global' => \Magento\Catalog\Model\ResourceModel\Eav\Attribute::SCOPE_WEBSITE,
+                    'group' => 'General',
+                    'visible' => 1,
+                    'required' => 0,
+                    'user_defined' => 0,
+                    'searchable' => 0,
+                    'filterable' => 0,
+                    'comparable' => 0,
+                    'visible_on_front' => 0,
+                    'used_in_product_listing' => 0,
+                    'unique' => 0,
+                    'apply_to' => '',
+                ]
+            );
+
+            /**
+             * Add attributes to the category eav/attribute
+             */
+            $eavSetup->addAttribute(
+                \Magento\Catalog\Model\Category::ENTITY,
+                'affirm_category_mfp_type',
+                [
+                    'type' => 'int',
+                    'label' => 'Multiple Financing Program type',
+                    'input' => 'select',
+                    'required' => 0,
+                    'sort_order' => 101,
+                    'source' => 'Astound\Affirm\Model\Entity\Attribute\Source\FinancingProgramType',
+                    'global' => \Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface::SCOPE_WEBSITE,
+                    'group' => 'General Information',
+                    'is_used_in_grid' => 0,
+                    'is_visible_in_grid' => 0,
+                    'is_filterable_in_grid' => 0,
+                ]
+            );
+            $eavSetup->addAttribute(
+                \Magento\Catalog\Model\Category::ENTITY,
+                'affirm_category_mfp_priority',
+                [
+                    'type' => 'int',
+                    'label' => 'Multiple Financing Program priority',
+                    'input' => 'text',
+                    'class' => 'validate-number',
+                    'required' => 0,
+                    'sort_order' => 102,
                     'global' => \Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface::SCOPE_WEBSITE,
                     'group' => 'General Information',
                     'is_used_in_grid' => 0,

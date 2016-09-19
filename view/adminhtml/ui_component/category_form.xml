@@ -19,5 +19,26 @@
                 </item>
             </argument>
         </field>
+        <field name="affirm_category_mfp_type">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Astound\Affirm\Model\Entity\Attribute\Source\FinancingProgramType</item>
+                <item name="config" xsi:type="array">
+                    <item name="sortOrder" xsi:type="number">2</item>
+                    <item name="dataType" xsi:type="string">string</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="label" xsi:type="string" translate="true">Multiple Financing Program type</item>
+                </item>
+            </argument>
+        </field>
+        <field name="affirm_category_mfp_priority">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="sortOrder" xsi:type="number">3</item>
+                    <item name="dataType" xsi:type="string">string</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="label" xsi:type="string" translate="true">Multiple Financing Program priority</item>
+                </item>
+            </argument>
+        </field>
     </fieldset>
 </form>

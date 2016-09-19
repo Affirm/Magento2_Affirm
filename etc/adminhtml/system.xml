@@ -77,7 +77,18 @@
                     <label>End date for Financing Program value</label>
                     <frontend_model>Astound\Affirm\Block\System\Config\Form\Field\Date</frontend_model>
                 </field>
-                <field id="min_order_total" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="financing_program_cart_size_value" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Cart-size Financing Program value</label>
+                </field>
+                <field id="financing_program_cart_size_min_order_total" translate="label" type="text" sortOrder="82" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Cart-size Financing Program Minimum Order Total</label>
+                    <frontend_class>validate-number</frontend_class>
+                </field>
+                <field id="financing_program_cart_size_max_order_total" translate="label" type="text" sortOrder="84" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Cart-size Financing Program Maximum Order Total</label>
+                    <frontend_class>validate-number</frontend_class>
+                </field>
+                <field id="min_order_total" translate="label" type="text" sortOrder="88" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Minimum Order Total</label>
                     <frontend_class>validate-number</frontend_class>
                 </field>

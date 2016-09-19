@@ -52,6 +52,8 @@ class FinancingProgram
     protected $customerFP;
     protected $productFP;
     protected $categoryFP;
+    protected $entityFP;
+    protected $cartSizeFP;
     /**#@-*/
 
     /**
@@ -159,6 +161,36 @@ class FinancingProgram
     }
 
     /**
+     * Get MFP cart size default
+     *
+     * @return string
+     */
+    public function getFinancingProgramCartSizeValue()
+    {
+        return $this->affirmPaymentConfig->getConfigData('financing_program_cart_size_value');
+    }
+
+    /**
+     * Get MFP cart size min order total
+     *
+     * @return string
+     */
+    public function getFinancingProgramCartSizeMinOrderTotal()
+    {
+        return $this->affirmPaymentConfig->getConfigData('financing_program_cart_size_min_order_total');
+    }
+
+    /**
+     * Get MFP cart size max order total
+     *
+     * @return string
+     */
+    public function getFinancingProgramCartSizeMaxOrderTotal()
+    {
+        return $this->affirmPaymentConfig->getConfigData('financing_program_cart_size_max_order_total');
+    }
+
+    /**
      * Is MFP valid for current date
      *
      * @return bool
@@ -198,14 +230,126 @@ class FinancingProgram
     {
         if (null === $this->products) {
             $visibleQuoteItems = $this->quote->getAllVisibleItems();
+            $productIds = [];
             foreach ($visibleQuoteItems as $visibleQuoteItem) {
                 $productIds[] = $visibleQuoteItem->getProductId();
             }
             $this->products = $this->productCollectionFactory->create()
-                ->addAttributeToSelect('affirm_product_mfp')
+                ->addAttributeToSelect(['affirm_product_mfp', 'affirm_product_mfp_type', 'affirm_product_mfp_priority'])
                 ->addAttributeToFilter('entity_id', array('in' => $productIds));
         }
         return $this->products;
+    }
+
+    /**
+     * Get categories from quote products
+     *
+     * @return \Magento\Catalog\Model\ResourceModel\Category\Collection
+     */
+    protected function getQuoteCategoryCollection()
+    {
+        $categoryItemsIds = [];
+        $productCollection = $this->getQuoteProductCollection();
+        foreach ($productCollection as $product) {
+            $categoryIds = $product->getCategoryIds();
+            if (!empty($categoryIds)) {
+                $categoryItemsIds = array_merge($categoryItemsIds, $categoryIds);
+            }
+        }
+        $categoryCollection = $this->categoryCollectionFactory->create()
+            ->addAttributeToSelect(['affirm_category_mfp', 'affirm_category_mfp_type', 'affirm_category_mfp_priority'])
+            ->addAttributeToFilter('entity_id', array('in' => $categoryItemsIds));
+        return $categoryCollection;
+    }
+
+    /**
+     * Get financing program from product or category entity items
+     *
+     * @param array $entityItems
+     * @return string
+     */
+    protected function getFinancingProgramFromEntityItems(array $entityItems)
+    {
+        $exclusiveMFP = array();
+        $inclusiveMFP = array();
+        $existItemWithoutMFP = false;
+        $inclusiveMFPTemp = array();
+        $this->entityFP = '';
+        foreach ($entityItems as $entityItemMFP) {
+            if (!$entityItemMFP['value']) {
+                $existItemWithoutMFP = true;
+            } else {
+                if (!$entityItemMFP['type']) {
+                    if (!in_array($entityItemMFP['value'], $exclusiveMFP)) {
+                        $exclusiveMFP[] = $entityItemMFP['value'];
+                    }
+                } else {
+                    if (!in_array($entityItemMFP['value'], $inclusiveMFPTemp)) {
+                        $inclusiveMFPTemp[] = $entityItemMFP['value'];
+                        $inclusiveMFP[] = array(
+                            'value'    => $entityItemMFP['value'],
+                            'priority' => $entityItemMFP['priority']
+                        );
+                    }
+                }
+            }
+        }
+        if (count($inclusiveMFP) == 1) {
+            $this->entityFP = $inclusiveMFP[0]['value'];
+        } elseif ((count($exclusiveMFP) == 1) && (count($inclusiveMFP) == 0) && !$existItemWithoutMFP) {
+            $this->entityFP = $exclusiveMFP[0];
+        } elseif (count($inclusiveMFP) > 1) {
+            $higherPriority = -1;
+            foreach ($inclusiveMFP as $inclusiveMFPValue) {
+                if ($inclusiveMFPValue['priority'] > $higherPriority) {
+                    $higherPriority = $inclusiveMFPValue['priority'];
+                    $this->entityFP = $inclusiveMFPValue['value'];
+                }
+            }
+        } else {
+            $this->entityFP = '';
+        }
+        return $this->entityFP;
+    }
+
+    /**
+     * Convert product collection into items array
+     *
+     * @param \Magento\Catalog\Model\ResourceModel\Collection\AbstractCollection $collection
+     * @return array
+     */
+    protected function convertProductCollectionToItemsArray(
+        \Magento\Catalog\Model\ResourceModel\Collection\AbstractCollection $collection
+    ) {
+        $entityItems = [];
+        foreach ($collection as $entity) {
+            $entityItems[] = [
+                'value'    => $entity->getAffirmProductMfp(),
+                'type'     => $entity->getAffirmProductMfpType(),
+                'priority' => $entity->getAffirmProductMfpPriority() ?: 0
+            ];
+        }
+        return $entityItems;
+    }
+
+    /**
+     * Convert product collection into items array
+     *
+     * @param \Magento\Catalog\Model\ResourceModel\Collection\AbstractCollection $collection
+     * @return array
+     */
+    protected function convertCategoryCollectionToItemsArray(
+        \Magento\Catalog\Model\ResourceModel\Collection\AbstractCollection $collection
+    ) {
+        $entityItems = [];
+        foreach ($collection as $entity) {
+            $entityItems[] = [
+                'value'    => $entity->getAffirmCategoryMfp(),
+                'type'     => $entity->getAffirmCategoryMfpType(),
+                'priority' => $entity->getAffirmCategoryMfpPriority() ?: 0
+            ];
+        }
+        return $entityItems;
     }
 
     /**
@@ -216,18 +360,9 @@ class FinancingProgram
     protected function getFinancingProgramFromProducts()
     {
         if (null === $this->productFP) {
-            $productItemsMFP = [];
             $productCollection = $this->getQuoteProductCollection();
-            foreach ($productCollection as $product) {
-                if ($product->getAffirmProductMfp()) {
-                    $productItemsMFP[] = $product->getAffirmProductMfp();
-                }
-            }
-            if (!empty($productItemsMFP) && (count(array_unique($productItemsMFP)) == 1)) {
-                $this->productFP = reset($productItemsMFP);
-            } else{
-                $this->productFP = '';
-            }
+            $entityItems = $this->convertProductCollectionToItemsArray($productCollection);
+            $this->productFP = $this->getFinancingProgramFromEntityItems($entityItems);
         }
         return $this->productFP;
     }
@@ -240,30 +375,46 @@ class FinancingProgram
     protected function getFinancingProgramFromCategories()
     {
         if (null === $this->categoryFP) {
-            $categoryItemsIds = [];
-            $categoryItemsMFP = [];
-            $productCollection = $this->getQuoteProductCollection();
-            foreach ($productCollection as $product) {
-                $categoryIds = $product->getCategoryIds();
-                if (!empty($categoryIds)) {
-                    $categoryItemsIds = array_merge($categoryItemsIds, $categoryIds);
-                }
-            }
-            $categoryCollection = $this->categoryCollectionFactory->create()
-                ->addAttributeToSelect('affirm_category_mfp')
-                ->addAttributeToFilter('entity_id', array('in' => $categoryItemsIds));
-            foreach ($categoryCollection as $category) {
-                if ($category->getAffirmCategoryMfp()) {
-                    $categoryItemsMFP[] = $category->getAffirmCategoryMfp();
-                }
-            }
-            if (!empty($categoryItemsMFP) && (count(array_unique($categoryItemsMFP)) == 1)) {
-                $this->categoryFP = reset($categoryItemsMFP);
-            } else {
-                $this->categoryFP = '';
-            }
+            $categoryCollection = $this->getQuoteCategoryCollection();
+            $entityItems = $this->convertCategoryCollectionToItemsArray($categoryCollection);
+            $this->categoryFP = $this->getFinancingProgramFromEntityItems($entityItems);
         }
         return $this->categoryFP;
+    }
+
+    /**
+     * Get Quote base grand total
+     *
+     * @return float
+     */
+    protected function getQuoteBaseGrandTotal()
+    {
+        return $this->quote->getBaseGrandTotal();
+    }
+
+    /**
+     * Get financing program from cart size
+     *
+     * @return string
+     */
+    protected function getFinancingProgramFromCartSize()
+    {
+        if (null === $this->cartSizeFP) {
+            $cartTotal = $this->getQuoteBaseGrandTotal();
+            $minTotal = $this->getFinancingProgramCartSizeMinOrderTotal();
+            $maxTotal = $this->getFinancingProgramCartSizeMaxOrderTotal();
+            $cartSizeValue = $this->getFinancingProgramCartSizeValue();
+
+            if ($cartSizeValue && !empty($minTotal) && !empty($maxTotal)
+                && $cartTotal >= $minTotal
+                && $cartTotal <= $maxTotal
+            ) {
+                $this->cartSizeFP = $cartSizeValue;
+            } else {
+                $this->cartSizeFP = '';
+            }
+        }
+        return $this->cartSizeFP;
     }
 
     /**
@@ -280,6 +431,8 @@ class FinancingProgram
             return $this->getFinancingProgramFromProducts();
         } elseif ($this->getFinancingProgramFromCategories()) {
             return $this->getFinancingProgramFromCategories();
+        } elseif ($this->getFinancingProgramFromCartSize()) {
+            return $this->getFinancingProgramFromCartSize();
         } elseif ($this->isFinancingProgramValidCurrentDate()) {
             return $this->getFinancingProgramDateRange();
         } else {
