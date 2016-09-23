@@ -67,6 +67,8 @@ define(["jquery",
                     aslowas.process(price, self.options);
                 }
             }
+
+            aslowas.processBackordersVisibility(self.options.backorders_options);
         }
     });
     return $.mage.aslowasPDP

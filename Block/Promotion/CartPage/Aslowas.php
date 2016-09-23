@@ -47,21 +47,23 @@ class Aslowas extends AslowasAbstract
     /**
      * Cart page block.
      *
-     * @param Template\Context             $context
-     * @param ConfigProvider               $configProvider
-     * @param \Astound\Affirm\Model\Config $configAffirm
-     * @param Session                      $session
-     * @param array                        $data
+     * @param Template\Context               $context
+     * @param ConfigProvider                 $configProvider
+     * @param \Astound\Affirm\Model\Config   $configAffirm
+     * @param \Astound\Affirm\Helper\Payment $helperAffirm
+     * @param Session                        $session
+     * @param array                          $data
      */
     public function __construct(
         Template\Context $context,
         ConfigProvider $configProvider,
         \Astound\Affirm\Model\Config $configAffirm,
+        \Astound\Affirm\Helper\Payment $helperAffirm,
         Session $session,
         array $data = []
     ) {
         $this->checkoutSession = $session;
-        parent::__construct($context, $configProvider, $configAffirm, $data);
+        parent::__construct($context, $configProvider, $configAffirm, $helperAffirm, $data);
     }
 
     /**
@@ -87,7 +89,7 @@ class Aslowas extends AslowasAbstract
             $isAvailableFlag = $this->getPaymentConfigValue('active');
 
             //Validate aslowas block based on appropriate values and conditions
-            if ($isAvailableFlag) {
+            if ($isAvailableFlag && $this->affirmPaymentHelper->isAffirmAvailable()) {
                 return true;
             }
         }

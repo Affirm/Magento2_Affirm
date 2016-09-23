@@ -24,6 +24,8 @@ use Magento\Theme\Model\View\Design;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Catalog\Helper\Image as ImageHelper;
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Catalog\Model\Product;
+use Magento\ConfigurableProduct\Model\Product\Type\Configurable as ConfigurableProductType;
 
 /**
  * Payment helper
@@ -104,17 +106,33 @@ class Payment
     protected $scopeConfig;
 
     /**
+     * Core registry
+     *
+     * @var \Magento\Framework\Registry
+     */
+    protected $coreRegistry = null;
+
+    /**
+     * Stock registry
+     *
+     * @var \Magento\CatalogInventory\Api\StockRegistryInterface
+     */
+    protected $stockRegistry;
+
+    /**
      * Affirm payment helper initialization.
      *
-     * @param \Magento\Payment\Model\Method\Adapter              $payment
-     * @param Session                                            $session
-     * @param \Magento\Payment\Model\Checks\SpecificationFactory $methodSpecificationFactory
-     * @param \Magento\Customer\Model\Session                    $customerSession
-     * @param \Magento\Catalog\Model\Product\Media\Config        $config
-     * @param StoreManagerInterface                              $storeManagerInterface
-     * @param Design                                             $design
-     * @param ImageHelper                                        $imageHelper
-     * @param ScopeConfigInterface                               $scopeConfigInterface
+     * @param \Magento\Payment\Model\Method\Adapter                $payment
+     * @param Session                                              $session
+     * @param \Magento\Payment\Model\Checks\SpecificationFactory   $methodSpecificationFactory
+     * @param \Magento\Customer\Model\Session                      $customerSession
+     * @param \Magento\Catalog\Model\Product\Media\Config          $config
+     * @param StoreManagerInterface                                $storeManagerInterface
+     * @param Design                                               $design
+     * @param ImageHelper                                          $imageHelper
+     * @param ScopeConfigInterface                                 $scopeConfigInterface
+     * @param \Magento\Framework\Registry                          $registry
+     * @param \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry
      */
     public function __construct(
         \Magento\Payment\Model\Method\Adapter $payment,
@@ -125,7 +143,9 @@ class Payment
         StoreManagerInterface $storeManagerInterface,
         Design $design,
         ImageHelper $imageHelper,
-        ScopeConfigInterface $scopeConfigInterface
+        ScopeConfigInterface $scopeConfigInterface,
+        \Magento\Framework\Registry $registry,
+        \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry
     ) {
         $this->methodSpecificationFactory = $methodSpecificationFactory;
         $this->payment = $payment;
@@ -136,6 +156,8 @@ class Payment
         $this->config = $config;
         $this->imageHelper = $imageHelper;
         $this->scopeConfig = $scopeConfigInterface;
+        $this->coreRegistry = $registry;
+        $this->stockRegistry = $stockRegistry;
     }
 
     /**
@@ -184,6 +206,90 @@ class Payment
             return $this->payment->isAvailable($this->quote);
         }
         return false;
+    }
+
+    /**
+     * Get affirm method availability for product page
+     *
+     * @param Product|null $product
+     * @return bool|mixed
+     */
+    public function isAffirmAvailableForProduct(Product $product = null)
+    {
+        if (is_null($product)) {
+            $product = $this->getProduct();
+        }
+        $check = $this->payment->isAvailable();
+        if ($check && $this->payment->getConfigData('disable_for_backordered_items') && $product && $product->getId()) {
+            if ($product->isComposite()) {
+                $associatedProducts = $product->getTypeInstance()->getAssociatedProducts($product);
+                foreach ($associatedProducts as $associatedProduct) {
+                    $stockItem = $this->stockRegistry->getStockItem($associatedProduct->getId());
+                    if ($stockItem->getBackorders() && ($stockItem->getQty() < 1)) {
+                        $check = false;
+                    }
+                }
+            } else {
+                $stockItem = $this->stockRegistry->getStockItem($product->getId());
+                if ($stockItem->getBackorders() && ($stockItem->getQty() < 1)) {
+                    $check = false;
+                }
+            }
+        }
+        return $check;
+    }
+
+    /**
+     * Get current product
+     *
+     * @return Product
+     */
+    public function getProduct()
+    {
+        return $this->coreRegistry->registry('product');
+    }
+
+    /**
+     * Check if product is configurable
+     *
+     * @param Product $product
+     * @return bool
+     */
+    public function isProductConfigurable(Product $product)
+    {
+        return $product->getTypeId() === ConfigurableProductType::TYPE_CODE;
+    }
+
+    /**
+     * Get configurable product options
+     *
+     * @param Product $product
+     * @return array
+     */
+    public function getConfigurableProductBackordersOptions(Product $product = null)
+    {
+        if (is_null($product)) {
+            $product = $this->getProduct();
+        }
+        if ($this->payment->getConfigData('disable_for_backordered_items') && $this->isProductConfigurable($product)) {
+            /** @var ConfigurableProductType $productTypeConfigurable */
+            $productTypeConfigurable = $product->getTypeInstance();
+            $childProducts = $productTypeConfigurable->getUsedProducts($product);
+            $configurableAttributes = $productTypeConfigurable->getConfigurableAttributesAsArray($product);
+            $result = array();
+            /** @var Product $childProduct */
+            foreach ($childProducts as $childProduct) {
+                foreach ($configurableAttributes as $configurableAttribute) {
+                    $result[$childProduct->getId()][$configurableAttribute['attribute_id']] =
+                        $childProduct[$configurableAttribute['attribute_code']];
+                }
+                $stockItem = $this->stockRegistry->getStockItem($childProduct->getId());
+                $result[$childProduct->getId()]['backorders']
+                    = $stockItem->getBackorders() && ($stockItem->getQty() < 1);
+            }
+            return $result;
+        }
+        return [];
     }
 
     /**

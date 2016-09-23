@@ -12,6 +12,7 @@ define([
 
     "use strict"
 
+    var self;
     $.widget('mage.affirmWidget', {
 
         /**
@@ -25,9 +26,23 @@ define([
          * @private
          */
         _create: function() {
+            self = this;
+            var priceBox = $('.price-box');
             if (typeof affirm == "undefined") {
                 aslowas.loadScript(this.options);
             }
+            if (priceBox.length && self.options.backorders_options !== 'undefined') {
+                priceBox.on('updatePrice', self.updatePriceHandler);
+            }
+        },
+
+        /**
+         * Handle update price event
+         *
+         * @param event
+         */
+        updatePriceHandler: function(event) {
+            aslowas.processBackordersVisibility(self.options.backorders_options);
         }
     });
 

@@ -400,6 +400,16 @@ class Config implements ConfigInterface
     }
 
     /**
+     * Is disabled for backordered items flag
+     *
+     * @return bool
+     */
+    public function isDisabledForBackorderedItems()
+    {
+        return (bool)$this->getConfigData('disable_for_backordered_items');
+    }
+
+    /**
      * Aslow as activation flag
      *
      * @param $position

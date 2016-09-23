@@ -20,8 +20,8 @@ namespace Astound\Affirm\Block\Promotion;
 
 use Magento\Framework\View\Element\Template;
 use Astound\Affirm\Model\Ui\ConfigProvider;
-use Magento\Store\Model\ScopeInterface;
-use Astound\Affirm\Model\Config as Config;
+use Astound\Affirm\Model\Config;
+use Astound\Affirm\Helper\Payment;
 
 /**
  * Class Aslowas
@@ -52,6 +52,13 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
     protected $configProvider;
 
     /**
+     * Affirm payment model instance
+     *
+     * @var Payment
+     */
+    protected $affirmPaymentHelper;
+
+    /**
      * Block type
      *
      * @var string
@@ -68,15 +75,17 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
     /**
      * Inject block init data
      *
-     * @param Template\Context             $context
-     * @param ConfigProvider               $configProvider
-     * @param \Astound\Affirm\Model\Config $configAffirm
-     * @param array                        $data
+     * @param Template\Context $context
+     * @param ConfigProvider   $configProvider
+     * @param Config           $configAffirm
+     * @param Payment          $helperAffirm
+     * @param array            $data
      */
     public function __construct(
         Template\Context $context,
         ConfigProvider $configProvider,
         Config $configAffirm,
+        Payment $helperAffirm,
         array $data = []
     ) {
         if (isset($data['position']) && $data['position']) {
@@ -87,6 +96,7 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
         $this->affirmPaymentConfig = $configAffirm;
         $this->affirmPaymentConfig->setWebsiteId($currentWebsiteId);
         $this->configProvider = $configProvider;
+        $this->affirmPaymentHelper = $helperAffirm;
 
         if (isset($data['type'])) {
             $this->type = $data['type'];

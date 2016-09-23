@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Astound
+ * Affirm system configuration.
+ *
+ * @category  Affirm
+ * @package   Astound_Affirm
+ * @copyright Copyright (c) 2016 Astound, Inc. (http://www.astoundcommerce.com)
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="payment_method_is_active">
+        <observer name="check_affirm_payment_method_is_active" instance="Astound\Affirm\Model\Observer\PaymentMethodIsActive" />
+    </event>
+</config>

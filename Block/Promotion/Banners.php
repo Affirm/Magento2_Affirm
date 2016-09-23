@@ -22,6 +22,7 @@ use Magento\Store\Model\ScopeInterface;
 use Magento\Framework\View\Element\Template;
 use Astound\Affirm\Model\Ui\ConfigProvider;
 use Astound\Affirm\Model\Config;
+use Astound\Affirm\Helper\Payment;
 
 /**
  * Class Banner
@@ -61,9 +62,16 @@ class Banners extends \Magento\Framework\View\Element\Template
     /**
      * Config payment
      *
-     * @var \Astound\Affirm\Model\Config
+     * @var Config
      */
     protected $affirmPaymentConfig;
+
+    /**
+     * Affirm payment model instance
+     *
+     * @var Payment
+     */
+    protected $helper;
 
     /**
      * Inject all needed objects
@@ -71,17 +79,19 @@ class Banners extends \Magento\Framework\View\Element\Template
      * @param Template\Context $context
      * @param Config           $configAffirm
      * @param ConfigProvider   $configProvider
+     * @param Payment          $helper
      * @param array            $data
      */
     public function __construct(
         Template\Context $context,
-        \Astound\Affirm\Model\Config $configAffirm,
-        \Astound\Affirm\Model\Ui\ConfigProvider $configProvider,
+        Config $configAffirm,
+        ConfigProvider $configProvider,
+        Payment $helper,
         array $data = []
     ) {
-
         parent::__construct($context, $data);
         $this->affirmPaymentConfig = $configAffirm;
+        $this->helper = $helper;
         $this->position = isset($data['position']) ? $data['position']: '';
         $this->section = isset($data['section']) ? $data['section']: 0;
         $this->configProvider = $configProvider;
@@ -114,6 +124,26 @@ class Banners extends \Magento\Framework\View\Element\Template
     }
 
     /**
+     * Check if current page is cart page
+     *
+     * @return bool
+     */
+    protected function isCartPage()
+    {
+        return $this->section === 'checkout_cart';
+    }
+
+    /**
+     * Check if current page is product page
+     *
+     * @return bool
+     */
+    protected function isProductPage()
+    {
+        return $this->section === 'product';
+    }
+
+    /**
      * Verify block before render html
      *
      * @return string
@@ -131,6 +161,14 @@ class Banners extends \Magento\Framework\View\Element\Template
         }
 
         if ($this->position != $position) {
+            return '';
+        }
+
+        if ($this->isCartPage() && !$this->helper->isAffirmAvailable()) {
+            return '';
+        }
+
+        if ($this->isProductPage() && !$this->helper->isAffirmAvailableForProduct()) {
             return '';
         }
 
@@ -155,6 +193,9 @@ class Banners extends \Magento\Framework\View\Element\Template
                 $options['script'] = $config['script'];
                 $options['public_api_key'] = $config['apiKeyPublic'];
             }
+        }
+        if ($this->isProductPage()) {
+            $options['backorders_options'] = $this->helper->getConfigurableProductBackordersOptions();
         }
         return json_encode($options);
     }

@@ -163,6 +163,54 @@ define([
                     d(g);
                     l[m] = c
                 })(window, _affirm_config, "affirm", "checkout", "ui", "script", "ready");
+            },
+
+            /**
+             * Process promo blocks visibility
+             */
+            processBackordersVisibility: function (options) {
+                self = this;
+                $.each(options, function (product_id, attributes) {
+                    var flagCompatible = true,
+                        flagBackorder  = false,
+                        simpleProductId = 0;
+                    $.each(attributes, function (key, value) {
+                        if (key == 'backorders') {
+                            flagBackorder = value;
+                        } else {
+                            var el = $('[attribute-id="' + key + '"]');
+                            simpleProductId = parseInt(product_id);
+                            if (!el || el.attr('option-selected') != value) {
+                                flagCompatible = false;
+                                simpleProductId = 0;
+                                return false;
+                            }
+                        }
+                    });
+                    if (flagCompatible && simpleProductId > 0) {
+                        if (flagBackorder) {
+                            self.updatePromoBlocksVisibility('hidden');
+                        } else {
+                            self.updatePromoBlocksVisibility('visible');
+                        }
+                        return false;
+                    }
+                });
+            },
+
+            /**
+             * Update promo blocks visibility
+             */
+            updatePromoBlocksVisibility: function(visibility) {
+                var asLowAs = document.getElementById(self.getAsLowAsElement());
+                if (asLowAs) {
+                    asLowAs.style.visibility = visibility;
+                }
+                var promoBanners = document.getElementsByClassName('affirm-promo');
+                if (promoBanners[0]){
+                    promoBanners[0].style.visibility = visibility;
+                }
+                return true;
             }
         }
     });

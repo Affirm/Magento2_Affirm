@@ -33,7 +33,7 @@ class Aslowas extends AslowasAbstract
      * @var array
      */
     protected $data = ['apr', 'months', 'logo', 'script', 'public_api_key', 'min_order_total', 'max_order_total',
-        'selector', 'currency_rate'];
+        'selector', 'currency_rate', 'backorders_options'];
 
     /**
      * Validate block before showing on front
@@ -43,7 +43,10 @@ class Aslowas extends AslowasAbstract
      */
     public function validate()
     {
-        if ($this->affirmPaymentConfig->getConfigData('active')) {
+        $product = $this->affirmPaymentHelper->getProduct();
+        if ($this->affirmPaymentConfig->getConfigData('active')
+            && $this->affirmPaymentHelper->isAffirmAvailableForProduct($product)
+        ) {
             return true;
         }
         return false;
@@ -67,6 +70,11 @@ class Aslowas extends AslowasAbstract
                 $this->setData('currency_rate', $rate);
             }
         }
+        $product = $this->affirmPaymentHelper->getProduct();
+        $this->setData(
+            'backorders_options',
+            $this->affirmPaymentHelper->getConfigurableProductBackordersOptions($product)
+        );
         parent::process();
     }
 }

@@ -25,6 +25,7 @@
                 <min_order_total>0.01</min_order_total>
                 <max_order_total>100000</max_order_total>
                 <payment_action>authorize</payment_action>
+                <disable_for_backordered_items>0</disable_for_backordered_items>
                 <allowspecific>1</allowspecific>
                 <specificcountry>US</specificcountry>
                 <allowspecificcurrency>1</allowspecificcurrency>
