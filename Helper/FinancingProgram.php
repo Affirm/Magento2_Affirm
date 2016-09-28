@@ -248,19 +248,30 @@ class FinancingProgram
      */
     protected function getQuoteCategoryCollection()
     {
-        $categoryItemsIds = [];
         $productCollection = $this->getQuoteProductCollection();
+        $categoryItemsIds = [];
+        $flagProductWithoutMfpCategories = false;
+        /** @var \Magento\Catalog\Model\Product $product */
         foreach ($productCollection as $product) {
-            $categoryIds = $product->getCategoryIds();
+            /** @var \Magento\Catalog\Model\ResourceModel\Category\Collection $categoryProductCollection */
+            $categoryProductCollection = $product->getCategoryCollection();
+            $categoryProductCollection
+                ->addAttributeToFilter('affirm_category_mfp', array('neq' => ''))
+                ->addAttributeToFilter('affirm_category_mfp', array('notnull' => true));
+            $categoryIds = $categoryProductCollection->getAllIds();
             if (!empty($categoryIds)) {
                 $categoryItemsIds = array_merge($categoryItemsIds, $categoryIds);
+            } else {
+                $flagProductWithoutMfpCategories = true;
             }
         }
         $categoryCollection = $this->categoryCollectionFactory->create()
             ->addAttributeToSelect(['affirm_category_mfp', 'affirm_category_mfp_type', 'affirm_category_mfp_priority'])
-            ->addAttributeToFilter('entity_id', array('in' => $categoryItemsIds))
-            ->addAttributeToFilter('affirm_category_mfp', array('neq' => ''))
-            ->addAttributeToFilter('affirm_category_mfp', array('notnull' => true));
+            ->addAttributeToFilter('entity_id', array('in' => $categoryItemsIds));
+        if ($flagProductWithoutMfpCategories) {
+            $emptyCategory = new \Magento\Framework\DataObject(['id' => -1]);
+            $categoryCollection->addItem($emptyCategory);
+        }
         return $categoryCollection;
     }
 
