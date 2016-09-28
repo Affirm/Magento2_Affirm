@@ -265,12 +265,12 @@ class FinancingProgram
                 $flagProductWithoutMfpCategories = true;
             }
         }
+        /** @var \Magento\Catalog\Model\ResourceModel\Category\Collection $categoryCollection */
         $categoryCollection = $this->categoryCollectionFactory->create()
             ->addAttributeToSelect(['affirm_category_mfp', 'affirm_category_mfp_type', 'affirm_category_mfp_priority'])
             ->addAttributeToFilter('entity_id', array('in' => $categoryItemsIds));
         if ($flagProductWithoutMfpCategories) {
-            $emptyCategory = new \Magento\Framework\DataObject(['id' => -1]);
-            $categoryCollection->addItem($emptyCategory);
+            $categoryCollection->setFlag('productWithoutMfpCategories', true);
         }
         return $categoryCollection;
     }
@@ -360,6 +360,13 @@ class FinancingProgram
                 'value'    => $entity->getAffirmCategoryMfp(),
                 'type'     => $entity->getAffirmCategoryMfpType(),
                 'priority' => $entity->getAffirmCategoryMfpPriority() ?: 0
+            ];
+        }
+        if ($collection->getFlag('productWithoutMfpCategories')) {
+            $entityItems[] = [
+                'value'    => '',
+                'type'     => '',
+                'priority' => 0
             ];
         }
         return $entityItems;
