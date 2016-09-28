@@ -170,6 +170,7 @@ define([
              */
             processBackordersVisibility: function (options) {
                 self = this;
+                var isVissible = true;
                 $.each(options, function (product_id, attributes) {
                     var flagCompatible = true,
                         flagBackorder  = false,
@@ -190,12 +191,16 @@ define([
                     if (flagCompatible && simpleProductId > 0) {
                         if (flagBackorder) {
                             self.updatePromoBlocksVisibility('hidden');
+                            isVissible = false;
                         } else {
                             self.updatePromoBlocksVisibility('visible');
                         }
                         return false;
                     }
                 });
+                if (isVissible) {
+                    self.updatePromoBlocksVisibility('visible');
+                }
             },
 
             /**
