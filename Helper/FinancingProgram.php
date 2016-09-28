@@ -258,7 +258,9 @@ class FinancingProgram
         }
         $categoryCollection = $this->categoryCollectionFactory->create()
             ->addAttributeToSelect(['affirm_category_mfp', 'affirm_category_mfp_type', 'affirm_category_mfp_priority'])
-            ->addAttributeToFilter('entity_id', array('in' => $categoryItemsIds));
+            ->addAttributeToFilter('entity_id', array('in' => $categoryItemsIds))
+            ->addAttributeToFilter('affirm_category_mfp', array('neq' => ''))
+            ->addAttributeToFilter('affirm_category_mfp', array('notnull' => true));
         return $categoryCollection;
     }
 
