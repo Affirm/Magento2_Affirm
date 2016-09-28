@@ -284,6 +284,9 @@
     <type name="Magento\Sales\Controller\Adminhtml\Order\Address">
         <plugin name="before-edit-address-admin" type="Astound\Affirm\Model\Plugin\Order\Address\Edit" sortOrder="1"/>
     </type>
+    <type name="Magento\Checkout\CustomerData\Cart">
+        <plugin name="checkout-aslowas-minicart" type="Astound\Affirm\Model\Plugin\Checkout\CustomerData\Cart"/>
+    </type>
 
     <!-- Init payment helper -->
     <type name="Astound\Affirm\Helper\Payment">

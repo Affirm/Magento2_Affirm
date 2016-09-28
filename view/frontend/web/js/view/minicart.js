@@ -174,8 +174,12 @@ define([
          * @returns bool
          */
         initAsLowAsMiniCart: function() {
-            aslowasMC(this.asLowAsMCOptions);
-            return true;
+            var cart = customerData.get('cart');
+            if (cart().allow_affirm_quote_aslowas) {
+                aslowasMC(this.asLowAsMCOptions);
+                return true;
+            }
+            return false;
         }
     });
 });
