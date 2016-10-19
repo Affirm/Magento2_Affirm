@@ -13,7 +13,7 @@
         "magento/module-checkout-agreements": "100.1.*"
     },
     "type": "magento2-module",
-    "version": "0.4.4-alpha1",
+    "version": "0.4.4-alpha2",
     "license": [
         "OSL-3.0"
     ],

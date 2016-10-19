@@ -20,9 +20,9 @@ namespace Astound\Affirm\Model;
 
 use Astound\Affirm\Api\GiftWrapManagerInterface;
 use Magento\Checkout\Model\Session;
-use Magento\GiftWrapping\Api\WrappingRepositoryInterface;
 use Astound\Affirm\Gateway\Helper\Util;
 use Astound\Affirm\Helper\Payment as PaymentHelper;
+use \Magento\Framework\ObjectManagerInterface;
 
 /**
  * Class GiftWrapManager
@@ -53,6 +53,13 @@ class GiftWrapManager implements GiftWrapManagerInterface
     protected $wrappingRepository;
 
     /**
+     * Object manager
+     *
+     * @var ObjectManagerInterface
+     */
+    protected $objectManager;
+
+    /**
      * Wrapped items
      *
      * @var array
@@ -69,18 +76,18 @@ class GiftWrapManager implements GiftWrapManagerInterface
     /**
      * Gift wrap manager init
      *
-     * @param Session                     $checkoutSession
-     * @param WrappingRepositoryInterface $wrappingRepository
-     * @param PaymentHelper               $paymentHelper
+     * @param Session                $checkoutSession
+     * @param ObjectManagerInterface $objectManager
+     * @param PaymentHelper          $paymentHelper
      */
     public function __construct(
         Session $checkoutSession,
-        WrappingRepositoryInterface $wrappingRepository,
+        ObjectManagerInterface $objectManager,
         PaymentHelper $paymentHelper
     ) {
         $this->session = $checkoutSession;
         $this->quote = $checkoutSession->getQuote();
-        $this->wrappingRepository = $wrappingRepository;
+        $this->wrappingRepository = $objectManager->create('Magento\GiftWrapping\Api\WrappingRepositoryInterface');
         $this->imageHelper = $paymentHelper;
     }
 
