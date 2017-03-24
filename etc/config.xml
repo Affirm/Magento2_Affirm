@@ -46,7 +46,7 @@
                 <info>Monthly Payments</info>
                 <virtual_terminal_url>http://help.merchants.affirm.com/article/67-virtual-terminal-overview</virtual_terminal_url>
                 <enable_checkout_button>0</enable_checkout_button>
-                <checkout_button_code>http://d33v4339jhl8k0.cloudfront.net/docs/assets/54ab19f8e4b08393789ca141/images/54ebbdc6e4b086c0c0968fa2/file-cmGEKUeWtK.png</checkout_button_code>
+                <checkout_button_code>https://cdn-assets.affirm.com/images/buttons/30_148-white.png</checkout_button_code>
             </affirm_gateway>
         </payment>
         <affirm>
