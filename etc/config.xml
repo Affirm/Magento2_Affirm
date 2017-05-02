@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-/**
+ /**
  * Astound
  * Affirm config default values.
  *
@@ -8,7 +8,7 @@
  * @package   Astound_Affirm
  * @copyright Copyright (c) 2016 Astound, Inc. (http://www.astoundcommerce.com)
  */
--->
+ -->
 
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
@@ -18,8 +18,6 @@
                 <debug>1</debug>
                 <model>OnePicaAffirmGatewayFacade</model>
                 <mode>sandbox</mode>
-                <api_url_sandbox>https://sandbox.affirm.com</api_url_sandbox>
-                <api_url_production>https://api.affirm.com</api_url_production>
                 <private_api_key_sandbox backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
                 <private_api_key_production backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
                 <min_order_total>0.01</min_order_total>

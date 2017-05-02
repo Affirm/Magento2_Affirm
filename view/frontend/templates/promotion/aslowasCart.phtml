@@ -17,6 +17,10 @@
  */
 ?>
 
-<span data-mage-init='{"aslowasCC": <?php echo $block->getWidgetData(); ?>}'>
-    <a id="learn-more" style="visibility:hidden" href="#"></a>
+<?php
+$mfpValue = $block->getMFPValue();
+?>
+<span style="float: left; width: 100%; margin-bottom: 15px" data-mage-init='{"aslowasCC": <?php echo $block->getWidgetData(); ?>}'>
+    <?php echo '<div id="als_pcc" class="affirm-as-low-as" ' . (!empty($mfpValue) ? 'data-promo-id="' . $mfpValue . '"' : '') . ' ' . $block->getDataAffirmColor() . '></div>'; ?>
 </span>
+

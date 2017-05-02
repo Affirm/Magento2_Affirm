@@ -22,6 +22,8 @@ use Astound\Affirm\Block\Promotion\AslowasAbstract;
 use Astound\Affirm\Model\Ui\ConfigProvider;
 use Magento\Framework\View\Element\Template;
 use Magento\Checkout\Model\Session;
+use Astound\Affirm\Helper;
+use Magento\Catalog\Model\ResourceModel\Category\CollectionFactory as CategoryCollectionFactory;
 
 /**
  * Class AsLowAs
@@ -35,7 +37,7 @@ class Aslowas extends AslowasAbstract
      *
      * @var array
      */
-    protected $data = ['apr', 'months', 'logo', 'script', 'public_api_key', 'min_order_total', 'max_order_total'];
+    protected $data = ['logo', 'script', 'public_api_key', 'min_order_total', 'max_order_total', 'element_id'];
 
     /**
      * Checkout session
@@ -43,6 +45,13 @@ class Aslowas extends AslowasAbstract
      * @var \Magento\Checkout\Model\Session
      */
     protected $checkoutSession;
+
+    /**
+     * Financing program helper factory
+     *
+     * @var Helper\FinancingProgram
+     */
+    protected $fpHelper;
 
     /**
      * Cart page block.
@@ -53,6 +62,7 @@ class Aslowas extends AslowasAbstract
      * @param \Astound\Affirm\Helper\Payment $helperAffirm
      * @param Session                        $session
      * @param array                          $data
+     * @param Helper\AsLowAs                 $asLowAs
      */
     public function __construct(
         Template\Context $context,
@@ -60,10 +70,12 @@ class Aslowas extends AslowasAbstract
         \Astound\Affirm\Model\Config $configAffirm,
         \Astound\Affirm\Helper\Payment $helperAffirm,
         Session $session,
-        array $data = []
+        array $data = [],
+        Helper\AsLowAs $asLowAs,
+        CategoryCollectionFactory $categoryCollectionFactory
     ) {
         $this->checkoutSession = $session;
-        parent::__construct($context, $configProvider, $configAffirm, $helperAffirm, $data);
+        parent::__construct($context, $configProvider, $configAffirm, $helperAffirm, $data, $asLowAs, $categoryCollectionFactory);
     }
 
     /**
@@ -94,5 +106,26 @@ class Aslowas extends AslowasAbstract
             }
         }
         return false;
+    }
+
+    /**
+     * Add selector data to the block context.
+     * This needs for bundle product, because bundle has
+     * different structure.
+     */
+    public function process()
+    {
+        $this->setData('element_id', 'als_pcc');
+
+        parent::process();
+    }
+
+    /**
+     * get MFP value for current cart
+     * @return string
+     */
+    public function getMFPValue()
+    {
+        return $this->asLowAsHelper->getFinancingProgramValue();
     }
 }

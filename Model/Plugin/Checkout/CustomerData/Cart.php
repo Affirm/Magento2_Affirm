@@ -18,21 +18,90 @@
 
 namespace Astound\Affirm\Model\Plugin\Checkout\CustomerData;
 
+use Astound\Affirm\Model\Config as Config;
+use Astound\Affirm\Helper\AsLowAs;
+use Astound\Affirm\Helper\Payment;
+use Magento\Store\Model\StoreManagerInterface;
+use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory as ProductCollectionFactory;
+use Magento\Checkout\Model\Session;
+
 class Cart
 {
     /**
      * Affirm payment model instance
      *
-     * @var \Astound\Affirm\Helper\Payment
+     * @var Payment
      */
     protected $affirmPaymentHelper;
 
     /**
-     * @param \Astound\Affirm\Helper\Payment $helperAffirm
+     * AsLowAs helper
+     *
+     * @var Config
      */
-    public function __construct(\Astound\Affirm\Helper\Payment $helperAffirm)
+    protected $asLowAsHelper;
+
+    /**
+     * Affirm config model payment
+     *
+     * @var \Astound\Affirm\Model\Config
+     */
+    protected $affirmPaymentConfig;
+
+    /**
+     * Product collection factory
+     *
+     * @var \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory
+     */
+    protected $productCollectionFactory;
+
+    /**
+     * @var \Magento\Quote\Model\Quote|null
+     */
+    protected $quote = null;
+
+
+    /**
+     * @param \Astound\Affirm\Helper\Payment    $helperAffirm
+     * @param StoreManagerInterface             $storeManagerInterface
+     * @param Config                            $configAffirm
+     * @param AsLowAs                           $asLowAs
+     * @param ProductCollectionFactory          $productCollectionFactory
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     */
+    public function __construct(
+            Payment $helperAffirm,
+            StoreManagerInterface $storeManagerInterface,
+            Config $configAffirm,
+            AsLowAs $asLowAs,
+            ProductCollectionFactory $productCollectionFactory,
+            Session $checkoutSession
+    )
     {
+        $this->checkoutSession = $checkoutSession;
+
         $this->affirmPaymentHelper = $helperAffirm;
+
+        $this->productCollectionFactory = $productCollectionFactory;
+
+        $this->asLowAsHelper = $asLowAs;
+
+        $currentWebsiteId = $storeManagerInterface->getStore()->getWebsiteId();
+        $this->affirmPaymentConfig = $configAffirm;
+        $this->affirmPaymentConfig->setWebsiteId($currentWebsiteId);
+    }
+
+    /**
+     * Get active quote
+     *
+     * @return \Magento\Quote\Model\Quote
+     */
+    protected function getQuote()
+    {
+        if (null === $this->quote) {
+            $this->quote = $this->checkoutSession->getQuote();
+        }
+        return $this->quote;
     }
 
     /**
@@ -44,6 +113,13 @@ class Cart
      */
     public function afterGetSectionData(\Magento\Checkout\CustomerData\Cart $subject, $result)
     {
+        $result['mfpValue'] = '';
+        $totals = $this->getQuote()->getTotals();
+        $subtotal = isset($totals['subtotal']) ? $totals['subtotal']->getValue() : 0;
+        if($subtotal > (float)$this->affirmPaymentConfig->getAsLowAsMinMpp()) {
+            $result['mfpValue'] = $this->asLowAsHelper->getFinancingProgramValue();
+        }
+
         $result['allow_affirm_quote_aslowas'] = $this->affirmPaymentHelper->isAffirmAvailable();
         return $result;
     }

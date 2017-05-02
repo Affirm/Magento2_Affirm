@@ -23,6 +23,13 @@ use Astound\Affirm\Model\Config as ConfigProvider;
 class ConfigPlugin
 {
     /**
+     * Colors which could be set in "data-affirm-color".
+     *
+     * @var array
+     */
+    protected $dataColors = ['blue', 'black'];
+
+    /**
      * Config provider
      *
      * @var ConfigProvider
@@ -49,6 +56,10 @@ class ConfigPlugin
      */
     public function afterGetConfig(\Magento\Checkout\Block\Cart\Sidebar $subject, array $result)
     {
-        return array_merge_recursive($result, $this->configProvider->getAllAsLowAsConfig());
+        $config = $this->configProvider->getAllAsLowAsConfig();
+        $config['element_id'] = 'als_mcc';
+        $config['promo_id'] = '';
+        $config['color_id'] = in_array($config['logo'], $this->dataColors) ? $config['logo'] : '';
+        return array_merge_recursive($result, $config);
     }
 }

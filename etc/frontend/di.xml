@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-/**
+ /**
  * Astound
  * Affirm Module activation file.
  *
@@ -8,7 +8,7 @@
  * @package   Astound_Affirm
  * @copyright Copyright (c) 2016 Astound, Inc. (http://www.astoundcommerce.com)
  */
--->
+ -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <type name="Magento\Checkout\Model\CompositeConfigProvider">
         <arguments>
@@ -31,5 +31,15 @@
     </type>
     <type name="Magento\Checkout\Block\Cart\Sidebar">
         <plugin name="affirm_aslowas_cart" type="\Astound\Affirm\Model\Plugin\MiniCart\AsLowAs\ConfigPlugin" />
+    </type>
+    <type name="Magento\Catalog\Block\Product\ListProduct">
+        <plugin name="affirm_aslowas_product_list" type="\Astound\Affirm\Model\Plugin\Product\ListProduct" />
+    </type>
+    <type name="Magento\Catalog\Block\Category\View">
+        <plugin name="affirm_aslowas_product_list_view" type="\Astound\Affirm\Model\Plugin\Category\View" />
+    </type>
+    <preference for="Magento\CatalogSearch\Block\SearchResult\ListProduct" type="Magento\Catalog\Block\Product\ListProduct" />
+    <type name="Magento\CatalogSearch\Block\Result">
+        <plugin name="affirm_aslowas_product_search_list" type="\Astound\Affirm\Model\Plugin\Category\View" />
     </type>
 </config>

@@ -14,7 +14,7 @@ define([
         var self;
         return {
             options: {},
-            aSLowAsElement: 'learn-more',
+            aSLowAsElement: 'affirm-as-low-as',
 
             /**
              * Get AsLowAs html element
@@ -34,6 +34,7 @@ define([
                 self = this;
                 var formatted, priceInt, optionsPrice;
                 formatted = Number(price.replace(/[^0-9\.]+/g,""));
+
                 if (options.currency_rate) {
                     formatted = formatted / options.currency_rate;
                     formatted = formatted.toFixed(2);
@@ -50,25 +51,35 @@ define([
                  * @type {{apr: (*|apr), months: (*|months|c.months|.step.months|gc.months|._data.months), amount: number}}
                  */
                 optionsPrice = {
-                    apr: self.options.apr,
-                    months: self.options.months,
+                    element_id: (options.element_id ? options.element_id : ''),
+                    color_id: (options.color_id ? options.color_id : ''),
                     amount: priceInt
                 };
-                if (priceInt > 5000) {
+
+                if (priceInt > 50) {
                     self.processAsLowAs(optionsPrice);
                 } else {
-                    self.hideAsLowAs();
+                    self.hideAsLowAs(optionsPrice);
                 }
             },
 
             /**
              * Hide As Low As
              */
-            hideAsLowAs: function() {
-                var element = document.getElementById(self.getAsLowAsElement()),
-                    iText = ('innerText' in element) ? 'innerText' : 'textContent';
-                element[iText] = "";
-                element.style.visibility = "hidden";
+            hideAsLowAs: function(options) {
+                if(options.element_id) {
+                    var element_als = document.getElementById(options.element_id);
+                    if(element_als) {
+                        element_als.style.visibility = "hidden";
+                    }
+                } else {
+                    var elements = document.getElementsByClassName(self.getAsLowAsElement());
+                    $.each(elements, function (key, element) {
+                        var iText = ('innerText' in element) ? 'innerText' : 'textContent';
+                        element[iText] = "";
+                        element.style.visibility = "hidden";
+                    });
+                }
             },
 
             /**
@@ -82,9 +93,13 @@ define([
                     if (options.amount) {
                         var isUpdate = self.updateAffirmAsLowAs(options.amount);
                         if (isUpdate) {
-                            affirm.ui.payments.get_estimate(options, self.handleEstimateResponse);
+                            if(options.color_id) {
+                                document.getElementById(options.element_id).setAttribute('data-affirm-color',options.color_id);
+                            }
+                            document.getElementById(options.element_id).setAttribute('data-amount',options.amount);
+                            affirm.ui.refresh();
                         } else {
-                            self.hideAsLowAs();
+                            self.hideAsLowAs(options);
                         }
                     }
                 });
@@ -96,7 +111,7 @@ define([
              * @param c This is amount in cents
              */
             updateAffirmAsLowAs: function(c) {
-                if ((c == null) || (c > 175000) || (c < 5000)) {
+                if ((c == null) || (c > 1750000) || (c < 5000)) {
                     return false;
                 }
                 if ((this.options.min_order_total && c < this.options.min_order_total*100) ||
@@ -110,19 +125,6 @@ define([
                 return true;
             },
 
-            /**
-             * Handle estimate response
-             */
-            handleEstimateResponse: function(payment_estimate) {
-                var dollars = payment_estimate.payment_string, element,
-                    content = $t("Starting at $") + dollars + $t(" a month with") + ' ' + self.options.logo + ' ' + $t("Learn more.");
-                element = document.getElementById(self.getAsLowAsElement());
-                element.innerHTML = content;
-                if (payment_estimate && payment_estimate.open_modal) {
-                    element.onclick = payment_estimate.open_modal;
-                }
-                element.style.visibility = "visible";
-            },
 
             /**
              * Load affirm script
@@ -207,9 +209,11 @@ define([
              * Update promo blocks visibility
              */
             updatePromoBlocksVisibility: function(visibility) {
-                var asLowAs = document.getElementById(self.getAsLowAsElement());
+                var asLowAs = document.getElementsByClassName(self.getAsLowAsElement());
                 if (asLowAs) {
-                    asLowAs.style.visibility = visibility;
+                    $.each(asLowAs, function (key, element) {
+                        element.style.visibility = visibility;
+                    });
                 }
                 var promoBanners = document.getElementsByClassName('affirm-promo');
                 if (promoBanners[0]){

@@ -18,13 +18,12 @@
 var config = {
     map: {
         '*': {
-            synchPost: 'Astound_Affirm/js/action/send-request',
-            affirmWidget: 'Astound_Affirm/js/affirmWidget',
-            aslowasPDP: 'Astound_Affirm/js/aslowasPDP',
-            aslowasCC: 'Astound_Affirm/js/aslowasCC',
-            aslowasMC: 'Astound_Affirm/js/aslowasMC',
-            'Magento_Checkout/template/minicart/content.html': 'Astound_Affirm/template/minicart/content.html',
-            'Magento_Checkout/js/view/minicart': 'Astound_Affirm/js/view/minicart'
+            'synchPost': 'Astound_Affirm/js/action/send-request',
+            'affirmWidget': 'Astound_Affirm/js/affirmWidget',
+            'aslowasPDP': 'Astound_Affirm/js/aslowasPDP',
+            'aslowasPLP': 'Astound_Affirm/js/aslowasPLP',
+            'aslowasCC': 'Astound_Affirm/js/aslowasCC',
+            'aslowasMC': 'Astound_Affirm/js/aslowasMC'
         }
     }
 };

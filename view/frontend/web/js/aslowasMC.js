@@ -11,6 +11,8 @@ define(["jquery",
     "use strict"
 
     var self;
+    var miniCart = $('[data-block=\'minicart\']');
+
     $.widget('mage.aslowasMC',{
         options: {
         },
@@ -39,6 +41,24 @@ define(["jquery",
          */
         _create: function() {
             self = this;
+
+            self.options = {
+                element_id: window.checkout.element_id,
+                promo_id: window.checkout.promo_id,
+                color_id: window.checkout.color_id,
+                asLowAsActiveMiniCart: window.checkout.asLowAsActiveMiniCart,
+                apr: window.checkout.apr,
+                months: window.checkout.months,
+                logo: window.checkout.logo,
+                script: window.checkout.script,
+                public_api_key: window.checkout.public_api_key,
+                min_order_total: window.checkout.min_order_total,
+                max_order_total: window.checkout.max_order_total,
+                currency_rate: window.checkout.currency_rate,
+                display_cart_subtotal_incl_tax: window.checkout.display_cart_subtotal_incl_tax,
+                display_cart_subtotal_excl_tax: window.checkout.display_cart_subtotal_excl_tax
+            };
+
             if (!self.options.asLowAsActiveMiniCart) {
                 return;
             }
@@ -49,6 +69,10 @@ define(["jquery",
             } else {
                 self.initPrice();
             }
+
+            miniCart.on('contentUpdated', function () {
+                self.initPrice();
+            });
         }
     });
     return $.mage.aslowasMC

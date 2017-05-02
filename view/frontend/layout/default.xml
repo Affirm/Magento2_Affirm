@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-/**
+ /**
  * Astound
  * NOTICE OF LICENSE
  * This source file is subject to the Open Software License (OSL 3.0)
@@ -16,10 +16,37 @@
  * @copyright Copyright (c) 2016 Astound, Inc. (http://www.astoundcommerce.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
--->
+ -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <head>
         <css src="Astound_Affirm::affirm-promo.css"/>
     </head>
-    <body/>
+    <body>
+        <referenceBlock name="minicart">
+            <arguments>
+                <argument name="jsLayout" xsi:type="array">
+                    <item name="components" xsi:type="array">
+                        <item name="minicart_content" xsi:type="array">
+                            <item name="children" xsi:type="array">
+                                <item name="extra_info" xsi:type="array">
+                                    <item name="component" xsi:type="string">uiComponent</item>
+                                    <item name="config" xsi:type="array">
+                                        <item name="displayArea" xsi:type="string">extraInfo</item>
+                                    </item>
+                                    <item name="children" xsi:type="array">
+                                        <item name="affirm_minicard" xsi:type="array">
+                                            <item name="component" xsi:type="string">Astound_Affirm/js/view/minicart</item>
+                                            <item name="config" xsi:type="array">
+                                                <item name="template" xsi:type="string">Astound_Affirm/minicart/info</item>
+                                            </item>
+                                        </item>
+                                    </item>
+                                </item>
+                            </item>
+                        </item>
+                    </item>
+                </argument>
+            </arguments>
+        </referenceBlock>
+    </body>
 </page>
