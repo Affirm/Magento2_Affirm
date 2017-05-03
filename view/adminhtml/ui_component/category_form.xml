@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
     <fieldset name="custom">
         <argument name="data" xsi:type="array">
             <item name="config" xsi:type="array">
@@ -37,6 +37,36 @@
                     <item name="dataType" xsi:type="string">string</item>
                     <item name="formElement" xsi:type="string">input</item>
                     <item name="label" xsi:type="string" translate="true">Multiple Financing Program priority</item>
+                </item>
+            </argument>
+        </field>
+        <field name="affirm_category_mfp_start_date">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="sortOrder" xsi:type="number">4</item>
+                    <item name="dataType" xsi:type="string">datetime</item>
+                    <item name="formElement" xsi:type="string">date</item>
+                    <item name="label" xsi:type="string" translate="true">Start date for time based Financing Program value</item>
+                </item>
+            </argument>
+        </field>
+        <field name="affirm_category_mfp_end_date">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="sortOrder" xsi:type="number">5</item>
+                    <item name="dataType" xsi:type="string">datetime</item>
+                    <item name="formElement" xsi:type="string">date</item>
+                    <item name="label" xsi:type="string" translate="true">End date for time based Financing Program value</item>
+                </item>
+            </argument>
+        </field>
+        <field name="affirm_category_promo_id">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="sortOrder" xsi:type="number">6</item>
+                    <item name="dataType" xsi:type="string">string</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="label" xsi:type="string" translate="true">Affirm Promo ID</item>
                 </item>
             </argument>
         </field>

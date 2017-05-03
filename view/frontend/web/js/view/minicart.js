@@ -8,9 +8,8 @@ define([
     'jquery',
     'ko',
     'underscore',
-    'Astound_Affirm/js/aslowasMC',
     'sidebar',
-], function (Component, customerData, $, ko, _, aslowasMC) {
+], function (Component, customerData, $, ko, _) {
     'use strict';
 
     var sidebarInitialized = false,
@@ -76,19 +75,6 @@ define([
     }
 
     return Component.extend({
-        asLowAsMCOptions: {
-            asLowAsActiveMiniCart: window.checkout.asLowAsActiveMiniCart,
-            apr: window.checkout.apr,
-            months: window.checkout.months,
-            logo: window.checkout.logo,
-            script: window.checkout.script,
-            public_api_key: window.checkout.public_api_key,
-            min_order_total: window.checkout.min_order_total,
-            max_order_total: window.checkout.max_order_total,
-            currency_rate: window.checkout.currency_rate,
-            display_cart_subtotal_incl_tax: window.checkout.display_cart_subtotal_incl_tax,
-            display_cart_subtotal_excl_tax: window.checkout.display_cart_subtotal_excl_tax
-        },
         shoppingCartUrl: window.checkout.shoppingCartUrl,
         cart: {},
 
@@ -166,20 +152,6 @@ define([
             }
 
             return this.cart[name]();
-        },
-
-        /**
-         * Call As Low As mini cart widget
-         *
-         * @returns bool
-         */
-        initAsLowAsMiniCart: function() {
-            var cart = customerData.get('cart');
-            if (cart().allow_affirm_quote_aslowas) {
-                aslowasMC(this.asLowAsMCOptions);
-                return true;
-            }
-            return false;
         }
     });
 });

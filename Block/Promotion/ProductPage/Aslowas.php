@@ -32,8 +32,8 @@ class Aslowas extends AslowasAbstract
      *
      * @var array
      */
-    protected $data = ['apr', 'months', 'logo', 'script', 'public_api_key', 'min_order_total', 'max_order_total',
-        'selector', 'currency_rate', 'backorders_options'];
+    protected $data = ['logo', 'script', 'public_api_key', 'min_order_total', 'max_order_total',
+            'selector', 'currency_rate', 'backorders_options', 'element_id'];
 
     /**
      * Validate block before showing on front
@@ -45,8 +45,11 @@ class Aslowas extends AslowasAbstract
     {
         $product = $this->affirmPaymentHelper->getProduct();
         if ($this->affirmPaymentConfig->getConfigData('active')
-            && $this->affirmPaymentHelper->isAffirmAvailableForProduct($product)
+                && $this->affirmPaymentHelper->isAffirmAvailableForProduct($product)
         ) {
+                if ((float)$product->getFinalPrice() < (float)$this->affirmPaymentConfig->getAsLowAsMinMpp()) {
+                    return false;
+                }
             return true;
         }
         return false;
@@ -72,9 +75,24 @@ class Aslowas extends AslowasAbstract
         }
         $product = $this->affirmPaymentHelper->getProduct();
         $this->setData(
-            'backorders_options',
-            $this->affirmPaymentHelper->getConfigurableProductBackordersOptions($product)
+                'backorders_options',
+                $this->affirmPaymentHelper->getConfigurableProductBackordersOptions($product)
         );
+        $this->setData('element_id', 'als_pdp');
+
         parent::process();
+    }
+
+    /**
+     * get MFP value for current product
+     * @return string
+     */
+    public function getMFPValue()
+    {
+        $productCollection = $this->affirmPaymentHelper->getProduct()->getCollection()
+            ->addAttributeToSelect(['affirm_product_promo_id', 'affirm_product_mfp_type', 'affirm_product_mfp_priority', 'affirm_product_mfp_start_date', 'affirm_product_mfp_end_date'])
+            ->addAttributeToFilter('entity_id', $this->affirmPaymentHelper->getProduct()->getId());
+
+        return $this->asLowAsHelper->getFinancingProgramValueALS($productCollection);
     }
 }

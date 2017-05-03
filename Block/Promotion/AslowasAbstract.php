@@ -22,6 +22,10 @@ use Magento\Framework\View\Element\Template;
 use Astound\Affirm\Model\Ui\ConfigProvider;
 use Astound\Affirm\Model\Config;
 use Astound\Affirm\Helper\Payment;
+use Astound\Affirm\Helper\AsLowAs;
+use Magento\Catalog\Model\ResourceModel\Category;
+use Magento\Catalog\Model\ResourceModel\Product;
+use Magento\Catalog\Model\ResourceModel\Category\CollectionFactory as CategoryCollectionFactory;
 
 /**
  * Class Aslowas
@@ -35,7 +39,14 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
      *
      * @var array
      */
-    protected $data = ['apr', 'months', 'logo', 'script', 'public_api_key'];
+    protected $data = ['logo', 'script', 'public_api_key'];
+
+    /**
+     * Colors which could be set in "data-affirm-color".
+     *
+     * @var array
+     */
+    protected $dataColors = ['blue', 'black'];
 
     /**
      * Affirm config model payment
@@ -73,6 +84,21 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
     protected $position;
 
     /**
+     * AsLowAs helper
+     *
+     * @var string
+     */
+    protected $asLowAsHelper;
+
+
+    /**
+     * Category collection factory
+     *
+     * @var \Magento\Catalog\Model\ResourceModel\Category\CollectionFactory
+     */
+    protected $categoryCollectionFactory;
+
+    /**
      * Inject block init data
      *
      * @param Template\Context $context
@@ -80,13 +106,17 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
      * @param Config           $configAffirm
      * @param Payment          $helperAffirm
      * @param array            $data
+     * @param AsLowAs          $asLowAs
+     * @param CategoryCollectionFactory $categoryCollectionFactory
      */
     public function __construct(
         Template\Context $context,
         ConfigProvider $configProvider,
         Config $configAffirm,
         Payment $helperAffirm,
-        array $data = []
+        array $data = [],
+        AsLowAs $asLowAs,
+        CategoryCollectionFactory $categoryCollectionFactory
     ) {
         if (isset($data['position']) && $data['position']) {
             $this->position = $data['position'];
@@ -97,6 +127,8 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
         $this->affirmPaymentConfig->setWebsiteId($currentWebsiteId);
         $this->configProvider = $configProvider;
         $this->affirmPaymentHelper = $helperAffirm;
+        $this->asLowAsHelper = $asLowAs;
+        $this->categoryCollectionFactory = $categoryCollectionFactory;
 
         if (isset($data['type'])) {
             $this->type = $data['type'];
@@ -139,6 +171,19 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
         if ($this->data && $this->affirmPaymentConfig->getAsLowAsLogo() &&
             $this->affirmPaymentConfig->getAsLowAsMonths()) {
             return $this->convertToJson($this->data);
+        }
+        return '';
+    }
+
+    /**
+     * Get data-attribute for affirm logo color
+     *
+     * @return string
+     */
+    public function getDataAffirmColor()
+    {
+        if(in_array($this->getData('logo'), $this->dataColors)) {
+            return 'data-affirm-color="' . $this->getData('logo')  . '"';
         }
         return '';
     }
@@ -202,4 +247,5 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
      * @return boolean
      */
     abstract public function validate();
+
 }

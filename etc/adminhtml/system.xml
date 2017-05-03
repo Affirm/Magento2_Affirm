@@ -1,5 +1,5 @@
 <!--
-/**
+ /**
  * Astound
  * Affirm system configuration.
  *
@@ -7,7 +7,7 @@
  * @package   Astound_Affirm
  * @copyright Copyright (c) 2016 Astound, Inc. (http://www.astoundcommerce.com)
  */
--->
+ -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
         <section id="payment">
@@ -32,10 +32,6 @@
                     <attribute type="shared">1</attribute>
                     <depends><field id="mode">sandbox</field></depends>
                 </field>
-                <field id="api_url_sandbox" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>API URL</label>
-                    <depends><field id="mode">sandbox</field></depends>
-                </field>
                 <field id="financial_product_key_sandbox" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Financial Product Key</label>
                     <depends><field id="mode">sandbox</field></depends>
@@ -51,10 +47,6 @@
                     <attribute type="shared">1</attribute>
                     <depends><field id="mode">production</field></depends>
                 </field>
-                <field id="api_url_production" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>API URL</label>
-                    <depends><field id="mode">production</field></depends>
-                </field>
                 <field id="financial_product_key_production" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Financial Product Key</label>
                     <depends><field id="mode">production</field></depends>
@@ -66,31 +58,6 @@
                 <field id="disable_for_backordered_items" translate="label" type="select" sortOrder="71" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Disable for backordered items</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                </field>
-                <field id="financing_program_value_default" translate="label" type="text" sortOrder="72" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Default Financing Program value</label>
-                </field>
-                <field id="financing_program_value" translate="label" type="text" sortOrder="74" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Financing Program value</label>
-                </field>
-                <field id="start_date_mfp" translate="label" type="text" sortOrder="76" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Start date for Financing Program value</label>
-                    <frontend_model>Astound\Affirm\Block\System\Config\Form\Field\Date</frontend_model>
-                </field>
-                <field id="end_date_mfp" translate="label" type="text" sortOrder="78" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>End date for Financing Program value</label>
-                    <frontend_model>Astound\Affirm\Block\System\Config\Form\Field\Date</frontend_model>
-                </field>
-                <field id="financing_program_cart_size_value" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Cart-size Financing Program value</label>
-                </field>
-                <field id="financing_program_cart_size_min_order_total" translate="label" type="text" sortOrder="82" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Cart-size Financing Program Minimum Order Total</label>
-                    <frontend_class>validate-number</frontend_class>
-                </field>
-                <field id="financing_program_cart_size_max_order_total" translate="label" type="text" sortOrder="84" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Cart-size Financing Program Maximum Order Total</label>
-                    <frontend_class>validate-number</frontend_class>
                 </field>
                 <field id="min_order_total" translate="label" type="text" sortOrder="88" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Minimum Order Total</label>
@@ -244,26 +211,62 @@
                     <label>Enable for PDP</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="enabled_cc" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Enable for Shopping Cart</label>
+                <field id="enabled_plp" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enable for Category PLP</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="apr_value" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Affirm Apr Value</label>
-                    <comment>
-                        <![CDATA[(Number) [0.00 - 0.99]]]>
-                    </comment>
-                    <frontend_class>required-entry validate-number</frontend_class>
-                </field>
-                <field id="month" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Affirm Promo Months</label>
-                    <source_model>Astound\Affirm\Model\Config\System\Source\Months</source_model>
+                <field id="enabled_cc" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enable for Shopping Cart</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="logo" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Affirm logo</label>
                     <source_model>Astound\Affirm\Model\Config\System\Source\Logo</source_model>
                 </field>
+                <field id="min_mpp" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Minimum amount for displaying the monthly payment pricing</label>
+                    <frontend_class>validate-number</frontend_class>
+                </field>
+                <field id="promo_id_value_default" translate="label" type="text" sortOrder="55" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Default Affirm Promo ID</label>
+                </field>
             </group>
+            <group id="affirm_mfp" translate="label" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>Multiple Financing Program</label>
+                <fieldset_css>complex</fieldset_css>
+                <field id="financing_program_value_default" translate="label" type="text" sortOrder="72" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Default Financing Program value</label>
+                </field>
+                <field id="financing_program_value" translate="label" type="text" sortOrder="74" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Financing Program value</label>
+                </field>
+                <field id="start_date_mfp" translate="label" type="text" sortOrder="76" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Start date for Financing Program value</label>
+                    <frontend_model>Astound\Affirm\Block\System\Config\Form\Field\Date</frontend_model>
+                </field>
+                <field id="end_date_mfp" translate="label" type="text" sortOrder="78" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>End date for Financing Program value</label>
+                    <frontend_model>Astound\Affirm\Block\System\Config\Form\Field\Date</frontend_model>
+                </field>
+                <field id="promo_id_value" translate="label" type="text" sortOrder="79" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Affirm Promo ID</label>
+                </field>
+                <field id="financing_program_cart_size_value" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Cart-size Financing Program value</label>
+                </field>
+                <field id="financing_program_cart_size_min_order_total" translate="label" type="text" sortOrder="82" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Cart-size Financing Program Minimum Order Total</label>
+                    <frontend_class>validate-number</frontend_class>
+                </field>
+                <field id="financing_program_cart_size_max_order_total" translate="label" type="text" sortOrder="84" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Cart-size Financing Program Maximum Order Total</label>
+                    <frontend_class>validate-number</frontend_class>
+                </field>
+                <field id="promo_id_cart_size_value" translate="label" type="text" sortOrder="85" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Cart-size Affirm Promo ID</label>
+                </field>
+            </group>
+            
         </section>
     </system>
 </config>

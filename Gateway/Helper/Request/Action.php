@@ -67,8 +67,8 @@ class Action
     public function getUrl($additionalPath = '')
     {
         $gateway = $this->config->getValue('mode') == 'sandbox'
-            ? $this->config->getValue('api_url_sandbox')
-            : $this->config->getValue('api_url_production');
+            ? \Astound\Affirm\Model\Config::API_URL_SANDBOX
+            : \Astound\Affirm\Model\Config::API_URL_PRODUCTION;
 
         return trim($gateway, '/') . sprintf('%s%s', $this->action, $additionalPath);
     }

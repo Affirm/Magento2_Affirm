@@ -175,8 +175,8 @@ class AfterShipmentSaveObserver implements ObserverInterface
     protected function getApiUrl($additionalPath)
     {
         $gateway = $this->scopeConfig->getValue('payment/affirm_gateway/mode') == 'sandbox'
-            ? $this->scopeConfig->getValue('payment/affirm_gateway/api_url_sandbox')
-            : $this->scopeConfig->getValue('payment/affirm_gateway/api_url_production');
+            ? \Astound\Affirm\Model\Config::API_URL_SANDBOX
+            : \Astound\Affirm\Model\Config::API_URL_PRODUCTION;
 
         return trim($gateway, '/') . sprintf('%s%s', self::API_CHARGES_PATH, $additionalPath);
     }
