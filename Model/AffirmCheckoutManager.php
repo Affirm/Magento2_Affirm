@@ -188,8 +188,8 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
             }
         }
         $response['metadata'] = [
-            'platform_type' => $this->productMetadata->getName() . ' ' . $this->productMetadata->getEdition(),
-            'platform_version' => $this->productMetadata->getVersion(),
+            'platform_type' => $this->productMetadata->getName() . ' 2',
+            'platform_version' => $this->productMetadata->getVersion() . ' ' . $this->productMetadata->getEdition(),
             'platform_affirm' => $this->moduleResource->getDbVersion('Astound_Affirm')
         ];
         $financingProgramValue = $this->helper->getFinancingProgramValue();
