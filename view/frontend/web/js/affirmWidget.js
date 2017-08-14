@@ -21,17 +21,21 @@ define([
         options: {},
 
         /**
-         * Init widget method
+         * Create affirm widget
          *
          * @private
          */
+
         _create: function() {
             self = this;
             var priceBox = $('.price-box');
             if (typeof affirm == "undefined") {
-                aslowas.loadScript(this.options);
-            }
-            if (priceBox.length && self.options.backorders_options !== 'undefined') {
+                $.when(aslowas.loadScript(self.options)).done(function() {
+                    if (priceBox.length && self.options.backorders_options !== 'undefined') {
+                        priceBox.on('updatePrice', self.updatePriceHandler);
+                    }
+                });
+            } else if (priceBox.length && self.options.backorders_options !== 'undefined') {
                 priceBox.on('updatePrice', self.updatePriceHandler);
             }
         },
