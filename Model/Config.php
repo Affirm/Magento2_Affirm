@@ -39,10 +39,8 @@ class Config implements ConfigInterface
     const KEY_MODE = 'mode';
     const KEY_PUBLIC_KEY_SANDBOX = 'public_api_key_sandbox';
     const KEY_PRIVATE_KEY_SANDBOX = 'private_api_key_sandbox';
-    const KEY_FINANCIAL_PRODUCT_KEY_SANDBOX = 'financial_product_key_sandbox';
     const KEY_PUBLIC_KEY_PRODUCTION = 'public_api_key_production';
     const KEY_PRIVATE_KEY_PRODUCTION = 'private_api_key_production';
-    const KEY_FINANCIAL_PRODUCT_KEY_PRODUCTION = 'financial_product_key_production';
     const KEY_MINIMUM_ORDER_TOTAL = 'minimum_order_total';
     const KEY_MAXIMUM_ORDER_TOTAL = 'maximum_order_total';
     const KEY_SORT_ORDER = 'sort_order';
@@ -111,7 +109,6 @@ class Config implements ConfigInterface
     protected $affirmSharedConfigFields = [
             'active' => true,
             'mode' => true,
-            'financial_product_key_production' => true,
             'public_key_production' => true,
             'private_key_production' => true,
             'maximum_order_total' => true,
@@ -253,18 +250,6 @@ class Config implements ConfigInterface
         return ($this->getValue('mode') == 'sandbox') ?
                 $this->getValue(self::KEY_PRIVATE_KEY_SANDBOX) :
                 $this->getValue(self::KEY_PRIVATE_KEY_PRODUCTION);
-    }
-
-    /**
-     * Return financial product key
-     *
-     * @return mixed
-     */
-    public function getFinancialProductKey()
-    {
-        return ($this->getValue('mode') == 'sandbox') ?
-                $this->getValue(self::KEY_FINANCIAL_PRODUCT_KEY_SANDBOX) :
-                $this->getValue(self::KEY_FINANCIAL_PRODUCT_KEY_PRODUCTION);
     }
 
     /**
