@@ -559,4 +559,16 @@ class FinancingProgram
             return $this->getFinancingProgramDefault();
         }
     }
+
+    /**
+     * Get financing program from categories ALS
+     * @param \Magento\Catalog\Model\ResourceModel\Category\Collection $categoryCollection
+     *
+     * @return string
+     */
+    public function getFinancingProgramFromCategoriesPromo($categoryCollection)
+    {
+        $entityItems = $this->convertCategoryCollectionToItemsArray($categoryCollection);
+        return $this->getFinancingProgramFromEntityItems($entityItems);
+    }
 }

@@ -250,6 +250,17 @@ class Payment
     }
 
     /**
+     * Return catalog current category object
+     *
+     * @return \Magento\Catalog\Model\Category
+     */
+
+    public function getCurrentCategory()
+    {
+        return $this->coreRegistry->registry('current_category');
+    }
+
+    /**
      * Check if product is configurable
      *
      * @param Product $product

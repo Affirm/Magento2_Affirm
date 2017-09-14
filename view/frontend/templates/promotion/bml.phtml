@@ -16,10 +16,19 @@
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-
+<?php
+    $mfpValue = $block->getMFPValue();
+    $size = $block->getSize();
+    list($width, $height) = explode('x',$size);
+    $affirmAssetsUrl = $block->getAffirmAssetsUrl();
+    $options = $block->getOptions();
+?>
 <?php echo $this->getStartContainerTag(); ?>
-<div class="affirm-promo" data-mage-init='{"Astound_Affirm/js/affirmWidget":<?php echo $block->getOptions() ?>}'
-     data-promo-key="<?php echo $block->getPromoKey(); ?>"
-     data-promo-size="<?php echo $block->getSize(); ?>">
-</div>
+<?php
+    echo '<div class="affirm-banner-container">
+            <a class="affirm-site-modal" data-mage-init=\'{"Astound_Affirm/js/affirmWidget": '.$options.'}\'' . (!empty($mfpValue) ? 'data-promo-id="' . $mfpValue . '"' : '') . '>
+                <img style="max-width:'. $width .'px; max-height:'. $height .'px; " src="' . $affirmAssetsUrl . '/' . $size .'.png">
+            </a>
+        </div>';
+?>
 <?php echo $this->getEndContainerTag(); ?>
