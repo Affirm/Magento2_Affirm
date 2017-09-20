@@ -21,7 +21,7 @@ define(["jquery",
          */
         initPrices: function() {
             var elements = $(document)
-                .find("[data-price-type='finalPrice']"),
+                    .find("[data-price-type='finalPrice'], [data-price-type='minPrice']"),
                 price,
                 options,
                 element_id,
@@ -29,7 +29,11 @@ define(["jquery",
 
             $.each(elements, function (key, element) {
                 price = $(element).text();
-                element_id = 'as_low_as_plp_' + $(element).parent().parent().attr('data-product-id')
+                if($(element).attr("data-price-type") == "finalPrice") {
+                    element_id = 'as_low_as_plp_' + $(element).parent().parent().attr('data-product-id');
+                } else {
+                    element_id = 'as_low_as_plp_' + $(element).parent().parent().parent().attr('data-product-id');
+                }
                 element_als = document.getElementById(element_id);
                 if (price && element_als) {
                     options = self.clone(self.options);
@@ -88,9 +92,9 @@ define(["jquery",
                 //get first element from the array
                 currentElement = $(self.element).get(0);
                 if ($.contains(priceInfo, currentElement)) {
-                    price = $(el[0]).find("[data-price-type='finalPrice']").text();
+                    price = $(el[0]).find("[data-price-type='finalPrice'], [data-price-type='minPrice']").text();
                     options = this.options;
-                    options.element_id = 'as_low_as_plp_' + $(el[0]).find("[data-price-type='finalPrice']").parent().parent().attr('data-product-id');
+                    options.element_id = 'as_low_as_plp_' + $(el[0]).find("[data-price-type='finalPrice'], [data-price-type='minPrice']").parent().parent().parent().attr('data-product-id');
                     aslowas.process(price, options);
                 }
             }
