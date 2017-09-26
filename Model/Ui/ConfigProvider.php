@@ -113,7 +113,7 @@ class ConfigProvider implements ConfigProviderInterface
                                 ->getUrl('affirm/payment/confirm', ['_secure' => true]),
                         'user_cancel_url' => $this->urlBuilder
                                 ->getUrl('affirm/payment/cancel', ['_secure' => true]),
-                        'user_confirmation_url_action' => 'GET'
+                        'user_confirmation_url_action' => 'POST'
                     ],
                     'config' => [
                     ],
