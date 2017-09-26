@@ -23,6 +23,7 @@ use Magento\Framework\View\Element\Template;
 use Astound\Affirm\Model\Ui\ConfigProvider;
 use Astound\Affirm\Model\Config;
 use Astound\Affirm\Helper\Payment;
+use Astound\Affirm\Helper;
 
 /**
  * Class Banner
@@ -74,6 +75,20 @@ class Banners extends \Magento\Framework\View\Element\Template
     protected $helper;
 
     /**
+     * Financing program helper factory
+     *
+     * @var Helper\FinancingProgram
+     */
+    protected $fpHelper;
+
+    /**
+     * AsLowAs helper factory
+     *
+     * @var Helper\AsLowAs
+     */
+    protected $alaHelper;
+
+    /**
      * Inject all needed objects
      *
      * @param Template\Context $context
@@ -81,20 +96,26 @@ class Banners extends \Magento\Framework\View\Element\Template
      * @param ConfigProvider   $configProvider
      * @param Payment          $helper
      * @param array            $data
+     * @param Helper\FinancingProgram $fpHelper
+     * @param Helper\AsLowAs $alaHelper
      */
     public function __construct(
         Template\Context $context,
         Config $configAffirm,
         ConfigProvider $configProvider,
         Payment $helper,
-        array $data = []
+        array $data = [],
+        Helper\FinancingProgram $fpHelper,
+        Helper\AsLowAs $alaHelper
     ) {
-        parent::__construct($context, $data);
         $this->affirmPaymentConfig = $configAffirm;
         $this->helper = $helper;
         $this->position = isset($data['position']) ? $data['position']: '';
         $this->section = isset($data['section']) ? $data['section']: 0;
         $this->configProvider = $configProvider;
+        $this->fpHelper = $fpHelper;
+        $this->alaHelper = $alaHelper;
+        parent::__construct($context, $data);
     }
 
     /**
@@ -144,6 +165,16 @@ class Banners extends \Magento\Framework\View\Element\Template
     }
 
     /**
+     * Check if current page is category page
+     *
+     * @return bool
+     */
+    protected function isCategoryPage()
+    {
+        return $this->section === 'category';
+    }
+
+    /**
      * Verify block before render html
      *
      * @return string
@@ -151,7 +182,7 @@ class Banners extends \Magento\Framework\View\Element\Template
     protected function _toHtml()
     {
         if (!$this->getIsActive() || !$this->affirmPaymentConfig->isCurrencyValid()) {
-                return '';
+            return '';
         }
         $display  = $this->affirmPaymentConfig->getBmlDisplay($this->section);
         $position = $this->affirmPaymentConfig->getBmlPosition($this->section);
@@ -173,8 +204,8 @@ class Banners extends \Magento\Framework\View\Element\Template
         }
 
         $this->processContainer($this->section);
-        $this->setPromoKey($this->affirmPaymentConfig->getPromoKey());
         $this->setSize($this->affirmPaymentConfig->getBmlSize($this->section));
+        $this->setAffirmAssetsUrl($this->affirmPaymentConfig->getAffirmAssetsUrl());
         return parent::_toHtml();
     }
 
@@ -238,5 +269,27 @@ class Banners extends \Magento\Framework\View\Element\Template
     public function getEndContainerTag()
     {
         return $this->endTag ? $this->endTag: '';
+    }
+
+    /**
+     * get MFP value
+     * @return string
+     */
+    public function getMFPValue()
+    {
+        $dynamicallyMFPValue = $this->fpHelper->getCustomerFinancingProgram();
+        if (!empty($dynamicallyMFPValue)) {
+            return $dynamicallyMFPValue;
+        } elseif ($this->isProductPage()) {
+            $productCollection = $this->helper->getProduct()->getCollection()
+                ->addAttributeToSelect(['affirm_product_promo_id', 'affirm_product_mfp_type', 'affirm_product_mfp_priority', 'affirm_product_mfp_start_date', 'affirm_product_mfp_end_date'])
+                ->addAttributeToFilter('entity_id', $this->helper->getProduct()->getId());
+
+            return $this->alaHelper->getFinancingProgramValueALS($productCollection);
+        } elseif ($this->isCartPage()) {
+            return $this->alaHelper->getFinancingProgramValue();
+        } else {
+            return $this->fpHelper->getFinancingProgramValue();
+        }
     }
 }

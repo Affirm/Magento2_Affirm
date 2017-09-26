@@ -32,10 +32,6 @@
                     <attribute type="shared">1</attribute>
                     <depends><field id="mode">sandbox</field></depends>
                 </field>
-                <field id="financial_product_key_sandbox" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Financial Product Key</label>
-                    <depends><field id="mode">sandbox</field></depends>
-                </field>
                 <field id="public_api_key_production" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Public API Key</label>
                     <config_path>payment/affirm_gateway/public_api_key_production</config_path>
@@ -45,10 +41,6 @@
                     <label>Private API Key</label>
                     <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                     <attribute type="shared">1</attribute>
-                    <depends><field id="mode">production</field></depends>
-                </field>
-                <field id="financial_product_key_production" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Financial Product Key</label>
                     <depends><field id="mode">production</field></depends>
                 </field>
                 <field id="payment_action" translate="label" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="0">

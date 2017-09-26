@@ -25,7 +25,14 @@ class ListProduct extends ViewAbstract
         }
 
         $mpp = $this->getMinMPP();
-        $price = $product->getFinalPrice();
+        $productType=$product->getTypeID();
+
+        if ($productType == 'bundle') {
+            $bundleObj = $product->getPriceInfo()->getPrice('final_price');
+            $price = $bundleObj->getMinimalPrice()->getValue();
+        } else {
+            $price = $product->getFinalPrice();
+        }
         if ($price > $mpp) {
             $productCollection = $this->productCollectionFactory->create()
                 ->addAttributeToSelect(['affirm_product_promo_id', 'affirm_product_mfp_type', 'affirm_product_mfp_priority', 'affirm_product_mfp_start_date', 'affirm_product_mfp_end_date'])

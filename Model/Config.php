@@ -39,10 +39,8 @@ class Config implements ConfigInterface
     const KEY_MODE = 'mode';
     const KEY_PUBLIC_KEY_SANDBOX = 'public_api_key_sandbox';
     const KEY_PRIVATE_KEY_SANDBOX = 'private_api_key_sandbox';
-    const KEY_FINANCIAL_PRODUCT_KEY_SANDBOX = 'financial_product_key_sandbox';
     const KEY_PUBLIC_KEY_PRODUCTION = 'public_api_key_production';
     const KEY_PRIVATE_KEY_PRODUCTION = 'private_api_key_production';
-    const KEY_FINANCIAL_PRODUCT_KEY_PRODUCTION = 'financial_product_key_production';
     const KEY_MINIMUM_ORDER_TOTAL = 'minimum_order_total';
     const KEY_MAXIMUM_ORDER_TOTAL = 'maximum_order_total';
     const KEY_SORT_ORDER = 'sort_order';
@@ -109,15 +107,14 @@ class Config implements ConfigInterface
      * @var array
      */
     protected $affirmSharedConfigFields = [
-            'active' => true,
-            'mode' => true,
-            'financial_product_key_production' => true,
-            'public_key_production' => true,
-            'private_key_production' => true,
-            'maximum_order_total' => true,
-            'minimum_order_total' => true,
-            'api_url_production' => true,
-            'api_url_sandbox' => true
+        'active' => true,
+        'mode' => true,
+        'public_key_production' => true,
+        'private_key_production' => true,
+        'maximum_order_total' => true,
+        'minimum_order_total' => true,
+        'api_url_production' => true,
+        'api_url_sandbox' => true
     ];
 
     /**
@@ -136,10 +133,10 @@ class Config implements ConfigInterface
      * @param TaxConfig             $taxConfig
      */
     public function __construct(
-            ScopeConfigInterface $scopeConfig,
-            StoreManagerInterface $storeManager,
-            Currency $currency,
-            TaxConfig $taxConfig
+        ScopeConfigInterface $scopeConfig,
+        StoreManagerInterface $storeManager,
+        Currency $currency,
+        TaxConfig $taxConfig
     )
     {
         $this->scopeConfig = $scopeConfig;
@@ -174,7 +171,7 @@ class Config implements ConfigInterface
     public function isCurrencyValid()
     {
         $currentCurrency = $this->storeManager->getStore()
-                ->getBaseCurrencyCode();
+            ->getBaseCurrencyCode();
         $isValid = true;
         if ($currentCurrency != self::CURRENCY_CODE) {
             $isValid = false;
@@ -190,7 +187,7 @@ class Config implements ConfigInterface
     public function isCurrentStoreCurrencyUSD()
     {
         $currentCurrency = $this->storeManager->getStore()
-                ->getCurrentCurrencyCode();
+            ->getCurrentCurrencyCode();
         $isUSD = true;
         if ($currentCurrency != self::CURRENCY_CODE) {
             $isUSD = false;
@@ -251,20 +248,8 @@ class Config implements ConfigInterface
     public function getPrivateApiKey()
     {
         return ($this->getValue('mode') == 'sandbox') ?
-                $this->getValue(self::KEY_PRIVATE_KEY_SANDBOX) :
-                $this->getValue(self::KEY_PRIVATE_KEY_PRODUCTION);
-    }
-
-    /**
-     * Return financial product key
-     *
-     * @return mixed
-     */
-    public function getFinancialProductKey()
-    {
-        return ($this->getValue('mode') == 'sandbox') ?
-                $this->getValue(self::KEY_FINANCIAL_PRODUCT_KEY_SANDBOX) :
-                $this->getValue(self::KEY_FINANCIAL_PRODUCT_KEY_PRODUCTION);
+            $this->getValue(self::KEY_PRIVATE_KEY_SANDBOX) :
+            $this->getValue(self::KEY_PRIVATE_KEY_PRODUCTION);
     }
 
     /**
@@ -275,8 +260,8 @@ class Config implements ConfigInterface
     public function getPublicApiKey()
     {
         return ($this->getValue('mode') == 'sandbox') ?
-                $this->getValue(self::KEY_PUBLIC_KEY_SANDBOX) :
-                $this->getValue(self::KEY_PUBLIC_KEY_PRODUCTION);
+            $this->getValue(self::KEY_PUBLIC_KEY_SANDBOX) :
+            $this->getValue(self::KEY_PUBLIC_KEY_PRODUCTION);
     }
 
     /**
@@ -287,8 +272,8 @@ class Config implements ConfigInterface
     public function getApiUrl()
     {
         return ($this->getMode() == 'sandbox') ?
-                self::API_URL_SANDBOX :
-                self::API_URL_PRODUCTION;
+            self::API_URL_SANDBOX :
+            self::API_URL_PRODUCTION;
     }
 
     /**
@@ -324,8 +309,8 @@ class Config implements ConfigInterface
     public function getBmlDisplay($section)
     {
         $display = $this->scopeConfig->getValue(
-                'affirm/' . self::METHOD_BML . '_' . $section . '/' . 'display',
-                ScopeInterface::SCOPE_WEBSITE
+            'affirm/' . self::METHOD_BML . '_' . $section . '/' . 'display',
+            ScopeInterface::SCOPE_WEBSITE
         );
         return $display ? $display : 0;
     }
@@ -339,8 +324,8 @@ class Config implements ConfigInterface
     public function getHtmlContainer($section)
     {
         $container = $this->scopeConfig->getValue(
-                'affirm/' . 'affirm_developer' . '/' . $section . '_container',
-                ScopeInterface::SCOPE_WEBSITE
+            'affirm/' . 'affirm_developer' . '/' . $section . '_container',
+            ScopeInterface::SCOPE_WEBSITE
         );
         return $container ? $container : 0;
     }
@@ -354,8 +339,8 @@ class Config implements ConfigInterface
     public function getBmlPosition($section)
     {
         $position = $this->scopeConfig->getValue(
-                'affirm/' . self::METHOD_BML . '_' . $section . '/' . 'position',
-                ScopeInterface::SCOPE_WEBSITE
+            'affirm/' . self::METHOD_BML . '_' . $section . '/' . 'position',
+            ScopeInterface::SCOPE_WEBSITE
         );
         return $position ? $position : 0;
     }
@@ -369,26 +354,11 @@ class Config implements ConfigInterface
     public function getBmlSize($section)
     {
         $size = $this->scopeConfig->getValue(
-                'affirm/' . self::METHOD_BML . '_' . $section . '/' . 'size',
-                ScopeInterface::SCOPE_WEBSITE,
-                $this->getWebsiteId()
+            'affirm/' . self::METHOD_BML . '_' . $section . '/' . 'size',
+            ScopeInterface::SCOPE_WEBSITE,
+            $this->getWebsiteId()
         );
         return $size ? $size : 0;
-    }
-
-    /**
-     * Get promo key
-     *
-     * @return mixed
-     */
-    public function getPromoKey()
-    {
-        return $this->scopeConfig
-                ->getValue(
-                        'affirm/' . self::METHOD_BML . '/promo_key',
-                        ScopeInterface::SCOPE_WEBSITE,
-                        $this->getWebsiteId()
-                );
     }
 
     /**
@@ -420,8 +390,8 @@ class Config implements ConfigInterface
     public function isAsLowAsEnabled($position)
     {
         $flag = $this->scopeConfig->getValue(
-                'affirm/' . self::KEY_ASLOWAS . '/' . 'enabled_' . $position,
-                ScopeInterface::SCOPE_WEBSITE
+            'affirm/' . self::KEY_ASLOWAS . '/' . 'enabled_' . $position,
+            ScopeInterface::SCOPE_WEBSITE
         );
         return $flag ? $flag : 0;
     }
@@ -434,7 +404,7 @@ class Config implements ConfigInterface
     public function getAsLowAsApr()
     {
         return $this->scopeConfig->getValue(
-                'affirm/' . self::KEY_ASLOWAS . '/' . 'apr_value', ScopeInterface::SCOPE_WEBSITE
+            'affirm/' . self::KEY_ASLOWAS . '/' . 'apr_value', ScopeInterface::SCOPE_WEBSITE
         );
     }
 
@@ -446,7 +416,7 @@ class Config implements ConfigInterface
     public function getAsLowAsMonths()
     {
         return $this->scopeConfig->getValue(
-                'affirm/' . self::KEY_ASLOWAS . '/' . 'month', ScopeInterface::SCOPE_WEBSITE
+            'affirm/' . self::KEY_ASLOWAS . '/' . 'month', ScopeInterface::SCOPE_WEBSITE
         );
     }
 
@@ -458,7 +428,7 @@ class Config implements ConfigInterface
     public function getAsLowAsLogo()
     {
         return $this->scopeConfig->getValue(
-                'affirm/' . self::KEY_ASLOWAS . '/' . 'logo', ScopeInterface::SCOPE_WEBSITE
+            'affirm/' . self::KEY_ASLOWAS . '/' . 'logo', ScopeInterface::SCOPE_WEBSITE
         );
     }
 
@@ -470,7 +440,7 @@ class Config implements ConfigInterface
     public function getAsLowAsMinMpp()
     {
         return $this->scopeConfig->getValue(
-                'affirm/' . self::KEY_ASLOWAS . '/' . 'min_mpp', ScopeInterface::SCOPE_WEBSITE
+            'affirm/' . self::KEY_ASLOWAS . '/' . 'min_mpp', ScopeInterface::SCOPE_WEBSITE
         );
     }
 
@@ -494,7 +464,7 @@ class Config implements ConfigInterface
     public function getMfpValue($key)
     {
         return $this->scopeConfig->getValue(
-                'affirm/' . self::KEY_MFP . '/' . $key, ScopeInterface::SCOPE_WEBSITE
+            'affirm/' . self::KEY_MFP . '/' . $key, ScopeInterface::SCOPE_WEBSITE
         );
     }
 
@@ -584,18 +554,31 @@ class Config implements ConfigInterface
     public function getAllAsLowAsConfig()
     {
         return [
-                'asLowAsActiveMiniCart' => $this->getConfigData('active') && $this->isAslowasEnabled('cc') &&
-                        $this->isCurrencyValid(),
-                'apr' => $this->getAsLowAsApr(),
-                'months' => $this->getAsLowAsMonths(),
-                'logo' => $this->getAsLowAsLogo(),
-                'script' => $this->getScript(),
-                'public_api_key' => $this->getPublicApiKey(),
-                'min_order_total' => $this->getConfigData('min_order_total'),
-                'max_order_total' => $this->getConfigData('max_order_total'),
-                'currency_rate' => !$this->isCurrentStoreCurrencyUSD() ? $this->getUSDCurrencyRate() : null,
-                'display_cart_subtotal_incl_tax' => (int)$this->taxConfig->displayCartSubtotalInclTax(),
-                'display_cart_subtotal_excl_tax' => (int)$this->taxConfig->displayCartSubtotalExclTax()
+            'asLowAsActiveMiniCart' => $this->getConfigData('active') && $this->isAslowasEnabled('cc') &&
+                $this->isCurrencyValid(),
+            'apr' => $this->getAsLowAsApr(),
+            'months' => $this->getAsLowAsMonths(),
+            'logo' => $this->getAsLowAsLogo(),
+            'script' => $this->getScript(),
+            'public_api_key' => $this->getPublicApiKey(),
+            'min_order_total' => $this->getConfigData('min_order_total'),
+            'max_order_total' => $this->getConfigData('max_order_total'),
+            'currency_rate' => !$this->isCurrentStoreCurrencyUSD() ? $this->getUSDCurrencyRate() : null,
+            'display_cart_subtotal_incl_tax' => (int)$this->taxConfig->displayCartSubtotalInclTax(),
+            'display_cart_subtotal_excl_tax' => (int)$this->taxConfig->displayCartSubtotalExclTax()
         ];
+    }
+
+    /**
+     * Get assets url
+     *
+     * @return string
+     */
+    public function getAffirmAssetsUrl()
+    {
+        $prefix = "cdn-assets";
+        $domain = "affirm.com";
+        $assetPath = "images/banners";
+        return 'https://' . $prefix . '.' . $domain . '/' . $assetPath ;
     }
 }
