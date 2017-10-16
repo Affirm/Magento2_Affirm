@@ -61,13 +61,16 @@ class CurrencyValidator extends AbstractValidator
     {
         $isValid = true;
         $storeId = $validationSubject['storeId'];
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $currencysymbol = $objectManager->get('Magento\Store\Model\StoreManagerInterface');
+        $currentCurrencyCode = $currencysymbol->getStore()->getCurrentCurrencyCode();
         if ((int)$this->config->getValue('allowspecificcurrency', $storeId) === 1) {
             $availableCurrencies = explode(
                 ',',
                 $this->config->getValue('currency', $storeId)
             );
 
-            if (!in_array($validationSubject['currency'], $availableCurrencies)) {
+            if (!in_array($currentCurrencyCode, $availableCurrencies)) {
                 $isValid = false;
             }
         }
