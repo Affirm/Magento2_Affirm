@@ -116,6 +116,7 @@ class ConfigProvider implements ConfigProviderInterface
                         'user_confirmation_url_action' => 'POST'
                     ],
                     'config' => [
+                        'financial_product_key' => null
                     ],
                     'script' => $this->affirmConfig->getScript(),
                     'redirectUrl' => $this->urlBuilder->getUrl('affirm/checkout/start', ['_secure' => true]),
