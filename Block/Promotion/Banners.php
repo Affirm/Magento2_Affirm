@@ -119,19 +119,6 @@ class Banners extends \Magento\Framework\View\Element\Template
     }
 
     /**
-     * Get promo key from
-     *
-     * @return mixed
-     */
-    protected function getPublisherId()
-    {
-        return $this->_scopeConfig->getValue(
-            'affirm/affirm_promo/promo_key',
-            ScopeInterface::SCOPE_WEBSITE
-        );
-    }
-
-    /**
      * Get is promo active
      *
      * @return mixed
