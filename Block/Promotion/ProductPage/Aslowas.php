@@ -95,4 +95,14 @@ class Aslowas extends AslowasAbstract
 
         return $this->asLowAsHelper->getFinancingProgramValueALS($productCollection);
     }
+
+    /**
+     * Get product id on PDP
+     *
+     * @return Mage_Catalog_Model_Product|null
+     */
+    public function getProductId()
+    {
+        return $this->affirmPaymentHelper->getProduct()->getId();
+    }
 }

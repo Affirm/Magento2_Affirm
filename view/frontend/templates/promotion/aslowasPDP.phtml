@@ -17,9 +17,35 @@
  */
 ?>
 <?php
-    $mfpValue = $block->getMFPValue();
+$mfpValue = $block->getMFPValue();
+$productId = $block->getProductId();
 ?>
 
+
 <span style="float: left; width: 100%; margin-bottom: 15px" data-mage-init='{"Astound_Affirm/js/aslowasPDP": <?php echo $block->getWidgetData(); ?>}'>
-    <?php echo '<div id="als_pdp" class="affirm-as-low-as" ' . (!empty($mfpValue) ? 'data-promo-id="' . $mfpValue . '"' : '') . ' ' . $block->getDataAffirmColor() . '></div>'; ?>
+    <?php echo '<div id="als_pdp" data-amount="0" class="affirm-as-low-as" ' . (!empty($mfpValue) ? 'data-promo-id="' . $mfpValue . '"' : '') . ' ' . $block->getDataAffirmColor() . '></div>'; ?>
 </span>
+
+<script type="text/javascript">
+    require(['jquery', 'affirmWidget'],function($){
+
+        $(document).ready(function(){
+            if (typeof affirm != "undefined") {
+                affirm.ui.refresh();
+            }
+            $(".change-container-classname").on('change click', function () {
+                if ($('#product-price-' +<?php echo $productId; ?>)) {
+                    var refreshable = document.getElementById('als_pdp');
+                    var amount = $('#product-price-' +<?php echo $productId; ?>).html();
+                    var finalAmount = Number(amount.replace(/[^0-9\.-]+/g, "")) * 100;
+                    refreshable.setAttribute('data-amount', finalAmount);
+                    console.log('refreshALA', refreshable);
+                    affirm.ui.refresh();
+                }
+            });
+
+        });
+
+    });
+
+</script>
