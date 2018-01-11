@@ -46,11 +46,19 @@ class RefundRequest extends AbstractDataBuilder
         $payment = $paymentDataObject->getPayment();
         $chargeId = $payment->getAdditionalInformation(self::CHARGE_ID);
         $amountInCents = Util::formatToCents($buildSubject['amount']);
+        $order = $payment->getOrder();
+        if($order) {
+            $storeId = $order->getStoreId();
+        }
+        if (!$storeId) {
+            $storeId = null;
+        }
         return [
             'body' => [
                 'amount' => $amountInCents
             ],
-            'path' => "{$chargeId}/refund"
+            'path' => "{$chargeId}/refund",
+            'storeId' => $storeId
         ];
     }
 }

@@ -35,12 +35,13 @@ class TransferFactory extends AbstractTransferFactory
     public function create(array $request)
     {
         $method = isset($request['method']) ? $request['method'] : ClientService::POST;
+        $storeId = isset($request['storeId']) ? $request['storeId'] : '';
         return $this->transferBuilder
             ->setMethod($method)
             ->setHeaders(['Content-Type' => 'application/json'])
             ->setBody($request['body'])
-            ->setAuthUsername($this->getPublicApiKey())
-            ->setAuthPassword($this->getPrivateApiKey())
+            ->setAuthUsername($this->getPublicApiKey($storeId))
+            ->setAuthPassword($this->getPrivateApiKey($storeId))
             ->setUri($this->getApiUrl($request['path']))
             ->build();
     }

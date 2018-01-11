@@ -13,4 +13,7 @@
     <event name="payment_method_is_active">
         <observer name="check_affirm_payment_method_is_active" instance="Astound\Affirm\Model\Observer\PaymentMethodIsActive" />
     </event>
+    <event name="customer_address_format">
+        <observer name="affirm_missing_region" instance="Astound\Affirm\Model\Observer\AddressFormat" />
+    </event>
 </config>

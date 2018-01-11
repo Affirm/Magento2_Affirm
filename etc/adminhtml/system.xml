@@ -95,13 +95,10 @@
             <tab>general</tab>
             <resource>Astound_Affirm::configuration</resource>
             <group id="affirm_promo" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
-                <label>General Settings</label>
+                <label>Banner Settings</label>
                 <field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enabled</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                </field>
-                <field id="promo_key" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Affirm Promo Key</label>
                 </field>
             </group>
             <group id="affirm_promo_homepage" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">

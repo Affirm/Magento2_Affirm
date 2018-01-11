@@ -44,9 +44,17 @@ class VoidRequest extends AbstractDataBuilder
         $paymentDataObject = $buildSubject['payment'];
         $payment = $paymentDataObject->getPayment();
         $chargeId = $payment->getAdditionalInformation(self::CHARGE_ID);
+        $order = $payment->getOrder();
+        if($order) {
+            $storeId = $order->getStoreId();
+        }
+        if (!$storeId) {
+            $storeId = null;
+        }
         return [
             'body' => [],
-            'path' => "{$chargeId}/void"
+            'path' => "{$chargeId}/void",
+            'storeId' => $storeId
         ];
     }
 }

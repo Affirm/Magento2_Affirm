@@ -21,6 +21,5 @@
 $mfpValue = $block->getMFPValue();
 ?>
 <span style="float: left; width: 100%; margin-bottom: 15px" data-mage-init='{"aslowasCC": <?php echo $block->getWidgetData(); ?>}'>
-    <?php echo '<div id="als_pcc" class="affirm-as-low-as" ' . (!empty($mfpValue) ? 'data-promo-id="' . $mfpValue . '"' : '') . ' ' . $block->getDataAffirmColor() . '></div>'; ?>
+    <?php echo '<div id="als_pcc" data-amount="0" class="affirm-as-low-as" ' . (!empty($mfpValue) ? 'data-promo-id="' . $mfpValue . '"' : '') . ' ' . $block->getDataAffirmColor() . '></div>'; ?>
 </span>
-
