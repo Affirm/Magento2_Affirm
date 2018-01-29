@@ -69,24 +69,39 @@ abstract class AbstractTransferFactory implements TransferFactoryInterface
     /**
      * Get public API key
      *
+     * @param int $storeId
      * @return string
      */
-    protected function getPublicApiKey($storeId = null)
+    protected function getPublicApiKey($storeId)
     {
-        return $this->config->getValue('mode') == 'sandbox'
-            ? $this->config->getValue('public_api_key_sandbox', $storeId)
-            : $this->config->getValue('public_api_key_production', $storeId);
+        if(!empty($storeId)){
+            return $this->config->getValue('mode') == 'sandbox'
+                ? $this->config->getValue('public_api_key_sandbox', $storeId)
+                : $this->config->getValue('public_api_key_production', $storeId);
+        } else {
+            return $this->config->getValue('mode') == 'sandbox'
+                ? $this->config->getValue('public_api_key_sandbox')
+                : $this->config->getValue('public_api_key_production');
+        }
+
     }
 
     /**
      * Get private API key
      *
+     * @param int $storeId
      * @return string
      */
-    protected function getPrivateApiKey($storeId = null)
+    protected function getPrivateApiKey($storeId)
     {
-        return $this->config->getValue('mode') == 'sandbox'
-            ? $this->config->getValue('private_api_key_sandbox', $storeId)
-            : $this->config->getValue('private_api_key_production', $storeId);
+        if(!empty($storeId)){
+            return $this->config->getValue('mode') == 'sandbox'
+                ? $this->config->getValue('private_api_key_sandbox', $storeId)
+                : $this->config->getValue('private_api_key_production', $storeId);
+        } else {
+            return $this->config->getValue('mode') == 'sandbox'
+                ? $this->config->getValue('private_api_key_sandbox')
+                : $this->config->getValue('private_api_key_production');
+        }
     }
 }
