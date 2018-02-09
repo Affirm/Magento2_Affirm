@@ -25,6 +25,7 @@ use Magento\Checkout\Model\Session;
 use Magento\Framework\App\ProductMetadataInterface;
 use Magento\Framework\ObjectManagerInterface;
 use Symfony\Component\Config\Definition\Exception\Exception;
+use Astound\Affirm\Model\Config as Config;
 
 /**
  * Class AffirmCheckoutManager
@@ -98,6 +99,13 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
     protected $helper;
 
     /**
+     * Affirm config model
+     *
+     * @var \Astound\Affirm\Model\Config
+     */
+    protected $affirmConfig;
+
+    /**
      * Initialize affirm checkout
      *
      * @param Session                                    $checkoutSession
@@ -106,6 +114,7 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
      * @param \Magento\Framework\Module\ResourceInterface $moduleResource
      * @param ObjectManagerInterface                     $objectManager
      * @param FinancingProgram $helper
+     * @param Config                                     $affirmConfig
      */
     public function __construct(
         Session $checkoutSession,
@@ -113,7 +122,8 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
         ProductMetadataInterface $productMetadata,
         \Magento\Framework\Module\ResourceInterface $moduleResource,
         ObjectManagerInterface $objectManager,
-        FinancingProgram $helper
+        FinancingProgram $helper,
+        Config $affirmConfig
     ) {
         $this->checkoutSession = $checkoutSession;
         $this->quote = $this->checkoutSession->getQuote();
@@ -122,6 +132,7 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
         $this->moduleResource = $moduleResource;
         $this->objectManager = $objectManager;
         $this->helper = $helper;
+        $this->affirmConfig = $affirmConfig;
     }
 
     /**
@@ -190,7 +201,8 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
         $response['metadata'] = [
             'platform_type' => $this->productMetadata->getName() . ' 2',
             'platform_version' => $this->productMetadata->getVersion() . ' ' . $this->productMetadata->getEdition(),
-            'platform_affirm' => $this->moduleResource->getDbVersion('Astound_Affirm')
+            'platform_affirm' => $this->moduleResource->getDbVersion('Astound_Affirm'),
+            'mode' => $this->affirmConfig->getCheckoutFlowType()
         ];
         $financingProgramValue = $this->helper->getFinancingProgramValue();
         if ($financingProgramValue) {

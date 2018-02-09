@@ -581,4 +581,14 @@ class Config implements ConfigInterface
         $assetPath = "images/banners";
         return 'https://' . $prefix . '.' . $domain . '/' . $assetPath ;
     }
+
+    /**
+     * Get checkout flow type
+     *
+     * @return mixed
+     */
+    public function getCheckoutFlowType()
+    {
+        return $this->getConfigData('checkout_flow_type');
+    }
 }
