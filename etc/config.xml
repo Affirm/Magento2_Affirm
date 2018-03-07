@@ -45,6 +45,9 @@
                 <virtual_terminal_url>http://help.merchants.affirm.com/article/67-virtual-terminal-overview</virtual_terminal_url>
                 <enable_checkout_button>0</enable_checkout_button>
                 <checkout_button_code>https://cdn-assets.affirm.com/images/buttons/30_148-white.png</checkout_button_code>
+                <notification>
+                    <notification_update>1</notification_update>
+                </notification>
             </affirm_gateway>
         </payment>
         <affirm>
@@ -84,5 +87,10 @@
                 <month>12</month>
             </affirm_aslowas>
         </affirm>
+        <system>
+            <adminnotification>
+                <notification_feed>https://github.com/Affirm/Magento2_Affirm/releases.atom</notification_feed>
+            </adminnotification>
+        </system>
     </default>
 </config>

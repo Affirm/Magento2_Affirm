@@ -13,6 +13,10 @@
         <section id="payment">
             <group id="affirm_gateway" translate="label" type="text" sortOrder="34" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Affirm</label>
+                <field id="version" translate="label" type="label" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Extension Version</label>
+                    <frontend_model>Astound\Affirm\Block\System\Config\Form\Field\Version</frontend_model>
+                </field>
                 <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enabled</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
@@ -92,6 +96,13 @@
                     <label>Checkout Flow Type</label>
                     <source_model>Astound\Affirm\Model\Adminhtml\Source\PaymentCheckoutFlow</source_model>
                 </field>
+                <group id="notification" translate="label" type="text" sortOrder="180" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Notification</label>
+                    <field id="notification_update" translate="label" type="select" sortOrder="170" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>I'd like to be informed about Affirm extension updates</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                </group>
             </group>
         </section>
         <section id="affirm" translate="label" type="text" sortOrder="1200" showInDefault="1" showInWebsite="1" showInStore="0">
