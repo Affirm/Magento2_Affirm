@@ -13,4 +13,7 @@
     <event name="sales_order_shipment_save_commit_after">
         <observer name="update_shipping_after_save_order_shipment" instance="Astound\Affirm\Model\Adminhtml\Observer\AfterShipmentSaveObserver" />
     </event>
+    <event name="controller_action_predispatch">
+        <observer name="affirm_admin_notification" instance="Astound\Affirm\Model\Adminhtml\Observer\PredispatchObserver" />
+    </event>
 </config>
