@@ -18,7 +18,7 @@ class Feed extends AdminNotificationFeed
      */
     const XML_FEED_URL_PATH = 'system/adminnotification/notification_feed';
 
-    const XML_FEEDS_SUBSCRIBED  = 'payment/affirm_gateway/notification_update';
+    const XML_FEEDS_SUBSCRIBED  = 'payment/affirm_gateway/notification/notification_update';
 
     /**
      * Retrieve feed url
