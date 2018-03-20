@@ -294,4 +294,12 @@
             <argument name="payment" xsi:type="object">OnePicaAffirmGatewayFacade</argument>
         </arguments>
     </type>
+
+    <type name="Magento\Quote\Model\Quote\Config">
+        <plugin name="ProductAttributes" type="Astound\Affirm\Plugin\ProductAttributes" />
+    </type>
+
+    <type name="Magento\Payment\Model\PaymentMethodList">
+        <plugin name="Astound_Affirm::restrictPaymentMethods" type="\Astound\Affirm\Plugin\RestrictPaymentMethods" sortOrder="1" />
+    </type>
 </config>

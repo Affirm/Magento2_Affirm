@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Astound_affirm/style.css" />
+    </head>
+    <body>
+        <referenceContainer name="left">
+            <block class="Astound\Affirm\Block\Adminhtml\Rule\Edit\Tabs" name="astound_affirm_rule_edit_tabs" >
+                <arguments>
+                    <argument name="id" xsi:type="string">astound_affirm_rule_edit_tabs</argument>
+                    <argument name="dest_element_id" xsi:type="string">edit_form</argument>
+                    <argument name="title" xsi:type="string" translate="true">Payment Restrictions Options</argument>
+                </arguments>
+                <block class="Astound\Affirm\Block\Adminhtml\Rule\Edit\Tab\General" name="astound_affirm_rule_edit_tab_general"/>
+                <block class="Astound\Affirm\Block\Adminhtml\Rule\Edit\Tab\Conditions" name="astound_affirm_rule_edit_tab_conditions"/>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">general</argument>
+                    <argument name="block" xsi:type="string">astound_affirm_rule_edit_tab_general</argument>
+                </action>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">conditions</argument>
+                    <argument name="block" xsi:type="string">astound_affirm_rule_edit_tab_conditions</argument>
+                </action>
+            </block>
+        </referenceContainer>
+        <referenceContainer name="content">
+            <block class="Astound\Affirm\Block\Adminhtml\Rule\Edit" name="astound_affirm_rule_edit"/>
+        </referenceContainer>
+    </body>
+</page>

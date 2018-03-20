@@ -1,21 +1,4 @@
 <?php
-/**
- * Astound
- * NOTICE OF LICENSE
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to codemaster@astoundcommerce.com so we can send you a copy immediately.
- *
- * @category  Affirm
- * @package   Astound_Affirm
- * @copyright Copyright (c) 2016 Astound, Inc. (http://www.astoundcommerce.com)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-
 namespace Astound\Affirm\Block\Promotion;
 
 use Magento\Framework\View\Element\Template;
@@ -23,6 +6,7 @@ use Astound\Affirm\Model\Ui\ConfigProvider;
 use Astound\Affirm\Model\Config;
 use Astound\Affirm\Helper\Payment;
 use Astound\Affirm\Helper\AsLowAs;
+use Astound\Affirm\Helper\Rule;
 use Magento\Catalog\Model\ResourceModel\Category;
 use Magento\Catalog\Model\ResourceModel\Product;
 use Magento\Catalog\Model\ResourceModel\Category\CollectionFactory as CategoryCollectionFactory;
@@ -90,6 +74,13 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
      */
     protected $asLowAsHelper;
 
+    /**
+     * Rule helper
+     *
+     * @var string
+     */
+    protected $ruleHelper;
+
 
     /**
      * Category collection factory
@@ -107,6 +98,7 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
      * @param Payment          $helperAffirm
      * @param array            $data
      * @param AsLowAs          $asLowAs
+     * @param Rule             $rule
      * @param CategoryCollectionFactory $categoryCollectionFactory
      */
     public function __construct(
@@ -116,6 +108,7 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
         Payment $helperAffirm,
         array $data = [],
         AsLowAs $asLowAs,
+        Rule $rule,
         CategoryCollectionFactory $categoryCollectionFactory
     ) {
         if (isset($data['position']) && $data['position']) {
@@ -127,8 +120,9 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
         $this->affirmPaymentConfig->setWebsiteId($currentWebsiteId);
         $this->configProvider = $configProvider;
         $this->affirmPaymentHelper = $helperAffirm;
-        $this->asLowAsHelper = $asLowAs;
         $this->categoryCollectionFactory = $categoryCollectionFactory;
+        $this->asLowAsHelper = $asLowAs;
+        $this->ruleHelper = $rule;
 
         if (isset($data['type'])) {
             $this->type = $data['type'];
@@ -156,7 +150,7 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
      */
     protected function isAllowed($position)
     {
-        return $this->affirmPaymentConfig->isAslowasEnabled($position) && $this->affirmPaymentConfig->isCurrencyValid();
+        return $this->affirmPaymentConfig->isAslowasEnabled($position) && $this->affirmPaymentConfig->isCurrencyValid() && $this->ruleHelper->isAslowasAllowedPerRule($position);
     }
 
     /**
