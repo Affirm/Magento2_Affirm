@@ -1,4 +1,5 @@
 <?php
+
 namespace Astound\Affirm\Model\Rule\Condition;
 class Address extends \Magento\Rule\Model\Condition\AbstractCondition
 {
@@ -11,7 +12,8 @@ class Address extends \Magento\Rule\Model\Condition\AbstractCondition
         \Magento\Directory\Model\Config\Source\Country $directoryCountry,
         \Magento\Directory\Model\Config\Source\Allregion $directoryAllregion,
         array $data = []
-    ) {
+    )
+    {
         parent::__construct($context, $data);
         $this->_directoryCountry = $directoryCountry;
         $this->_directoryAllregion = $directoryAllregion;
@@ -20,26 +22,26 @@ class Address extends \Magento\Rule\Model\Condition\AbstractCondition
     public function loadAttributeOptions()
     {
         parent::loadAttributeOptions();
-        
+
         $attributes = $this->getAttributeOption();
         unset($attributes['payment_method']);
-		$attributes['base_subtotal'] = __('Subtotal');
-		$attributes['total_qty'] = __('Total Items Quantity');
-		$attributes['weight'] = __('Total Weight');
-		$attributes['shipping_method'] = __('Shipping Method');
-		$attributes['postcode'] = __('Shipping Postcode');
-		$attributes['region'] = __('Shipping Region');
-		$attributes['region_id'] = __('Shipping State/Province');
-		$attributes['country_id'] = __('Shipping Country');
-		$attributes['street'] = __('Address Line');
+        $attributes['base_subtotal'] = __('Subtotal');
+        $attributes['total_qty'] = __('Total Items Quantity');
+        $attributes['weight'] = __('Total Weight');
+        $attributes['shipping_method'] = __('Shipping Method');
+        $attributes['postcode'] = __('Shipping Postcode');
+        $attributes['region'] = __('Shipping Region');
+        $attributes['region_id'] = __('Shipping State/Province');
+        $attributes['country_id'] = __('Shipping Country');
+        $attributes['street'] = __('Address Line');
         $attributes['city'] = __('City');
 
         $this->setAttributeOption($attributes);
 
         return $this;
     }
-	
-	public function getAttributeElement()
+
+    public function getAttributeElement()
     {
         $element = parent::getAttributeElement();
         $element->setShowAsText(true);
@@ -49,11 +51,14 @@ class Address extends \Magento\Rule\Model\Condition\AbstractCondition
     public function getInputType()
     {
         switch ($this->getAttribute()) {
-            case 'base_subtotal': case 'weight': case 'total_qty':
-            return 'numeric';
+            case 'base_subtotal':
+            case 'weight':
+            case 'total_qty':
+                return 'numeric';
 
-            case 'country_id': case 'region_id':
-            return 'select';
+            case 'country_id':
+            case 'region_id':
+                return 'select';
         }
         return 'string';
     }
@@ -61,21 +66,22 @@ class Address extends \Magento\Rule\Model\Condition\AbstractCondition
     public function getValueElementType()
     {
         switch ($this->getAttribute()) {
-            case 'country_id': case 'region_id':
-            return 'select';
+            case 'country_id':
+            case 'region_id':
+                return 'select';
         }
         return 'text';
     }
-	
-	public function getOperatorSelectOptions()
+
+    public function getOperatorSelectOptions()
     {
         $operators = $this->getOperatorOption();
         if ($this->getAttribute() == 'street') {
             $operators = array(
-                '{}'  => __('contains'),
+                '{}' => __('contains'),
                 '!{}' => __('does not contain'),
-                '{%'  => __('starts from'),
-                '%}'  => __('ends with'),
+                '{%' => __('starts from'),
+                '%}' => __('ends with'),
             );
         }
 
@@ -89,8 +95,8 @@ class Address extends \Magento\Rule\Model\Condition\AbstractCondition
         }
         return $opt;
     }
-	
-	public function getValueSelectOptions()
+
+    public function getValueSelectOptions()
     {
         if (!$this->hasData('value_select_options')) {
             switch ($this->getAttribute()) {
@@ -109,8 +115,8 @@ class Address extends \Magento\Rule\Model\Condition\AbstractCondition
         }
         return $this->getData('value_select_options');
     }
-	
-	public function getDefaultOperatorInputByType()
+
+    public function getDefaultOperatorInputByType()
     {
         $op = parent::getDefaultOperatorInputByType();
         $op['string'][] = '{%';
@@ -126,24 +132,17 @@ class Address extends \Magento\Rule\Model\Condition\AbstractCondition
 
         return $op;
     }
-	
-	 public function validateAttribute($validatedValue)
+
+    public function validateAttribute($validatedValue)
     {
         if (is_object($validatedValue)) {
             return false;
         }
 
-        //if (is_string($validatedValue)){
-//            $validatedValue = strtoupper($validatedValue);
-//        }
-
         /**
          * Condition attribute value
          */
         $value = $this->getValueParsed();
-        /*if (is_string($value)){
-            $value = strtoupper($value);
-        }*/
 
         /**
          * Comparison operator
@@ -161,14 +160,14 @@ class Address extends \Magento\Rule\Model\Condition\AbstractCondition
                 if (!is_scalar($validatedValue)) {
                     return false;
                 } else {
-					$result = substr($validatedValue,0,strlen($value)) == $value;
+                    $result = substr($validatedValue, 0, strlen($value)) == $value;
                 }
                 break;
             case '%}':
                 if (!is_scalar($validatedValue)) {
                     return false;
                 } else {
-                    $result = substr($validatedValue,-strlen($value)) == $value;
+                    $result = substr($validatedValue, -strlen($value)) == $value;
                 }
                 break;
             default:
@@ -181,13 +180,13 @@ class Address extends \Magento\Rule\Model\Condition\AbstractCondition
     protected function _isArrayOperatorType()
     {
         $ret = false;
-        if (method_exists($this, 'isArrayOperatorType')){
+        if (method_exists($this, 'isArrayOperatorType')) {
             $ret = $this->isArrayOperatorType();
         } else {
-            $op  = $this->getOperator();
+            $op = $this->getOperator();
             $ret = ($op === '()' || $op === '!()');
         }
-         
+
         return $ret;
     }
 }

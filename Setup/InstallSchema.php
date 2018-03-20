@@ -1,4 +1,5 @@
 <?php
+
 namespace Astound\Affirm\Setup;
 
 use Magento\Framework\Setup\InstallSchemaInterface;
@@ -22,7 +23,7 @@ class InstallSchema implements InstallSchemaInterface
                 null,
                 ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true]
             )
-			->addColumn(
+            ->addColumn(
                 'for_admin',
                 \Magento\Framework\DB\Ddl\Table::TYPE_BOOLEAN,
                 null,
@@ -34,25 +35,25 @@ class InstallSchema implements InstallSchemaInterface
                 null,
                 ['nullable' => false, 'unsigned' => true, 'default' => 0]
             )
-			->addColumn(
+            ->addColumn(
                 'all_stores',
                 \Magento\Framework\DB\Ddl\Table::TYPE_BOOLEAN,
                 null,
                 ['nullable' => false, 'unsigned' => true, 'default' => 0]
             )
-			->addColumn(
+            ->addColumn(
                 'all_groups',
                 \Magento\Framework\DB\Ddl\Table::TYPE_BOOLEAN,
                 null,
                 ['nullable' => false, 'unsigned' => true, 'default' => 0]
             )
-			->addColumn(
+            ->addColumn(
                 'name',
                 \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
                 255,
                 ['default' => null, 'nullable' => false]
             )
-			->addColumn(
+            ->addColumn(
                 'stores',
                 \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
                 255,
@@ -76,7 +77,7 @@ class InstallSchema implements InstallSchemaInterface
                 null,
                 ['default' => null, 'nullable' => true]
             )
-			->addColumn(
+            ->addColumn(
                 'conditions_serialized',
                 \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
                 null,
