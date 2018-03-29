@@ -554,7 +554,7 @@ class Config implements ConfigInterface
     public function getAllAsLowAsConfig()
     {
         return [
-            'asLowAsActiveMiniCart' => $this->getConfigData('active') && $this->isAslowasEnabled('cc') &&
+            'asLowAsActiveMiniCart' => $this->getConfigData('active') && $this->isAslowasEnabled('mcc') &&
                 $this->isCurrencyValid(),
             'apr' => $this->getAsLowAsApr(),
             'months' => $this->getAsLowAsMonths(),

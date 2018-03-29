@@ -2,9 +2,9 @@
     "name": "affirm/magento2",
     "description": "Affirm's extension for the Magento 2 https://www.affirm.com/",
     "type": "magento2-module",
-    "version": "2.0.5",
+    "version": "2.0.6",
     "license": [
-        "OSL-3.0"
+        "BSD-3-Clause"
     ],
     "autoload": {
         "files": [

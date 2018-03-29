@@ -29,6 +29,8 @@ use Magento\Catalog\Model\ResourceModel\Product;
 class AsLowAs extends FinancingProgram
 {
 
+    protected $_allRules = null;
+
     /**
      * Initialization
      *
