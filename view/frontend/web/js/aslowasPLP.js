@@ -30,7 +30,11 @@ define(["jquery",
             $.each(elements, function (key, element) {
                 price = $(element).text();
                 if($(element).attr("data-price-type") == "finalPrice") {
-                    element_id = 'as_low_as_plp_' + $(element).parent().parent().attr('data-product-id');
+                    if($(element).parents('.special-price').length > 0) {
+                        element_id = 'as_low_as_plp_' + $(element).parent().parent().parent().attr('data-product-id');
+                    } else {
+                        element_id = 'as_low_as_plp_' + $(element).parent().parent().attr('data-product-id');
+                    }
                 } else {
                     element_id = 'as_low_as_plp_' + $(element).parent().parent().parent().attr('data-product-id');
                 }
