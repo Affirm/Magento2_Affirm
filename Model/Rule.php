@@ -31,7 +31,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
 
     protected function _construct()
     {
-        $this->_init('Astound\Affirm\Model\Resource\Rule');
+        $this->_init('Astound\Affirm\Model\ResourceModel\Rule');
         parent::_construct();
     }
 	

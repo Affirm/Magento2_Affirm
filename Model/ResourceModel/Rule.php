@@ -1,5 +1,5 @@
 <?php
-namespace Astound\Affirm\Model\Resource;
+namespace Astound\Affirm\Model\ResourceModel;
 
 class Rule extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
 {

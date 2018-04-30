@@ -14,7 +14,7 @@ class MassAction extends \Astound\Affirm\Controller\Adminhtml\Rule
                 $status = -1;
                 switch($action) {
                     case 'delete':
-                        $collection = $this->_objectManager->create('Astound\Affirm\Model\Resource\Rule\Collection');
+                        $collection = $this->_objectManager->create('Astound\Affirm\Model\ResourceModel\Rule\Collection');
 
                         $collection->addFieldToFilter('rule_id', array('in'=>$ids));
                         $collection->walk($action);
