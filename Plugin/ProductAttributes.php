@@ -16,7 +16,7 @@ class ProductAttributes
     {
         $attributesTransfer = $closure();
 
-        $attributes = $this->objectManager->create('Astound\Affirm\Model\Resource\Rule')->getAttributes();
+        $attributes = $this->objectManager->create('Astound\Affirm\Model\ResourceModel\Rule')->getAttributes();
 
          foreach ($attributes as $code) {
             $attributesTransfer[] = $code;
