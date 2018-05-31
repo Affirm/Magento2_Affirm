@@ -239,7 +239,14 @@
                     <label>Default Affirm Promo ID</label>
                 </field>
             </group>
-            <group id="affirm_mfp" translate="label" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="0">
+            <group id="affirm_aslowas_developer" translate="label" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>As Low As Additional Developer Settings</label>
+                <field id="placement" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>PDP Placement options for As low as</label>
+                    <source_model>Astound\Affirm\Model\Config\System\Source\Position::getBlockPlacementPDP</source_model>
+                </field>
+            </group>
+            <group id="affirm_mfp" translate="label" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="0">
                 <label>Multiple Financing Program</label>
                 <fieldset_css>complex</fieldset_css>
                 <field id="financing_program_value_default" translate="label" type="text" sortOrder="72" showInDefault="1" showInWebsite="1" showInStore="0">

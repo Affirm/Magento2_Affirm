@@ -67,4 +67,18 @@ class Position implements \Magento\Framework\Option\ArrayInterface
             '2' => __('↑ Near checkout button')
         ];
     }
+
+    /**
+     * Block placement for Product Detail Page
+     *
+     * @return array
+     */
+    public function getBlockPlacementPDP()
+    {
+        return [
+            '0' => __('After Price'),
+            '1' => __('Before Price'),
+            '2' => __('End of Product Info')
+        ];
+    }
 }

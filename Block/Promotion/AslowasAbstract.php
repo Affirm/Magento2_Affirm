@@ -68,6 +68,13 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
     protected $position;
 
     /**
+     * Placement of "As Low As" block
+     *
+     * @var string
+     */
+    protected $placement;
+
+    /**
      * AsLowAs helper
      *
      * @var string
@@ -127,6 +134,8 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
         if (isset($data['type'])) {
             $this->type = $data['type'];
         }
+
+        $this->placement = isset($data['placement']) ? (int)$data['placement']: 0;
         parent::__construct($context, $data);
     }
 
@@ -227,6 +236,10 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
     protected function _toHtml()
     {
         $isAllowed = $this->isAllowed($this->position);
+        $placement = $this->affirmPaymentConfig->getAlaPlacement();
+        if ($this->placement != $placement) {
+            return '';
+        }
         if ($this->validate() && $isAllowed) {
             return parent::_toHtml();
         }
