@@ -50,9 +50,22 @@
             </block>
         </referenceBlock>
         <referenceContainer name="product.info.main">
-            <block class="Astound\Affirm\Block\Promotion\ProductPage\Aslowas" name="aslowas.simple" template="Astound_Affirm::promotion/aslowasPDP.phtml" after="product.info.price">
+            <block class="Astound\Affirm\Block\Promotion\ProductPage\Aslowas" name="aslowas.after.price" template="Astound_Affirm::promotion/aslowasPDP.phtml" after="product.info.price">
                 <arguments>
                     <argument name="position" xsi:type="string">pdp</argument>
+                    <argument name="placement" xsi:type="number">0</argument>
+                </arguments>
+            </block>
+            <block class="Astound\Affirm\Block\Promotion\ProductPage\Aslowas" name="aslowas.before.price" template="Astound_Affirm::promotion/aslowasPDP.phtml" before="product.info.price">
+                <arguments>
+                    <argument name="position" xsi:type="string">pdp</argument>
+                    <argument name="placement" xsi:type="number">1</argument>
+                </arguments>
+            </block>
+            <block class="Astound\Affirm\Block\Promotion\ProductPage\Aslowas" name="aslowas.end.product.info" template="Astound_Affirm::promotion/aslowasPDP.phtml" after="-">
+                <arguments>
+                    <argument name="position" xsi:type="string">pdp</argument>
+                    <argument name="placement" xsi:type="number">2</argument>
                 </arguments>
             </block>
         </referenceContainer>

@@ -50,6 +50,7 @@ class Config implements ConfigInterface
     const KEY_ASLOWAS = 'affirm_aslowas';
     const KEY_MFP = 'affirm_mfp';
     const CURRENCY_CODE = 'USD';
+    const KEY_ASLOWAS_DEVELOPER = 'affirm_aslowas_developer';
     /**#@-*/
 
     /**
@@ -359,6 +360,20 @@ class Config implements ConfigInterface
             $this->getWebsiteId()
         );
         return $size ? $size : 0;
+    }
+
+    /**
+     * Get ALA placement
+     *
+     * @return int|mixed
+     */
+    public function getAlaPlacement()
+    {
+        $placement = $this->scopeConfig->getValue(
+            'affirm/'. self::KEY_ASLOWAS_DEVELOPER .'/placement',
+            ScopeInterface::SCOPE_WEBSITE
+        );
+        return $placement ? $placement : 0;
     }
 
     /**
