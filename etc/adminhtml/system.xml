@@ -235,6 +235,10 @@
                     <label>Minimum amount for displaying the monthly payment pricing</label>
                     <frontend_class>validate-number</frontend_class>
                 </field>
+                <field id="learn_more" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enable Learn More</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
                 <field id="promo_id_value_default" translate="label" type="text" sortOrder="55" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Default Affirm Promo ID</label>
                 </field>

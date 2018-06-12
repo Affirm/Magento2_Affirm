@@ -97,4 +97,14 @@ class AsLowAs extends FinancingProgram
             return $this->getFinancingProgramDefault();
         }
     }
+
+    /**
+     * Is visible Learn more for ALA
+     *
+     * @return boolean
+     */
+    public function isVisibleLearnmore()
+    {
+        return $this->affirmPaymentConfig->getAsLowAsValue('learn_more');
+    }
 }

@@ -19,11 +19,12 @@
 <?php
 $mfpValue = $block->getMFPValue();
 $productId = $block->getProductId();
+$learnMore = $block->getLearnMoreValue();
 ?>
 
 
 <span style="float: left; width: 100%; margin-bottom: 15px" data-mage-init='{"Astound_Affirm/js/aslowasPDP": <?php echo $block->getWidgetData(); ?>}'>
-    <?php echo '<div id="als_pdp" data-amount="0" class="affirm-as-low-as" ' . (!empty($mfpValue) ? 'data-promo-id="' . $mfpValue . '"' : '') . ' ' . $block->getDataAffirmColor() . '></div>'; ?>
+    <?php echo '<div id="als_pdp" data-amount="0" class="affirm-as-low-as" ' . (!empty($mfpValue) ? 'data-promo-id="' . $mfpValue . '"' : '') . ' ' . $block->getDataAffirmColor() . ' data-learnmore-show="'.$learnMore.'"></div>'; ?>
 </span>
 
 <script type="text/javascript">

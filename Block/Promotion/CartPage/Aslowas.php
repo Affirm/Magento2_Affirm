@@ -114,4 +114,8 @@ class Aslowas extends AslowasAbstract
     {
         return $this->asLowAsHelper->getFinancingProgramValue();
     }
+
+    public function getLearnMoreValue(){
+        return $this->asLowAsHelper->isVisibleLearnmore() ? 'true' :'false';
+    }
 }
