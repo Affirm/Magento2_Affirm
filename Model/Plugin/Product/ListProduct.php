@@ -74,7 +74,7 @@ class ListProduct extends ViewAbstract
 
             $mfpValue = $this->asLowAsHelper->getFinancingProgramValueALS($productCollection);
             $learnMore = $this->asLowAsHelper->isVisibleLearnmore() ? 'true' :'false';
-            $priceHtml .= '<div id="as_low_as_plp_' . $product->getId() . '" class="affirm-as-low-as" ' . $this->getDataAffirmColor() . ' ' . (!empty($mfpValue) ? 'data-promo-id="' . $mfpValue . '"' : '') . ' data-amount="0" data-learnmore-show="'.$learnMore.'"></div>';
+            $priceHtml .= '<div id="as_low_as_plp_' . $product->getId() . '" class="affirm-as-low-as" data-page-type="category" ' . $this->getDataAffirmColor() . ' ' . (!empty($mfpValue) ? 'data-promo-id="' . $mfpValue . '"' : '') . ' data-amount="0" data-learnmore-show="'.$learnMore.'"></div>';
         }
 
         return $priceHtml;
