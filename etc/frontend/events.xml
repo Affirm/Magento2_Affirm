@@ -16,4 +16,10 @@
     <event name="customer_login">
         <observer name="update_financing_program_parameter_on_login" instance="Astound\Affirm\Model\Observer\UpdateFinancingProgramOnLogin" />
     </event>
+    <event name="checkout_onepage_controller_success_action">
+        <observer name="affirm_order_success" instance="Astound\Affirm\Model\Observer\SetAffirmAnalyticsOnOrderSuccessPageView" />
+    </event>
+    <event name="multishipping_checkout_controller_success_action">
+        <observer name="affirm_order_success" instance="Astound\Affirm\Model\Observer\SetAffirmAnalyticsOnOrderSuccessPageView" />
+    </event>
 </config>

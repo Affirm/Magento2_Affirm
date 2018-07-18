@@ -33,11 +33,25 @@
  *
  */
 ?>
-
 <?php
-$mfpValue = $block->getMFPValue();
-$learnMore = $block->getLearnMoreValue();
+$options = $block->getOptions();
 ?>
-<span style="float: left; width: 100%; margin-bottom: 15px" data-mage-init='{"aslowasCC": <?php echo $block->getWidgetData(); ?>}'>
-    <?php echo '<div id="als_pcc" data-amount="0" class="affirm-as-low-as" data-page-type="cart" ' . (!empty($mfpValue) ? 'data-promo-id="' . $mfpValue . '"' : '') . ' ' . $block->getDataAffirmColor() . ' data-learnmore-show="'.$learnMore.'"></div>'; ?>
-</span>
+
+<!-- BEGIN AFFIRM ANALYTICS CODE -->
+<script type="text/x-magento-init">
+{"*": {
+        "Astound_Affirm/js/affirmPixel": <?php echo $options ?>
+    }
+}
+</script>
+<script>
+    require(['jquery', 'affirmPixel'],function($){
+        $(document).ready(function(){
+            if (typeof affirm != "undefined") {
+                <?php echo $this->getOrdersTrackingCode(); ?>
+            }
+        });
+    });
+</script>
+<!-- END AFFIRM ANALYTICS CODE -->
+

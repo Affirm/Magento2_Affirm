@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <!--
   ~ /*
   ~  * BSD 3-Clause License
@@ -31,10 +32,10 @@
   ~  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   ~  */
   -->
-
-<div id="als_mcc"
-     class="affirm-as-low-as"
-     data-page-type="cart"
-     data-bind="attr: { 'data-promo-id': getCartParam('mfpValue') , 'data-learnmore-show': getCartParam('learnMore')}"
-     data-amount="0"></div>
-<span data-mage-init='{"aslowasMC": {}}'></span>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="order.success.additional.info">
+            <block class="Astound\Affirm\Block\Promotion\Pixel\Confirm" name="affirm_pixel_javascript" as="affirm_pixel_javascript" template="Astound_Affirm::pixel/confirm.phtml"/>
+        </referenceContainer>
+    </body>
+</page>

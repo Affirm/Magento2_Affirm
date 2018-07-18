@@ -105,4 +105,8 @@ class Aslowas extends AslowasAbstract
     {
         return $this->affirmPaymentHelper->getProduct()->getId();
     }
+
+    public function getLearnMoreValue(){
+        return $this->asLowAsHelper->isVisibleLearnmore() ? 'true' :'false';
+    }
 }

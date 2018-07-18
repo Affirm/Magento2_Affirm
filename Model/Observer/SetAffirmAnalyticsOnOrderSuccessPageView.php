@@ -32,12 +32,45 @@
  *  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
-?>
 
-<?php
-$mfpValue = $block->getMFPValue();
-$learnMore = $block->getLearnMoreValue();
-?>
-<span style="float: left; width: 100%; margin-bottom: 15px" data-mage-init='{"aslowasCC": <?php echo $block->getWidgetData(); ?>}'>
-    <?php echo '<div id="als_pcc" data-amount="0" class="affirm-as-low-as" data-page-type="cart" ' . (!empty($mfpValue) ? 'data-promo-id="' . $mfpValue . '"' : '') . ' ' . $block->getDataAffirmColor() . ' data-learnmore-show="'.$learnMore.'"></div>'; ?>
-</span>
+namespace Astound\Affirm\Model\Observer;
+
+use Magento\Framework\Event\ObserverInterface;
+use Magento\Framework\Event\Observer;
+use Magento\Customer\Model\Session;
+
+/**
+ * Update Financing Program for customer on login
+ */
+class SetAffirmAnalyticsOnOrderSuccessPageView implements ObserverInterface
+{
+    /**
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\View\LayoutInterface $layout
+     */
+    public function __construct(
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\View\LayoutInterface $layout
+    ) {
+        $this->_layout = $layout;
+        $this->_storeManager = $storeManager;
+    }
+
+    /**
+     * Add order information into Affirm block to render on checkout success pages
+     *
+     * @param EventObserver $observer
+     * @return void
+     */
+    public function execute(Observer $observer)
+    {
+        $orderIds = $observer->getEvent()->getOrderIds();
+        if (empty($orderIds) || !is_array($orderIds)) {
+            return;
+        }
+        $block = $this->_layout->getBlock('affirm_pixel_javascript');
+        if ($block) {
+            $block->setOrderIds($orderIds);
+        }
+    }
+}

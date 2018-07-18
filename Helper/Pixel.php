@@ -32,12 +32,56 @@
  *  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
-?>
 
-<?php
-$mfpValue = $block->getMFPValue();
-$learnMore = $block->getLearnMoreValue();
-?>
-<span style="float: left; width: 100%; margin-bottom: 15px" data-mage-init='{"aslowasCC": <?php echo $block->getWidgetData(); ?>}'>
-    <?php echo '<div id="als_pcc" data-amount="0" class="affirm-as-low-as" data-page-type="cart" ' . (!empty($mfpValue) ? 'data-promo-id="' . $mfpValue . '"' : '') . ' ' . $block->getDataAffirmColor() . ' data-learnmore-show="'.$learnMore.'"></div>'; ?>
-</span>
+namespace Astound\Affirm\Helper;
+
+use Magento\Framework\App\Config\ScopeConfigInterface;
+use Astound\Affirm\Model\Config as Config;
+
+/**
+ * Pixel helper
+ *
+ * @package Astound\Affirm\Helper
+ */
+class Pixel
+{
+    /**
+     * Scope config
+     *
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
+     */
+    protected $scopeConfig;
+
+    /**
+     * Init
+     *
+     * @param ScopeConfigInterface $scopeConfig
+     * @param Config $configAffirm
+     */
+    public function __construct(
+        ScopeConfigInterface $scopeConfig,
+        Config $configAffirm
+    ) {
+        $this->scopeConfig = $scopeConfig;
+        $this->affirmPaymentConfig = $configAffirm;
+    }
+
+    /**
+     * Get pixel active status for confirm page
+     *
+     * @return string
+     */
+    public function isAffirmAnalyticsAvailable()
+    {
+        return $this->affirmPaymentConfig->getPixelValue('active_confirm');
+    }
+
+    public function getDateMicrotime()
+    {
+        $microtime = explode(' ', microtime());
+        $msec = $microtime[0];
+        $msecArray = explode('.', $msec);
+        $date = date('Y-m-d-H-i-s') . '-' . $msecArray[1];
+        return $date;
+    }
+}

@@ -85,6 +85,7 @@
                 <enabled_sc>0</enabled_sc>
                 <apr_value>0.10</apr_value>
                 <month>12</month>
+                <learn_more>1</learn_more>
             </affirm_aslowas>
         </affirm>
         <system>

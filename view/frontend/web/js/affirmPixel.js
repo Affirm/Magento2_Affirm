@@ -1,5 +1,4 @@
-<?php
-/**
+/*
  *
  *  * BSD 3-Clause License
  *  *
@@ -32,12 +31,41 @@
  *  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
-?>
 
-<?php
-$mfpValue = $block->getMFPValue();
-$learnMore = $block->getLearnMoreValue();
-?>
-<span style="float: left; width: 100%; margin-bottom: 15px" data-mage-init='{"aslowasCC": <?php echo $block->getWidgetData(); ?>}'>
-    <?php echo '<div id="als_pcc" data-amount="0" class="affirm-as-low-as" data-page-type="cart" ' . (!empty($mfpValue) ? 'data-promo-id="' . $mfpValue . '"' : '') . ' ' . $block->getDataAffirmColor() . ' data-learnmore-show="'.$learnMore.'"></div>'; ?>
-</span>
+/*jshint jquery:true*/
+define([
+    "jquery",
+    "Astound_Affirm/js/model/global",
+    "jquery/ui"
+], function ($, global) {
+
+    "use strict"
+
+    var self;
+    $.widget('mage.affirmPixel', {
+
+        /**
+         * Widget options
+         */
+        options: {},
+
+        /**
+         * Create affirm widget
+         *
+         * @private
+         */
+
+        _create: function() {
+            self = this;
+            if (typeof affirm == "undefined") {
+                $.when(global.loadScript(self.options)).done(function() {
+
+                });
+            }
+
+        },
+
+    });
+
+    return $.mage.affirmPixel
+});
