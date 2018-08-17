@@ -101,7 +101,7 @@ class Confirm extends \Magento\Framework\View\Element\Template
             }
 
             $result[] = sprintf("affirm.analytics.trackOrderConfirmed({
-'affiliation': '%s',
+'storeName': '%s',
 'orderId': '%s',
 'currency': '%s',
 'total': '%s',
