@@ -101,14 +101,14 @@ class Confirm extends \Magento\Framework\View\Element\Template
             }
 
             $result[] = sprintf("affirm.analytics.trackOrderConfirmed({
-'affiliation': '%s',
+'storeName': '%s',
 'orderId': '%s',
 'currency': '%s',
 'total': '%s',
 'tax': '%s',
 'shipping': '%s',
 'paymentMethod': '%s'
-});",
+},[",
                 $this->escapeJsQuote($this->_storeManager->getStore()->getFrontendName()),
                 $order->getIncrementId(),
                 $order->getOrderCurrencyCode(),
@@ -117,6 +117,20 @@ class Confirm extends \Magento\Framework\View\Element\Template
                 Util::formatToCents($order->getBaseShippingAmount()),
                 $order->getPayment()->getMethod()
             );
+            foreach ($order->getAllVisibleItems() as $item) {
+                $result[] = sprintf("{
+'productId': '%s',
+'name': '%s',
+'price': '%s',
+'quantity': '%s'
+},",
+                    $this->escapeJsQuote($item->getSku()),
+                    $this->escapeJsQuote($item->getName()),
+                    Util::formatToCents($item->getBasePrice()),
+                    $item->getQtyOrdered()
+                );
+            }
+            $result[] = sprintf("]);");
         }
         return implode("\n", $result);
     }
