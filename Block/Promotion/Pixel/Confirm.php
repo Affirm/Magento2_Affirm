@@ -45,7 +45,7 @@ use Astound\Affirm\Helper\Pixel;
 /**
  * Class Confirm
  *
- * @package Astound\Affirm\Block\Promotion
+ * @package Astound\Affirm\Block\Pixel
  */
 class Confirm extends \Magento\Framework\View\Element\Template
 {
@@ -142,7 +142,7 @@ class Confirm extends \Magento\Framework\View\Element\Template
      */
     protected function _toHtml()
     {
-        if (!$this->affirmPixelHelper->isAffirmAnalyticsAvailable()) {
+        if (!$this->affirmPixelHelper->isCheckoutSuccessPixelEnabledConfig()) {
             return '';
         }
 

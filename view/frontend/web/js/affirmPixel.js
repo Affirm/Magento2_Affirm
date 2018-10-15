@@ -35,22 +35,21 @@
 /*jshint jquery:true*/
 define([
     "jquery",
-    "Astound_Affirm/js/model/global",
+    "Astound_Affirm/js/model/aslowas",
     "jquery/ui"
-], function ($, global) {
-
+], function ($, aslowas) {
     "use strict"
 
     var self;
     $.widget('mage.affirmPixel', {
 
         /**
-         * Widget options
+         *  options
          */
         options: {},
 
         /**
-         * Create affirm widget
+         * Create affirm pixel
          *
          * @private
          */
@@ -58,11 +57,10 @@ define([
         _create: function() {
             self = this;
             if (typeof affirm == "undefined") {
-                $.when(global.loadScript(self.options)).done(function() {
-
+                $.when(aslowas.loadScript(self.options)).done(function() {
+                    console.log('Affirm js loaded');
                 });
             }
-
         },
 
     });

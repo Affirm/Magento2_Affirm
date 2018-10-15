@@ -19,12 +19,12 @@ var config = {
     map: {
         '*': {
             'synchPost': 'Astound_Affirm/js/action/send-request',
+            'affirmPixel': 'Astound_Affirm/js/affirmPixel',
             'affirmWidget': 'Astound_Affirm/js/affirmWidget',
             'aslowasPDP': 'Astound_Affirm/js/aslowasPDP',
             'aslowasPLP': 'Astound_Affirm/js/aslowasPLP',
             'aslowasCC': 'Astound_Affirm/js/aslowasCC',
-            'aslowasMC': 'Astound_Affirm/js/aslowasMC',
-            'affirmPixel': 'Astound_Affirm/js/affirmPixel'
+            'aslowasMC': 'Astound_Affirm/js/aslowasMC'
         }
     }
 };

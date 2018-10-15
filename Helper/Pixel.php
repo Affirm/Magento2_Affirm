@@ -66,16 +66,6 @@ class Pixel
         $this->affirmPaymentConfig = $configAffirm;
     }
 
-    /**
-     * Get pixel active status for confirm page
-     *
-     * @return string
-     */
-    public function isAffirmAnalyticsAvailable()
-    {
-        return $this->affirmPaymentConfig->getPixelValue('active_confirm');
-    }
-
     public function getDateMicrotime()
     {
         $microtime = explode(' ', microtime());
@@ -83,5 +73,93 @@ class Pixel
         $msecArray = explode('.', $msec);
         $date = date('Y-m-d-H-i-s') . '-' . $msecArray[1];
         return $date;
+    }
+
+    /**
+     * Returns is pixel placement for search query enabled
+     *
+     * @return bool
+     */
+    public function isSearchTrackPixelEnabledConfig()
+    {
+        return $this->affirmPaymentConfig->getPixelValue('add_search');
+    }
+
+    /**
+     * Returns is pixel placement for product list page enabled
+     *
+     * @return bool
+     */
+    public function isProductListTrackPixelEnabledConfig()
+    {
+        return $this->affirmPaymentConfig->getPixelValue('add_product_list');
+    }
+
+    /**
+     * Returns is pixel placement for product page enabled
+     *
+     * @return bool
+     */
+    public function isProductViewTrackPixelEnabledConfig()
+    {
+        return $this->affirmPaymentConfig->getPixelValue('add_product_view');
+    }
+
+    /**
+     * Returns is pixel placement for add to cart action enabled
+     *
+     * @return bool
+     */
+    public function isAddCartTrackPixelEnabledConfig()
+    {
+        return $this->affirmPaymentConfig->getPixelValue('add_cart');
+    }
+
+    /**
+     * Returns is pixel placement for checkout start action enabled
+     *
+     * @return bool
+     */
+    public function isAddChkStartTrackPixelEnabledConfig()
+    {
+        return $this->affirmPaymentConfig->getPixelValue('add_checkout_start');
+    }
+
+
+    /**
+     * Returns is pixel placement for confirmation page enabled
+     *
+     * @return bool
+     */
+    public function isCheckoutSuccessPixelEnabledConfig()
+    {
+        return $this->affirmPaymentConfig->getPixelValue('add_checkout_success');
+    }
+
+    /**
+     * Add slashes to string and prepares string for javascript.
+     *
+     * @param string $str
+     * @return string
+     */
+    public function escapeSingleQuotes($str)
+    {
+        return str_replace("'", "\'", $str);
+    }
+
+    /**
+    * Based on provided configuration path returns configuration value.
+    *
+    * @param string $configPath
+    * @param string|int $scope
+    * @return string
+    */
+    public function getConfig($configPath, $scope = 'default')
+    {
+        return $this->scopeConfig->getValue(
+            $configPath,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $scope
+        );
     }
 }
