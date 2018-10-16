@@ -35,6 +35,10 @@
 ?>
 <?php
 $options = $block->getOptions();
+$pixelCode = $this->getOrdersTrackingCode();
+
+$action   = $this->getRequest()->getFullActionName();
+
 ?>
 
 <!-- BEGIN AFFIRM ANALYTICS CODE -->
@@ -48,7 +52,11 @@ $options = $block->getOptions();
     require(['jquery', 'jquery/ui', 'affirmPixel'],function($, affirmPixel){
         $(window).load(function () {
             if (typeof affirm != "undefined") {
-                <?php echo $this->getOrdersTrackingCode(); ?>
+                <?php
+                if ($action == 'checkout_onepage_success') {
+                    echo $pixelCode;
+                }
+                ?>
             }
         });
     });

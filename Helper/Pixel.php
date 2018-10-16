@@ -76,6 +76,16 @@ class Pixel
     }
 
     /**
+     * Returns is pixel enabled
+     *
+     * @return bool
+     */
+    public function isTrackPixelEnabledConfig()
+    {
+        return $this->affirmPaymentConfig->getPixelValue('enabled');
+    }
+
+    /**
      * Returns is pixel placement for search query enabled
      *
      * @return bool

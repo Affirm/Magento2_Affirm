@@ -290,11 +290,8 @@
                 <field id="enabled" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enable Affirm pixel</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <comment>Enable affirm tracking pixels</comment>
+                    <comment>Enable affirm tracking pixels. In addition to enabling this config, please do enable pixel for specific actions using config options listed below.</comment>
                 </field>
-                <comment>
-                    <![CDATA[ Enable Affirm pixel for following pages : ]]>
-                </comment>
                 <field id="add_cart" translate="label" type="select" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Add to Cart</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>

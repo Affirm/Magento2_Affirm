@@ -162,7 +162,7 @@ class Code extends \Magento\Framework\View\Element\Template
      */
     protected function _toHtml()
     {
-        if (!$this->affirmPixelHelper->isCheckoutSuccessPixelEnabledConfig()) {
+        if (!$this->affirmPixelHelper->isTrackPixelEnabledConfig()) {
             return '';
         }
 

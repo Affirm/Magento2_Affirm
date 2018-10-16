@@ -163,7 +163,6 @@ class Confirm extends \Magento\Framework\View\Element\Template
             if ($config && isset($config['script']) && isset($config['apiKeyPublic'])) {
                 $options['script'] = $config['script'];
                 $options['public_api_key'] = $config['apiKeyPublic'];
-                $options['sessionId'] = ($this->getCustomerSessionId())? $this->getCustomerSessionId() : '';
             }
         }
         return json_encode($options);

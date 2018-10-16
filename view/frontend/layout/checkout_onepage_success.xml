@@ -34,8 +34,13 @@
   -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
-        <referenceContainer name="order.success.additional.info">
-            <block class="Astound\Affirm\Block\Promotion\Pixel\Confirm" name="affirm_pixel_javascript" as="affirm_pixel_javascript" template="Astound_Affirm::pixel/confirm.phtml"/>
+        <referenceContainer name="before.body.end">
+            <block class="Astound\Affirm\Block\Promotion\Pixel\Confirm"
+                   name="affirm_pixel_code_confirm"
+                   template="Astound_Affirm::pixel/confirm.phtml"
+                   as="affirm_pixel_javascript_code"
+                   after="-"
+                   ifconfig="affirm/affirm_pixel/enabled" />
         </referenceContainer>
     </body>
 </page>
