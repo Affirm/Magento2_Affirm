@@ -35,7 +35,8 @@
 /*global alert*/
 define([
     "jquery",
-    "mage/translate"
+    "mage/translate",
+    "jquery/ui"
 ],
     function ($, $t) {
         'use strict';
@@ -53,11 +54,9 @@ define([
                 "use strict";
                 var pubKey = options.public_api_key,
                     script = options.script,
-                    sessId = options.sessionId,
                     _affirm_config = {
                         public_api_key: pubKey, /* Use the PUBLIC API KEY Affirm sent you. */
                         script: script,
-                        sessionId: sessId
                     };
                 (function (l, g, m, e, a, f, b) {
                     var d, c = l[m] || {},

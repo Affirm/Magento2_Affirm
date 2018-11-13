@@ -35,20 +35,28 @@
 ?>
 <?php
 $options = $block->getOptions();
+$pixelCode = $this->getOrdersTrackingCode();
+
+$action   = $this->getRequest()->getFullActionName();
+
 ?>
 
 <!-- BEGIN AFFIRM ANALYTICS CODE -->
 <script type="text/x-magento-init">
 {"*": {
-        "Astound_Affirm/js/affirmPixel": <?php echo $options ?>
+        "affirmPixel": <?php echo $options ?>
     }
 }
 </script>
 <script>
-    require(['jquery', 'affirmPixel'],function($){
-        $(document).ready(function(){
+    require(['jquery', 'jquery/ui', 'affirmPixel'],function($, affirmPixel){
+        $(window).load(function () {
             if (typeof affirm != "undefined") {
-                <?php echo $this->getOrdersTrackingCode(); ?>
+                <?php
+                if ($action == 'checkout_onepage_success') {
+                    echo $pixelCode;
+                }
+                ?>
             }
         });
     });
