@@ -56,14 +56,27 @@ define([
 
         _create: function() {
             self = this;
-            if (typeof affirm == "undefined") {
-                $.when(aslowas.loadScript(self.options)).done(function() {
-                    console.log('Affirm js loaded');
+
+            function sendTracker(options){
+                affirm.ui.ready(function(){
+                    console.log(options.method);
+                    console.log(options.parameter[0]);
+                    console.log(options.parameter[1]);
+                    affirm.analytics[options.method](options.parameter[0], options.parameter[1]);
                 });
             }
-        },
-
+            
+            if (typeof affirm == "undefined") {
+                $.when(aslowas.loadScript(self.options.pixelConfig)).done(function() {
+                    console.log('path1');
+                    sendTracker(self.options);
+                });
+            } else {
+                console.log('path2');
+                sendTracker(self.options);
+            }
+        }
     });
 
     return $.mage.affirmPixel
-});
+});;

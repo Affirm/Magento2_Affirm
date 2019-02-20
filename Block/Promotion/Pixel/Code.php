@@ -185,7 +185,7 @@ class Code extends \Magento\Framework\View\Element\Template
                 $options['public_api_key'] = $config['apiKeyPublic'];
             }
         }
-        return json_encode($options);
+        return $options;
     }
 
     /**

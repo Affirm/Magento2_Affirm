@@ -33,7 +33,6 @@
  *
  */
 
-
 namespace Astound\Affirm\Block\Promotion\Pixel;
 
 use Magento\Store\Model\ScopeInterface;
@@ -50,6 +49,11 @@ use Astound\Affirm\Helper\Pixel;
 class Confirm extends \Magento\Framework\View\Element\Template
 {
     /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $_checkoutSession;
+
+    /**
      * @var \Magento\Sales\Model\ResourceModel\Order\CollectionFactory
      */
     protected $_salesOrderCollection;
@@ -60,6 +64,7 @@ class Confirm extends \Magento\Framework\View\Element\Template
      * @param Template\Context $context
      * @param ConfigProvider   $configProvider
      * @param \Magento\Sales\Model\ResourceModel\Order\CollectionFactory $salesOrderCollection
+     * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param Pixel          $helperPixelAffirm
      * @param array $data
      */
@@ -67,12 +72,14 @@ class Confirm extends \Magento\Framework\View\Element\Template
         Template\Context $context,
         ConfigProvider $configProvider,
         \Magento\Sales\Model\ResourceModel\Order\CollectionFactory $salesOrderCollection,
+        \Magento\Checkout\Model\Session $checkoutSession,
         Pixel $helperPixelAffirm,
         array $data = []
     ) {
         $this->affirmPixelHelper = $helperPixelAffirm;
         $this->_salesOrderCollection = $salesOrderCollection;
         $this->configProvider = $configProvider;
+        $this->_checkoutSession = $checkoutSession;
         parent::__construct($context, $data);
     }
 
@@ -84,55 +91,40 @@ class Confirm extends \Magento\Framework\View\Element\Template
      */
     public function getOrdersTrackingCode()
     {
-        $orderIds = $this->getOrderIds();
-        if (empty($orderIds) || !is_array($orderIds)) {
-            return;
+        $result = array();
+        $result['method'] = 'trackOrderConfirmed';
+
+        $order = $this->_checkoutSession->getLastRealOrder();
+
+        if ($order->getIsVirtual()) {
+            $address = $order->getBillingAddress();
+        } else {
+            $address = $order->getShippingAddress();
         }
 
-        $collection = $this->_salesOrderCollection->create();
-        $collection->addFieldToFilter('entity_id', ['in' => $orderIds]);
-        $result = [];
+        $result['parameter'][0] = array();
+        $result['parameter'][0]['storeName'] = $this->_storeManager->getStore()->getFrontendName();
+        $result['parameter'][0]['orderId'] = $order->getIncrementId();
+        $result['parameter'][0]['currency'] = $order->getOrderCurrencyCode();
+        $result['parameter'][0]['total'] = Util::formatToCents($order->getBaseGrandTotal());
+        $result['parameter'][0]['tax'] = Util::formatToCents($order->getBaseTaxAmount());
+        $result['parameter'][0]['shipping'] = Util::formatToCents($order->getBaseShippingAmount());
+        $result['parameter'][0]['paymentMethod'] = $order->getPayment()->getMethod();
 
-        foreach ($collection as $order) {
-            if ($order->getIsVirtual()) {
-                $address = $order->getBillingAddress();
-            } else {
-                $address = $order->getShippingAddress();
-            }
+        $result['parameter'][1] = array();
 
-            $result[] = sprintf("affirm.analytics.trackOrderConfirmed({
-'storeName': '%s',
-'orderId': '%s',
-'currency': '%s',
-'total': '%s',
-'tax': '%s',
-'shipping': '%s',
-'paymentMethod': '%s'
-},[",
-                $this->escapeJsQuote($this->_storeManager->getStore()->getFrontendName()),
-                $order->getIncrementId(),
-                $order->getOrderCurrencyCode(),
-                Util::formatToCents($order->getBaseGrandTotal()),
-                Util::formatToCents($order->getBaseTaxAmount()),
-                Util::formatToCents($order->getBaseShippingAmount()),
-                $order->getPayment()->getMethod()
-            );
-            foreach ($order->getAllVisibleItems() as $item) {
-                $result[] = sprintf("{
-'productId': '%s',
-'name': '%s',
-'price': '%s',
-'quantity': '%s'
-},",
-                    $this->escapeJsQuote($item->getSku()),
-                    $this->escapeJsQuote($item->getName()),
-                    Util::formatToCents($item->getBasePrice()),
-                    $item->getQtyOrdered()
-                );
-            }
-            $result[] = sprintf("]);");
+        foreach ($order->getAllVisibleItems() as $item) {
+
+            $eachItem = array();
+            $eachItem['productId'] = $item->getSku();
+            $eachItem['name'] = $item->getName();
+            $eachItem['price'] = Util::formatToCents($item->getBasePrice());
+            $eachItem['quantity'] = $item->getQtyOrdered();
+
+            $result['parameter'][1][] = $eachItem;
         }
-        return implode("\n", $result);
+
+        return $result;
     }
 
     /**
@@ -165,7 +157,7 @@ class Confirm extends \Magento\Framework\View\Element\Template
                 $options['public_api_key'] = $config['apiKeyPublic'];
             }
         }
-        return json_encode($options);
+        return $options;
     }
 
     public function getCustomerSessionId()
