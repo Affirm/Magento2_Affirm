@@ -34,32 +34,24 @@
  */
 ?>
 <?php
-$options = $block->getOptions();
-$pixelCode = $this->getOrdersTrackingCode();
 
-$action   = $this->getRequest()->getFullActionName();
+$action = $this->getRequest()->getFullActionName();
+
+if ($action == 'checkout_onepage_success') {
+                
+    $pixelCode = $this->getOrdersTrackingCode();
+    $pixelCode['pixelConfig'] = $block->getOptions();
+
+    $serializedPixelCode = $this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode($pixelCode);
+}
 
 ?>
 
 <!-- BEGIN AFFIRM ANALYTICS CODE -->
 <script type="text/x-magento-init">
 {"*": {
-        "affirmPixel": <?php echo $options ?>
+        "affirmPixel": <?php echo $serializedPixelCode ?>
     }
 }
 </script>
-<script>
-    require(['jquery', 'jquery/ui', 'affirmPixel'],function($, affirmPixel){
-        $(window).load(function () {
-            if (typeof affirm != "undefined") {
-                <?php
-                if ($action == 'checkout_onepage_success') {
-                    echo $pixelCode;
-                }
-                ?>
-            }
-        });
-    });
-</script>
 <!-- END AFFIRM ANALYTICS CODE -->
-

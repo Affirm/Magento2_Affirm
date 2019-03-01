@@ -56,14 +56,25 @@ define([
 
         _create: function() {
             self = this;
-            if (typeof affirm == "undefined") {
-                $.when(aslowas.loadScript(self.options)).done(function() {
-                    console.log('Affirm js loaded');
+
+            function sendTracker(options){
+                affirm.ui.ready(function(){
+
+                    affirm.analytics[options.method](options.parameter[0], options.parameter[1]);
                 });
             }
-        },
-
+            
+            if (typeof affirm == "undefined") {
+                $.when(aslowas.loadScript(self.options.pixelConfig)).done(function() {
+            
+                    sendTracker(self.options);
+                });
+            } else {
+            
+                sendTracker(self.options);
+            }
+        }
     });
 
     return $.mage.affirmPixel
-});
+});;
