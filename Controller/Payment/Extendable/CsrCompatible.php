@@ -48,7 +48,7 @@ use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\Request\InvalidRequestException;
 
 /**
- * Class Confirm
+ * Class CsrCompatible
  *
  * @package Astound\Affirm\Controller\Payment\Extendable
  */
