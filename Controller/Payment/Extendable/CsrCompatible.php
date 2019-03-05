@@ -108,7 +108,7 @@ class CsrCompatible extends Action implements CsrfAwareActionInterface
      */
     public function createCsrfValidationException(
         RequestInterface $request
-    ): ?InvalidRequestException {
+    ): InvalidRequestException {
         return null;
     }
 
