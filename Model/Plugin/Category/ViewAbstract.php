@@ -26,7 +26,7 @@ class ViewAbstract extends \Magento\Framework\DataObject
      *
      * @var array
      */
-    protected $dataColors = ['blue', 'black'];
+    protected $dataColors = ['blue', 'black', 'white'];
 
     /**
      * Affirm Min Mpp

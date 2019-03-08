@@ -30,7 +30,7 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
      *
      * @var array
      */
-    protected $dataColors = ['blue', 'black'];
+    protected $dataColors = ['blue', 'black', 'white'];
 
     /**
      * Affirm config model payment
