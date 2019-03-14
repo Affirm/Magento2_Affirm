@@ -26,13 +26,16 @@ use Magento\Quote\Api\CartManagementInterface;
 use Magento\Checkout\Model\Session;
 use Astound\Affirm\Model\Checkout;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\App\CsrfAwareActionInterface;
+use Magento\Framework\App\RequestInterface;
+use Magento\Framework\App\Request\InvalidRequestException;
 
 /**
  * Class Confirm
  *
  * @package Astound\Affirm\Controller\Payment
  */
-class Confirm extends Action
+class Confirm extends Action implements CsrfAwareActionInterface
 {
     /**
      * Checkout session
@@ -62,26 +65,35 @@ class Confirm extends Action
      */
     protected $quote;
 
-    /**
-     * Inject objects to the Confirm action
-     *
-     * @param Context                 $context
-     * @param CartManagementInterface $quoteManager
-     * @param Session                 $checkoutSession
-     * @param Checkout                $checkout
-     */
     public function __construct(
-        Context $context,
-        CartManagementInterface $quoteManager,
-        Session $checkoutSession,
-        Checkout $checkout
-    ) {
-        $this->checkout = $checkout;
-        $this->checkoutSession = $checkoutSession;
-        $this->quoteManagement = $quoteManager;
-        $this->quote = $checkoutSession->getQuote();
-        parent::__construct($context);
-    }
+            Context $context,
+            CartManagementInterface $quoteManager,
+            Session $checkoutSession,
+            Checkout $checkout
+        ) {
+            $this->checkout = $checkout;
+            $this->checkoutSession = $checkoutSession;
+            $this->quoteManagement = $quoteManager;
+            $this->quote = $checkoutSession->getQuote();
+            parent::__construct($context);
+        }
+     
+        /**
+         * @inheritDoc
+         */
+        public function createCsrfValidationException(
+            RequestInterface $request
+        ): ?InvalidRequestException {
+            return null;
+        }
+     
+        /**
+         * @inheritDoc
+         */
+        public function validateForCsrf(RequestInterface $request): ?bool
+        {
+            return true;
+        }      
 
     /**
      * Dispatch request
