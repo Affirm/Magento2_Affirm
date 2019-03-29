@@ -64,7 +64,7 @@
                     <config_path>payment/affirm_gateway/public_api_key_production</config_path>
                     <depends><field id="mode">production</field></depends>
                 </field>
-                <field id="private_api_key_production" translate="label" type="obscure" sortOrder="40" showInDefault="1" showInWebsite="0">
+                <field id="private_api_key_production" translate="label" type="obscure" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Private API Key</label>
                     <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                     <attribute type="shared">1</attribute>
