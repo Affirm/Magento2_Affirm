@@ -35,8 +35,9 @@ class Logo implements ArrayInterface
     public function toOptionArray()
     {
         return [
-            'blue' => 'Blue',
-            'black' => 'Black'
+            'blue' => 'Default',
+            'black' => 'Black',
+            'white' => 'White'
         ];
     }
 }

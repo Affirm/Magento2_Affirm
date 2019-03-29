@@ -27,7 +27,7 @@ class ConfigPlugin
      *
      * @var array
      */
-    protected $dataColors = ['blue', 'black'];
+    protected $dataColors = ['blue', 'black', 'white'];
 
     /**
      * Config provider
