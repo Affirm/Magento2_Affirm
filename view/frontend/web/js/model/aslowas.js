@@ -97,7 +97,6 @@ define([
                                 document.getElementById(options.element_id).setAttribute('data-affirm-color',options.color_id);
                             }
                             document.getElementById(options.element_id).setAttribute('data-amount',options.amount);
-                            affirm.ui.refresh();
                         } else {
                             self.hideAsLowAs(options);
                         }
