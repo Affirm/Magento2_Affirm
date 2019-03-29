@@ -25,7 +25,7 @@
                 <payment_action>authorize</payment_action>
                 <disable_for_backordered_items>0</disable_for_backordered_items>
                 <allowspecific>1</allowspecific>
-                <specificcountry>US</specificcountry>
+                <specificcountry>US,AS,GU,MP,PR,VI</specificcountry>
                 <allowspecificcurrency>1</allowspecificcurrency>
                 <currency>USD</currency>
                 <can_authorize>1</can_authorize>
