@@ -85,14 +85,6 @@ class Edit
         )->load();
         $order = $orderCollection->getFirstItem();
 
-        if ($order->getId() && $order->getPayment()->getMethod() == ConfigProvider::CODE) {
-            $this->_messageManager->addWarning(
-                __('Editing address is not available. Please contact Affirm for updating shipping/billing address.')
-            );
-            $resultRedirect = $this->forwardRedirectFactory->create();
-            $resultRedirect->setPath('sales/order/view', ['order_id' => $order->getId()]);
-            return $resultRedirect;
-        }
         return $method();
     }
 }
