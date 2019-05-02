@@ -101,7 +101,7 @@ class Edit
                     ),
                     'address' => array(
                         'line1' => $street[0],
-                        'line2' => $street[1],
+                        'line2' => isset($street[1]) ? $street[1]: '' ,
                         'state' => $newAddress['region'],
                         'city' => $newAddress['city'],
                         'zipcode' => $newAddress['postcode'],
