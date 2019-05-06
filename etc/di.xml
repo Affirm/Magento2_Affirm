@@ -281,8 +281,8 @@
     <type name="Magento\Sales\Controller\Adminhtml\Order\Create\Save">
         <plugin name="before-create-admin" type="Astound\Affirm\Model\Plugin\Order\Create" sortOrder="1"/>
     </type>
-    <type name="Magento\Sales\Controller\Adminhtml\Order\Address">
-        <plugin name="before-edit-address-admin" type="Astound\Affirm\Model\Plugin\Order\Address\Edit" sortOrder="1"/>
+    <type name="Magento\Sales\Controller\Adminhtml\Order\AddressSave">
+        <plugin name="after-edit-address-save" type="Astound\Affirm\Model\Plugin\Order\AddressSave\Edit" sortOrder="1"/>
     </type>
     <type name="Magento\Checkout\CustomerData\Cart">
         <plugin name="checkout-aslowas-minicart" type="Astound\Affirm\Model\Plugin\Checkout\CustomerData\Cart"/>
