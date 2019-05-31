@@ -126,10 +126,6 @@ class Confirm extends Action
                         ->setLastRealOrderId($order->getIncrementId())
                         ->setLastOrderStatus($order->getStatus());
                 }
-                $this->_eventManager->dispatch(
-                    'affirm_place_order_success',
-                    ['order' => $order, 'quote' => $this->quote ]
-                );
                 $this->_redirect('checkout/onepage/success');
                 return;
             } catch (LocalizedException $e) {
