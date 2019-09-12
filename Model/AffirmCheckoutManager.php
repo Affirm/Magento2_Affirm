@@ -189,7 +189,7 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
             }
             $giftCards = $this->quote->getGiftCards();
             if ($giftCards) {
-                $giftCards = unserialize($giftCards);
+                $giftCards = json_decode($giftCards);
                 foreach ($giftCards as $giftCard) {
                     $giftCardDiscountDescription = sprintf(__('Gift Card (%s)'), $giftCard[self::ID]);
                     $response['discounts'][$giftCardDiscountDescription] = [
