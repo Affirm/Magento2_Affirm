@@ -23,7 +23,7 @@ use Magento\Payment\Gateway\Http\ClientException;
 use Magento\Payment\Gateway\Http\TransferInterface;
 use Magento\Payment\Model\Method\Logger;
 use Magento\Payment\Gateway\Http\ConverterInterface;
-use Magento\Framework\HTTP\ZendClientFactory;
+use Laminas\Http\Client;
 
 /**
  * Class ClientService
@@ -54,7 +54,7 @@ class ClientService implements ClientInterface
     /**
      * Client factory
      *
-     * @var \Magento\Framework\HTTP\ZendClientFactory
+     * @var \Laminas\Http\Client
      */
     protected $httpClientFactory;
 
@@ -63,12 +63,12 @@ class ClientService implements ClientInterface
      *
      * @param Logger $logger
      * @param ConverterInterface $converter,
-     * @param ZendClientFactory $httpClientFactory
+     * @param Client $httpClientFactory
      */
     public function __construct(
         Logger $logger,
         ConverterInterface $converter,
-        ZendClientFactory $httpClientFactory
+        Client $httpClientFactory
     ) {
         $this->logger = $logger;
         $this->converter = $converter;
@@ -79,7 +79,7 @@ class ClientService implements ClientInterface
      * Places request to gateway. Returns result as ENV array
      *
      * @param TransferInterface $transferObject
-     * @return array|\Zend_Http_Response
+     * @return array|\Http_Response
      * @throws \Magento\Payment\Gateway\Http\ClientException
      */
     public function placeRequest(TransferInterface $transferObject)
@@ -87,18 +87,18 @@ class ClientService implements ClientInterface
         $log = [];
         $response = [];
         try {
-            /** @var \Magento\Framework\HTTP\ZendClient $client */
-            $client = $this->httpClientFactory->create();
+            $client = $this->httpClientFactory;
             $client->setUri($transferObject->getUri());
             $client->setAuth($transferObject->getAuthUsername(), $transferObject->getAuthPassword());
             if (!empty($transferObject->getBody())) {
                 $data = $transferObject->getBody();
                 $data = json_encode($data, JSON_UNESCAPED_SLASHES);
-                $client->setRawData($data, 'application/json');
+                $client->setEncType('application/json');
+                $client->setRawBody($data);
             }
-
-            $response = $client->request($transferObject->getMethod());
-            $rawResponse = $response->getRawBody();
+            $client->setMethod($transferObject->getMethod());
+            $response = $client->send();
+            $rawResponse = $response->getBody();
             $response = $this->converter->convert($rawResponse);
         } catch (\Exception $e) {
             throw new ClientException(__($e->getMessage()));

@@ -20,11 +20,11 @@ namespace Astound\Affirm\Model\Adminhtml\Observer;
 
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
-use Magento\Framework\HTTP\ZendClientFactory;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Payment\Model\Method\Logger;
 use Astound\Affirm\Model\Ui\ConfigProvider;
+use Laminas\Http\Client;
 
 /**
  * Customer Observer Model
@@ -48,7 +48,7 @@ class AfterShipmentSaveObserver implements ObserverInterface
     /**
      * Client factory
      *
-     * @var \Magento\Framework\HTTP\ZendClientFactory
+     * @var \Laminas\Http\Client
      */
     protected $httpClientFactory;
 
@@ -70,13 +70,13 @@ class AfterShipmentSaveObserver implements ObserverInterface
      * Construct
      *
      * @param OrderRepositoryInterface $orderRepository
-     * @param ZendClientFactory        $httpClientFactory
+     * @param Client        $httpClientFactory
      * @param ScopeConfigInterface     $scopeConfig
      * @param Logger $logger
      */
     public function __construct(
         OrderRepositoryInterface $orderRepository,
-        ZendClientFactory $httpClientFactory,
+        Client $httpClientFactory,
         ScopeConfigInterface $scopeConfig,
         Logger $logger
     ) {
@@ -119,12 +119,14 @@ class AfterShipmentSaveObserver implements ObserverInterface
             ];
 
             try {
-                $client = $this->httpClientFactory->create();
+                $client = $this->httpClientFactory;
                 $client->setUri($url);
                 $client->setAuth($this->getPublicApiKey(), $this->getPrivateApiKey());
                 $data = json_encode($data, JSON_UNESCAPED_SLASHES);
-                $client->setRawData($data, 'application/json');
-                $client->request('POST');
+                $client->setEncType('application/json');
+                $client->setRawBody($data);
+                $client->setMethod('POST');
+                $client->send();
             } catch (\Exception $e) {
                 $this->logger->debug($e->getMessage());
             }
