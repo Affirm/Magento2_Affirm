@@ -21,8 +21,9 @@ namespace Astound\Affirm\Model\Plugin\Order\AddressSave;
 use Magento\Sales\Controller\Adminhtml\Order\Address;
 use Magento\Sales\Model\ResourceModel\Order\CollectionFactory;
 use Astound\Affirm\Model\Ui\ConfigProvider;
-use Magento\Framework\HTTP\ZendClientFactory;
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Laminas\Http\Client;
+
 
 /**
  * Class Edit
@@ -43,7 +44,7 @@ class Edit
     /**
      * Client factory
      *
-     * @var \Magento\Framework\HTTP\ZendClientFactory
+     * @var \Laminas\Http\Client;
      */
     protected $httpClientFactory;
 
@@ -60,9 +61,11 @@ class Edit
      */
     protected $scopeConfig;
 
+
+
     public function __construct(
         CollectionFactory $collectionFactory,
-        ZendClientFactory $httpClientFactory,
+        Client $httpClientFactory,
         ScopeConfigInterface $scopeConfig
     ) {
         $this->_collectionFactory = $collectionFactory;
@@ -111,12 +114,14 @@ class Edit
             );
 
             try {
-                $client = $this->httpClientFactory->create();
+                $client = $this->httpClientFactory;
                 $client->setUri($url);
                 $client->setAuth($this->getPublicApiKey(), $this->getPrivateApiKey());
                 $data = json_encode($data, JSON_UNESCAPED_SLASHES);
-                $client->setRawData($data, 'application/json');
-                $client->request('POST');
+                $client->setEncType('application/json');
+                $client->setRawBody($data);
+                $client->setMethod('POST');
+                $client->send();
             } catch (\Exception $e) {
                 $this->logger->debug($e->getMessage());
             }
