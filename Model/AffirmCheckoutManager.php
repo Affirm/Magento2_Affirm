@@ -209,16 +209,16 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
 
         $response['product_types'] = array_unique($itemTypes);
 
-        if(count($response['product_types'])  == 1 ) {
-            $productType = $response['product_types'][0];
+        $productType = true;
+        if (count($response['product_types'])  == 1 && $response['product_types'][0] == 'downloadable') {
+            $productType = false;
         }
 
+
         $response['address'] = [
-            'shipping' => $productType !== 'downloadable' ? $this->getShippingAddress() :  $this->getBillingAddress(),
+            'shipping' => $productType ? $this->getShippingAddress() :  $this->getBillingAddress(),
             'billing' => $this->getBillingAddress()
         ];
-
-        $response['product_types'] = array_unique($itemTypes);
 
         $response['metadata'] = [
             'platform_type' => $this->productMetadata->getName() . ' 2',
