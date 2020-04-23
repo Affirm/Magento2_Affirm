@@ -119,33 +119,41 @@ define([
          * @returns {{}}
          */
         prepareAddress: function(type) {
-            var name, address, fullname, street, result = {};
+            var name, address, fullname, firstName, lastName, street, result = {};
             if (type == 'shipping') {
                 address = quote.shippingAddress();
             } else if (type == 'billing') {
                 address = quote.billingAddress();
             }
-            if (address.lastname) {
-                fullname = address.firstname + ' ' + address.lastname;
+            if (address.lastname ? address.lastname : this.address[type].name.last) {
+                firstName = address.firstname ? address.firstname : this.address[type].name.first;
+                lastName = address.lastname ? address.lastname : this.address[type].name.last;
+                fullname = firstName + ' ' + lastName;
             } else {
-                fullname = address.firstname;
+                fullname = address.firstname ? address.firstname : this.address[type].name.first;
             }
             name = {
                 "full": fullname
             };
-            if (address.street[0]) {
+            if (address.street !== undefined) {
                 street = address.street[0];
+            } else {
+                street = this.address[type].address.line[0];
             }
             result["address"] = {
                 "line1": street,
-                "city": address.city,
-                "state": address.regionCode,
-                "zipcode": address.postcode,
-                "country": address.countryId
+                "city": address.city ? address.city : this.address[type].address.city,
+                "state": address.regionCode ? address.regionCode : this.address[type].address.state,
+                "zipcode": address.postcode ? address.postcode : this.address[type].address.postcode,
+                "country": address.countryId ? address.countryId : this.address[type].address.country
              };
             result["name"] = name;
-            if (address.street[1]) {
-                result.address.line2 = address.street[1];
+            if (address.street !== undefined) {
+                if (address.street[1]) {
+                    result.address.line2 = address.street[1];
+                }
+            } else if(this.address[type].address.line[1]) {
+                result.address.line2 = this.address[type].address.line[1]
             }
             if (address.telephone) {
                 result.phone_number = address.telephone;
@@ -175,6 +183,14 @@ define([
             }
             if (data.financing_program) {
                 this.setFinancingProgram(data.financing_program);
+            }
+
+            if (data.product_types) {
+                this.setProductTypes(data.product_types);
+            }
+
+            if (data.address) {
+                this.setAddress(data.address);
             }
         },
 
@@ -219,6 +235,28 @@ define([
         setFinancingProgram: function(financing_program) {
             if (financing_program) {
                 this.financing_program = financing_program;
+            }
+        },
+
+        /**
+         * list of productTypes
+         *
+         * @param product Type Array
+         */
+        setProductTypes: function(product_types) {
+            if (product_types) {
+                this.product_types = product_types;
+            }
+        },
+
+        /**
+         * Specify address
+         *
+         * @param quote address
+         */
+        setAddress: function(address) {
+            if (address) {
+                this.address = address;
             }
         },
 
