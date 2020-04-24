@@ -115,6 +115,11 @@
                     <label>Checkout Button Code</label>
                     <depends><field id="enable_checkout_button">1</field></depends>
                 </field>
+                <field id="checkout_button_width" translate="label" type="text" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Checkout Button Width</label>
+                    <depends><field id="enable_checkout_button">1</field></depends>
+                    <frontend_class>validate-number</frontend_class>
+                </field>
                 <field id="checkout_flow_type" translate="label" type="select" sortOrder="170" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Checkout Flow Type</label>
                     <source_model>Astound\Affirm\Model\Adminhtml\Source\PaymentCheckoutFlow</source_model>
