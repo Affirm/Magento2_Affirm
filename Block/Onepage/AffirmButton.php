@@ -94,6 +94,23 @@ class AffirmButton extends Template
     }
 
     /**
+     * Get button image width from system configs
+     *
+     * @return bool|mixed
+     */
+    public function getButtonImageWidth()
+    {
+        $buttonWidth = $this->_scopeConfig->getValue(
+            'payment/affirm_gateway/checkout_button_width',
+            ScopeInterface::SCOPE_WEBSITE
+        );
+        if ($buttonWidth) {
+            return "width : ".$buttonWidth.'px';
+        }
+        return;
+    }
+
+    /**
      * Show button only if quote isn't virtual at all
      *
      * @return string
