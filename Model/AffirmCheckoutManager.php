@@ -210,7 +210,7 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
         $response['product_types'] = array_unique($itemTypes);
 
         $productType = true;
-        if (count($response['product_types'])  == 1 && $response['product_types'][0] == 'downloadable') {
+        if (count($response['product_types'])  == 1 && ($response['product_types'][0] == 'downloadable' || $response['product_types'][0] == 'virtual'   )   ) {
             $productType = false;
         }
 
