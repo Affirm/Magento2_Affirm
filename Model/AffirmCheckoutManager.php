@@ -160,6 +160,7 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
                 'discount_amount' => Util::formatToCents($discountAmount)
             ];
         }
+
         try {
             $country = $this
                 ->quote
@@ -198,6 +199,27 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
                 }
             }
         }
+
+
+        $itemTypes = array();
+        $items = $this->quote->getAllVisibleItems();
+        foreach ($items as $item) {
+            $itemTypes[] = $item->getProductType();
+        }
+
+        $response['product_types'] = array_unique($itemTypes);
+
+        $productType = true;
+        if (count($response['product_types'])  == 1 && ($response['product_types'][0] == 'downloadable' || $response['product_types'][0] == 'virtual'   )   ) {
+            $productType = false;
+        }
+
+
+        $response['address'] = [
+            'shipping' => $productType ? $this->getShippingAddress() :  $this->getBillingAddress(),
+            'billing' => $this->getBillingAddress()
+        ];
+
         $response['metadata'] = [
             'platform_type' => $this->productMetadata->getName() . ' 2',
             'platform_version' => $this->productMetadata->getVersion() . ' ' . $this->productMetadata->getEdition(),
@@ -209,5 +231,53 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
             $response['financing_program'] = $financingProgramValue;
         }
         return json_encode($response);
+    }
+
+    private function getShippingAddress(){
+        $shippingAddress =  $this->quote->getShippingAddress();
+        $shippingObject = array(
+            'name' => array(
+                'full_name' => $shippingAddress->getName(),
+                'first' => $shippingAddress->getFirstname(),
+                'last' => $shippingAddress->getLastname()
+            ),
+            'address'=>array(
+                'line' => $shippingAddress->getStreet(),
+                'city' => $shippingAddress->getCity(),
+                'state' => $shippingAddress->getRegionCode() ? $shippingAddress->getRegionCode() : $this->getRegionCode($shippingAddress->getRegionId()),
+                'postcode' =>$shippingAddress->getPostcode(),
+                'country' =>$shippingAddress->getCountryId()
+            )
+        );
+        return $shippingObject;
+    }
+
+    private function getBillingAddress(){
+        $billingAddress =  $this->quote->getBillingAddress();
+        $billingObject = array(
+            'name' => array(
+                'full_name' => $billingAddress->getName(),
+                'first' => $billingAddress->getFirstname(),
+                'last' => $billingAddress->getLastname()
+            ),
+            'address'=>array(
+                'line' => $billingAddress->getStreet(),
+                'city' => $billingAddress->getCity(),
+                'state' => $billingAddress->getRegionCode() ? $billingAddress->getRegionCode() : $this->getRegionCode($billingAddress->getRegionId()),
+                'postcode' =>$billingAddress->getPostcode(),
+                'country' =>$billingAddress->getCountryId()
+            )
+        );
+
+        return $billingObject;
+
+    }
+
+    private function getRegionCode( $regionID ){
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $region = $objectManager->create('Magento\Directory\Model\Region')
+            ->load($regionID);
+
+        return $region->getCode();
     }
 }
