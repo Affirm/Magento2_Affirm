@@ -6,7 +6,7 @@
 define(["jquery",
     "mage/translate",
     "Astound_Affirm/js/model/aslowas",
-    "jquery/ui"
+    "jquery-ui-modules/widget"
 ], function ($, $t, aslowas) {
 
     "use strict"

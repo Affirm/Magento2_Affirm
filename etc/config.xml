@@ -46,6 +46,7 @@
                 <enable_checkout_button>0</enable_checkout_button>
                 <checkout_button_code>https://cdn-assets.affirm.com/images/buttons/30_148-white.png</checkout_button_code>
                 <checkout_button_width>148</checkout_button_width>
+                <checkout_flow_type>Modal</checkout_flow_type>
                 <notification>
                     <notification_update>1</notification_update>
                 </notification>
