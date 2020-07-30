@@ -87,7 +87,7 @@ if ($action == 'catalog_product_view' && $block->isProductViewTrackPixelEnabled(
     if($block->isAddCartTrackPixelEnabled()){
     ?>
     <script>
-        require(['jquery', 'jquery/ui'],function($){
+        require(['jquery', 'jquery-ui-modules/widget'],function($){
 
             $('#product-addtocart-button').click(function () {
                 
