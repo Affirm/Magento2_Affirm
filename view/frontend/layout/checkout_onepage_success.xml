@@ -41,6 +41,11 @@
                    as="affirm_pixel_javascript_code"
                    after="-"
                    ifconfig="affirm/affirm_pixel/enabled" />
+            <block class="Astound\Affirm\Block\Onepage\ClearCart"
+                   name="affirm_clear_mini_cart"
+                   template="Astound_Affirm::onepage/clearcart.phtml"
+                   as="affirm_clear_mini_cart"
+                   after="-"/>
         </referenceContainer>
     </body>
 </page>
