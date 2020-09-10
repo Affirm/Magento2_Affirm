@@ -71,10 +71,9 @@ class ListProduct extends ViewAbstract
             $productCollection = $this->productCollectionFactory->create()
                 ->addAttributeToSelect(['affirm_product_promo_id', 'affirm_product_mfp_type', 'affirm_product_mfp_priority', 'affirm_product_mfp_start_date', 'affirm_product_mfp_end_date'])
                 ->addAttributeToFilter('entity_id', $product->getId());
-
             $mfpValue = $this->asLowAsHelper->getFinancingProgramValueALS($productCollection);
             $learnMore = $this->asLowAsHelper->isVisibleLearnmore() ? 'true' :'false';
-            $priceHtml .= '<div id="as_low_as_plp_' . $product->getId() . '" class="affirm-as-low-as" data-page-type="category" ' . $this->getDataAffirmColor() . ' ' . (!empty($mfpValue) ? 'data-promo-id="' . $mfpValue . '"' : '') . ' data-amount="0" data-learnmore-show="'.$learnMore.'"></div>';
+            $priceHtml .= '<div id="as_low_as_plp_' . $product->getId() . '" class="affirm-as-low-as" data-page-type="category" ' . $this->getDataAffirmColor() . ' ' . (!empty($mfpValue) ? 'data-promo-id="' . $mfpValue . '"' : '') . ' data-amount="'.$this->asLowAsHelper->formatPrice($price).'" data-learnmore-show="'.$learnMore.'"></div>';
         }
 
         return $priceHtml;

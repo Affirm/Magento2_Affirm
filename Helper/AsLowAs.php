@@ -107,4 +107,22 @@ class AsLowAs extends FinancingProgram
     {
         return $this->affirmPaymentConfig->getAsLowAsValue('learn_more');
     }
+
+    /**
+     * Returns formated price.
+     *
+     * @param string $price
+     * @param string $currencyCode
+     * @return string
+     */
+    public function formatPrice($price, $currencyCode = '')
+    {
+        $formatedPrice = number_format($price, 2, '.', '');
+
+        if ($currencyCode) {
+            return $formatedPrice . ' ' . $currencyCode;
+        } else {
+            return $formatedPrice*100;
+        }
+    }
 }
