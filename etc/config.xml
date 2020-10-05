@@ -41,7 +41,7 @@
                 <sort_order>0</sort_order>
                 <title>Affirm</title>
                 <icon>https://cdn-assets.affirm.com/images/blue_logo-transparent_bg.png</icon>
-                <info>Monthly Payments</info>
+                <info>Pay over time</info>
                 <virtual_terminal_url>http://help.merchants.affirm.com/article/67-virtual-terminal-overview</virtual_terminal_url>
                 <enable_checkout_button>0</enable_checkout_button>
                 <checkout_button_code>https://cdn-assets.affirm.com/images/buttons/30_148-white.png</checkout_button_code>
