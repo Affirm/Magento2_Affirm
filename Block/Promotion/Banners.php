@@ -208,6 +208,10 @@ class Banners extends \Magento\Framework\View\Element\Template
             return '';
         }
 
+        if ( $this->affirmPaymentConfig->getBmlSize($this->section) == '"Pay over time banner sizes"' || $this->affirmPaymentConfig->getBmlSize($this->section) == '"Make Monthly Payments banner sizes"'  ) {
+            return '';
+        }
+
         $this->processContainer($this->section);
         $this->setSize($this->affirmPaymentConfig->getBmlSize($this->section));
         $this->setAffirmAssetsUrl($this->affirmPaymentConfig->getAffirmAssetsUrl());
