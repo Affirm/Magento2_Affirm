@@ -21,6 +21,7 @@ namespace Astound\Affirm\Model\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Customer\Model\Session;
+use Magento\Framework\App\RequestInterface;
 
 /**
  * Identify Financing Program for customer
@@ -32,9 +33,11 @@ class IdentifyFinancingProgram implements ObserverInterface
      *
      */
     public function __construct(
-        Session $customerSession
+        Session $customerSession,
+        RequestInterface $request
     ) {
         $this->_customerSession = $customerSession;
+        $this->request = $request;
     }
 
     /**
@@ -45,8 +48,8 @@ class IdentifyFinancingProgram implements ObserverInterface
      */
     public function execute(Observer $observer)
     {
-        $controller = $observer->getControllerAction();
-        $financingProgramValue = $controller->getRequest()->getParam('affirm_fpid');
+
+        $financingProgramValue = $this->request->getParam('affirm_fpid');
         if (empty($financingProgramValue)) {
             return;
         }
