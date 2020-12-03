@@ -35,8 +35,7 @@
 /*global alert*/
 define([
     "jquery",
-    "mage/translate",
-    "jquery-ui-modules/widget"
+    "mage/translate"
 ],
     function ($, $t) {
         'use strict';

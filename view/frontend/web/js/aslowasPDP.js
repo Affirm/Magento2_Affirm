@@ -5,8 +5,7 @@
 /*jshint jquery:true*/
 define(["jquery",
     "mage/translate",
-    "Astound_Affirm/js/model/aslowas",
-    "jquery-ui-modules/widget"
+    "Astound_Affirm/js/model/aslowas"
 ], function ($, $t, aslowas) {
 
     "use strict"
