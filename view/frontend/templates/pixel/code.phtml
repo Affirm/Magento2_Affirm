@@ -44,7 +44,7 @@ if (($action == 'catalogsearch_result_index' || $action == 'catalogsearch_advanc
 
     $queryString = $this->getQueryString();
     if($queryString) {
-        
+
         $pixelCode['method'] = 'trackProductsSearched';
         $pixelCode['parameter'][0] = $queryString;
     }
@@ -56,7 +56,7 @@ if (($action == 'catalog_category_view' || $action == 'catalogsearch_result_inde
     if($productListData) {
         $categoryId = isset($productListData['categoryId']) ? $productListData['categoryId'] : '';
         $categoryName = isset($productListData['categoryName']) ? $productListData['categoryName'] : '';
-        
+
         $pixelCode['method'] = 'trackProductListViewed';
         $pixelCode['parameter'][0] = array();
         $pixelCode['parameter'][0]['listId'] = $categoryId;
@@ -69,7 +69,7 @@ if (($action == 'catalog_category_view' || $action == 'catalogsearch_result_inde
 if ($action == 'catalog_product_view' && $block->isProductViewTrackPixelEnabled() ) {
 
     $productData = $this->getProductData();
-    
+
     if($productData) {
         $name = isset($productData['name']) ? $productData['name'] : '';
         $productId = isset($productData['productId']) ? $productData['productId'] : '';
@@ -87,10 +87,11 @@ if ($action == 'catalog_product_view' && $block->isProductViewTrackPixelEnabled(
     if($block->isAddCartTrackPixelEnabled()){
     ?>
     <script>
-        require(['jquery', 'jquery-ui-modules/widget'],function($){
-
+        require([
+            'jquery'
+        ],function($){
             $('#product-addtocart-button').click(function () {
-                
+
                 affirm.analytics.trackProductAdded({
                     name: '<?php echo $name ?>',
                     productId: '<?php echo $productId ?>',
@@ -121,16 +122,16 @@ if ($action == 'checkout_cart_index' && ($block->isAddCartTrackPixelEnabled())) 
             $currency = isset($cartProduct['currency']) ? $cartProduct['currency'] : '';
             $price = isset($cartProduct['price']) ? $cartProduct['price'] : '';
             $quantity = isset($cartProduct['quantity']) ? $cartProduct['quantity'] : '';
-            
+
             $product = array();
-            $product['name'] = $name; 
+            $product['name'] = $name;
             $product['productId'] = $productId;
             $product['currency'] = $currency;
             $product['price'] = $price;
             $product['quantity'] = $quantity;
 
             $products[] = $product;
-        } 
+        }
         $pixelCode['parameter'][0] = $products;
     }
 }
@@ -155,10 +156,10 @@ if (($action == 'checkout_index_index' || $action == 'onepagecheckout_index_inde
         $pixelCode['parameter'][0]['total'] = $total;
 
         $quoteProductsData = $this->getQuoteProductsData();
-    
+
         if($quoteProductsData) {
             $products = array();
-            
+
             foreach ($quoteProductsData as $cartProduct) {
 
                 $name = isset($cartProduct['name']) ? $cartProduct['name'] : '';

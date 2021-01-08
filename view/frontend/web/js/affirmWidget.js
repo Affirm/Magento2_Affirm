@@ -6,8 +6,7 @@
 /*jshint jquery:true*/
 define([
     "jquery",
-    "Astound_Affirm/js/model/aslowas",
-    "jquery-ui-modules/widget"
+    "Astound_Affirm/js/model/aslowas"
 ], function ($, aslowas) {
 
     "use strict"

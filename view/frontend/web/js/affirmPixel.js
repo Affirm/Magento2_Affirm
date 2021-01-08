@@ -35,8 +35,7 @@
 /*jshint jquery:true*/
 define([
     "jquery",
-    "Astound_Affirm/js/model/aslowas",
-    "jquery-ui-modules/widget"
+    "Astound_Affirm/js/model/aslowas"
 ], function ($, aslowas) {
     "use strict"
 
@@ -63,14 +62,14 @@ define([
                     affirm.analytics[options.method](options.parameter[0], options.parameter[1]);
                 });
             }
-            
+
             if (typeof affirm == "undefined") {
                 $.when(aslowas.loadScript(self.options.pixelConfig)).done(function() {
-            
+
                     sendTracker(self.options);
                 });
             } else {
-            
+
                 sendTracker(self.options);
             }
         }
