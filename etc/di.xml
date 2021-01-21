@@ -21,14 +21,14 @@
             <argument name="code" xsi:type="const">\Astound\Affirm\Model\Ui\ConfigProvider::CODE</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
             <argument name="infoBlockType" xsi:type="string">Astound\Affirm\Block\Info</argument>
-            <argument name="valueHandlerPool" xsi:type="object">OnePicaValueHandlerPool</argument>
-            <argument name="commandPool" xsi:type="object">OnePicaCommandPool</argument>
+            <argument name="valueHandlerPool" xsi:type="object">AffirmOnePicaValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">AffirmOnePicaCommandPool</argument>
             <argument name="validatorPool" xsi:type="object">AffirmValidatorPool</argument>
         </arguments>
     </virtualType>
 
     <!-- Value handlers infrastructure -->
-    <virtualType name="OnePicaValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+    <virtualType name="AffirmOnePicaValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
         <arguments>
             <argument name="handlers" xsi:type="array">
                 <item name="default" xsi:type="string">OnePicaAffirmGatewayConfigValueHandler</item>
@@ -79,7 +79,7 @@
     </virtualType>
 
     <!-- Command poll contains our commands requests (authorize, capture, void and etc), now temporary is empty -->
-    <virtualType name="OnePicaCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+    <virtualType name="AffirmOnePicaCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
         <arguments>
             <argument name="commands" xsi:type="array">
                 <item name="pre_authorize" xsi:type="string">AffirmGatewayPreAuthorizeCommand</item>
@@ -97,19 +97,19 @@
     <!-- Strategy commands -->
     <type name="Astound\Affirm\Gateway\Command\AuthorizeStrategyCommand">
         <arguments>
-            <argument name="commandPool" xsi:type="object">OnePicaCommandPool</argument>
+            <argument name="commandPool" xsi:type="object">AffirmOnePicaCommandPool</argument>
         </arguments>
     </type>
 
     <type name="Astound\Affirm\Gateway\Command\CaptureStrategyCommand">
         <arguments>
-            <argument name="commandPool" xsi:type="object">OnePicaCommandPool</argument>
+            <argument name="commandPool" xsi:type="object">AffirmOnePicaCommandPool</argument>
         </arguments>
     </type>
 
     <type name="Astound\Affirm\Gateway\Command\CancelStrategyCommand">
         <arguments>
-            <argument name="commandPool" xsi:type="object">OnePicaCommandPool</argument>
+            <argument name="commandPool" xsi:type="object">AffirmOnePicaCommandPool</argument>
         </arguments>
     </type>
     <!-- Strategy commands -->
