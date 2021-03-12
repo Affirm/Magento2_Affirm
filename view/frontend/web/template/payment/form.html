@@ -38,7 +38,8 @@
         <!-- ko template: getTemplate() --><!-- /ko -->
         <!--/ko-->
         <div class="affirm-item">
-            <p class="affirm-info-description" data-bind="text: $t('You will be redirected to Affirm to securely complete your purchase. Just fill out a few pieces of basic information and get a real-time decision. Checking your eligibility won\'t affect your credit score.')"></p>
+            <p class="affirm-info-description" data-bind="text: getEdu()"></p>
+            <p class="affirm-info-description-load" id="affirm-inline-checkout" data-bind="html: getEduHTML()"></p>
         </div>
         <div class="payment-method-billing-address">
             <!-- ko foreach: $parent.getRegion(getBillingAddressFormName()) -->
@@ -56,9 +57,9 @@
                         type="submit"
                         data-bind="
                         click: continueInAffirm,
-                        attr: {title: $t('Continue with Affirm')}
+                        attr: {title: getAffirmTitle()}
                         ">
-                    <span data-bind="i18n: 'Continue with Affirm'"></span>
+                    <span data-bind="i18n: getAffirmTitle() "></span>
                 </button>
             </div>
         </div>

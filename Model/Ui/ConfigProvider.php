@@ -123,7 +123,8 @@ class ConfigProvider implements ConfigProviderInterface
                     'afterAffirmConf' => $this->config->getValue('after_affirm_conf'),
                     'logoSrc' => $this->config->getValue('icon'),
                     'info' => $this->config->getValue('info'),
-                    'visibleType' => $this->config->getValue('control') ? true: false
+                    'visibleType' => $this->config->getValue('control') ? true: false,
+                    'edu' => $this->config->getValue('edu') ? true : false
                 ]
             ]
         ];

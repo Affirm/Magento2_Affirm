@@ -28,11 +28,12 @@ define(
         'Magento_Checkout/js/action/set-payment-information',
         'Astound_Affirm/js/action/prepare-affirm-checkout',
         'Astound_Affirm/js/action/send-to-affirm-checkout',
-        'Astound_Affirm/js/action/verify-affirm'
+        'Astound_Affirm/js/action/verify-affirm',
+        'Astound_Affirm/js/action/inline-checkout'
     ],
     function ($, Component, quote, additionalValidators,
               urlBuilder, errorProcessor, Messages, setPaymentAction,
-              initChekoutAction, sendToAffirmCheckout, verifyAffirmAction) {
+              initChekoutAction, sendToAffirmCheckout, verifyAffirmAction, inlineCheckout) {
 
         'use strict';
 
@@ -83,6 +84,57 @@ define(
              */
             getVisibleType: function() {
                 return window.checkoutConfig.payment['affirm_gateway'].visibleType;
+            },
+
+            /**
+             * Show Affirm Checkout Education Modal
+             *
+             * @returns {*}
+             */
+            getEdu: function() {
+                if (!window.checkoutConfig.payment['affirm_gateway'].edu) {
+                    return "You will be redirected to Affirm to securely complete your purchase. Just fill out a few pieces of basic information and get a real-time decision. Checking your eligibility won\'t affect your credit score."
+                }
+            },
+
+            /**
+             * Show Affirm Checkout Education Modal
+             *
+             * @returns {*}
+             */
+            getEduHTML: function() {
+                if (window.checkoutConfig.payment['affirm_gateway'].edu) {
+                    let timestamp = 1
+                    $('form').change(function(e){
+                        if (timestamp == 1 || e.timeStamp > timestamp+500) {
+                            timestamp = e.timeStamp
+                            inlineCheckout.inlineCheckout()
+                        }
+                    })
+
+                    $('.action-apply').click(function(){
+                        inlineCheckout.updateInlineCheckout()
+                    })
+
+                    $('.action-cancel').click(function(){
+                        inlineCheckout.updateInlineCheckout()
+                    })
+
+                    inlineCheckout.inlineCheckout()
+                }
+            },
+
+            /**
+             * Change place order button text
+             *
+             * @returns {*}
+             */
+            getAffirmTitle: function() {
+                if (!window.checkoutConfig.payment['affirm_gateway'].edu) {
+                    return "Continue with Affirm"
+                } else {
+                    return "Place Order"
+                }
             },
 
             /**
