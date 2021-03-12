@@ -124,6 +124,11 @@
                     <label>Checkout Flow Type</label>
                     <source_model>Astound\Affirm\Model\Adminhtml\Source\PaymentCheckoutFlow</source_model>
                 </field>
+                <field id="edu" translate="label" type="select" sortOrder="180" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Inline Checkout Messaging</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Enable/Disable Inline checkout value props on the checkout page when Affirm is selected as a payment method</comment>
+                </field>
                 <group id="notification" translate="label" type="text" sortOrder="180" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Notification</label>
                     <field id="notification_update" translate="label" type="select" sortOrder="170" showInDefault="1" showInWebsite="1" showInStore="0">

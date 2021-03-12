@@ -14,6 +14,7 @@
     <preference for="Astound\Affirm\Api\AffirmCheckoutManagerInterface" type="Astound\Affirm\Model\AffirmCheckoutManager" />
     <preference for="Astound\Affirm\Api\CheckoutPaymentManagerInterface" type="Astound\Affirm\Model\CheckoutPaymentManager" />
     <preference for="Astound\Affirm\Api\GiftWrapManagerInterface" type="Astound\Affirm\Model\GiftWrapManager" />
+    <preference for="Astound\Affirm\Api\InlineCheckoutInterface" type="Astound\Affirm\Model\InlineCheckout" />
 
     <!-- Payment Method Facade configuration -->
     <virtualType name="OnePicaAffirmGatewayFacade" type="Magento\Payment\Model\Method\Adapter">
