@@ -27,7 +27,6 @@ define([
                                 merchant: {
                                     inline_container: "affirm-inline-checkout"
                                 },
-                                test: {height: '400px'}
                             });
                         })
                         initAffirmInline = false
