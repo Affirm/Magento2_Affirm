@@ -161,8 +161,8 @@ class InlineCheckout implements InlineCheckoutInterface
                     'last'  => $address->getLastName(),
                 ),
                 'address' => array(
-                    'line1'   => $street[0] ? $street[0] : '',
-                    'line2'   => $street[1] ? $street[1] : '',
+                    'line1'   => isset($street[0]) ? $street[0] : '',
+                    'line2'   => isset($street[1]) ? $street[1] : '',
                     'city'    => $address->getCity(),
                     'state'   => $address->getRegion(),
                     'zipcode' => $address->getPostcode(),
