@@ -85,6 +85,8 @@ class ClientService implements ClientInterface
     public function placeRequest(TransferInterface $transferObject)
     {
         $log = [];
+        $log['_logs'] = 'Astound\Affirm\Gateway\Http\Client\ClientService:placeRequest';
+        $log['uri'] = $transferObject->getUri();
         $response = [];
         try {
             /** @var \Magento\Framework\HTTP\ZendClient $client */
@@ -101,6 +103,8 @@ class ClientService implements ClientInterface
             $rawResponse = $response->getRawBody();
             $response = $this->converter->convert($rawResponse);
         } catch (\Exception $e) {
+            $log['error'] = $e->getMessage();
+            $this->logger->error($log);
             throw new ClientException(__($e->getMessage()));
         } finally {
             $log['response'] = $response;

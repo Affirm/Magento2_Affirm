@@ -23,8 +23,8 @@ use Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\Framework\HTTP\ZendClientFactory;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Event\Observer;
-use Magento\Payment\Model\Method\Logger;
 use Astound\Affirm\Model\Ui\ConfigProvider;
+use Psr\Log\LoggerInterface;
 
 /**
  * Customer Observer Model
@@ -60,9 +60,9 @@ class AfterShipmentSaveObserver implements ObserverInterface
     protected $scopeConfig;
 
     /**
-     * Logger
+     * LoggerInterfance
      *
-     * @var Logger
+     * @var LoggerInterface
      */
     protected $logger;
 
@@ -72,13 +72,13 @@ class AfterShipmentSaveObserver implements ObserverInterface
      * @param OrderRepositoryInterface $orderRepository
      * @param ZendClientFactory        $httpClientFactory
      * @param ScopeConfigInterface     $scopeConfig
-     * @param Logger $logger
+     * @param LoggerInterface $logger
      */
     public function __construct(
         OrderRepositoryInterface $orderRepository,
         ZendClientFactory $httpClientFactory,
         ScopeConfigInterface $scopeConfig,
-        Logger $logger
+        LoggerInterface $logger
     ) {
         $this->orderRepository = $orderRepository;
         $this->httpClientFactory = $httpClientFactory;
@@ -126,7 +126,7 @@ class AfterShipmentSaveObserver implements ObserverInterface
                 $client->setRawData($data, 'application/json');
                 $client->request('POST');
             } catch (\Exception $e) {
-                $this->logger->debug($e->getMessage());
+                $this->logger->debug('Astound\Affirm\Model\Adminhtml\Observer\AfterShipmentSaveObserver:execute', $e->getMessage());
             }
         }
     }

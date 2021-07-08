@@ -26,6 +26,7 @@ use Magento\Framework\App\ProductMetadataInterface;
 use Magento\Framework\ObjectManagerInterface;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Astound\Affirm\Model\Config as Config;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class AffirmCheckoutManager
@@ -106,6 +107,13 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
     protected $affirmConfig;
 
     /**
+     * LoggerInterfance
+     *
+     * @var LoggerInterface
+     */
+    protected $logger;
+
+    /**
      * Initialize affirm checkout
      *
      * @param Session                                    $checkoutSession
@@ -123,7 +131,8 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
         \Magento\Framework\Module\ResourceInterface $moduleResource,
         ObjectManagerInterface $objectManager,
         FinancingProgram $helper,
-        Config $affirmConfig
+        Config $affirmConfig,
+        LoggerInterface $logger
     ) {
         $this->checkoutSession = $checkoutSession;
         $this->quote = $this->checkoutSession->getQuote();
@@ -230,6 +239,9 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
         if ($financingProgramValue) {
             $response['financing_program'] = $financingProgramValue;
         }
+        $log = [];
+        $log['response'] = $response;
+        $this->logger->debug('Astound\Affirm\Model\AffirmCheckoutManager:initCheckout', $log);
         return json_encode($response);
     }
 

@@ -23,6 +23,7 @@ use Magento\Sales\Model\ResourceModel\Order\CollectionFactory;
 use Astound\Affirm\Model\Ui\ConfigProvider;
 use Magento\Framework\HTTP\ZendClientFactory;
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class Edit
@@ -60,14 +61,23 @@ class Edit
      */
     protected $scopeConfig;
 
+    /**
+     * LoggerInterfance
+     *
+     * @var LoggerInterface
+     */
+    protected $logger;
+
     public function __construct(
         CollectionFactory $collectionFactory,
         ZendClientFactory $httpClientFactory,
-        ScopeConfigInterface $scopeConfig
+        ScopeConfigInterface $scopeConfig,
+        LoggerInterface $logger
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->httpClientFactory = $httpClientFactory;
         $this->scopeConfig = $scopeConfig;
+        $this->logger = $logger;
     }
 
     /**
@@ -110,6 +120,11 @@ class Edit
                 )
             );
 
+            $log = [];
+            $log['data'] = $data;
+            $log['url'] = $url;
+            $this->logger->debug('Astound\Affirm\Model\Plugin\Order\AddressSave\Edit:afterExecute', $log);
+
             try {
                 $client = $this->httpClientFactory->create();
                 $client->setUri($url);
@@ -118,7 +133,7 @@ class Edit
                 $client->setRawData($data, 'application/json');
                 $client->request('POST');
             } catch (\Exception $e) {
-                $this->logger->debug($e->getMessage());
+                $this->logger->error('Astound\Affirm\Model\Plugin\Order\AddressSave\Edit:afterExecute', $e->getMessage());
             }
         }
 
