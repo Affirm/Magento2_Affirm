@@ -23,7 +23,7 @@ use Magento\Sales\Model\ResourceModel\Order\CollectionFactory;
 use Astound\Affirm\Model\Ui\ConfigProvider;
 use Magento\Framework\HTTP\ZendClientFactory;
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use Psr\Log\LoggerInterface;
+use Astound\Affirm\Logger\Logger;
 
 /**
  * Class Edit
@@ -62,9 +62,9 @@ class Edit
     protected $scopeConfig;
 
     /**
-     * LoggerInterfance
+     * Affirm logging instance
      *
-     * @var LoggerInterface
+     * @var \Astound\Affirm\Logger\Logger
      */
     protected $logger;
 
@@ -72,7 +72,7 @@ class Edit
         CollectionFactory $collectionFactory,
         ZendClientFactory $httpClientFactory,
         ScopeConfigInterface $scopeConfig,
-        LoggerInterface $logger
+        Logger $logger
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->httpClientFactory = $httpClientFactory;
@@ -133,7 +133,7 @@ class Edit
                 $client->setRawData($data, 'application/json');
                 $client->request('POST');
             } catch (\Exception $e) {
-                $this->logger->error('Astound\Affirm\Model\Plugin\Order\AddressSave\Edit:afterExecute', $e->getMessage());
+                $this->logger->debug('Astound\Affirm\Model\Plugin\Order\AddressSave\Edit::afterExecute', $e->getMessage());
             }
         }
 

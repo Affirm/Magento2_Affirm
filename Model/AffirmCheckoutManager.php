@@ -26,7 +26,7 @@ use Magento\Framework\App\ProductMetadataInterface;
 use Magento\Framework\ObjectManagerInterface;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Astound\Affirm\Model\Config as Config;
-use Psr\Log\LoggerInterface;
+use Astound\Affirm\Logger\Logger;
 
 /**
  * Class AffirmCheckoutManager
@@ -107,9 +107,9 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
     protected $affirmConfig;
 
     /**
-     * LoggerInterfance
+     * Affirm logging instance
      *
-     * @var LoggerInterface
+     * @var \Astound\Affirm\Logger\Logger
      */
     protected $logger;
 
@@ -123,6 +123,7 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
      * @param ObjectManagerInterface                     $objectManager
      * @param FinancingProgram $helper
      * @param Config                                     $affirmConfig
+     * @param Logger                                     $logger
      */
     public function __construct(
         Session $checkoutSession,
@@ -132,7 +133,7 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
         ObjectManagerInterface $objectManager,
         FinancingProgram $helper,
         Config $affirmConfig,
-        LoggerInterface $logger
+        Logger $logger
     ) {
         $this->checkoutSession = $checkoutSession;
         $this->quote = $this->checkoutSession->getQuote();
@@ -142,6 +143,7 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
         $this->objectManager = $objectManager;
         $this->helper = $helper;
         $this->affirmConfig = $affirmConfig;
+        $this->logger = $logger;
     }
 
     /**
@@ -241,7 +243,7 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
         }
         $log = [];
         $log['response'] = $response;
-        $this->logger->debug('Astound\Affirm\Model\AffirmCheckoutManager:initCheckout', $log);
+        $this->logger->debug('Astound\Affirm\Model\AffirmCheckoutManager::initCheckout', $log);
         return json_encode($response);
     }
 

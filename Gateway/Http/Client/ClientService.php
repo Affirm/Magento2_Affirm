@@ -24,6 +24,7 @@ use Magento\Payment\Gateway\Http\TransferInterface;
 use Magento\Payment\Model\Method\Logger;
 use Magento\Payment\Gateway\Http\ConverterInterface;
 use Magento\Framework\HTTP\ZendClientFactory;
+use Astound\Affirm\Logger\Logger as AffirmLogger;
 
 /**
  * Class ClientService
@@ -43,6 +44,13 @@ class ClientService implements ClientInterface
      * @var Logger
      */
     protected $logger;
+
+    /**
+     * Affirm logging instance
+     *
+     * @var AffirmLogger
+     */
+    protected $affirmLogger;
 
     /**
      * Converter
@@ -67,10 +75,12 @@ class ClientService implements ClientInterface
      */
     public function __construct(
         Logger $logger,
+        AffirmLogger $affirmLogger,
         ConverterInterface $converter,
         ZendClientFactory $httpClientFactory
     ) {
         $this->logger = $logger;
+        $this->affirmLogger = $affirmLogger;
         $this->converter = $converter;
         $this->httpClientFactory = $httpClientFactory;
     }
@@ -85,7 +95,6 @@ class ClientService implements ClientInterface
     public function placeRequest(TransferInterface $transferObject)
     {
         $log = [];
-        $log['_logs'] = 'Astound\Affirm\Gateway\Http\Client\ClientService:placeRequest';
         $log['uri'] = $transferObject->getUri();
         $response = [];
         try {
@@ -109,6 +118,7 @@ class ClientService implements ClientInterface
         } finally {
             $log['response'] = $response;
             $this->logger->debug($log);
+            $this->affirmLogger->debug('Astound\Affirm\Gateway\Http\Client\ClientService::placeRequest', $log);
         }
 
         return $response;
