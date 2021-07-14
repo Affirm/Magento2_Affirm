@@ -97,6 +97,7 @@ class AfterShipmentSaveObserver implements ObserverInterface
         $shipment = $observer->getEvent()->getShipment();
         $orderId = $shipment->getOrderId();
         $order = $this->orderRepository->get((int) $orderId);
+        $log = [];
 
         if ($this->isAffirmPaymentMethod($order)) {
             $tracks = $shipment->getTracks();
@@ -124,9 +125,13 @@ class AfterShipmentSaveObserver implements ObserverInterface
                 $client->setAuth($this->getPublicApiKey(), $this->getPrivateApiKey());
                 $data = json_encode($data, JSON_UNESCAPED_SLASHES);
                 $client->setRawData($data, 'application/json');
-                $client->request('POST');
+                $response = $client->request('POST');
+                $responseBody = $response->getBody();
+                $log['response'] = json_decode($responseBody, true);
             } catch (\Exception $e) {
-                $this->logger->debug('Astound\Affirm\Model\Adminhtml\Observer\AfterShipmentSaveObserver::execute', $e->getMessage());
+                $log['error'] = $e->getMessage();
+            } finally {
+                $this->logger->debug('Astound\Affirm\Model\Adminhtml\Observer\AfterShipmentSaveObserver::execute', $log);
             }
         }
     }

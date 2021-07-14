@@ -123,7 +123,6 @@ class Edit
             $log = [];
             $log['data'] = $data;
             $log['url'] = $url;
-            $this->logger->debug('Astound\Affirm\Model\Plugin\Order\AddressSave\Edit:afterExecute', $log);
 
             try {
                 $client = $this->httpClientFactory->create();
@@ -131,9 +130,13 @@ class Edit
                 $client->setAuth($this->getPublicApiKey(), $this->getPrivateApiKey());
                 $data = json_encode($data, JSON_UNESCAPED_SLASHES);
                 $client->setRawData($data, 'application/json');
-                $client->request('POST');
+                $response = $client->request('POST');
+                $responseBody = $response->getBody();
+                $log['response'] = json_decode($responseBody, true);
             } catch (\Exception $e) {
-                $this->logger->debug('Astound\Affirm\Model\Plugin\Order\AddressSave\Edit::afterExecute', $e->getMessage());
+                $log['error'] = $e->getMessage();
+            } finally {
+                $this->logger->debug('Astound\Affirm\Model\Plugin\Order\AddressSave\Edit::afterExecute', $log);
             }
         }
 
