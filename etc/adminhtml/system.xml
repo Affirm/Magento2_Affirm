@@ -321,39 +321,8 @@
             <group id="affirm_pixel" translate="label" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="0">
                 <label>Enhanced Analytics</label>
                 <field id="enabled" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Enable Affirm pixel</label>
+                    <label>Enable Affirm Checkout Tracking Pixel</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <comment>Enable affirm tracking pixels. In addition to enabling this config, please do enable pixel for specific actions using config options listed below.</comment>
-                </field>
-                <field id="add_cart" translate="label" type="select" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Add to Cart</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <comment>Enable add to cart tracking</comment>
-                </field>
-                <field id="add_search" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Search</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <comment>Enable search tracking</comment>
-                </field>
-                <field id="add_product_view" translate="label" type="select" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Product</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <comment>Enable product tracking</comment>
-                </field>
-                <field id="add_product_list" translate="label" type="select" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Product List</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <comment>Enable product list tracking</comment>
-                </field>
-                <field id="add_checkout_start" translate="label" type="select" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Checkout Start</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <comment>Enable checkout start tracking</comment>
-                </field>
-                <field id="add_checkout_success" translate="label" type="select" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Checkout Success</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <comment>Enable checkout success tracking</comment>
                 </field>
             </group>
         </section>

@@ -53,12 +53,5 @@
                 </arguments>
             </block>
         </referenceContainer>
-        <referenceContainer name="before.body.end">
-            <block class="Astound\Affirm\Block\Promotion\Pixel\Code"
-                   name="affirm_pixel_code_category"
-                   template="Astound_Affirm::pixel/code.phtml"
-                   after="-"
-                   ifconfig="affirm/affirm_pixel/enabled" />
-        </referenceContainer>
     </body>
 </page>
