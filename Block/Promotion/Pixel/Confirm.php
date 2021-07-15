@@ -105,18 +105,7 @@ class Confirm extends \Magento\Framework\View\Element\Template
         $result['parameter'][0]['total'] = Util::formatToCents($order->getBaseGrandTotal());
         $result['parameter'][0]['paymentMethod'] = $order->getPayment()->getMethod();
 
-        $result['parameter'][1] = array();
-
-        foreach ($order->getAllVisibleItems() as $item) {
-
-            $eachItem = array();
-            $eachItem['productId'] = $item->getSku();
-            $eachItem['name'] = $item->getName();
-            $eachItem['price'] = Util::formatToCents($item->getBasePrice());
-            $eachItem['quantity'] = $item->getQtyOrdered();
-
-            $result['parameter'][1][] = $eachItem;
-        }
+        $result['parameter'][1] = null;
 
         $strictBool = True;
         foreach ($result['parameter'][0] as $item) {
