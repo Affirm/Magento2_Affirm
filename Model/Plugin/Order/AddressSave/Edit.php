@@ -23,6 +23,7 @@ use Magento\Sales\Model\ResourceModel\Order\CollectionFactory;
 use Astound\Affirm\Model\Ui\ConfigProvider;
 use Magento\Framework\HTTP\ZendClientFactory;
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Astound\Affirm\Logger\Logger;
 
 /**
  * Class Edit
@@ -60,14 +61,23 @@ class Edit
      */
     protected $scopeConfig;
 
+    /**
+     * Affirm logging instance
+     *
+     * @var \Astound\Affirm\Logger\Logger
+     */
+    protected $logger;
+
     public function __construct(
         CollectionFactory $collectionFactory,
         ZendClientFactory $httpClientFactory,
-        ScopeConfigInterface $scopeConfig
+        ScopeConfigInterface $scopeConfig,
+        Logger $logger
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->httpClientFactory = $httpClientFactory;
         $this->scopeConfig = $scopeConfig;
+        $this->logger = $logger;
     }
 
     /**
@@ -110,15 +120,23 @@ class Edit
                 )
             );
 
+            $log = [];
+            $log['data'] = $data;
+            $log['url'] = $url;
+
             try {
                 $client = $this->httpClientFactory->create();
                 $client->setUri($url);
                 $client->setAuth($this->getPublicApiKey(), $this->getPrivateApiKey());
                 $data = json_encode($data, JSON_UNESCAPED_SLASHES);
                 $client->setRawData($data, 'application/json');
-                $client->request('POST');
+                $response = $client->request('POST');
+                $responseBody = $response->getBody();
+                $log['response'] = json_decode($responseBody, true);
             } catch (\Exception $e) {
-                $this->logger->debug($e->getMessage());
+                $log['error'] = $e->getMessage();
+            } finally {
+                $this->logger->debug('Astound\Affirm\Model\Plugin\Order\AddressSave\Edit::afterExecute', $log);
             }
         }
 

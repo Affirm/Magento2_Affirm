@@ -23,8 +23,8 @@ use Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\Framework\HTTP\ZendClientFactory;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Event\Observer;
-use Magento\Payment\Model\Method\Logger;
 use Astound\Affirm\Model\Ui\ConfigProvider;
+use Astound\Affirm\Logger\Logger;
 
 /**
  * Customer Observer Model
@@ -60,9 +60,9 @@ class AfterShipmentSaveObserver implements ObserverInterface
     protected $scopeConfig;
 
     /**
-     * Logger
+     * Affirm logging instance
      *
-     * @var Logger
+     * @var \Astound\Affirm\Logger\Logger
      */
     protected $logger;
 
@@ -72,7 +72,7 @@ class AfterShipmentSaveObserver implements ObserverInterface
      * @param OrderRepositoryInterface $orderRepository
      * @param ZendClientFactory        $httpClientFactory
      * @param ScopeConfigInterface     $scopeConfig
-     * @param Logger $logger
+     * @param Logger                   $logger
      */
     public function __construct(
         OrderRepositoryInterface $orderRepository,
@@ -97,6 +97,7 @@ class AfterShipmentSaveObserver implements ObserverInterface
         $shipment = $observer->getEvent()->getShipment();
         $orderId = $shipment->getOrderId();
         $order = $this->orderRepository->get((int) $orderId);
+        $log = [];
 
         if ($this->isAffirmPaymentMethod($order)) {
             $tracks = $shipment->getTracks();
@@ -124,9 +125,13 @@ class AfterShipmentSaveObserver implements ObserverInterface
                 $client->setAuth($this->getPublicApiKey(), $this->getPrivateApiKey());
                 $data = json_encode($data, JSON_UNESCAPED_SLASHES);
                 $client->setRawData($data, 'application/json');
-                $client->request('POST');
+                $response = $client->request('POST');
+                $responseBody = $response->getBody();
+                $log['response'] = json_decode($responseBody, true);
             } catch (\Exception $e) {
-                $this->logger->debug($e->getMessage());
+                $log['error'] = $e->getMessage();
+            } finally {
+                $this->logger->debug('Astound\Affirm\Model\Adminhtml\Observer\AfterShipmentSaveObserver::execute', $log);
             }
         }
     }
