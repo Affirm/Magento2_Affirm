@@ -40,6 +40,7 @@ use Magento\Framework\View\Element\Template;
 use Astound\Affirm\Model\Ui\ConfigProvider;
 use Astound\Affirm\Gateway\Helper\Util;
 use Astound\Affirm\Helper\Pixel;
+use Astound\Affirm\Logger\Logger;
 
 /**
  * Class Confirm
@@ -74,12 +75,14 @@ class Confirm extends \Magento\Framework\View\Element\Template
         \Magento\Sales\Model\ResourceModel\Order\CollectionFactory $salesOrderCollection,
         \Magento\Checkout\Model\Session $checkoutSession,
         Pixel $helperPixelAffirm,
+        Logger $logger,
         array $data = []
     ) {
         $this->affirmPixelHelper = $helperPixelAffirm;
         $this->_salesOrderCollection = $salesOrderCollection;
         $this->configProvider = $configProvider;
         $this->_checkoutSession = $checkoutSession;
+        $this->logger = $logger;
         parent::__construct($context, $data);
     }
 
@@ -96,45 +99,36 @@ class Confirm extends \Magento\Framework\View\Element\Template
 
         $order = $this->_checkoutSession->getLastRealOrder();
 
-        if ($order->getIsVirtual()) {
-            $address = $order->getBillingAddress();
-        } else {
-            $address = $order->getShippingAddress();
-        }
-
         $result['parameter'][0] = array();
-        $result['parameter'][0]['storeName'] = $this->_storeManager->getStore()->getFrontendName();
         $result['parameter'][0]['orderId'] = $order->getIncrementId();
         $result['parameter'][0]['currency'] = $order->getOrderCurrencyCode();
         $result['parameter'][0]['total'] = Util::formatToCents($order->getBaseGrandTotal());
-        $result['parameter'][0]['tax'] = Util::formatToCents($order->getBaseTaxAmount());
-        $result['parameter'][0]['shipping'] = Util::formatToCents($order->getBaseShippingAmount());
         $result['parameter'][0]['paymentMethod'] = $order->getPayment()->getMethod();
 
-        $result['parameter'][1] = array();
+        $result['parameter'][1] = null;
 
-        foreach ($order->getAllVisibleItems() as $item) {
-
-            $eachItem = array();
-            $eachItem['productId'] = $item->getSku();
-            $eachItem['name'] = $item->getName();
-            $eachItem['price'] = Util::formatToCents($item->getBasePrice());
-            $eachItem['quantity'] = $item->getQtyOrdered();
-
-            $result['parameter'][1][] = $eachItem;
+        $strictBool = True;
+        foreach ($result['parameter'][0] as $item) {
+            if (empty($item)) {
+                $strictBool = False;
+                break;
+            }
         }
 
+        $result['parameter'][2] = $strictBool;
+
+        $this->logger->debug('Astound\Affirm\Block\Promotion\Pixel\Confirm::Confirm', $result);
         return $result;
     }
 
     /**
-     * Render GA tracking scripts
+     * Render GA tracking scripts and return empty if pixel tracking is not enabled or if sandbox mode is enabled
      *
      * @return string
      */
     protected function _toHtml()
     {
-        if (!$this->affirmPixelHelper->isCheckoutSuccessPixelEnabledConfig()) {
+        if (!$this->affirmPixelHelper->isTrackPixelEnabledConfig() || $this->affirmPixelHelper->isSandboxMode()) {
             return '';
         }
 

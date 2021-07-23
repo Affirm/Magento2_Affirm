@@ -86,64 +86,13 @@ class Pixel
     }
 
     /**
-     * Returns is pixel placement for search query enabled
+     * Returns is sandbox mode
      *
      * @return bool
      */
-    public function isSearchTrackPixelEnabledConfig()
+    public function isSandboxMode()
     {
-        return $this->affirmPaymentConfig->getPixelValue('add_search');
-    }
-
-    /**
-     * Returns is pixel placement for product list page enabled
-     *
-     * @return bool
-     */
-    public function isProductListTrackPixelEnabledConfig()
-    {
-        return $this->affirmPaymentConfig->getPixelValue('add_product_list');
-    }
-
-    /**
-     * Returns is pixel placement for product page enabled
-     *
-     * @return bool
-     */
-    public function isProductViewTrackPixelEnabledConfig()
-    {
-        return $this->affirmPaymentConfig->getPixelValue('add_product_view');
-    }
-
-    /**
-     * Returns is pixel placement for add to cart action enabled
-     *
-     * @return bool
-     */
-    public function isAddCartTrackPixelEnabledConfig()
-    {
-        return $this->affirmPaymentConfig->getPixelValue('add_cart');
-    }
-
-    /**
-     * Returns is pixel placement for checkout start action enabled
-     *
-     * @return bool
-     */
-    public function isAddChkStartTrackPixelEnabledConfig()
-    {
-        return $this->affirmPaymentConfig->getPixelValue('add_checkout_start');
-    }
-
-
-    /**
-     * Returns is pixel placement for confirmation page enabled
-     *
-     * @return bool
-     */
-    public function isCheckoutSuccessPixelEnabledConfig()
-    {
-        return $this->affirmPaymentConfig->getPixelValue('add_checkout_success');
+        return $this->affirmPaymentConfig->getMode() == 'sandbox';
     }
 
     /**
