@@ -19,7 +19,6 @@
 namespace Astound\Affirm\Gateway\Validator\Client;
 
 use Magento\Payment\Gateway\Helper\SubjectReader;
-use Astound\Affirm\Logger\Logger;
 
 /**
  * Class PaymentActionsValidatorVoid
@@ -34,17 +33,6 @@ class PaymentActionsValidatorVoid extends PaymentActionsValidator
     /**#@-*/
 
     /**
-     * Constructor
-     *
-     * @param Logger $logger
-     */
-    public function __construct(
-        Logger $logger
-    ) {
-        $this->logger = $logger;
-    }
-
-    /**
      * @inheritdoc
      */
     public function validate(array $validationSubject)
@@ -57,7 +45,6 @@ class PaymentActionsValidatorVoid extends PaymentActionsValidator
 
         if (!$validationResult) {
             $errorMessages = [__('Transaction has been declined, please, try again later.')];
-            $this->logger->debug('Astound\Affirm\Gateway\Validator\Client\PaymentActionsValidatorVoid::validate', $errorMessages);
         }
 
         return $this->createResult($validationResult, $errorMessages);

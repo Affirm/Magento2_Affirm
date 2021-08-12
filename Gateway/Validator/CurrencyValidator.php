@@ -21,7 +21,6 @@ use Magento\Payment\Gateway\ConfigInterface;
 use Magento\Payment\Gateway\Validator\ResultInterface;
 use Magento\Payment\Gateway\Validator\ResultInterfaceFactory;
 use Magento\Payment\Gateway\Validator\AbstractValidator;
-use Astound\Affirm\Logger\Logger;
 
 /**
  * Class CurrencyValidator
@@ -43,15 +42,12 @@ class CurrencyValidator extends AbstractValidator
      *
      * @param ResultInterfaceFactory $resultFactory
      * @param \Magento\Payment\Gateway\ConfigInterface $config
-     * @param Logger $logger
      */
     public function __construct(
         ResultInterfaceFactory $resultFactory,
-        ConfigInterface $config,
-        Logger $logger
+        ConfigInterface $config
     ) {
         $this->config = $config;
-        $this->logger = $logger;
         parent::__construct($resultFactory);
     }
 
@@ -63,7 +59,6 @@ class CurrencyValidator extends AbstractValidator
      */
     public function validate(array $validationSubject)
     {
-        $log = [];
         $isValid = true;
         $storeId = $validationSubject['storeId'];
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
@@ -77,9 +72,6 @@ class CurrencyValidator extends AbstractValidator
 
             if (!in_array($currentCurrencyCode, $availableCurrencies)) {
                 $isValid = false;
-                $log['code'] = $currentCurrencyCode;
-                $log['availableCurrencies'] = $availableCurrencies;
-                $this->logger->debug('Astound\Affirm\Gateway\Validator\CurrencyValidator::validate', $log);
             }
         }
         return $this->createResult($isValid);
