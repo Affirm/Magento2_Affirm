@@ -20,24 +20,12 @@ namespace Astound\Affirm\Gateway\Validator\Client;
 
 use Magento\Payment\Gateway\Helper\SubjectReader;
 use Astound\Affirm\Gateway\Helper\Util;
-use Astound\Affirm\Logger\Logger;
 
 /**
  * Class PaymentActionsValidator
  */
 class PaymentActionsValidator extends AbstractResponseValidator
 {
-    /**
-     * Constructor
-     *
-     * @param Logger $logger
-     */
-    public function __construct(
-        Logger $logger
-    ) {
-        $this->logger = $logger;
-    }
-
     /**
      * @inheritdoc
      */
@@ -56,7 +44,6 @@ class PaymentActionsValidator extends AbstractResponseValidator
                 [__('Affirm error code:') . $response[self::RESPONSE_CODE] . __(' error: ') .
                     __($response[self::ERROR_MESSAGE])]:
                 [__('Transaction has been declined, please, try again later.')];
-            $this->logger->debug('Astound\Affirm\Gateway\Validator\Client\PaymentActionsValidator::validate', $errorMessages);
         }
 
         return $this->createResult($validationResult, $errorMessages);
