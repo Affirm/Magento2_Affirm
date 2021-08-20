@@ -37,6 +37,7 @@ class CaptureStrategyCommand implements CommandInterface
     const ORDER_CAPTURE = 'order_capture';
     const CHECKOUT_TOKEN = 'checkout_token';
     const TRANSACTION_ID = 'transaction_id';
+    const CHARGE_ID = 'charge_id';
     /**#@-*/
 
     /**
@@ -71,7 +72,8 @@ class CaptureStrategyCommand implements CommandInterface
 
         /** @var Order\Payment $paymentInfo */
         $paymentInfo = $paymentDO->getPayment();
-        $transactionId = $paymentInfo->getAdditionalInformation(self::TRANSACTION_ID);
+        $transactionId = $paymentInfo->getAdditionalInformation(self::TRANSACTION_ID) ?:
+            $paymentInfo->getAdditionalInformation(self::CHARGE_ID);
         if (($paymentInfo instanceof Order\Payment) && !$transactionId) {
             $checkoutToken = $paymentInfo->getAdditionalInformation(self::CHECKOUT_TOKEN);
             if ($checkoutToken) {

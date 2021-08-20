@@ -31,6 +31,7 @@ use Astound\Affirm\Logger\Logger;
 class Edit
 {
     const TRANSACTION_ID = 'transaction_id';
+    const CHARGE_ID = 'charge_id';
     const API_TRANSACTIONS_PATH = '/api/v1/transactions/';
 
 
@@ -100,7 +101,8 @@ class Edit
 
             $order = $orderCollection->getFirstItem();
         if ($this->isAffirmPaymentMethod($order)) {
-            $transactionId = $order->getPayment()->getAdditionalInformation(self::TRANSACTION_ID);
+            $transactionId = $order->getPayment()->getAdditionalInformation(self::TRANSACTION_ID) ?:
+                $order->getPayment()->getAdditionalInformation(self::CHARGE_ID);
             $newAddress = $order->getShippingAddress()->getData();
             $street = explode(PHP_EOL, $newAddress['street']);
             $url = $this->getApiUrl("{$transactionId}");

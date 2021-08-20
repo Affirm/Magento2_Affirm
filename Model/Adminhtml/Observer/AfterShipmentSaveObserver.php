@@ -35,6 +35,7 @@ class AfterShipmentSaveObserver implements ObserverInterface
      * Define constants
      */
     const TRANSACTION_ID = 'transaction_id';
+    const CHARGE_ID = 'charge_id';
     const API_TRANSACTIONS_PATH = '/api/v1/transactions/';
     /**#@-*/
 
@@ -110,7 +111,8 @@ class AfterShipmentSaveObserver implements ObserverInterface
             $shippingCarrier = implode(',', $carriers);
             $shippingConfirmation = implode(',', $confirmation);
             $orderIncrementId = $order->getIncrementId();
-            $transactionId = $order->getPayment()->getAdditionalInformation(self::TRANSACTION_ID);
+            $transactionId = $order->getPayment()->getAdditionalInformation(self::TRANSACTION_ID) ?:
+                $order->getPayment()->getAdditionalInformation(self::CHARGE_ID);
 
             $url = $this->getApiUrl("{$transactionId}");
             $data = [
