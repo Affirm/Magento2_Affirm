@@ -30,8 +30,8 @@ use Astound\Affirm\Logger\Logger;
  */
 class Edit
 {
-    const CHARGE_ID = 'charge_id';
-    const API_CHARGES_PATH = '/api/v2/charges/';
+    const TRANSACTION_ID = 'transaction_id';
+    const API_TRANSACTIONS_PATH = '/api/v1/transactions/';
 
 
     /**
@@ -100,10 +100,10 @@ class Edit
 
             $order = $orderCollection->getFirstItem();
         if ($this->isAffirmPaymentMethod($order)) {
-            $chargeId = $order->getPayment()->getAdditionalInformation(self::CHARGE_ID);
+            $transactionId = $order->getPayment()->getAdditionalInformation(self::TRANSACTION_ID);
             $newAddress = $order->getShippingAddress()->getData();
             $street = explode(PHP_EOL, $newAddress['street']);
-            $url = $this->getApiUrl("{$chargeId}/update");
+            $url = $this->getApiUrl("{$transactionId}");
             $data = array(
                 'shipping' => array(
                     'name' => array(
@@ -149,7 +149,7 @@ class Edit
             ? \Astound\Affirm\Model\Config::API_URL_SANDBOX
             : \Astound\Affirm\Model\Config::API_URL_PRODUCTION;
 
-        return trim($gateway, '/') . sprintf('%s%s', self::API_CHARGES_PATH, $additionalPath);
+        return trim($gateway, '/') . sprintf('%s%s', self::API_TRANSACTIONS_PATH, $additionalPath);
     }
 
     protected function isAffirmPaymentMethod($order)

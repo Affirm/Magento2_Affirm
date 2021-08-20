@@ -46,7 +46,7 @@ class AuthorizationRequest extends AbstractDataBuilder
         $token = $payment->getAdditionalInformation(self::CHECKOUT_TOKEN);
         return [
             'body' => [
-                self::CHECKOUT_TOKEN => $token
+                self::TRANSACTION_ID => $token
             ],
             'path' => ''
         ];

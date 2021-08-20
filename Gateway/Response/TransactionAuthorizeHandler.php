@@ -30,8 +30,8 @@ class TransactionAuthorizeHandler implements HandlerInterface
     /**#@+
      * Define constants
      */
-    const TRANSACTION_ID = 'id';
-    const CHARGE_ID = 'charge_id';
+    const TRANSACTION_OBJECT_ID = 'id';
+    const TRANSACTION_ID = 'transaction_id';
     /**#@-*/
 
     /**
@@ -42,8 +42,8 @@ class TransactionAuthorizeHandler implements HandlerInterface
         $paymentDO = SubjectReader::readPayment($handlingSubject);
         /** @var Payment $orderPayment */
         $orderPayment = $paymentDO->getPayment();
-        $orderPayment->setAdditionalInformation(self::CHARGE_ID, $response[self::TRANSACTION_ID]);
-        $orderPayment->setTransactionId($response[self::TRANSACTION_ID]);
+        $orderPayment->setAdditionalInformation(self::TRANSACTION_ID, $response[self::TRANSACTION_OBJECT_ID]);
+        $orderPayment->setTransactionId($response[self::TRANSACTION_OBJECT_ID]);
         $orderPayment->setIsTransactionClosed(false);
     }
 }

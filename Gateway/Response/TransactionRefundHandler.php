@@ -32,7 +32,7 @@ class TransactionRefundHandler implements HandlerInterface
     /**#@+
      * Define constants
      */
-    const CHARGE_ID = 'charge_id';
+    const TRANSACTION_ID = 'transaction_id';
     /**#@-*/
 
     /**
@@ -64,9 +64,9 @@ class TransactionRefundHandler implements HandlerInterface
         $id = $this->localeDate->date()
             ->format('His');
         $id = ($id) ? $id : 1;
-        $chargeId = $orderPayment->getAdditionalInformation(self::CHARGE_ID);
+        $transactionId = $orderPayment->getAdditionalInformation(self::TRANSACTION_ID);
         $type = Transaction::TYPE_REFUND;
-        $orderPayment->setTransactionId("{$chargeId}-{$id}-{$type}");
+        $orderPayment->setTransactionId("{$transactionId}-{$id}-{$type}");
         $orderPayment->setIsTransactionClosed(true);
     }
 }
