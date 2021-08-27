@@ -87,7 +87,7 @@ class Info extends ConfigurableInfo
     protected function getLoanId()
     {
         return $this->getInfo()->getOrder()->getPayment()->getAdditionalInformation('transaction_id')
-            ?? $this->getInfo()->getOrder()->getPayment()->getAdditionalInformation('charge_id');
+            ?: $this->getInfo()->getOrder()->getPayment()->getAdditionalInformation('charge_id');
     }
 
     /**
