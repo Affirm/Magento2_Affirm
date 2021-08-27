@@ -39,13 +39,6 @@ class ClientService implements ClientInterface
     /**#@-*/
 
     /**
-     * Request URI
-     *
-     * @var string
-     */
-    private static $requestUri;
-
-    /**
      * Logger
      *
      * @var Logger
@@ -103,11 +96,11 @@ class ClientService implements ClientInterface
     {
         $log = [];
         $response = [];
+        $requestUri = trim($transferObject->getUri(), '/');
         try {
             /** @var \Magento\Framework\HTTP\ZendClient $client */
             $client = $this->httpClientFactory->create();
-            self::$requestUri = trim($transferObject->getUri(), '/');
-            $client->setUri(self::$requestUri);
+            $client->setUri($requestUri);
             $client->setAuth($transferObject->getAuthUsername(), $transferObject->getAuthPassword());
             if (!empty($transferObject->getBody())) {
                 $data = $transferObject->getBody();
@@ -123,7 +116,7 @@ class ClientService implements ClientInterface
             $this->logger->error($log);
             throw new ClientException(__($e->getMessage()));
         } finally {
-            $log['uri'] = self::$requestUri;
+            $log['uri'] = $requestUri;
             $log['response'] = $response;
             $this->logger->debug($log);
             $this->affirmLogger->debug('Astound\Affirm\Gateway\Http\Client\ClientService::placeRequest', $log);
