@@ -76,4 +76,4 @@ define([
     });
 
     return $.mage.affirmPixel
-});;
+});

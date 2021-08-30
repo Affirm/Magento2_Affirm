@@ -80,13 +80,24 @@ class Info extends ConfigurableInfo
     }
 
     /**
+     * Get Loan ID
+     *
+     * @return string
+     */
+    protected function getLoanId()
+    {
+        return $this->getInfo()->getOrder()->getPayment()->getAdditionalInformation('transaction_id')
+            ?: $this->getInfo()->getOrder()->getPayment()->getAdditionalInformation('charge_id');
+    }
+
+    /**
      * Get admin affirm URL
      *
      * @return string
      */
     protected function getAdminAffirmUrl()
     {
-        $loanId = $this->getInfo()->getOrder()->getPayment()->getAdditionalInformation('charge_id');
+        $loanId = $this->getLoanId();
         return sprintf('https://%s/dashboard/#/details/%s?trk=%s', $this->getDomainUrl(), $loanId,
             $this->getPublicApiKey()
         );
@@ -99,7 +110,7 @@ class Info extends ConfigurableInfo
      */
     protected function getFrontendAffirmUrl()
     {
-        $loanId = $this->getInfo()->getOrder()->getPayment()->getAdditionalInformation('charge_id');
+        $loanId = $this->getLoanId();
         return sprintf("https://%s/u/#/loans/%s?trk=%s", $this->getDomainUrl(), $loanId, $this->getPublicApiKey());
     }
 

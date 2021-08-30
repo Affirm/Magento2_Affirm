@@ -246,7 +246,7 @@
 
     <virtualType name="AffirmClientTransactionAction" type="Astound\Affirm\Gateway\Helper\Request\Action">
         <arguments>
-            <argument name="action" xsi:type="const">Astound\Affirm\Gateway\Helper\Request\Action::API_CHARGES_PATH</argument>
+            <argument name="action" xsi:type="const">Astound\Affirm\Gateway\Helper\Request\Action::API_TRANSACTIONS_PATH</argument>
         </arguments>
     </virtualType>
     <!-- Authorization Transfer Factory -->

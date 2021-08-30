@@ -34,8 +34,9 @@ class AfterShipmentSaveObserver implements ObserverInterface
     /**#@+
      * Define constants
      */
+    const TRANSACTION_ID = 'transaction_id';
     const CHARGE_ID = 'charge_id';
-    const API_CHARGES_PATH = '/api/v2/charges/';
+    const API_TRANSACTIONS_PATH = '/api/v1/transactions/';
     /**#@-*/
 
     /**
@@ -110,9 +111,10 @@ class AfterShipmentSaveObserver implements ObserverInterface
             $shippingCarrier = implode(',', $carriers);
             $shippingConfirmation = implode(',', $confirmation);
             $orderIncrementId = $order->getIncrementId();
-            $chargeId = $order->getPayment()->getAdditionalInformation(self::CHARGE_ID);
+            $transactionId = $order->getPayment()->getAdditionalInformation(self::TRANSACTION_ID) ?:
+                $order->getPayment()->getAdditionalInformation(self::CHARGE_ID);
 
-            $url = $this->getApiUrl("{$chargeId}/update");
+            $url = $this->getApiUrl("{$transactionId}");
             $data = [
                 'order_id' => $orderIncrementId,
                 'shipping_carrier' => $shippingCarrier,
@@ -183,6 +185,6 @@ class AfterShipmentSaveObserver implements ObserverInterface
             ? \Astound\Affirm\Model\Config::API_URL_SANDBOX
             : \Astound\Affirm\Model\Config::API_URL_PRODUCTION;
 
-        return trim($gateway, '/') . sprintf('%s%s', self::API_CHARGES_PATH, $additionalPath);
+        return trim($gateway, '/') . sprintf('%s%s', self::API_TRANSACTIONS_PATH, $additionalPath);
     }
 }

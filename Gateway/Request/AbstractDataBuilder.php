@@ -30,6 +30,7 @@ abstract class AbstractDataBuilder implements BuilderInterface
      * Define constants
      */
     const CHECKOUT_TOKEN = 'checkout_token';
+    const TRANSACTION_ID = 'transaction_id';
     const CHARGE_ID = 'charge_id';
     /**#@-*/
 

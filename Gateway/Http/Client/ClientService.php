@@ -95,12 +95,12 @@ class ClientService implements ClientInterface
     public function placeRequest(TransferInterface $transferObject)
     {
         $log = [];
-        $log['uri'] = $transferObject->getUri();
         $response = [];
+        $requestUri = trim($transferObject->getUri(), '/');
         try {
             /** @var \Magento\Framework\HTTP\ZendClient $client */
             $client = $this->httpClientFactory->create();
-            $client->setUri($transferObject->getUri());
+            $client->setUri($requestUri);
             $client->setAuth($transferObject->getAuthUsername(), $transferObject->getAuthPassword());
             if (!empty($transferObject->getBody())) {
                 $data = $transferObject->getBody();
@@ -116,6 +116,7 @@ class ClientService implements ClientInterface
             $this->logger->error($log);
             throw new ClientException(__($e->getMessage()));
         } finally {
+            $log['uri'] = $requestUri;
             $log['response'] = $response;
             $this->logger->debug($log);
             $this->affirmLogger->debug('Astound\Affirm\Gateway\Http\Client\ClientService::placeRequest', $log);

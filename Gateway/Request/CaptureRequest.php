@@ -43,7 +43,8 @@ class CaptureRequest extends AbstractDataBuilder
         /** @var PaymentDataObjectInterface $payment */
         $paymentDataObject = $buildSubject['payment'];
         $payment = $paymentDataObject->getPayment();
-        $chargeId = $payment->getAdditionalInformation(self::CHARGE_ID);
+        $transactionId = $payment->getAdditionalInformation(self::TRANSACTION_ID) ?:
+            $payment->getAdditionalInformation(self::CHARGE_ID);
         $order = $payment->getOrder();
         if($order) {
             $storeId = $order->getStoreId();
@@ -53,7 +54,7 @@ class CaptureRequest extends AbstractDataBuilder
         }
         return [
             'body' => [],
-            'path' => "{$chargeId}/capture",
+            'path' => "{$transactionId}/capture",
             'storeId' => $storeId
         ];
     }

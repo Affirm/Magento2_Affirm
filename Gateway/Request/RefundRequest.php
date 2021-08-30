@@ -44,7 +44,8 @@ class RefundRequest extends AbstractDataBuilder
         /** @var PaymentDataObjectInterface $payment */
         $paymentDataObject = $buildSubject['payment'];
         $payment = $paymentDataObject->getPayment();
-        $chargeId = $payment->getAdditionalInformation(self::CHARGE_ID);
+        $transactionId = $payment->getAdditionalInformation(self::TRANSACTION_ID) ?:
+            $payment->getAdditionalInformation(self::CHARGE_ID);
         $amountInCents = Util::formatToCents($buildSubject['amount']);
         $order = $payment->getOrder();
         if($order) {
@@ -57,7 +58,7 @@ class RefundRequest extends AbstractDataBuilder
             'body' => [
                 'amount' => $amountInCents
             ],
-            'path' => "{$chargeId}/refund",
+            'path' => "{$transactionId}/refund",
             'storeId' => $storeId
         ];
     }

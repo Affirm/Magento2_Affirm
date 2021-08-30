@@ -28,7 +28,7 @@ class Action
     /**#@+
      * Define constants
      */
-    const API_CHARGES_PATH = '/api/v2/charges/';
+    const API_TRANSACTIONS_PATH = '/api/v1/transactions/';
     const API_CHECKOUT_PATH = '/api/v2/checkout/';
     /**#@-*/
 
