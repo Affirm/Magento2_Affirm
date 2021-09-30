@@ -47,7 +47,7 @@ class CaptureRequest extends AbstractDataBuilder
             $payment->getAdditionalInformation(self::CHARGE_ID);
         $order = $payment->getOrder();
         if($order) {
-            $storeId = $order->getStoreId();
+            $storeId = $this->_storeManager->getStore()->getId();
         }
         if (!$storeId) {
             $storeId = null;

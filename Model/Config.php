@@ -250,13 +250,25 @@ class Config implements ConfigInterface
     }
 
     /**
-     * Get payment method mode
+     * Get current store id
+     *
+     * @return int
+     */
+    protected function getCurrentStoreId()
+    {
+        return $this->storeManager->getStore()->getId();
+    }
+
+
+    /**
+     * Get payment method environment mode
      *
      * @return mixed
      */
     public function getMode()
     {
-        return $this->getValue('mode');
+        $storeId = $this->getCurrentStoreId();
+        return $this->getValue(self::KEY_MODE, $storeId);
     }
 
     /**
@@ -266,9 +278,10 @@ class Config implements ConfigInterface
      */
     public function getPrivateApiKey()
     {
-        return ($this->getValue('mode') == 'sandbox') ?
-            $this->getValue(self::KEY_PRIVATE_KEY_SANDBOX) :
-            $this->getValue(self::KEY_PRIVATE_KEY_PRODUCTION);
+        $storeId = $this->getCurrentStoreId();
+        return ($this->getMode() == 'sandbox') ?
+            $this->getValue(self::KEY_PRIVATE_KEY_SANDBOX, $storeId) :
+            $this->getValue(self::KEY_PRIVATE_KEY_PRODUCTION, $storeId);
     }
 
     /**
@@ -278,9 +291,10 @@ class Config implements ConfigInterface
      */
     public function getPublicApiKey()
     {
-        return ($this->getValue('mode') == 'sandbox') ?
-            $this->getValue(self::KEY_PUBLIC_KEY_SANDBOX) :
-            $this->getValue(self::KEY_PUBLIC_KEY_PRODUCTION);
+        $storeId = $this->getCurrentStoreId();
+        return ($this->getMode() == 'sandbox') ?
+            $this->getValue(self::KEY_PUBLIC_KEY_SANDBOX, $storeId) :
+            $this->getValue(self::KEY_PUBLIC_KEY_PRODUCTION, $storeId);
     }
 
     /**
@@ -305,7 +319,7 @@ class Config implements ConfigInterface
         $apiUrl = $this->getApiUrl();
         $prefix = "cdn1";
         if ($apiUrl) {
-            if ($this->getValue('mode') == 'sandbox') {
+            if ($this->getMode() == 'sandbox') {
                 $pattern = '~(http|https)://~';
                 $replacement = '-';
             } else {
@@ -524,10 +538,12 @@ class Config implements ConfigInterface
     {
         $underscored = strtolower(preg_replace('/(.)([A-Z])/', "$1_$2", $key));
         $path = $this->_getSpecificConfigPath($underscored);
+        $storeScope = !empty($storeId) ? ScopeInterface::SCOPE_STORE : ScopeInterface::SCOPE_WEBSITE;
         if ($path !== null) {
             $value = $this->scopeConfig->getValue(
                 $path,
-                ScopeInterface::SCOPE_WEBSITE
+                $storeScope,
+                $storeId
             );
             return $value;
         }

@@ -47,9 +47,11 @@ abstract class AbstractDataBuilder implements BuilderInterface
      * @param ConfigInterface $config
      */
     public function __construct(
-        ConfigInterface $config
+        ConfigInterface $config,
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->config = $config;
+        $this->_storeManager = $storeManager;
     }
 
     /**

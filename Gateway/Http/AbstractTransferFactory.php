@@ -75,7 +75,7 @@ abstract class AbstractTransferFactory implements TransferFactoryInterface
     protected function getPublicApiKey($storeId)
     {
         if(!empty($storeId)){
-            return $this->config->getValue('mode') == 'sandbox'
+            return $this->config->getValue('mode', $storeId) == 'sandbox'
                 ? $this->config->getValue('public_api_key_sandbox', $storeId)
                 : $this->config->getValue('public_api_key_production', $storeId);
         } else {
@@ -95,7 +95,7 @@ abstract class AbstractTransferFactory implements TransferFactoryInterface
     protected function getPrivateApiKey($storeId)
     {
         if(!empty($storeId)){
-            return $this->config->getValue('mode') == 'sandbox'
+            return $this->config->getValue('mode', $storeId) == 'sandbox'
                 ? $this->config->getValue('private_api_key_sandbox', $storeId)
                 : $this->config->getValue('private_api_key_production', $storeId);
         } else {
