@@ -36,6 +36,7 @@
 namespace Astound\Affirm\Helper;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Astound\Affirm\Model\Config as Config;
 
 /**
@@ -53,6 +54,13 @@ class Pixel
     protected $scopeConfig;
 
     /**
+     * Store manager
+     *
+     * @var \Magento\Store\App\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * Init
      *
      * @param ScopeConfigInterface $scopeConfig
@@ -60,9 +68,11 @@ class Pixel
      */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
+        StoreManagerInterface $storeManager,
         Config $configAffirm
     ) {
         $this->scopeConfig = $scopeConfig;
+        $this->_storeManager = $storeManager;
         $this->affirmPaymentConfig = $configAffirm;
     }
 
@@ -120,5 +130,15 @@ class Pixel
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $scope
         );
+    }
+
+    /**
+     * Get store id
+     *
+     * @return int
+     */
+    protected function getStoreId()
+    {
+        return $this->_storeManager->getStore()->getId();
     }
 }

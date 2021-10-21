@@ -22,6 +22,7 @@ use Astound\Affirm\Gateway\Helper\Request\Action;
 use Magento\Payment\Gateway\ConfigInterface;
 use Magento\Payment\Gateway\Http\TransferBuilder;
 use Magento\Payment\Gateway\Http\TransferFactoryInterface;
+use Magento\Store\Model\StoreManagerInterface;
 
 /**
  * Class AbstractTransferFactory
@@ -50,6 +51,13 @@ abstract class AbstractTransferFactory implements TransferFactoryInterface
     protected $action;
 
     /**
+     * Store manager
+     *
+     * @var \Magento\Store\App\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * Construct
      *
      * @param ConfigInterface $config
@@ -59,11 +67,13 @@ abstract class AbstractTransferFactory implements TransferFactoryInterface
     public function __construct(
         ConfigInterface $config,
         TransferBuilder $transferBuilder,
-        Action $action
+        Action $action,
+        StoreManagerInterface $storeManager
     ) {
         $this->config = $config;
         $this->transferBuilder = $transferBuilder;
         $this->action = $action;
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -103,5 +113,15 @@ abstract class AbstractTransferFactory implements TransferFactoryInterface
                 ? $this->config->getValue('private_api_key_sandbox')
                 : $this->config->getValue('private_api_key_production');
         }
+    }
+
+    /**
+     * Get store id
+     *
+     * @return string
+     */
+    protected function getStoreId()
+    {
+        return $this->_storeManager->getStore()->getId();
     }
 }
