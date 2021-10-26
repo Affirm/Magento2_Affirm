@@ -35,7 +35,8 @@ class TransferFactory extends AbstractTransferFactory
     public function create(array $request)
     {
         $method = isset($request['method']) ? $request['method'] : ClientService::POST;
-        $storeId = $this->getStoreId();
+        // Admin actions will include store id in the request
+        $storeId = isset($request['storeId']) ? $request['storeId'] : $this->getStoreId();
         return $this->transferBuilder
             ->setMethod($method)
             ->setHeaders(['Content-Type' => 'application/json'])
