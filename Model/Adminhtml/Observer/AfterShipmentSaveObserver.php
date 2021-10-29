@@ -24,6 +24,8 @@ use Magento\Framework\HTTP\ZendClientFactory;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Event\Observer;
 use Astound\Affirm\Model\Ui\ConfigProvider;
+use Magento\Store\Model\StoreManagerInterface;
+use Magento\Store\Model\ScopeInterface;
 use Astound\Affirm\Logger\Logger;
 
 /**
@@ -61,6 +63,13 @@ class AfterShipmentSaveObserver implements ObserverInterface
     protected $scopeConfig;
 
     /**
+     * Store manager
+     *
+     * @var \Magento\Store\App\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * Affirm logging instance
      *
      * @var \Astound\Affirm\Logger\Logger
@@ -79,11 +88,13 @@ class AfterShipmentSaveObserver implements ObserverInterface
         OrderRepositoryInterface $orderRepository,
         ZendClientFactory $httpClientFactory,
         ScopeConfigInterface $scopeConfig,
+        StoreManagerInterface $storeManager,
         Logger $logger
     ) {
         $this->orderRepository = $orderRepository;
         $this->httpClientFactory = $httpClientFactory;
         $this->scopeConfig = $scopeConfig;
+        $this->_storeManager = $storeManager;
         $this->logger = $logger;
     }
 
@@ -156,9 +167,9 @@ class AfterShipmentSaveObserver implements ObserverInterface
      */
     protected function getPrivateApiKey()
     {
-        return $this->scopeConfig->getValue('payment/affirm_gateway/mode') == 'sandbox'
-            ? $this->scopeConfig->getValue('payment/affirm_gateway/private_api_key_sandbox')
-            : $this->scopeConfig->getValue('payment/affirm_gateway/private_api_key_production');
+        return $this->getIsSandboxMode()
+            ? $this->scopeConfig->getValue('payment/affirm_gateway/private_api_key_sandbox', ScopeInterface::SCOPE_STORE, $this->getStoreId())
+            : $this->scopeConfig->getValue('payment/affirm_gateway/private_api_key_production', ScopeInterface::SCOPE_STORE, $this->getStoreId());
     }
 
     /**
@@ -168,9 +179,9 @@ class AfterShipmentSaveObserver implements ObserverInterface
      */
     protected function getPublicApiKey()
     {
-        return $this->scopeConfig->getValue('payment/affirm_gateway/mode') == 'sandbox'
-            ? $this->scopeConfig->getValue('payment/affirm_gateway/public_api_key_sandbox')
-            : $this->scopeConfig->getValue('payment/affirm_gateway/public_api_key_production');
+        return $this->getIsSandboxMode()
+            ? $this->scopeConfig->getValue('payment/affirm_gateway/public_api_key_sandbox', ScopeInterface::SCOPE_STORE, $this->getStoreId())
+            : $this->scopeConfig->getValue('payment/affirm_gateway/public_api_key_production', ScopeInterface::SCOPE_STORE, $this->getStoreId());
     }
 
     /**
@@ -181,10 +192,30 @@ class AfterShipmentSaveObserver implements ObserverInterface
      */
     protected function getApiUrl($additionalPath)
     {
-        $gateway = $this->scopeConfig->getValue('payment/affirm_gateway/mode') == 'sandbox'
+        $gateway = $this->getIsSandboxMode()
             ? \Astound\Affirm\Model\Config::API_URL_SANDBOX
             : \Astound\Affirm\Model\Config::API_URL_PRODUCTION;
 
         return trim($gateway, '/') . sprintf('%s%s', self::API_TRANSACTIONS_PATH, $additionalPath);
+    }
+
+    /**
+     * Get is sandbox mode
+     *
+     * @return boolean
+     */
+    protected function getIsSandboxMode()
+    {
+        return $this->scopeConfig->getValue('payment/affirm_gateway/mode', ScopeInterface::SCOPE_STORE, $this->getStoreId()) == 'sandbox';
+    }
+
+    /**
+     * Get store id
+     *
+     * @return int
+     */
+    protected function getStoreId()
+    {
+        return $this->_storeManager->getStore()->getId();
     }
 }
