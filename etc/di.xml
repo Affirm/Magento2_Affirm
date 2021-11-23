@@ -286,7 +286,7 @@
         <plugin name="checkout-aslowas-minicart" type="Astound\Affirm\Model\Plugin\Checkout\CustomerData\Cart"/>
     </type>
     <type name="Magento\Sales\Model\Order\Payment">
-        <plugin name="after-check-capture-partial" type="Astound\Affirm\Model\Plugin\Payment\CanCapturePartial" sortOrder="1"/>
+        <plugin name="after-can-capture-partial" type="Astound\Affirm\Model\Plugin\Payment\CanCapturePartial" sortOrder="1"/>
     </type>
 
     <!-- Init payment helper -->
