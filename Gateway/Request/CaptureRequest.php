@@ -51,13 +51,18 @@ class CaptureRequest extends AbstractDataBuilder
         if (!$storeId) {
             $storeId = null;
         }
-        $_amount = $buildSubject['amount'] ? Util::formatToCents($buildSubject['amount']) : null;
-        return [
-            'body' => [
+        if ($this->affirmPaymentConfig->getPartialCapture()) {
+            $_amount = $buildSubject['amount'] ? Util::formatToCents($buildSubject['amount']) : null;
+            $_body = [
                 'amount' => $_amount
-            ],
+            ];
+        } else {
+            $_body = [];
+        }
+        return [
             'path' => "{$transactionId}/capture",
-            'storeId' => $storeId
+            'storeId' => $storeId,
+            'body' => $_body
         ];
     }
 }

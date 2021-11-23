@@ -652,4 +652,14 @@ class Config implements ConfigInterface
     {
         return $this->getConfigData('checkout_flow_type');
     }
+
+    /**
+     * Get partial capture
+     *
+     * @return bool
+     */
+    public function getPartialCapture()
+    {
+        return $this->getConfigData('partial_capture');
+    }
 }
