@@ -21,6 +21,8 @@ namespace Astound\Affirm\Gateway\Http\Client;
 use Magento\Payment\Gateway\Http\ClientInterface;
 use Magento\Payment\Gateway\Http\ClientException;
 use Magento\Payment\Gateway\Http\TransferInterface;
+use Astound\Affirm\Gateway\Helper\Request\Action;
+use Astound\Affirm\Gateway\Helper\Util;
 use Magento\Payment\Model\Method\Logger;
 use Magento\Payment\Gateway\Http\ConverterInterface;
 use Magento\Framework\HTTP\ZendClientFactory;
@@ -67,22 +69,41 @@ class ClientService implements ClientInterface
     protected $httpClientFactory;
 
     /**
+     * Action
+     *
+     * @var Action
+     */
+    protected $action;
+
+    /**
+     * Util
+     *
+     * @var Util
+     */
+    protected $util;
+
+    /**
      * Constructor
      *
      * @param Logger $logger
      * @param ConverterInterface $converter,
      * @param ZendClientFactory $httpClientFactory
+     * @param Action $action
      */
     public function __construct(
         Logger $logger,
         AffirmLogger $affirmLogger,
         ConverterInterface $converter,
-        ZendClientFactory $httpClientFactory
+        ZendClientFactory $httpClientFactory,
+        Action $action,
+        Util $util
     ) {
         $this->logger = $logger;
         $this->affirmLogger = $affirmLogger;
         $this->converter = $converter;
         $this->httpClientFactory = $httpClientFactory;
+        $this->action = $action;
+        $this->util = $util;
     }
 
     /**
@@ -102,6 +123,10 @@ class ClientService implements ClientInterface
             $client = $this->httpClientFactory->create();
             $client->setUri($requestUri);
             $client->setAuth($transferObject->getAuthUsername(), $transferObject->getAuthPassword());
+            if (strpos($transferObject->getUri(), $this->action::API_TRANSACTIONS_PATH) !== false) {
+                $idempotencyKey = $this->util->generateIdempotencyKey();
+                $client->setHeaders([Util::IDEMPOTENCY_KEY => $idempotencyKey]);
+            }
             if (!empty($transferObject->getBody())) {
                 $data = $transferObject->getBody();
                 $data = json_encode($data, JSON_UNESCAPED_SLASHES);
@@ -113,7 +138,7 @@ class ClientService implements ClientInterface
             $response = $this->converter->convert($rawResponse);
         } catch (\Exception $e) {
             $log['error'] = $e->getMessage();
-            $this->logger->error($log);
+            $this->logger->debug($log);
             throw new ClientException(__($e->getMessage()));
         } finally {
             $log['uri'] = $requestUri;
