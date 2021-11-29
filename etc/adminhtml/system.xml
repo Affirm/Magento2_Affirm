@@ -75,7 +75,7 @@
                     <source_model>Astound\Affirm\Model\Adminhtml\Source\PaymentAction</source_model>
                 </field>
                 <field id="partial_capture" translate="label" type="select" sortOrder="71" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Partial Capture</label>
+                    <label>Enable Partial Capture</label>
                     <depends><field id="payment_action">authorize</field></depends>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
