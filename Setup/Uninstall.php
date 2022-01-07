@@ -66,36 +66,18 @@ class Uninstall implements UninstallInterface
 
         /** @var EavSetup $eavSetup */
         $eavSetup = $this->eavSetupFactory->create(['setup' => $this->setup]);
-
-		if (version_compare($context->getVersion(), '0.4.2', '<')) {
-			$eavSetup->removeAttribute(Product::ENTITY, 'affirm_product_mfp');
-			$eavSetup->removeAttribute(Category::ENTITY, 'affirm_category_mfp');
-		}
-
-		if (version_compare($context->getVersion(), '0.4.3', '<')) {
-			$eavSetup->removeAttribute(Product::ENTITY, 'affirm_product_mfp_type');
-			$eavSetup->removeAttribute(Product::ENTITY, 'affirm_product_mfp_priority');
-			$eavSetup->removeAttribute(Category::ENTITY, 'affirm_category_mfp_type');
-			$eavSetup->removeAttribute(Category::ENTITY, 'affirm_category_mfp_priority');
-		}
-
-		if (version_compare($context->getVersion(), '1.0.2', '<')) {
-			$eavSetup->removeAttribute(Product::ENTITY, 'affirm_product_mfp_start_date');
-			$eavSetup->removeAttribute(Product::ENTITY, 'affirm_product_mfp_end_date');
-			$eavSetup->removeAttribute(Category::ENTITY, 'affirm_category_mfp_start_date');
-			$eavSetup->removeAttribute(Category::ENTITY, 'affirm_category_mfp_end_date');
-		}
-
-		if (version_compare($context->getVersion(), '1.0.3', '<')) {
-			$eavSetup->removeAttribute(
-                \Magento\Catalog\Model\Category::ENTITY,
-                'affirm_category_promo_id',
-            );
-			$eavSetup->removeAttribute(
-                \Magento\Catalog\Model\Product::ENTITY,
-                'affirm_product_promo_id',
-            );
-		}
+		$eavSetup->removeAttribute(Product::ENTITY, 'affirm_product_mfp');
+		$eavSetup->removeAttribute(Category::ENTITY, 'affirm_category_mfp');
+		$eavSetup->removeAttribute(Product::ENTITY, 'affirm_product_mfp_type');
+		$eavSetup->removeAttribute(Product::ENTITY, 'affirm_product_mfp_priority');
+		$eavSetup->removeAttribute(Category::ENTITY, 'affirm_category_mfp_type');
+		$eavSetup->removeAttribute(Category::ENTITY, 'affirm_category_mfp_priority');
+		$eavSetup->removeAttribute(Product::ENTITY, 'affirm_product_mfp_start_date');
+		$eavSetup->removeAttribute(Product::ENTITY, 'affirm_product_mfp_end_date');
+		$eavSetup->removeAttribute(Category::ENTITY, 'affirm_category_mfp_start_date');
+		$eavSetup->removeAttribute(Category::ENTITY, 'affirm_category_mfp_end_date');
+		$eavSetup->removeAttribute(Category::ENTITY, 'affirm_category_promo_id');
+		$eavSetup->removeAttribute(Product::ENTITY, 'affirm_product_promo_id');
 
 		// Drop tables
 		$schemaSetup->startSetup();
