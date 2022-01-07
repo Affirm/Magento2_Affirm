@@ -18,8 +18,10 @@
 
 namespace Astound\Affirm\Gateway\Helper;
 
+use Magento\Framework\Math\Random;
+
 /**
- * Class Action
+ * Class Util
  */
 class Util
 {
@@ -27,6 +29,22 @@ class Util
      * Money format
      */
     const MONEY_FORMAT = "%.2f";
+
+    /**
+     * Idempotency key
+     */
+    const IDEMPOTENCY_KEY = "Idempotency-Key";
+
+    /**
+     * Constructor
+     *
+     * @param Random $random
+     */
+    public function __construct(
+        Random $random
+    ) {
+        $this->_random = $random;
+    }
 
     /**
      * Format to cents
@@ -71,4 +89,15 @@ class Util
     {
         return sprintf(self::MONEY_FORMAT, $amount);
     }
+
+    /**
+     * Generate identifying strings to get idempotent responses
+     *
+     * @return string
+     */
+    public function generateIdempotencyKey()
+    {
+        return $this->_random->getUniqueHash();
+    }
+
 }

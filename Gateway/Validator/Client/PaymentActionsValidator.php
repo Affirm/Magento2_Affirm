@@ -41,9 +41,9 @@ class PaymentActionsValidator extends AbstractResponseValidator
 
         if (!$validationResult) {
             $errorMessages = (isset($response[self::ERROR_MESSAGE])) ?
-                [__('Affirm error code:') . $response[self::RESPONSE_CODE] . __(' error: ') .
-                    __($response[self::ERROR_MESSAGE])]:
+                [__($response[self::ERROR_MESSAGE]) . __(' Affirm status code: ') . $response[self::RESPONSE_CODE]]:
                 [__('Transaction has been declined, please, try again later.')];
+            throw new \Magento\Framework\Validator\Exception(__($errorMessages[0]));
         }
 
         return $this->createResult($validationResult, $errorMessages);

@@ -19,6 +19,7 @@
 namespace Astound\Affirm\Gateway\Request;
 
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
+use Astound\Affirm\Gateway\Helper\Util;
 
 /**
  * Class CaptureRequest
@@ -50,10 +51,18 @@ class CaptureRequest extends AbstractDataBuilder
         if (!$storeId) {
             $storeId = null;
         }
+        if ($this->affirmPaymentConfig->getPartialCapture()) {
+            $_amount = $buildSubject['amount'] ? Util::formatToCents($buildSubject['amount']) : null;
+            $_body = [
+                'amount' => $_amount
+            ];
+        } else {
+            $_body = [];
+        }
         return [
-            'body' => [],
             'path' => "{$transactionId}/capture",
-            'storeId' => $storeId
+            'storeId' => $storeId,
+            'body' => $_body
         ];
     }
 }

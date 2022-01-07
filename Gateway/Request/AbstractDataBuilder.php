@@ -21,6 +21,7 @@ namespace Astound\Affirm\Gateway\Request;
 use Magento\Payment\Gateway\ConfigInterface;
 use Magento\Payment\Gateway\Request\BuilderInterface;
 use Magento\Store\Model\StoreManagerInterface;
+use Astound\Affirm\Model\Config;
 
 /**
  * Class AbstractDataBuilder
@@ -56,10 +57,12 @@ abstract class AbstractDataBuilder implements BuilderInterface
      */
     public function __construct(
         ConfigInterface $config,
-        StoreManagerInterface $storeManager
+        StoreManagerInterface $storeManager,
+        Config $configAffirm
     ) {
         $this->config = $config;
         $this->_storeManager = $storeManager;
+        $this->affirmPaymentConfig = $configAffirm;
     }
 
     /**
