@@ -1,5 +1,5 @@
 <?php
-namespace Astound\Affirm\Helper;
+namespace Affirm\Helper;
 
 use Magento\Framework\App\Helper\Context;
 

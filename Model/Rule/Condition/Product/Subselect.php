@@ -1,5 +1,5 @@
 <?php
-namespace Astound\Affirm\Model\Rule\Condition\Product;
+namespace Affirm\Model\Rule\Condition\Product;
 
 class Subselect extends \Magento\SalesRule\Model\Rule\Condition\Product\Subselect
 {
@@ -9,7 +9,7 @@ class Subselect extends \Magento\SalesRule\Model\Rule\Condition\Product\Subselec
         array $data = []
     ) {
         parent::__construct($context, $ruleConditionProduct, $data);
-        $this->setType('Astound\Affirm\Model\Rule\Condition\Product\Subselect')
+        $this->setType('Affirm\Model\Rule\Condition\Product\Subselect')
             ->setValue(null);
     }
 

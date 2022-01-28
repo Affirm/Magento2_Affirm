@@ -1,11 +1,11 @@
 /**
- * Copyright © 2016 Astound. All rights reserved.
+ * Copyright © 2021 Affirm. All rights reserved.
  * See COPYING.txt for license details.
  */
 /*jshint jquery:true*/
 define(["jquery",
     "mage/translate",
-    "Astound_Affirm/js/model/aslowas"
+    "Affirm/js/model/aslowas"
 ], function ($, $t, aslowas) {
 
     "use strict"

@@ -1,15 +1,15 @@
 <?php
-namespace Astound\Affirm\Model\Adminhtml\Source;
+namespace Affirm\Model\Adminhtml\Source;
 
 use Magento\Framework\Option\ArrayInterface;
-use Astound\Affirm\Model\CheckoutFlowType;
+use Affirm\Model\CheckoutFlowType;
 
 /**
  * Class PaymentCheckoutFlow
  * Source model for the system configuration
  * retrieve payment checkout flow options.
  *
- * @package Astound\Affirm\Model\Adminhtml\Source
+ * @package Affirm\Model\Adminhtml\Source
  */
 class PaymentCheckoutFlow implements ArrayInterface
 {

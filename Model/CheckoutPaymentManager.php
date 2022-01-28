@@ -1,15 +1,15 @@
 <?php
 
-namespace Astound\Affirm\Model;
+namespace Affirm\Model;
 
-use Astound\Affirm\Api\CheckoutPaymentManagerInterface;
+use Affirm\Api\CheckoutPaymentManagerInterface;
 use Magento\Checkout\Model\Session;
 use Magento\Quote\Api\CartManagementInterface;
 
 /**
  * Class CheckoutPaymentManager
  *
- * @package Astound\Affirm\Model
+ * @package Affirm\Model
  */
 class CheckoutPaymentManager implements CheckoutPaymentManagerInterface
 {
@@ -47,7 +47,7 @@ class CheckoutPaymentManager implements CheckoutPaymentManagerInterface
         $quote = $this->session->getQuote();
         if ($quote->getId()) {
             $payment = $quote->getPayment();
-            $data['method'] = \Astound\Affirm\Model\Ui\ConfigProvider::CODE;
+            $data['method'] = \Affirm\Model\Ui\ConfigProvider::CODE;
             $payment->importData($data);
             $quote->save();
             return true;
@@ -65,7 +65,7 @@ class CheckoutPaymentManager implements CheckoutPaymentManagerInterface
         $quote = $this->session->getQuote();
         if ($quote->getId()) {
             $payment = $quote->getPayment();
-            if ($payment->getData('method') == \Astound\Affirm\Model\Ui\ConfigProvider::CODE) {
+            if ($payment->getData('method') == \Affirm\Model\Ui\ConfigProvider::CODE) {
                 //Clear data after verification
                 $payment->setData('method', null);
                 return true;

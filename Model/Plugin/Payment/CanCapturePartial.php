@@ -2,20 +2,20 @@
 /**
  *
  * @category  Affirm
- * @package   Astound_Affirm
- * @copyright Copyright (c) 2021 Affirm, Inc.
+ * @package   Affirm
+ * @copyright Copyright (c) 2021 Affirm.
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-namespace Astound\Affirm\Model\Plugin\Payment;
+namespace Affirm\Model\Plugin\Payment;
 
 use Magento\Sales\Model\Order\Payment;
-use Astound\Affirm\Model\Config;
+use Affirm\Model\Config;
 
 /**
  * Class CanCapturePartial
  *
- * @package Astound\Affirm\Model\Plugin\Payment
+ * @package Affirm\Model\Plugin\Payment
  */
 class CanCapturePartial
 {

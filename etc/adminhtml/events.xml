@@ -1,19 +1,19 @@
 <?xml version="1.0"?>
 <!--
 /**
- * Astound
+ * Affirm
  * Affirm system configuration.
  *
  * @category  Affirm
- * @package   Astound_Affirm
- * @copyright Copyright (c) 2016 Astound, Inc. (http://www.astoundcommerce.com)
+ * @package   Affirm
+ * @copyright Copyright (c) 2021 Affirm. All rights reserved.
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
     <event name="sales_order_shipment_save_commit_after">
-        <observer name="update_shipping_after_save_order_shipment" instance="Astound\Affirm\Model\Adminhtml\Observer\AfterShipmentSaveObserver" />
+        <observer name="update_shipping_after_save_order_shipment" instance="Affirm\Model\Adminhtml\Observer\AfterShipmentSaveObserver" />
     </event>
     <event name="controller_action_predispatch">
-        <observer name="affirm_admin_notification" instance="Astound\Affirm\Model\Adminhtml\Observer\PredispatchObserver" />
+        <observer name="affirm_admin_notification" instance="Affirm\Model\Adminhtml\Observer\PredispatchObserver" />
     </event>
 </config>

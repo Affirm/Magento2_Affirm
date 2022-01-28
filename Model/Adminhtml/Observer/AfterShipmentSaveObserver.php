@@ -1,32 +1,29 @@
 <?php
 /**
- * Astound
+ * Affirm
  * NOTICE OF LICENSE
  * This source file is subject to the Open Software License (OSL 3.0)
  * that is bundled with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
  * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to codemaster@astoundcommerce.com so we can send you a copy immediately.
  *
  * @category  Affirm
- * @package   Astound_Affirm
- * @copyright Copyright (c) 2016 Astound, Inc. (http://www.astoundcommerce.com)
+ * @package   Affirm
+ * @copyright Copyright (c) 2021 Affirm. All rights reserved.
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-namespace Astound\Affirm\Model\Adminhtml\Observer;
+namespace Affirm\Model\Adminhtml\Observer;
 
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\Framework\HTTP\ZendClientFactory;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Event\Observer;
-use Astound\Affirm\Model\Ui\ConfigProvider;
+use Affirm\Model\Ui\ConfigProvider;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Store\Model\ScopeInterface;
-use Astound\Affirm\Logger\Logger;
+use Affirm\Logger\Logger;
 
 /**
  * Customer Observer Model
@@ -72,7 +69,7 @@ class AfterShipmentSaveObserver implements ObserverInterface
     /**
      * Affirm logging instance
      *
-     * @var \Astound\Affirm\Logger\Logger
+     * @var \Affirm\Logger\Logger
      */
     protected $logger;
 
@@ -144,7 +141,7 @@ class AfterShipmentSaveObserver implements ObserverInterface
             } catch (\Exception $e) {
                 $log['error'] = $e->getMessage();
             } finally {
-                $this->logger->debug('Astound\Affirm\Model\Adminhtml\Observer\AfterShipmentSaveObserver::execute', $log);
+                $this->logger->debug('Affirm\Model\Adminhtml\Observer\AfterShipmentSaveObserver::execute', $log);
             }
         }
     }
@@ -193,8 +190,8 @@ class AfterShipmentSaveObserver implements ObserverInterface
     protected function getApiUrl($additionalPath)
     {
         $gateway = $this->getIsSandboxMode()
-            ? \Astound\Affirm\Model\Config::API_URL_SANDBOX
-            : \Astound\Affirm\Model\Config::API_URL_PRODUCTION;
+            ? \Affirm\Model\Config::API_URL_SANDBOX
+            : \Affirm\Model\Config::API_URL_PRODUCTION;
 
         return trim($gateway, '/') . sprintf('%s%s', self::API_TRANSACTIONS_PATH, $additionalPath);
     }

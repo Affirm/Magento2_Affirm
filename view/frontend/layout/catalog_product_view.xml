@@ -1,32 +1,29 @@
 <?xml version="1.0"?>
 <!--
 /**
- * Astound
+ * Affirm
  * NOTICE OF LICENSE
  * This source file is subject to the Open Software License (OSL 3.0)
  * that is bundled with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
  * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to codemaster@astoundcommerce.com so we can send you a copy immediately.
  *
  * @category  Affirm
- * @package   Astound_Affirm
- * @copyright Copyright (c) 2016 Astound, Inc. (http://www.astoundcommerce.com)
+ * @package   Affirm
+ * @copyright Copyright (c) 2021 Affirm. All rights reserved.
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceContainer name="top.container">
-            <block class="Astound\Affirm\Block\Promotion\Banners" name="affirm_banner_center_top" as="bml.main.top" template="Astound_Affirm::promotion/bml.phtml" before="-">
+            <block class="Affirm\Block\Promotion\Banners" name="affirm_banner_center_top" as="bml.main.top" template="Affirm::promotion/bml.phtml" before="-">
                 <arguments>
                     <argument name="section" xsi:type="string">product</argument>
                     <argument name="position" xsi:type="number">0</argument>
                 </arguments>
             </block>
-            <block class="Astound\Affirm\Block\Promotion\Banners" name="affirm_banner_center_bottom" as="bml.main.bottom" template="Astound_Affirm::promotion/bml.phtml" after="-">
+            <block class="Affirm\Block\Promotion\Banners" name="affirm_banner_center_bottom" as="bml.main.bottom" template="Affirm::promotion/bml.phtml" after="-">
                 <arguments>
                     <argument name="section" xsi:type="string">product</argument>
                     <argument name="position" xsi:type="number">1</argument>
@@ -34,7 +31,7 @@
             </block>
         </referenceContainer>
         <referenceBlock name="product.info.addtocart">
-            <block class="Astound\Affirm\Block\Promotion\Banners" name="bml.right.banner.top" template="Astound_Affirm::promotion/bml.phtml" after="-">
+            <block class="Affirm\Block\Promotion\Banners" name="bml.right.banner.top" template="Affirm::promotion/bml.phtml" after="-">
                 <arguments>
                     <argument name="section" xsi:type="string">product</argument>
                     <argument name="position" xsi:type="number">2</argument>
@@ -42,7 +39,7 @@
             </block>
         </referenceBlock>
         <referenceBlock name="product.info.form.options">
-            <block class="Astound\Affirm\Block\Promotion\Banners" name="bml.right.banner.top1" template="Astound_Affirm::promotion/bml.phtml" after="-">
+            <block class="Affirm\Block\Promotion\Banners" name="bml.right.banner.top1" template="Affirm::promotion/bml.phtml" after="-">
                 <arguments>
                     <argument name="section" xsi:type="string">product</argument>
                     <argument name="position" xsi:type="number">2</argument>
@@ -50,19 +47,19 @@
             </block>
         </referenceBlock>
         <referenceContainer name="product.info.main">
-            <block class="Astound\Affirm\Block\Promotion\ProductPage\Aslowas" name="aslowas.after.price" template="Astound_Affirm::promotion/aslowasPDP.phtml" after="product.info.price">
+            <block class="Affirm\Block\Promotion\ProductPage\Aslowas" name="aslowas.after.price" template="Affirm::promotion/aslowasPDP.phtml" after="product.info.price">
                 <arguments>
                     <argument name="position" xsi:type="string">pdp</argument>
                     <argument name="placement" xsi:type="number">0</argument>
                 </arguments>
             </block>
-            <block class="Astound\Affirm\Block\Promotion\ProductPage\Aslowas" name="aslowas.before.price" template="Astound_Affirm::promotion/aslowasPDP.phtml" before="product.info.price">
+            <block class="Affirm\Block\Promotion\ProductPage\Aslowas" name="aslowas.before.price" template="Affirm::promotion/aslowasPDP.phtml" before="product.info.price">
                 <arguments>
                     <argument name="position" xsi:type="string">pdp</argument>
                     <argument name="placement" xsi:type="number">1</argument>
                 </arguments>
             </block>
-            <block class="Astound\Affirm\Block\Promotion\ProductPage\Aslowas" name="aslowas.end.product.info" template="Astound_Affirm::promotion/aslowasPDP.phtml" after="-">
+            <block class="Affirm\Block\Promotion\ProductPage\Aslowas" name="aslowas.end.product.info" template="Affirm::promotion/aslowasPDP.phtml" after="-">
                 <arguments>
                     <argument name="position" xsi:type="string">pdp</argument>
                     <argument name="placement" xsi:type="number">2</argument>

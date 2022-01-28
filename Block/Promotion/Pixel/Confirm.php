@@ -33,19 +33,19 @@
  *
  */
 
-namespace Astound\Affirm\Block\Promotion\Pixel;
+namespace Affirm\Block\Promotion\Pixel;
 
 use Magento\Store\Model\ScopeInterface;
 use Magento\Framework\View\Element\Template;
-use Astound\Affirm\Model\Ui\ConfigProvider;
-use Astound\Affirm\Gateway\Helper\Util;
-use Astound\Affirm\Helper\Pixel;
-use Astound\Affirm\Logger\Logger;
+use Affirm\Model\Ui\ConfigProvider;
+use Affirm\Gateway\Helper\Util;
+use Affirm\Helper\Pixel;
+use Affirm\Logger\Logger;
 
 /**
  * Class Confirm
  *
- * @package Astound\Affirm\Block\Pixel
+ * @package Affirm\Block\Pixel
  */
 class Confirm extends \Magento\Framework\View\Element\Template
 {
@@ -117,7 +117,7 @@ class Confirm extends \Magento\Framework\View\Element\Template
 
         $result['parameter'][2] = $strictBool;
 
-        $this->logger->debug('Astound\Affirm\Block\Promotion\Pixel\Confirm::Confirm', $result);
+        $this->logger->debug('Affirm\Block\Promotion\Pixel\Confirm::Confirm', $result);
         return $result;
     }
 

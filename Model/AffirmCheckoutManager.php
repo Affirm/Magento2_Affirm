@@ -1,37 +1,34 @@
 <?php
 /**
- * Astound
+ * Affirm
  * NOTICE OF LICENSE
  * This source file is subject to the Open Software License (OSL 3.0)
  * that is bundled with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
  * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to codemaster@astoundcommerce.com so we can send you a copy immediately.
  *
  * @category  Affirm
- * @package   Astound_Affirm
- * @copyright Copyright (c) 2016 Astound, Inc. (http://www.astoundcommerce.com)
+ * @package   Affirm
+ * @copyright Copyright (c) 2021 Affirm. All rights reserved.
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-namespace Astound\Affirm\Model;
+namespace Affirm\Model;
 
-use Astound\Affirm\Api\AffirmCheckoutManagerInterface;
-use Astound\Affirm\Gateway\Helper\Util;
-use Astound\Affirm\Helper\FinancingProgram;
+use Affirm\Api\AffirmCheckoutManagerInterface;
+use Affirm\Gateway\Helper\Util;
+use Affirm\Helper\FinancingProgram;
 use Magento\Checkout\Model\Session;
 use Magento\Framework\App\ProductMetadataInterface;
 use Magento\Framework\ObjectManagerInterface;
 use Symfony\Component\Config\Definition\Exception\Exception;
-use Astound\Affirm\Model\Config as Config;
-use Astound\Affirm\Logger\Logger;
+use Affirm\Model\Config as Config;
+use Affirm\Logger\Logger;
 
 /**
  * Class AffirmCheckoutManager
  *
- * @package Astound\Affirm\Model
+ * @package Affirm\Model
  */
 class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
 {
@@ -95,21 +92,21 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
     /**
      * Affirm financing program helper
      *
-     * @var \Astound\Affirm\Helper\FinancingProgram
+     * @var \Affirm\Helper\FinancingProgram
      */
     protected $helper;
 
     /**
      * Affirm config model
      *
-     * @var \Astound\Affirm\Model\Config
+     * @var \Affirm\Model\Config
      */
     protected $affirmConfig;
 
     /**
      * Affirm logging instance
      *
-     * @var \Astound\Affirm\Logger\Logger
+     * @var \Affirm\Logger\Logger
      */
     protected $logger;
 
@@ -194,7 +191,7 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
             $response['order_increment_id'] = $orderIncrementId;
         }
         if ($this->productMetadata->getEdition() == 'Enterprise') {
-            $giftWrapperItemsManager = $this->objectManager->create('Astound\Affirm\Api\GiftWrapManagerInterface');
+            $giftWrapperItemsManager = $this->objectManager->create('Affirm\Api\GiftWrapManagerInterface');
             $wrapped = $giftWrapperItemsManager->getWrapItems();
             if ($wrapped) {
                 $response['wrapped_items'] = $wrapped;
@@ -234,7 +231,7 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
         $response['metadata'] = [
             'platform_type' => $this->productMetadata->getName() . ' 2',
             'platform_version' => $this->productMetadata->getVersion() . ' ' . $this->productMetadata->getEdition(),
-            'platform_affirm' => $this->moduleResource->getDbVersion('Astound_Affirm'),
+            'platform_affirm' => $this->moduleResource->getDbVersion('Affirm'),
             'mode' => $this->affirmConfig->getCheckoutFlowType()
         ];
         $financingProgramValue = $this->helper->getFinancingProgramValue();
@@ -243,7 +240,7 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
         }
         $log = [];
         $log['response'] = $response;
-        $this->logger->debug('Astound\Affirm\Model\AffirmCheckoutManager::initCheckout', $log);
+        $this->logger->debug('Affirm\Model\AffirmCheckoutManager::initCheckout', $log);
         return json_encode($response);
     }
 

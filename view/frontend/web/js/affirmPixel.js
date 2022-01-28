@@ -35,7 +35,7 @@
 /*jshint jquery:true*/
 define([
     "jquery",
-    "Astound_Affirm/js/model/aslowas"
+    "Affirm/js/model/aslowas"
 ], function ($, aslowas) {
     "use strict"
 

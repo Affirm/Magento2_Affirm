@@ -1,5 +1,5 @@
 <?php
-namespace Astound\Affirm\Logger;
+namespace Affirm\Logger;
 
 class Logger extends \Monolog\Logger
 {

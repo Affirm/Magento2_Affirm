@@ -1,11 +1,11 @@
 <?php
 
-namespace Astound\Affirm\Model;
+namespace Affirm\Model;
 
 /**
  * Class CheckoutFlowType
  *
- * @package Astound\Affirm\Model
+ * @package Affirm\Model
  */
 class CheckoutFlowType
 {

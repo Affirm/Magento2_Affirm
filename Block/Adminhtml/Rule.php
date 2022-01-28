@@ -1,5 +1,5 @@
 <?php
-namespace Astound\Affirm\Block\Adminhtml;
+namespace Affirm\Block\Adminhtml;
 
 class Rule extends \Magento\Backend\Block\Widget\Grid\Container
 {

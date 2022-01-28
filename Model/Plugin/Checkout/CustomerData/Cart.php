@@ -33,11 +33,11 @@
  *
  */
 
-namespace Astound\Affirm\Model\Plugin\Checkout\CustomerData;
+namespace Affirm\Model\Plugin\Checkout\CustomerData;
 
-use Astound\Affirm\Model\Config as Config;
-use Astound\Affirm\Helper\AsLowAs;
-use Astound\Affirm\Helper\Payment;
+use Affirm\Model\Config as Config;
+use Affirm\Helper\AsLowAs;
+use Affirm\Helper\Payment;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory as ProductCollectionFactory;
 use Magento\Checkout\Model\Session;
@@ -61,7 +61,7 @@ class Cart
     /**
      * Affirm config model payment
      *
-     * @var \Astound\Affirm\Model\Config
+     * @var \Affirm\Model\Config
      */
     protected $affirmPaymentConfig;
 
@@ -79,7 +79,7 @@ class Cart
 
 
     /**
-     * @param \Astound\Affirm\Helper\Payment    $helperAffirm
+     * @param \Affirm\Helper\Payment    $helperAffirm
      * @param StoreManagerInterface             $storeManagerInterface
      * @param Config                            $configAffirm
      * @param AsLowAs                           $asLowAs

@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/layout_generic.xsd">
     <referenceContainer name="content" label="Root">
-        <block class="Astound\Affirm\Block\Adminhtml\Rule" name="affirm.rule.grid.container">
+        <block class="Affirm\Block\Adminhtml\Rule" name="affirm.rule.grid.container">
             <block class="Magento\Backend\Block\Widget\Grid" name="affirm.rule.grid" as="grid">
                 <arguments>
-                    <argument name="id" xsi:type="string">astound_affirm_rule_grid</argument>
-                    <argument name="dataSource" xsi:type="object">Astound\Affirm\Model\ResourceModel\Rule\Collection</argument>
+                    <argument name="id" xsi:type="string">Affirm_rule_grid</argument>
+                    <argument name="dataSource" xsi:type="object">Affirm\Model\ResourceModel\Rule\Collection</argument>
                     <argument name="default_sort" xsi:type="string">pos</argument>
                     <argument name="default_dir" xsi:type="string">ASC</argument>
                     <argument name="save_parameters_in_session" xsi:type="string">1</argument>
@@ -68,7 +68,7 @@
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Methods</argument>
                             <argument name="index" xsi:type="string">methods</argument>
-                            <argument name="renderer" xsi:type="string">Astound\Affirm\Block\Adminhtml\Rule\Grid\Renderer\Methods</argument>
+                            <argument name="renderer" xsi:type="string">Affirm\Block\Adminhtml\Rule\Grid\Renderer\Methods</argument>
                         </arguments>
                     </block>
 					
@@ -76,7 +76,7 @@
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Customer Groups</argument>
                             <argument name="index" xsi:type="string">cust_groups</argument>
-                            <argument name="renderer" xsi:type="string">Astound\Affirm\Block\Adminhtml\Rule\Grid\Renderer\Groups</argument>
+                            <argument name="renderer" xsi:type="string">Affirm\Block\Adminhtml\Rule\Grid\Renderer\Groups</argument>
                         </arguments>
                     </block>
 					
@@ -84,7 +84,7 @@
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Store Views</argument>
                             <argument name="index" xsi:type="string">stores</argument>
-                            <argument name="renderer" xsi:type="string">Astound\Affirm\Block\Adminhtml\Rule\Grid\Renderer\Stores</argument>
+                            <argument name="renderer" xsi:type="string">Affirm\Block\Adminhtml\Rule\Grid\Renderer\Stores</argument>
                         </arguments>
                     </block>
 					
@@ -93,7 +93,7 @@
                             <argument name="header" xsi:type="string" translate="true">Status</argument>
                             <argument name="index" xsi:type="string">is_active</argument>
                             <argument name="type" xsi:type="string">options</argument>
-							<argument name="renderer" xsi:type="string">Astound\Affirm\Block\Adminhtml\Rule\Grid\Renderer\Color</argument>
+							<argument name="renderer" xsi:type="string">Affirm\Block\Adminhtml\Rule\Grid\Renderer\Color</argument>
                             <argument name="options" xsi:type="array">
                                 <item name="disabled" xsi:type="array">
                                     <item name="value" xsi:type="string">0</item>

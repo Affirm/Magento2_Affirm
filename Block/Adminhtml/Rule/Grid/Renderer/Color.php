@@ -1,6 +1,6 @@
 <?php
 
-namespace Astound\Affirm\Block\Adminhtml\Rule\Grid\Renderer;
+namespace Affirm\Block\Adminhtml\Rule\Grid\Renderer;
 
 class Color extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Input
 {

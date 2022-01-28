@@ -1,19 +1,19 @@
 <?xml version="1.0"?>
 <!--
 /**
- * Astound
+ * Affirm
  * Affirm system configuration.
  *
  * @category  Affirm
- * @package   Astound_Affirm
- * @copyright Copyright (c) 2016 Astound, Inc. (http://www.astoundcommerce.com)
+ * @package   Affirm
+ * @copyright Copyright (c) 2021 Affirm. All rights reserved.
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
     <event name="payment_method_is_active">
-        <observer name="check_affirm_payment_method_is_active" instance="Astound\Affirm\Model\Observer\PaymentMethodIsActive" />
+        <observer name="check_affirm_payment_method_is_active" instance="Affirm\Model\Observer\PaymentMethodIsActive" />
     </event>
     <event name="customer_address_format">
-        <observer name="affirm_missing_region" instance="Astound\Affirm\Model\Observer\AddressFormat" />
+        <observer name="affirm_missing_region" instance="Affirm\Model\Observer\AddressFormat" />
     </event>
 </config>

@@ -1,9 +1,9 @@
 <?php
-namespace Astound\Affirm\Model;
+namespace Affirm\Model;
 
-use Astound\Affirm\Gateway\Helper\Util;
+use Affirm\Gateway\Helper\Util;
 use Magento\Checkout\Model\Session;
-use Astound\Affirm\Api\InlineCheckoutInterface;
+use Affirm\Api\InlineCheckoutInterface;
 use Magento\Framework\App\ProductMetadataInterface;
 use Magento\Framework\Module\ResourceInterface;
 use Magento\Framework\UrlInterface;
@@ -13,7 +13,7 @@ use Magento\Framework\Exception\LocalizedException;
 /**
  * Class InlineCheckout
  *
- * @package Astound\Affirm\Model
+ * @package Affirm\Model
  */
 class InlineCheckout implements InlineCheckoutInterface
 {
@@ -39,7 +39,7 @@ class InlineCheckout implements InlineCheckoutInterface
     private $productMetadata;
 
     /**
-     * @var Astound\Affirm\Gateway\Helper\Util
+     * @var Affirm\Gateway\Helper\Util
      */
     private $util;
     /**
@@ -106,7 +106,7 @@ class InlineCheckout implements InlineCheckoutInterface
             'metadata' => array(
                 'platform_type'    => $this->productMetadata->getName() . ' 2',
                 'platform_version' => $this->productMetadata->getVersion() . ' ' . $this->productMetadata->getEdition(),
-                'platform_affirm'  => $this->moduleResource->getDbVersion('Astound_Affirm'),
+                'platform_affirm'  => $this->moduleResource->getDbVersion('Affirm'),
                 'mode'             => 'inline'
             )
         );
@@ -131,7 +131,7 @@ class InlineCheckout implements InlineCheckoutInterface
         }
 
         if ($this->productMetadata->getEdition() == 'Enterprise') {
-            $giftWrapperItemsManager = $this->objectManager->create('Astound\Affirm\Api\GiftWrapManagerInterface');
+            $giftWrapperItemsManager = $this->objectManager->create('Affirm\Api\GiftWrapManagerInterface');
             $wrapped = $giftWrapperItemsManager->getWrapItems();
             if ($wrapped) {
                 $checkoutObject['wrapped_items'] = $wrapped;

@@ -1,15 +1,15 @@
 <?php
-namespace Astound\Affirm\Controller\Adminhtml\Rule;
+namespace Affirm\Controller\Adminhtml\Rule;
 use Magento\Framework\App\ResponseInterface;
 
-class Delete extends \Astound\Affirm\Controller\Adminhtml\Rule
+class Delete extends \Affirm\Controller\Adminhtml\Rule
 {
     public function execute()
     {
         $id = $this->getRequest()->getParam('id');
         if ($id) {
             try {
-                $model = $this->_objectManager->create('Astound\Affirm\Model\Rule');
+                $model = $this->_objectManager->create('Affirm\Model\Rule');
                 $model->load($id);
                 $model->delete();
                 $this->messageManager->addSuccess(__('You deleted the item.'));

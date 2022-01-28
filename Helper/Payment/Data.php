@@ -33,7 +33,7 @@
  *
  */
 
-namespace Astound\Affirm\Helper\Payment;
+namespace Affirm\Helper\Payment;
 class Data extends \Magento\Payment\Helper\Data
 {
     protected $_allRules = null;
@@ -63,7 +63,7 @@ class Data extends \Magento\Payment\Helper\Data
     {
         if (is_null($this->_allRules)) {
             $om = \Magento\Framework\App\ObjectManager::getInstance();
-            $hlp = $om->create('Astound\Affirm\Model\Rule');
+            $hlp = $om->create('Affirm\Model\Rule');
             $this->_allRules = $hlp->getCollection()->addAddressFilter($address)->load();
             foreach ($this->_allRules as $rule) {
                 $rule->afterLoad();

@@ -38,7 +38,7 @@
                 <label>Affirm</label>
                 <field id="version" translate="label" type="label" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Extension Version</label>
-                    <frontend_model>Astound\Affirm\Block\System\Config\Form\Field\Version</frontend_model>
+                    <frontend_model>Affirm\Block\System\Config\Form\Field\Version</frontend_model>
                 </field>
                 <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enabled</label>
@@ -46,7 +46,7 @@
                 </field>
                 <field id="mode" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Mode</label>
-                    <source_model>Astound\Affirm\Model\Adminhtml\Source\ModeAction</source_model>
+                    <source_model>Affirm\Model\Adminhtml\Source\ModeAction</source_model>
                 </field>
                 <field id="public_api_key_sandbox" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Public API Key</label>
@@ -72,7 +72,7 @@
                 </field>
                 <field id="payment_action" translate="label" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment Action</label>
-                    <source_model>Astound\Affirm\Model\Adminhtml\Source\PaymentAction</source_model>
+                    <source_model>Affirm\Model\Adminhtml\Source\PaymentAction</source_model>
                 </field>
                 <field id="partial_capture" translate="label" type="select" sortOrder="71" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enable Partial Capture</label>
@@ -127,7 +127,7 @@
                 </field>
                 <field id="checkout_flow_type" translate="label" type="select" sortOrder="170" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Checkout Flow Type</label>
-                    <source_model>Astound\Affirm\Model\Adminhtml\Source\PaymentCheckoutFlow</source_model>
+                    <source_model>Affirm\Model\Adminhtml\Source\PaymentCheckoutFlow</source_model>
                 </field>
                 <field id="edu" translate="label" type="select" sortOrder="180" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Inline Checkout Messaging</label>
@@ -146,7 +146,7 @@
         <section id="affirm" translate="label" type="text" sortOrder="1200" showInDefault="1" showInWebsite="1" showInStore="0">
             <label>Affirm Promos</label>
             <tab>general</tab>
-            <resource>Astound_Affirm::configuration</resource>
+            <resource>Affirm::configuration</resource>
             <group id="affirm_promo" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                 <label>Banner Settings</label>
                 <field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
@@ -162,11 +162,11 @@
                 </field>
                 <field id="size" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Promo Size</label>
-                    <source_model>Astound\Affirm\Model\Config\System\Source\Size</source_model>
+                    <source_model>Affirm\Model\Config\System\Source\Size</source_model>
                 </field>
                 <field id="position" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Promo Position</label>
-                    <source_model>Astound\Affirm\Model\Config\System\Source\Position</source_model>
+                    <source_model>Affirm\Model\Config\System\Source\Position</source_model>
                 </field>
             </group>
             <group id="affirm_promo_category" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
@@ -177,11 +177,11 @@
                 </field>
                 <field id="size" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Promo Size</label>
-                    <source_model>Astound\Affirm\Model\Config\System\Source\Size</source_model>
+                    <source_model>Affirm\Model\Config\System\Source\Size</source_model>
                 </field>
                 <field id="position" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Promo Position</label>
-                    <source_model>Astound\Affirm\Model\Config\System\Source\Position</source_model>
+                    <source_model>Affirm\Model\Config\System\Source\Position</source_model>
                 </field>
             </group>
             <group id="affirm_promo_product" translate="label" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
@@ -192,11 +192,11 @@
                 </field>
                 <field id="size" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Promo Size</label>
-                    <source_model>Astound\Affirm\Model\Config\System\Source\Size</source_model>
+                    <source_model>Affirm\Model\Config\System\Source\Size</source_model>
                 </field>
                 <field id="position" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Promo Position</label>
-                    <source_model>Astound\Affirm\Model\Config\System\Source\Position::getBmlPositionsCPP</source_model>
+                    <source_model>Affirm\Model\Config\System\Source\Position::getBmlPositionsCPP</source_model>
                 </field>
             </group>
             <group id="affirm_promo_checkout_cart" translate="label" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
@@ -207,11 +207,11 @@
                 </field>
                 <field id="size" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Promo Size</label>
-                    <source_model>Astound\Affirm\Model\Config\System\Source\Size</source_model>
+                    <source_model>Affirm\Model\Config\System\Source\Size</source_model>
                 </field>
                 <field id="position" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Promo Position</label>
-                    <source_model>Astound\Affirm\Model\Config\System\Source\Position::getCCPosition</source_model>
+                    <source_model>Affirm\Model\Config\System\Source\Position::getCCPosition</source_model>
                 </field>
             </group>
             <group id="affirm_developer" translate="label" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
@@ -267,7 +267,7 @@
                 </field>
                 <field id="logo" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Affirm logo</label>
-                    <source_model>Astound\Affirm\Model\Config\System\Source\Logo</source_model>
+                    <source_model>Affirm\Model\Config\System\Source\Logo</source_model>
                 </field>
                 <field id="min_mpp" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Minimum amount for displaying the promotional payment pricing</label>
@@ -285,7 +285,7 @@
                 <label>As Low As Additional Developer Settings</label>
                 <field id="placement" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>PDP Placement options for As low as</label>
-                    <source_model>Astound\Affirm\Model\Config\System\Source\Position::getBlockPlacementPDP</source_model>
+                    <source_model>Affirm\Model\Config\System\Source\Position::getBlockPlacementPDP</source_model>
                 </field>
             </group>
             <group id="affirm_mfp" translate="label" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="0">
@@ -299,11 +299,11 @@
                 </field>
                 <field id="start_date_mfp" translate="label" type="text" sortOrder="76" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Start date for Financing Program value</label>
-                    <frontend_model>Astound\Affirm\Block\System\Config\Form\Field\Date</frontend_model>
+                    <frontend_model>Affirm\Block\System\Config\Form\Field\Date</frontend_model>
                 </field>
                 <field id="end_date_mfp" translate="label" type="text" sortOrder="78" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>End date for Financing Program value</label>
-                    <frontend_model>Astound\Affirm\Block\System\Config\Form\Field\Date</frontend_model>
+                    <frontend_model>Affirm\Block\System\Config\Form\Field\Date</frontend_model>
                 </field>
                 <field id="promo_id_value" translate="label" type="text" sortOrder="79" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Affirm Promo ID</label>

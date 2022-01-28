@@ -1,9 +1,9 @@
 <?php
-namespace Astound\Affirm\Model\Adminhtml\Observer;
+namespace Affirm\Model\Adminhtml\Observer;
 
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Backend\Model\Auth\Session;
-use Astound\Affirm\Model\Adminhtml\FeedFactory;
+use Affirm\Model\Adminhtml\FeedFactory;
 
 
 /**
@@ -12,7 +12,7 @@ use Astound\Affirm\Model\Adminhtml\FeedFactory;
 class PredispatchObserver implements ObserverInterface
 {
     /**
-     * @var \Astound|Affirm\Model\Adminhtml|FeedFactory
+     * @var \AffirmAffirm\Model\Adminhtml|FeedFactory
      */
     protected $_feedFactory;
     /**
@@ -20,7 +20,7 @@ class PredispatchObserver implements ObserverInterface
      */
     protected $_backendAuthSession;
     /**
-     * @param \Astound|Affirm\Model\Adminhtml|FeedFactory $feedFactory
+     * @param \AffirmAffirm\Model\Adminhtml|FeedFactory $feedFactory
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      */
     public function __construct(
@@ -41,7 +41,7 @@ class PredispatchObserver implements ObserverInterface
     {
         if ($this->_backendAuthSession->isLoggedIn()) {
             $feedModel = $this->_feedFactory->create();
-            /* @var $feedModel \Astound|Affirm\Model\Adminhtml|Feed */
+            /* @var $feedModel \AffirmAffirm\Model\Adminhtml|Feed */
             $feedModel->checkUpdate();
         }
     }

@@ -1,5 +1,5 @@
 <?php
-namespace Astound\Affirm\Plugin;
+namespace Affirm\Plugin;
 
 class ProductAttributes
 {
@@ -16,7 +16,7 @@ class ProductAttributes
     {
         $attributesTransfer = $closure();
 
-        $attributes = $this->objectManager->create('Astound\Affirm\Model\ResourceModel\Rule')->getAttributes();
+        $attributes = $this->objectManager->create('Affirm\Model\ResourceModel\Rule')->getAttributes();
 
          foreach ($attributes as $code) {
             $attributesTransfer[] = $code;

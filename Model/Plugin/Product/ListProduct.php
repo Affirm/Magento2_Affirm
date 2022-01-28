@@ -33,14 +33,14 @@
  *
  */
 
-namespace Astound\Affirm\Model\Plugin\Product;
+namespace Affirm\Model\Plugin\Product;
 
-use Astound\Affirm\Model\Plugin\Category\ViewAbstract;
+use Affirm\Model\Plugin\Category\ViewAbstract;
 
 /**
  * Class ListProduct
  *
- * @package Astound\Affirm\Model\Plugin\Product
+ * @package Affirm\Model\Plugin\Product
  */
 class ListProduct extends ViewAbstract
 {

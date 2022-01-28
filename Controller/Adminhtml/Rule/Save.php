@@ -1,13 +1,13 @@
 <?php
-namespace Astound\Affirm\Controller\Adminhtml\Rule;
+namespace Affirm\Controller\Adminhtml\Rule;
 
-class Save extends \Astound\Affirm\Controller\Adminhtml\Rule
+class Save extends \Affirm\Controller\Adminhtml\Rule
 {
     public function execute()
     {
         if ($this->getRequest()->getPostValue()) {
             try {
-                $model = $this->_objectManager->create('Astound\Affirm\Model\Rule');
+                $model = $this->_objectManager->create('Affirm\Model\Rule');
                 $data = $this->getRequest()->getPostValue();
                 $inputFilter = new \Zend_Filter_Input(
                     [],

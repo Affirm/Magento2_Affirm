@@ -1,6 +1,6 @@
 <?php
 
-namespace Astound\Affirm\Model\Rule\Condition;
+namespace Affirm\Model\Rule\Condition;
 class Address extends \Magento\Rule\Model\Condition\AbstractCondition
 {
     protected $_directoryCountry;

@@ -1,12 +1,12 @@
 <?php
-namespace Astound\Affirm\Block\Adminhtml\Rule\Grid\Renderer;
+namespace Affirm\Block\Adminhtml\Rule\Grid\Renderer;
 
 class Methods extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Input
 {
     public function render(\Magento\Framework\DataObject $row)
     {
         $om = \Magento\Framework\App\ObjectManager::getInstance();
-        $hlp = $om->get('Astound\Affirm\Helper\Data');
+        $hlp = $om->get('Affirm\Helper\Data');
         
         $v = $row->getData('methods');
         if (!$v) {

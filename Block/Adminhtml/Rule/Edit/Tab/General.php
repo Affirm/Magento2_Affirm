@@ -1,6 +1,6 @@
 <?php
 
-namespace Astound\Affirm\Block\Adminhtml\Rule\Edit\Tab;
+namespace Affirm\Block\Adminhtml\Rule\Edit\Tab;
 
 use Magento\Backend\Block\Widget\Form\Generic;
 use Magento\Backend\Block\Widget\Tab\TabInterface;
@@ -45,7 +45,7 @@ class General extends Generic implements TabInterface
     {
         $model = $this->_coreRegistry->registry('affirm_payment_restriction_rule');
         $om = \Magento\Framework\App\ObjectManager::getInstance();
-        $hlp = $om->get('Astound\Affirm\Helper\Data');
+        $hlp = $om->get('Affirm\Helper\Data');
 
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('rule_');

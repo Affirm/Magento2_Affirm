@@ -1,12 +1,12 @@
 <?php
-namespace Astound\Affirm\Controller\Adminhtml\Rule;
+namespace Affirm\Controller\Adminhtml\Rule;
 
-class Edit extends \Astound\Affirm\Controller\Adminhtml\Rule
+class Edit extends \Affirm\Controller\Adminhtml\Rule
 {
    public function execute()
     {
         $id = $this->getRequest()->getParam('id');
-        $model = $this->_objectManager->create('Astound\Affirm\Model\Rule');
+        $model = $this->_objectManager->create('Affirm\Model\Rule');
 
         if ($id) {
             $model->load($id);
@@ -34,7 +34,7 @@ class Edit extends \Astound\Affirm\Controller\Adminhtml\Rule
         $this->_view->renderLayout();
     }
 
-    public function _prepareForEdit(\Astound\Affirm\Model\Rule $model)
+    public function _prepareForEdit(\Affirm\Model\Rule $model)
     {
         $fields = array('stores', 'cust_groups', 'methods');
         foreach ($fields as $f){

@@ -1,12 +1,12 @@
 <?php
-namespace Astound\Affirm\Block\Promotion;
+namespace Affirm\Block\Promotion;
 
 use Magento\Framework\View\Element\Template;
-use Astound\Affirm\Model\Ui\ConfigProvider;
-use Astound\Affirm\Model\Config;
-use Astound\Affirm\Helper\Payment;
-use Astound\Affirm\Helper\AsLowAs;
-use Astound\Affirm\Helper\Rule;
+use Affirm\Model\Ui\ConfigProvider;
+use Affirm\Model\Config;
+use Affirm\Helper\Payment;
+use Affirm\Helper\AsLowAs;
+use Affirm\Helper\Rule;
 use Magento\Catalog\Model\ResourceModel\Category;
 use Magento\Catalog\Model\ResourceModel\Product;
 use Magento\Catalog\Model\ResourceModel\Category\CollectionFactory as CategoryCollectionFactory;
@@ -14,7 +14,7 @@ use Magento\Catalog\Model\ResourceModel\Category\CollectionFactory as CategoryCo
 /**
  * Class Aslowas
  *
- * @package Astound\Affirm\Block\Promotion
+ * @package Affirm\Block\Promotion
  */
 abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
 {
@@ -35,14 +35,14 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
     /**
      * Affirm config model payment
      *
-     * @var \Astound\Affirm\Model\Config
+     * @var \Affirm\Model\Config
      */
     protected $affirmPaymentConfig;
 
     /**
      * Affirm config provider
      *
-     * @var \Astound\Affirm\Model\Ui\ConfigProvider
+     * @var \Affirm\Model\Ui\ConfigProvider
      */
     protected $configProvider;
 

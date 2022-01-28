@@ -34,19 +34,19 @@
  */
 
 
-namespace Astound\Affirm\Block\Promotion;
+namespace Affirm\Block\Promotion;
 
 use Magento\Store\Model\ScopeInterface;
 use Magento\Framework\View\Element\Template;
-use Astound\Affirm\Model\Ui\ConfigProvider;
-use Astound\Affirm\Model\Config;
-use Astound\Affirm\Helper\Payment;
-use Astound\Affirm\Helper;
+use Affirm\Model\Ui\ConfigProvider;
+use Affirm\Model\Config;
+use Affirm\Helper\Payment;
+use Affirm\Helper;
 
 /**
  * Class Banner
  *
- * @package Astound\Affirm\Block\Promotion
+ * @package Affirm\Block\Promotion
  */
 class Banners extends \Magento\Framework\View\Element\Template
 {

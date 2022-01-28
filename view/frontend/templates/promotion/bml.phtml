@@ -44,7 +44,7 @@
 <?php echo $this->getStartContainerTag(); ?>
 <?php
     echo '<div class="affirm-banner-container">
-            <a class="affirm-site-modal" data-mage-init=\'{"Astound_Affirm/js/affirmWidget": '.$options.'}\'' . (!empty($mfpValue) ? 'data-promo-id="' . $mfpValue . '"' : '') . '' .(!empty($pageType) ? 'data-page-type="' . $pageType . '"' : '').'>
+            <a class="affirm-site-modal" data-mage-init=\'{"Affirm/js/affirmWidget": '.$options.'}\'' . (!empty($mfpValue) ? 'data-promo-id="' . $mfpValue . '"' : '') . '' .(!empty($pageType) ? 'data-page-type="' . $pageType . '"' : '').'>
                 <img style="max-width:'. $width .'px; max-height:'. $height .'px; " src="' . $affirmAssetsUrl . '/' . $size .'.png">
             </a>
         </div>';

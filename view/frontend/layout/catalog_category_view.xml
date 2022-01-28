@@ -1,26 +1,23 @@
 <?xml version="1.0"?>
 <!--
 /**
- * Astound
+ * Affirm
  * NOTICE OF LICENSE
  * This source file is subject to the Open Software License (OSL 3.0)
  * that is bundled with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
  * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to codemaster@astoundcommerce.com so we can send you a copy immediately.
  *
  * @category  Affirm
- * @package   Astound_Affirm
- * @copyright Copyright (c) 2016 Astound, Inc. (http://www.astoundcommerce.com)
+ * @package   Affirm
+ * @copyright Copyright (c) 2021 Affirm. All rights reserved.
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceContainer name="top.container">
-            <block class="Astound\Affirm\Block\Promotion\Banners" name="affirm_banner_center_top" as="bml.main.top" template="Astound_Affirm::promotion/bml.phtml" before="-">
+            <block class="Affirm\Block\Promotion\Banners" name="affirm_banner_center_top" as="bml.main.top" template="Affirm::promotion/bml.phtml" before="-">
                 <arguments>
                     <argument name="section" xsi:type="string">category</argument>
                     <argument name="position" xsi:type="number">0</argument>
@@ -28,7 +25,7 @@
             </block>
         </referenceContainer>
         <referenceContainer name="content">
-            <block class="Astound\Affirm\Block\Promotion\Banners" name="affirm_banner_center_bottom" as="bml.main.bottom" template="Astound_Affirm::promotion/bml.phtml" after="-">
+            <block class="Affirm\Block\Promotion\Banners" name="affirm_banner_center_bottom" as="bml.main.bottom" template="Affirm::promotion/bml.phtml" after="-">
                 <arguments>
                     <argument name="section" xsi:type="string">category</argument>
                     <argument name="position" xsi:type="number">1</argument>
@@ -36,7 +33,7 @@
             </block>
         </referenceContainer>
         <referenceContainer name="sidebar.additional">
-            <block class="Astound\Affirm\Block\Promotion\Banners" name="bml.right.banner.bottom" template="Astound_Affirm::promotion/bml.phtml" after="-">
+            <block class="Affirm\Block\Promotion\Banners" name="bml.right.banner.bottom" template="Affirm::promotion/bml.phtml" after="-">
                 <arguments>
                     <argument name="section" xsi:type="string">category</argument>
                     <argument name="position" xsi:type="number">3</argument>
@@ -44,7 +41,7 @@
             </block>
         </referenceContainer>
         <referenceContainer name="sidebar.main">
-            <block class="Astound\Affirm\Block\Promotion\Banners" name="bml.right.banner.top" template="Astound_Affirm::promotion/bml.phtml" before="-">
+            <block class="Affirm\Block\Promotion\Banners" name="bml.right.banner.top" template="Affirm::promotion/bml.phtml" before="-">
                 <arguments>
                     <argument name="section" xsi:type="string">category</argument>
                     <argument name="position" xsi:type="number">2</argument>
