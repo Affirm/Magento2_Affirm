@@ -1,8 +1,8 @@
 <?php
-namespace Astound\Affirm\Controller\Adminhtml\Rule;
+namespace Affirm\Controller\Adminhtml\Rule;
 
 
-class MassAction extends \Astound\Affirm\Controller\Adminhtml\Rule
+class MassAction extends \Affirm\Controller\Adminhtml\Rule
 {
     public function execute()
     {
@@ -14,7 +14,7 @@ class MassAction extends \Astound\Affirm\Controller\Adminhtml\Rule
                 $status = -1;
                 switch($action) {
                     case 'delete':
-                        $collection = $this->_objectManager->create('Astound\Affirm\Model\ResourceModel\Rule\Collection');
+                        $collection = $this->_objectManager->create('Affirm\Model\ResourceModel\Rule\Collection');
 
                         $collection->addFieldToFilter('rule_id', array('in'=>$ids));
                         $collection->walk($action);
@@ -32,7 +32,7 @@ class MassAction extends \Astound\Affirm\Controller\Adminhtml\Rule
                 }
 
                 if($status > -1) {
-                    $this->_objectManager->create('Astound\Affirm\Model\Rule')->massChangeStatus($ids, $status);
+                    $this->_objectManager->create('Affirm\Model\Rule')->massChangeStatus($ids, $status);
                 }
 
                 $this->messageManager->addSuccess($message);

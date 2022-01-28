@@ -12,14 +12,14 @@
                 <resource id="Magento_Backend::stores">
                     <resource id="Magento_Backend::stores_settings">
                         <resource id="Magento_Config::config" title="Configuration" sortOrder="20">
-                            <resource id="Astound_Affirm::configuration" title="Affirm promo configuration" sortOrder="160" />
+                            <resource id="Affirm::configuration" title="Affirm promo configuration" sortOrder="160" />
                         </resource>
                     </resource>
 
                 </resource>
                 <resource id="Magento_Backend::marketing">
                     <resource id="Magento_CatalogRule::promo">
-                        <resource id="Astound_Affirm::rule" title="Payment Restriction Rules" sortOrder="90"/>
+                        <resource id="Affirm::rule" title="Payment Restriction Rules" sortOrder="90"/>
                     </resource>
                 </resource>
             </resource>

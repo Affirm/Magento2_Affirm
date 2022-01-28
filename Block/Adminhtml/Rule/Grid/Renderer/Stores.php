@@ -1,11 +1,11 @@
 <?php
-namespace Astound\Affirm\Block\Adminhtml\Rule\Grid\Renderer;
+namespace Affirm\Block\Adminhtml\Rule\Grid\Renderer;
 class Stores extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Text
 {
     public function render(\Magento\Framework\DataObject $row)
     {
         $om = \Magento\Framework\App\ObjectManager::getInstance();
-        $hlp = $om->get('Astound\Affirm\Helper\Data');
+        $hlp = $om->get('Affirm\Helper\Data');
         $sys = $om->get('Magento\Store\Model\System\Store');
         $stores = $row->getData('stores');
         if (!$stores) {

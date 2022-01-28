@@ -6,12 +6,12 @@
 define([
     "jquery",
     "mage/translate",
-    "Astound_Affirm/js/model/aslowas",
+    "Affirm/js/model/aslowas",
     "Magento_Checkout/js/model/full-screen-loader",
     "Magento_Checkout/js/model/quote",
     "mage/url",
     'Magento_Customer/js/model/customer',
-    "Astound_Affirm/js/model/affirm",
+    "Affirm/js/model/affirm",
     'Magento_Ui/js/model/messageList'
 ], function ($, $t, loadScript, fullScreenLoader, quote, url, customer, affirmCheckout, Messages) {
 

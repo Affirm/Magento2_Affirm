@@ -33,7 +33,7 @@
  *
  */
 
-namespace Astound\Affirm\Model;
+namespace Affirm\Model;
 
 use Magento\Payment\Model\Method\ConfigInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
@@ -45,7 +45,7 @@ use Magento\Tax\Model\Config as TaxConfig;
 /**
  * Config class
  *
- * @package Astound\Affirm\Model
+ * @package Affirm\Model
  */
 class Config implements ConfigInterface
 {
@@ -431,7 +431,7 @@ class Config implements ConfigInterface
     /**
      * Aslow as activation flag
      *
-     * @param Astound\Affirm\Model\Entity\Attribute\Source\FinancingProgramType$position
+     * @param Affirm\Model\Entity\Attribute\Source\FinancingProgramType$position
      * @return int|mixed
      */
     public function isAsLowAsEnabled($position)

@@ -1,25 +1,22 @@
 <?xml version="1.0" ?>
 <!--
 /**
- * Astound
+ * Affirm
  * NOTICE OF LICENSE
  * This source file is subject to the Open Software License (OSL 3.0)
  * that is bundled with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
  * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to codemaster@astoundcommerce.com so we can send you a copy immediately.
  *
  * @category  Affirm
- * @package   Astound_Affirm
- * @copyright Copyright (c) 2016 Astound, Inc. (http://www.astoundcommerce.com)
+ * @package   Affirm
+ * @copyright Copyright (c) 2021 Affirm. All rights reserved.
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <head>
-        <css src="Astound_Affirm::affirm.css"/>
+        <css src="Affirm::affirm.css"/>
     </head>
     <body>
         <referenceBlock name="checkout.root">
@@ -39,7 +36,7 @@
                                                             <!-- merge payment method renders here -->
                                                             <item name="children" xsi:type="array">
                                                                 <item name="affirm_gateway" xsi:type="array">
-                                                                    <item name="component" xsi:type="string">Astound_Affirm/js/view/payment/affirm_gateway</item>
+                                                                    <item name="component" xsi:type="string">Affirm/js/view/payment/affirm_gateway</item>
                                                                     <item name="methods" xsi:type="array">
                                                                         <item name="affirm_gateway" xsi:type="array">
                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>

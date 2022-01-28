@@ -4,7 +4,7 @@
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-namespace Astound\Affirm\Setup;
+namespace Affirm\Setup;
 
 use Magento\Customer\Setup\CustomerSetupFactory;
 use Magento\Customer\Model\Customer;
@@ -81,8 +81,8 @@ class Uninstall implements UninstallInterface
 
 		// Drop tables
 		$schemaSetup->startSetup();
-		$this->dropTable($schemaSetup, 'astound_affirm_rule');
-		$this->dropTable($schemaSetup, 'astound_affirm_attribute');
+		$this->dropTable($schemaSetup, 'Affirm_rule');
+		$this->dropTable($schemaSetup, 'Affirm_attribute');
 		$schemaSetup->endSetup();
 
     }

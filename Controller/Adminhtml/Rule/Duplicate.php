@@ -1,6 +1,6 @@
 <?php
-namespace Astound\Affirm\Controller\Adminhtml\Rule;
-class Duplicate extends \Astound\Affirm\Controller\Adminhtml\Rule
+namespace Affirm\Controller\Adminhtml\Rule;
+class Duplicate extends \Affirm\Controller\Adminhtml\Rule
 {
     public function execute()
     {
@@ -10,7 +10,7 @@ class Duplicate extends \Astound\Affirm\Controller\Adminhtml\Rule
             return $this->_redirect('*/*');
         }
         try {
-            $model = $this->_objectManager->create('Astound\Affirm\Model\Rule')->load($id);
+            $model = $this->_objectManager->create('Affirm\Model\Rule')->load($id);
             if (!$model->getId()) {
                 $this->messageManager->addError(__('This item no longer exists.'));
                 $this->_redirect('*/*');

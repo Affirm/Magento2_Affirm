@@ -1,38 +1,35 @@
 <?php
 /**
- * Astound
+ * Affirm
  * NOTICE OF LICENSE
  * This source file is subject to the Open Software License (OSL 3.0)
  * that is bundled with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
  * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to codemaster@astoundcommerce.com so we can send you a copy immediately.
  *
  * @category  Affirm
- * @package   Astound_Affirm
- * @copyright Copyright (c) 2016 Astound, Inc. (http://www.astoundcommerce.com)
+ * @package   Affirm
+ * @copyright Copyright (c) 2021 Affirm. All rights reserved.
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-namespace Astound\Affirm\Block\Onepage;
+namespace Affirm\Block\Onepage;
 
 use Magento\Framework\View\Element\Template;
-use Astound\Affirm\Helper\Payment;
+use Affirm\Helper\Payment;
 use Magento\Store\Model\ScopeInterface;
 
 /**
  * Class AffirmButton
  *
- * @package Astound\Affirm\Block\Onepage
+ * @package Affirm\Block\Onepage
  */
 class AffirmButton extends Template
 {
     /**
      * Affirm payment model instance
      *
-     * @var \Astound\Affirm\Helper\Payment
+     * @var \Affirm\Helper\Payment
      */
     protected $helper;
 
@@ -55,7 +52,7 @@ class AffirmButton extends Template
      *
      * @var string
      */
-    protected $_template = 'Astound_Affirm::onepage/button.phtml';
+    protected $_template = 'Affirm::onepage/button.phtml';
 
     /**
      * Affirm checkout button block
@@ -67,7 +64,7 @@ class AffirmButton extends Template
      */
     public function __construct(
         Template\Context $context,
-        \Astound\Affirm\Helper\Payment $helper,
+        \Affirm\Helper\Payment $helper,
         \Magento\Checkout\Model\Session $session,
         array $data = []
     ) {

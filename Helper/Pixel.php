@@ -33,16 +33,16 @@
  *
  */
 
-namespace Astound\Affirm\Helper;
+namespace Affirm\Helper;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Store\Model\StoreManagerInterface;
-use Astound\Affirm\Model\Config as Config;
+use Affirm\Model\Config as Config;
 
 /**
  * Pixel helper
  *
- * @package Astound\Affirm\Helper
+ * @package Affirm\Helper
  */
 class Pixel
 {

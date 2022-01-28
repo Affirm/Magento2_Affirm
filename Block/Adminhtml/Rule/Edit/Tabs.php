@@ -1,5 +1,5 @@
 <?php
-namespace Astound\Affirm\Block\Adminhtml\Rule\Edit;
+namespace Affirm\Block\Adminhtml\Rule\Edit;
 
 class Tabs extends \Magento\Backend\Block\Widget\Tabs
 {

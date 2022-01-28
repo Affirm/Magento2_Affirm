@@ -33,7 +33,7 @@
  *
  */
 
-namespace Astound\Affirm\Model\Observer;
+namespace Affirm\Model\Observer;
 
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Event\Observer;

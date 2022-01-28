@@ -1,45 +1,45 @@
 <?xml version="1.0"?>
 <!--
  /**
- * Astound
+ * Affirm
  * Affirm Module activation file.
  *
  * @category  Affirm
- * @package   Astound_Affirm
- * @copyright Copyright (c) 2016 Astound, Inc. (http://www.astoundcommerce.com)
+ * @package   Affirm
+ * @copyright Copyright (c) 2021 Affirm. All rights reserved.
  */
  -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <type name="Magento\Checkout\Model\CompositeConfigProvider">
         <arguments>
             <argument name="configProviders" xsi:type="array">
-                <item name="affirm_gateway_config_provider" xsi:type="object">Astound\Affirm\Model\Ui\ConfigProvider</item>
+                <item name="affirm_gateway_config_provider" xsi:type="object">Affirm\Model\Ui\ConfigProvider</item>
             </argument>
         </arguments>
     </type>
-    <type name="Astound\Affirm\Block\Info">
+    <type name="Affirm\Block\Info">
         <arguments>
             <argument name="data" xsi:type="array">
                 <item xsi:type="string" name="is_secure_mode">1</item>
             </argument>
         </arguments>
     </type>
-    <type name="Astound\Affirm\Model\Ui\ConfigProvider">
+    <type name="Affirm\Model\Ui\ConfigProvider">
         <arguments>
             <argument name="config" xsi:type="object">OnePicaAffirmGatewayConfig</argument>
         </arguments>
     </type>
     <type name="Magento\Checkout\Block\Cart\Sidebar">
-        <plugin name="affirm_aslowas_cart" type="\Astound\Affirm\Model\Plugin\MiniCart\AsLowAs\ConfigPlugin" />
+        <plugin name="affirm_aslowas_cart" type="\Affirm\Model\Plugin\MiniCart\AsLowAs\ConfigPlugin" />
     </type>
     <type name="Magento\Catalog\Block\Product\ListProduct">
-        <plugin name="affirm_aslowas_product_list" type="\Astound\Affirm\Model\Plugin\Product\ListProduct" />
+        <plugin name="affirm_aslowas_product_list" type="\Affirm\Model\Plugin\Product\ListProduct" />
     </type>
     <type name="Magento\Catalog\Block\Category\View">
-        <plugin name="affirm_aslowas_product_list_view" type="\Astound\Affirm\Model\Plugin\Category\View" />
+        <plugin name="affirm_aslowas_product_list_view" type="\Affirm\Model\Plugin\Category\View" />
     </type>
     <preference for="Magento\CatalogSearch\Block\SearchResult\ListProduct" type="Magento\Catalog\Block\Product\ListProduct" />
     <type name="Magento\CatalogSearch\Block\Result">
-        <plugin name="affirm_aslowas_product_search_list" type="\Astound\Affirm\Model\Plugin\Category\View" />
+        <plugin name="affirm_aslowas_product_search_list" type="\Affirm\Model\Plugin\Category\View" />
     </type>
 </config>

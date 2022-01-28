@@ -1,6 +1,6 @@
 <?php
 
-namespace Astound\Affirm\Setup;
+namespace Affirm\Setup;
 
 use Magento\Framework\Setup\InstallSchemaInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
@@ -16,7 +16,7 @@ class InstallSchema implements InstallSchemaInterface
 
         $table = $installer
             ->getConnection()
-            ->newTable($installer->getTable('astound_affirm_rule'))
+            ->newTable($installer->getTable('Affirm_rule'))
             ->addColumn(
                 'rule_id',
                 \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
@@ -88,7 +88,7 @@ class InstallSchema implements InstallSchemaInterface
 
         $table = $installer
             ->getConnection()
-            ->newTable($installer->getTable('astound_affirm_attribute'))
+            ->newTable($installer->getTable('Affirm_attribute'))
             ->addColumn(
                 'attr_id',
                 \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
@@ -110,13 +110,13 @@ class InstallSchema implements InstallSchemaInterface
             ->addIndex('rule_id', 'rule_id')
             ->addForeignKey(
                 $installer->getFkName(
-                    'astound_affirm_attribute',
+                    'Affirm_attribute',
                     'rule_id',
-                    'astound_affirm_rule',
+                    'Affirm_rule',
                     'rule_id'
                 ),
                 'rule_id',
-                $installer->getTable('astound_affirm_rule'),
+                $installer->getTable('Affirm_rule'),
                 'rule_id',
                 \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
             );

@@ -1,7 +1,7 @@
 <?php
-namespace Astound\Affirm\Controller\Adminhtml\Rule;
+namespace Affirm\Controller\Adminhtml\Rule;
 
-class NewConditionHtml extends \Astound\Affirm\Controller\Adminhtml\Rule
+class NewConditionHtml extends \Affirm\Controller\Adminhtml\Rule
 {
     public function execute()
     {

@@ -1,10 +1,10 @@
 <?php
-namespace Astound\Affirm\Model\Plugin\Category;
+namespace Affirm\Model\Plugin\Category;
 
 /**
  * Class View
  *
- * @package Astound\Affirm\Model\Plugin\Category
+ * @package Affirm\Model\Plugin\Category
  */
 class View extends ViewAbstract
 {
@@ -20,7 +20,7 @@ class View extends ViewAbstract
             return $productListHtml;
         }
 
-        $productListHtml .= '<span data-mage-init=\'{"Astound_Affirm/js/aslowasPLP": ' . $this->getWidgetData() . '}\'></span>';
+        $productListHtml .= '<span data-mage-init=\'{"Affirm/js/aslowasPLP": ' . $this->getWidgetData() . '}\'></span>';
 
         return $productListHtml;
     }

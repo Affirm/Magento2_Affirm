@@ -1,6 +1,6 @@
 <?php
 
-namespace Astound\Affirm\Block\System\Config\Form\Field;
+namespace Affirm\Block\System\Config\Form\Field;
 
 use Magento\Framework\Registry;
 use Magento\Backend\Block\Template\Context;
@@ -52,6 +52,6 @@ class Version extends \Magento\Config\Block\System\Config\Form\Field
      */
     protected function _getElementHtml(\Magento\Framework\Data\Form\Element\AbstractElement $element)
     {
-        return $this->moduleResource->getDbVersion('Astound_Affirm');
+        return $this->moduleResource->getDbVersion('Affirm');
     }
 }

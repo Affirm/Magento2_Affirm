@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace Astound\Affirm\Plugin;
+namespace Affirm\Plugin;
 
 use Magento\Framework\GraphQl\Exception\GraphQlInputException;
 use Magento\Quote\Model\Quote;

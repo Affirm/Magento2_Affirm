@@ -1,5 +1,5 @@
 <?php
-namespace Astound\Affirm\Controller\Adminhtml;
+namespace Affirm\Controller\Adminhtml;
 
 abstract class Rule extends \Magento\Backend\App\Action
 {
@@ -24,13 +24,13 @@ abstract class Rule extends \Magento\Backend\App\Action
     protected function _initAction()
     {
         $this->_view->loadLayout();
-        $this->_setActiveMenu('Astound_Affirm::rule')->_addBreadcrumb(__('Promotions'), __('Promotions'));
+        $this->_setActiveMenu('Affirm::rule')->_addBreadcrumb(__('Promotions'), __('Promotions'));
         return $this;
     }
 
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Astound_Affirm::rule');
+        return $this->_authorization->isAllowed('Affirm::rule');
     }
 
 

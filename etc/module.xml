@@ -1,16 +1,16 @@
 <?xml version="1.0"?>
 <!--
  /**
- * Astound
+ * Affirm
  * Affirm Module activation file.
  *
  * @category  Affirm
- * @package   Astound_Affirm
- * @copyright Copyright (c) 2016 Astound, Inc. (http://www.astoundcommerce.com)
+ * @package   Affirm
+ * @copyright Copyright (c) 2021 Affirm. All rights reserved.
  */
  -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
-    <module name="Astound_Affirm" setup_version="3.1.0">
+    <module name="Affirm" setup_version="3.1.0">
         <sequence>
             <module name="Magento_Checkout"/>
             <module name="Magento_Sales"/>

@@ -1,5 +1,5 @@
 <?php
-namespace Astound\Affirm\Block\Adminhtml\Rule\Edit;
+namespace Affirm\Block\Adminhtml\Rule\Edit;
 
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {

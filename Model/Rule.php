@@ -1,5 +1,5 @@
 <?php
-namespace Astound\Affirm\Model;
+namespace Affirm\Model;
 
 class Rule extends \Magento\Rule\Model\AbstractModel
 {
@@ -31,7 +31,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
 
     protected function _construct()
     {
-        $this->_init('Astound\Affirm\Model\ResourceModel\Rule');
+        $this->_init('Affirm\Model\ResourceModel\Rule');
         parent::_construct();
     }
 	
@@ -47,7 +47,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
 
     public function getConditionsInstance()
     {
-        return $this->objectManager->create('Astound\Affirm\Model\Rule\Condition\Combine');
+        return $this->objectManager->create('Affirm\Model\Rule\Condition\Combine');
     }
 	
 	public function getActionsInstance()

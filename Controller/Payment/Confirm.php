@@ -34,14 +34,14 @@
  *
  */
 
-namespace Astound\Affirm\Controller\Payment;
+namespace Affirm\Controller\Payment;
 
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Quote\Api\CartManagementInterface;
 use Magento\Checkout\Model\Session;
-use Astound\Affirm\Model\Checkout;
+use Affirm\Model\Checkout;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\App\CsrfAwareActionInterface;
 use Magento\Framework\App\RequestInterface;
@@ -51,7 +51,7 @@ use Magento\Framework\App\Request\InvalidRequestException;
 /**
  * Class Confirm
  *
- * @package Astound\Affirm\Controller\Payment
+ * @package Affirm\Controller\Payment
  */
 class Confirm extends Action implements CsrfAwareActionInterface
 {
@@ -72,7 +72,7 @@ class Confirm extends Action implements CsrfAwareActionInterface
     /**
      * Affirm checkout instance
      *
-     * @var \Astound\Affirm\Model\Checkout
+     * @var \Affirm\Model\Checkout
      */
     protected $checkout;
 

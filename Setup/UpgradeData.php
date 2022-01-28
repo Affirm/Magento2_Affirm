@@ -1,22 +1,19 @@
 <?php
 /**
- * Astound
+ * Affirm
  * NOTICE OF LICENSE
  * This source file is subject to the Open Software License (OSL 3.0)
  * that is bundled with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
  * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to codemaster@astoundcommerce.com so we can send you a copy immediately.
  *
  * @category  Affirm
- * @package   Astound_Affirm
- * @copyright Copyright (c) 2016 Astound, Inc. (http://www.astoundcommerce.com)
+ * @package   Affirm
+ * @copyright Copyright (c) 2021 Affirm. All rights reserved.
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-namespace Astound\Affirm\Setup;
+namespace Affirm\Setup;
 
 use Magento\Eav\Setup\EavSetup;
 use Magento\Eav\Setup\EavSetupFactory;
@@ -123,7 +120,7 @@ class UpgradeData implements UpgradeDataInterface
                             'label' => 'Multiple Financing Program type',
                             'input' => 'select',
                             'class' => '',
-                            'source' => 'Astound\Affirm\Model\Entity\Attribute\Source\FinancingProgramType',
+                            'source' => 'Affirm\Model\Entity\Attribute\Source\FinancingProgramType',
                             'global' => \Magento\Catalog\Model\ResourceModel\Eav\Attribute::SCOPE_WEBSITE,
                             'group' => 'General',
                             'visible' => 1,
@@ -175,7 +172,7 @@ class UpgradeData implements UpgradeDataInterface
                             'input' => 'select',
                             'required' => 0,
                             'sort_order' => 101,
-                            'source' => 'Astound\Affirm\Model\Entity\Attribute\Source\FinancingProgramType',
+                            'source' => 'Affirm\Model\Entity\Attribute\Source\FinancingProgramType',
                             'global' => \Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface::SCOPE_WEBSITE,
                             'group' => 'General Information',
                             'is_used_in_grid' => 0,

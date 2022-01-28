@@ -1,17 +1,14 @@
 /**
- * Astound
+ * Affirm
  * NOTICE OF LICENSE
  * This source file is subject to the Open Software License (OSL 3.0)
  * that is bundled with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
  * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to codemaster@astoundcommerce.com so we can send you a copy immediately.
  *
  * @category  Affirm
- * @package   Astound_Affirm
- * @copyright Copyright (c) 2016 Astound, Inc. (http://www.astoundcommerce.com)
+ * @package   Affirm
+ * @copyright Copyright (c) 2021 Affirm. All rights reserved.
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 /*browser:true*/
@@ -26,10 +23,10 @@ define(
         'Magento_Checkout/js/model/error-processor',
         'Magento_Ui/js/model/messages',
         'Magento_Checkout/js/action/set-payment-information',
-        'Astound_Affirm/js/action/prepare-affirm-checkout',
-        'Astound_Affirm/js/action/send-to-affirm-checkout',
-        'Astound_Affirm/js/action/verify-affirm',
-        'Astound_Affirm/js/action/inline-checkout'
+        'Affirm/js/action/prepare-affirm-checkout',
+        'Affirm/js/action/send-to-affirm-checkout',
+        'Affirm/js/action/verify-affirm',
+        'Affirm/js/action/inline-checkout'
     ],
     function ($, Component, quote, additionalValidators,
               urlBuilder, errorProcessor, Messages, setPaymentAction,
@@ -39,7 +36,7 @@ define(
 
         return Component.extend({
             defaults: {
-                template: 'Astound_Affirm/payment/form',
+                template: 'Affirm/payment/form',
                 transactionResult: ''
             },
 

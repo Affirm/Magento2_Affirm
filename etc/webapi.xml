@@ -8,25 +8,25 @@
 <routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
     <route url="/V1/affirm/order/init" method="POST">
-        <service class="Astound\Affirm\Api\AffirmCheckoutManagerInterface" method="initCheckout"/>
+        <service class="Affirm\Api\AffirmCheckoutManagerInterface" method="initCheckout"/>
         <resources>
             <resource ref="anonymous" />
         </resources>
     </route>
     <route url="/V1/affirm/checkout/payment" method="POST">
-        <service class="Astound\Affirm\Api\CheckoutPaymentManagerInterface" method="initPayment"/>
+        <service class="Affirm\Api\CheckoutPaymentManagerInterface" method="initPayment"/>
         <resources>
             <resource ref="anonymous" />
         </resources>
     </route>
     <route url="/V1/affirm/checkout/verify" method="POST">
-        <service class="Astound\Affirm\Api\CheckoutPaymentManagerInterface" method="verifyAffirm"/>
+        <service class="Affirm\Api\CheckoutPaymentManagerInterface" method="verifyAffirm"/>
         <resources>
             <resource ref="anonymous" />
         </resources>
     </route>
     <route url="/V1/affirm/checkout/inline" method="GET">
-        <service class="Astound\Affirm\Api\InlineCheckoutInterface" method="initInline"/>
+        <service class="Affirm\Api\InlineCheckoutInterface" method="initInline"/>
         <resources>
             <resource ref="anonymous" />
         </resources>

@@ -1,6 +1,6 @@
 <?php
 
-namespace Astound\Affirm\Plugin;
+namespace Affirm\Plugin;
 
 class RestrictPaymentMethods
 {
@@ -41,7 +41,7 @@ class RestrictPaymentMethods
     {
         if (is_null($this->_allRules)) {
             $om = \Magento\Framework\App\ObjectManager::getInstance();
-            $hlp = $om->create('Astound\Affirm\Model\Rule');
+            $hlp = $om->create('Affirm\Model\Rule');
             $this->_allRules = $hlp->getCollection()->addAddressFilter($address)->load();
             foreach ($this->_allRules as $rule) {
                 $rule->afterLoad();

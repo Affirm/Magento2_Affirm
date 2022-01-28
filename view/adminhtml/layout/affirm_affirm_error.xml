@@ -8,7 +8,7 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceContainer name="content">
-            <block class="Astound\Affirm\Block\Adminhtml\Error" template="Astound_Affirm::affirm/error.phtml"/>
+            <block class="Affirm\Block\Adminhtml\Error" template="Affirm::affirm/error.phtml"/>
         </referenceContainer>
     </body>
 </page>

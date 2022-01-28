@@ -21,7 +21,7 @@
         </field>
         <field name="affirm_category_mfp_type">
             <argument name="data" xsi:type="array">
-                <item name="options" xsi:type="object">Astound\Affirm\Model\Entity\Attribute\Source\FinancingProgramType</item>
+                <item name="options" xsi:type="object">Affirm\Model\Entity\Attribute\Source\FinancingProgramType</item>
                 <item name="config" xsi:type="array">
                     <item name="sortOrder" xsi:type="number">2</item>
                     <item name="dataType" xsi:type="string">string</item>

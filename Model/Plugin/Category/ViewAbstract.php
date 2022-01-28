@@ -1,16 +1,16 @@
 <?php
-namespace Astound\Affirm\Model\Plugin\Category;
+namespace Affirm\Model\Plugin\Category;
 
-use Astound\Affirm\Model\Config as Config;
-use Astound\Affirm\Helper\AsLowAs;
+use Affirm\Model\Config as Config;
+use Affirm\Helper\AsLowAs;
 use Magento\Store\Model\StoreManagerInterface;
-use Astound\Affirm\Model\Ui\ConfigProvider;
+use Affirm\Model\Ui\ConfigProvider;
 use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory as ProductCollectionFactory;
 
 /**
  * Class ViewAbstract
  *
- * @package Astound\Affirm\Model\Plugin\Category
+ * @package Affirm\Model\Plugin\Category
  */
 class ViewAbstract extends \Magento\Framework\DataObject
 {
@@ -52,7 +52,7 @@ class ViewAbstract extends \Magento\Framework\DataObject
     /**
      * Affirm config model payment
      *
-     * @var \Astound\Affirm\Model\Config
+     * @var \Affirm\Model\Config
      */
     protected $affirmPaymentConfig;
 

@@ -1,18 +1,18 @@
 <?php
 
-namespace Astound\Affirm\Block\Promotion\CartPage;
+namespace Affirm\Block\Promotion\CartPage;
 
-use Astound\Affirm\Block\Promotion\AslowasAbstract;
-use Astound\Affirm\Model\Ui\ConfigProvider;
+use Affirm\Block\Promotion\AslowasAbstract;
+use Affirm\Model\Ui\ConfigProvider;
 use Magento\Framework\View\Element\Template;
 use Magento\Checkout\Model\Session;
-use Astound\Affirm\Helper;
+use Affirm\Helper;
 use Magento\Catalog\Model\ResourceModel\Category\CollectionFactory as CategoryCollectionFactory;
 
 /**
  * Class AsLowAs
  *
- * @package Astound\Affirm\Block\Promotion\CartPage
+ * @package Affirm\Block\Promotion\CartPage
  */
 class Aslowas extends AslowasAbstract
 {
@@ -42,22 +42,22 @@ class Aslowas extends AslowasAbstract
      *
      * @param Template\Context               $context
      * @param ConfigProvider                 $configProvider
-     * @param \Astound\Affirm\Model\Config   $configAffirm
-     * @param \Astound\Affirm\Helper\Payment $helperAffirm
+     * @param \Affirm\Model\Config   $configAffirm
+     * @param \Affirm\Helper\Payment $helperAffirm
      * @param Session                        $session
      * @param array                          $data
      * @param Helper\AsLowAs                 $asLowAs
-     * @param \Astound\Affirm\Helper\Rule    $rule
+     * @param \Affirm\Helper\Rule    $rule
      */
     public function __construct(
         Template\Context $context,
         ConfigProvider $configProvider,
-        \Astound\Affirm\Model\Config $configAffirm,
-        \Astound\Affirm\Helper\Payment $helperAffirm,
+        \Affirm\Model\Config $configAffirm,
+        \Affirm\Helper\Payment $helperAffirm,
         Session $session,
         array $data = [],
         Helper\AsLowAs $asLowAs,
-        \Astound\Affirm\Helper\Rule $rule,
+        \Affirm\Helper\Rule $rule,
         CategoryCollectionFactory $categoryCollectionFactory
     ) {
         $this->checkoutSession = $session;

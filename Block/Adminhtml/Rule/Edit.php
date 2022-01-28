@@ -1,5 +1,5 @@
 <?php
-namespace Astound\Affirm\Block\Adminhtml\Rule;
+namespace Affirm\Block\Adminhtml\Rule;
 
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
@@ -18,7 +18,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     {
         $this->_objectId = 'id';
         $this->_controller = 'adminhtml_rule';
-        $this->_blockGroup = 'Astound_Affirm';
+        $this->_blockGroup = 'Affirm';
 
         parent::_construct();
 

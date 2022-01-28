@@ -1,5 +1,5 @@
 <?php
-namespace Astound\Affirm\Logger;
+namespace Affirm\Logger;
 
 use Magento\Framework\Logger\Handler\Base as BaseHandler;
 use Monolog\Logger;

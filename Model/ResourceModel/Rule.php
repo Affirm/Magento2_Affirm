@@ -1,11 +1,11 @@
 <?php
-namespace Astound\Affirm\Model\ResourceModel;
+namespace Affirm\Model\ResourceModel;
 
 class Rule extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
 {
     protected function _construct()
     {
-        $this->_init('astound_affirm_rule', 'rule_id');
+        $this->_init('Affirm_rule', 'rule_id');
     }
 
     public function massChangeStatus($ids, $status)
@@ -21,7 +21,7 @@ class Rule extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
     public function getAttributes()
     {
         $db = $this->getConnection();
-        $tbl   = $this->getTable('astound_affirm_attribute');
+        $tbl   = $this->getTable('Affirm_attribute');
 
         $select = $db->select()->from($tbl, new \Zend_Db_Expr('DISTINCT code'));
         return $db->fetchCol($select);
@@ -30,7 +30,7 @@ class Rule extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
     public function saveAttributes($id, $attributes)
     {
         $db = $this->getConnection();
-        $tbl   = $this->getTable('astound_affirm_attribute');
+        $tbl   = $this->getTable('Affirm_attribute');
 
         $db->delete($tbl, array('rule_id=?' => $id));
 

@@ -1,5 +1,5 @@
 <?php
-namespace Astound\Affirm\Model\Adminhtml;
+namespace Affirm\Model\Adminhtml;
 
 use Magento\AdminNotification\Model\Feed as AdminNotificationFeed;
 use Magento\Framework\App\Config\ScopeConfigInterface;
@@ -7,7 +7,7 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 /**
  * Class Feed
  *
- * @package Astound\Affirm\Model\Adminhtml
+ * @package Affirm\Model\Adminhtml
  */
 class Feed extends AdminNotificationFeed
 {
