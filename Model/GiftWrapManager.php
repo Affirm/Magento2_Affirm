@@ -43,7 +43,7 @@ class GiftWrapManager implements GiftWrapManagerInterface
      *
      * @var \Magento\Quote\Model\Quote
      */
-    protected $quote;
+    protected $quote = null;
 
     /**
      * Wrapping repository class
@@ -86,9 +86,21 @@ class GiftWrapManager implements GiftWrapManagerInterface
         PaymentHelper $paymentHelper
     ) {
         $this->session = $checkoutSession;
-        $this->quote = $checkoutSession->getQuote();
         $this->wrappingRepository = $objectManager->create('Magento\GiftWrapping\Api\WrappingRepositoryInterface');
         $this->imageHelper = $paymentHelper;
+    }
+
+    /**
+     * Return current quote from checkout session.
+     * @return \Magento\Quote\Api\Data\CartInterface|\Magento\Quote\Model\Quote
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function getQuote(){
+        if(null == $this->quote){
+            $this->quote = $this->session->getQuote();
+        }
+        return $this->quote;
     }
 
     /**
@@ -98,7 +110,7 @@ class GiftWrapManager implements GiftWrapManagerInterface
      */
     public function getStoreId()
     {
-        return $this->quote->getStoreId();
+        return $this->getQuote()->getStoreId();
     }
 
     /**
@@ -108,14 +120,14 @@ class GiftWrapManager implements GiftWrapManagerInterface
      */
     public function getPrintedCardItem()
     {
-        $isApplicable = $this->quote->getGwAddCard();
+        $isApplicable = $this->getQuote()->getGwAddCard();
         if ($isApplicable) {
-            $printedCardPrice = $this->quote->getGwCardBasePrice();
+            $printedCardPrice = $this->getQuote()->getGwCardBasePrice();
             if ($printedCardPrice) {
                 return [
                     "display_name"   => "Printed Card",
                     "sku"            => "printed-card",
-                    "unit_price"     => Util::formatToCents($this->quote->getGwCardBasePrice()),
+                    "unit_price"     => Util::formatToCents($this->getQuote()->getGwCardBasePrice()),
                     "qty"            => 1,
                     "item_image_url" => $this->imageHelper->getPlaceholderImage(),
                     "item_url"       => $this->imageHelper->getPlaceholderImage()
@@ -131,7 +143,7 @@ class GiftWrapManager implements GiftWrapManagerInterface
      */
     public function getWrapItems()
     {
-        $wrappedIdForOrder = $this->quote->getGwId();
+        $wrappedIdForOrder = $this->getQuote()->getGwId();
         $data = [];
         if ($wrappedIdForOrder) {
             /** @var \Magento\GiftWrapping\Api\Data\WrappingInterface  $wrapItem */
@@ -177,7 +189,7 @@ class GiftWrapManager implements GiftWrapManagerInterface
      */
     protected function prepareWrapForItems($data)
     {
-        $quoteItems = $this->quote->getAllItems();
+        $quoteItems = $this->getQuote()->getAllItems();
 
         /** @var \Magento\Quote\Model\Quote\Item $item */
         foreach ($quoteItems as $item) {

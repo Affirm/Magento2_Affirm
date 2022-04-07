@@ -59,7 +59,7 @@ class Checkout
      *
      * @var \Magento\Quote\Model\Quote
      */
-    protected $quote;
+    protected $quote = null;
 
     /**
      * Customer session object
@@ -119,7 +119,6 @@ class Checkout
     ) {
         $this->checkoutSession = $checkoutSession;
         $this->quoteManagement = $cartManagement;
-        $this->quote = $this->checkoutSession->getQuote();
         $this->customerSession = $customerSession;
         $this->checkoutData = $checkoutData;
         $this->orderSender = $orderSender;
@@ -136,11 +135,24 @@ class Checkout
     }
 
     /**
+     * Return current quote from checkout session.
+     * @return \Magento\Quote\Api\Data\CartInterface|\Magento\Quote\Model\Quote
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function getQuote(){
+        if(null == $this->quote){
+            $this->quote = $this->checkoutSession->getQuote();
+        }
+        return $this->quote;
+    }
+
+    /**
      * Place order based on prepared quote
      */
     public function place($token)
     {
-        if (!$this->quote->getGrandTotal()) {
+        if (!$this->getQuote()->getGrandTotal()) {
             throw new \Magento\Framework\Exception\LocalizedException(
                 __(
                     'Affirm can\'t process orders with a zero balance due. '
@@ -159,9 +171,9 @@ class Checkout
         if ($this->getCheckoutMethod() == \Magento\Checkout\Model\Type\Onepage::METHOD_GUEST) {
             $this->prepareGuestQuote();
         }
-        $this->quote->collectTotals();
+        $this->getQuote()->collectTotals();
         $this->ignoreAddressValidation();
-        $this->order = $this->quoteManagement->submit($this->quote);
+        $this->order = $this->quoteManagement->submit($this->getQuote());
 
         switch ($this->order->getState()) {
             // even after placement paypal can disallow to authorize/capture, but will wait until bank transfers money
@@ -200,14 +212,14 @@ class Checkout
         if ($this->getCustomerSession()->isLoggedIn()) {
             return \Magento\Checkout\Model\Type\Onepage::METHOD_CUSTOMER;
         }
-        if (!$this->quote->getCheckoutMethod()) {
-            if ($this->checkoutData->isAllowedGuestCheckout($this->quote)) {
-                $this->quote->setCheckoutMethod(\Magento\Checkout\Model\Type\Onepage::METHOD_GUEST);
+        if (!$this->getQuote()->getCheckoutMethod()) {
+            if ($this->checkoutData->isAllowedGuestCheckout($this->getQuote())) {
+                $this->getQuote()->setCheckoutMethod(\Magento\Checkout\Model\Type\Onepage::METHOD_GUEST);
             } else {
-                $this->quote->setCheckoutMethod(\Magento\Checkout\Model\Type\Onepage::METHOD_REGISTER);
+                $this->getQuote()->setCheckoutMethod(\Magento\Checkout\Model\Type\Onepage::METHOD_REGISTER);
             }
         }
-        return $this->quote->getCheckoutMethod();
+        return $this->getQuote()->getCheckoutMethod();
     }
 
     /**
@@ -217,7 +229,7 @@ class Checkout
      */
     protected function prepareGuestQuote()
     {
-        $quote = $this->quote;
+        $quote = $this->getQuote();
         $quote->setCustomerId(null)
             ->setCustomerEmail($quote->getBillingAddress()->getEmail())
             ->setCustomerIsGuest(true)
@@ -232,13 +244,13 @@ class Checkout
      */
     protected function ignoreAddressValidation()
     {
-        $this->quote->getBillingAddress()->setShouldIgnoreValidation(true);
-        if (!$this->quote->getIsVirtual()) {
-            $this->quote->getShippingAddress()->setShouldIgnoreValidation(true);
+        $this->getQuote()->getBillingAddress()->setShouldIgnoreValidation(true);
+        if (!$this->getQuote()->getIsVirtual()) {
+            $this->getQuote()->getShippingAddress()->setShouldIgnoreValidation(true);
             if (!$this->config->getValue('requireBillingAddress')
-                && !$this->quote->getBillingAddress()->getEmail()
+                && !$this->getQuote()->getBillingAddress()->getEmail()
             ) {
-                $this->quote->getBillingAddress()->setSameAsBilling(1);
+                $this->getQuote()->getBillingAddress()->setSameAsBilling(1);
             }
         }
     }
@@ -251,7 +263,7 @@ class Checkout
      */
     public function setCustomerData(CustomerDataObject $customerData)
     {
-        $this->quote->assignCustomer($customerData);
+        $this->getQuote()->assignCustomer($customerData);
         $this->customerId = $customerData->getId();
         return $this;
     }
@@ -275,7 +287,7 @@ class Checkout
     protected function initToken($token)
     {
         if ($token) {
-            $payment = $this->quote->getPayment();
+            $payment = $this->getQuote()->getPayment();
             $payment->setAdditionalInformation('checkout_token', $token);
             $payment->save();
         }
@@ -294,7 +306,7 @@ class Checkout
         $billingAddress = null,
         $shippingAddress = null
     ) {
-        $this->quote->assignCustomerWithAddressChange($customerData, $billingAddress, $shippingAddress);
+        $this->getQuote()->assignCustomerWithAddressChange($customerData, $billingAddress, $shippingAddress);
         $this->customerId = $customerData->getId();
         return $this;
     }

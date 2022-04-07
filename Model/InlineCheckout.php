@@ -4,6 +4,7 @@ namespace Astound\Affirm\Model;
 use Astound\Affirm\Gateway\Helper\Util;
 use Magento\Checkout\Model\Session;
 use Astound\Affirm\Api\InlineCheckoutInterface;
+use Magento\Framework\App\ObjectManager;
 use Magento\Framework\App\ProductMetadataInterface;
 use Magento\Framework\Module\ResourceInterface;
 use Magento\Framework\UrlInterface;
@@ -21,27 +22,32 @@ class InlineCheckout implements InlineCheckoutInterface
      * @var Session
      */
     private $session;
+
     /**
      * @var \Magento\Quote\Api\Data\CartInterface|\Magento\Quote\Model\Quote
      */
-    private $quote;
+    private $quote = null;
+
     /**
      * @var UrlInterface
      */
     private $urlBuilder;
+
     /**
      * @var ResourceInterface
      */
     private $moduleResource;
+
     /**
      * @var ProductMetadataInterface
      */
     private $productMetadata;
 
     /**
-     * @var Astound\Affirm\Gateway\Helper\Util
+     * @var \Astound\Affirm\Gateway\Helper\Util
      */
     private $util;
+
     /**
      * @var QuoteValidator
      */
@@ -56,7 +62,6 @@ class InlineCheckout implements InlineCheckoutInterface
         QuoteValidator $quoteValidator
     ){
         $this->session = $checkoutSession;
-        $this->quote = $checkoutSession->getQuote();
         $this->urlBuilder = $urlInterface;
         $this->moduleResource = $moduleResource;
         $this->productMetadata = $productMetadata;
@@ -64,8 +69,21 @@ class InlineCheckout implements InlineCheckoutInterface
         $this->quoteValidator = $quoteValidator;
     }
 
+    /**
+     * Return current quote from checkout session.
+     * @return \Magento\Quote\Api\Data\CartInterface|\Magento\Quote\Model\Quote
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function getQuote(){
+        if(null == $this->quote){
+            $this->quote = $this->session->getQuote();
+        }
+        return $this->quote;
+    }
+
     public function initInline(){
-        $quote = $this->quote;
+        $quote = $this->getQuote();
         $quote->collectTotals();
 
         if(!$quote->getReservedOrderId()) {
@@ -123,7 +141,7 @@ class InlineCheckout implements InlineCheckoutInterface
             $checkoutObject['billing'] = $billingAddress;
         }
 
-        $discountAmount = $this->quote->getBaseSubtotal() - $this->quote->getBaseSubtotalWithDiscount();
+        $discountAmount = $this->getQuote()->getBaseSubtotal() - $this->getQuote()->getBaseSubtotalWithDiscount();
         if ($discountAmount > 0.001) {
             $checkoutObject['discounts']['discount'] = [
                 'discount_amount' => Util::formatToCents($discountAmount)
@@ -131,18 +149,18 @@ class InlineCheckout implements InlineCheckoutInterface
         }
 
         if ($this->productMetadata->getEdition() == 'Enterprise') {
-            $giftWrapperItemsManager = $this->objectManager->create('Astound\Affirm\Api\GiftWrapManagerInterface');
+            $giftWrapperItemsManager = ObjectManager::getInstance()->create('Astound\Affirm\Api\GiftWrapManagerInterface');
             $wrapped = $giftWrapperItemsManager->getWrapItems();
             if ($wrapped) {
                 $checkoutObject['wrapped_items'] = $wrapped;
             }
-            $giftCards = $this->quote->getGiftCards();
+            $giftCards = $this->getQuote()->getGiftCards();
             if ($giftCards) {
                 $giftCards = json_decode($giftCards);
                 foreach ($giftCards as $giftCard) {
-                    $giftCardDiscountDescription = sprintf(__('Gift Card (%s)'), $giftCard[self::ID]);
+                    $giftCardDiscountDescription = sprintf(__('Gift Card (%s)'), $giftCard[AffirmCheckoutManager::ID]);
                     $checkoutObject['discounts'][$giftCardDiscountDescription] = [
-                        'discount_amount' => Util::formatToCents($giftCard[self::AMOUNT])
+                        'discount_amount' => Util::formatToCents($giftCard[AffirmCheckoutManager::AMOUNT])
                     ];
                 }
             }

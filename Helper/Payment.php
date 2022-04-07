@@ -54,7 +54,12 @@ class Payment
      *
      * @var \Magento\Quote\Model\Quote
      */
-    protected $quote;
+    protected $quote = null;
+
+    /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $session;
 
     /**
      * Method specification factory
@@ -149,7 +154,7 @@ class Payment
     ) {
         $this->methodSpecificationFactory = $methodSpecificationFactory;
         $this->payment = $payment;
-        $this->quote = $session->getQuote();
+        $this->session = $session;
         $this->customerSession = $customerSession;
         $this->storeManager = $storeManagerInterface;
         $this->design = $design;
@@ -158,6 +163,19 @@ class Payment
         $this->scopeConfig = $scopeConfigInterface;
         $this->coreRegistry = $registry;
         $this->stockRegistry = $stockRegistry;
+    }
+
+    /**
+     * Return current quote from checkout session.
+     * @return \Magento\Quote\Api\Data\CartInterface|\Magento\Quote\Model\Quote
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function getQuote(){
+        if(null == $this->quote){
+            $this->quote = $this->session->getQuote();
+        }
+        return $this->quote;
     }
 
     /**
@@ -191,7 +209,7 @@ class Payment
             AbstractMethod::CHECK_USE_FOR_CURRENCY,
             AbstractMethod::CHECK_ORDER_TOTAL_MIN_MAX,
         ];
-        if ($this->quote->getIsVirtual() && !$this->quote->getCustomerId()) {
+        if ($this->getQuote()->getIsVirtual() && !$this->getQuote()->getCustomerId()) {
             $checkData[] = AbstractMethod::CHECK_USE_FOR_COUNTRY;
         }
 
@@ -199,11 +217,11 @@ class Payment
             ->create($checkData)
             ->isApplicable(
                 $this->payment,
-                $this->quote
+                $this->getQuote()
             );
 
         if ($check && $this->validateVirtual()) {
-            return $this->payment->isAvailable($this->quote);
+            return $this->payment->isAvailable($this->getQuote());
         }
         return false;
     }
@@ -310,12 +328,12 @@ class Payment
      */
     public function validateVirtual()
     {
-        if ($this->quote->getIsVirtual() && !$this->quote->getCustomerIsGuest()) {
+        if ($this->getQuote()->getIsVirtual() && !$this->getQuote()->getCustomerIsGuest()) {
             $countryId = self::VALIDATE_COUNTRY;
             // get customer addresses list
-            $addresses = $this->quote->getCustomer()->getAddresses();
+            $addresses = $this->getQuote()->getCustomer()->getAddresses();
             // get default shipping address for the customer
-            $defaultShipping = $this->quote->getCustomer()->getDefaultShipping();
+            $defaultShipping = $this->getQuote()->getCustomer()->getDefaultShipping();
             /** @var $address \Magento\Customer\Api\Data\AddressInterface */
             if ($defaultShipping) {
                 foreach ($addresses as $address) {
