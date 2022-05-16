@@ -55,13 +55,13 @@ class Aslowas extends AslowasAbstract
         \Astound\Affirm\Model\Config $configAffirm,
         \Astound\Affirm\Helper\Payment $helperAffirm,
         Session $session,
-        array $data = [],
-        Helper\AsLowAs $asLowAs,
+        Helper\AsLowAs $asLowAsHelper,
         \Astound\Affirm\Helper\Rule $rule,
-        CategoryCollectionFactory $categoryCollectionFactory
+        CategoryCollectionFactory $categoryCollectionFactory,
+        array $data = []
     ) {
         $this->checkoutSession = $session;
-        parent::__construct($context, $configProvider, $configAffirm, $helperAffirm, $data, $asLowAs, $rule, $categoryCollectionFactory);
+        parent::__construct($context, $configProvider, $configAffirm, $helperAffirm, $asLowAsHelper, $rule, $categoryCollectionFactory, $data);
     }
 
     /**
