@@ -122,9 +122,9 @@ class Banners extends \Magento\Framework\View\Element\Template
         Config $configAffirm,
         ConfigProvider $configProvider,
         Payment $helper,
-        array $data = [],
         Helper\FinancingProgram $fpHelper,
-        Helper\AsLowAs $alaHelper
+        Helper\AsLowAs $alaHelper,
+        array $data = []
     ) {
         $this->affirmPaymentConfig = $configAffirm;
         $this->helper = $helper;

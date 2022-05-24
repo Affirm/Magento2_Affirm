@@ -113,10 +113,10 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
         ConfigProvider $configProvider,
         Config $configAffirm,
         Payment $helperAffirm,
-        array $data = [],
         AsLowAs $asLowAs,
         Rule $rule,
-        CategoryCollectionFactory $categoryCollectionFactory
+        CategoryCollectionFactory $categoryCollectionFactory,
+        array $data = []
     ) {
         if (isset($data['position']) && $data['position']) {
             $this->position = $data['position'];
