@@ -1,0 +1,31 @@
+{
+    "astound_affirm_rule": {
+        "column": {
+            "rule_id": true,
+            "for_admin": true,
+            "is_active": true,
+            "all_stores": true,
+            "all_groups": true,
+            "name": true,
+            "stores": true,
+            "cust_groups": true,
+            "message": true,
+            "methods": true,
+            "conditions_serialized": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "astound_affirm_attribute": {
+        "column": {
+            "attr_id": true,
+            "rule_id": true,
+            "code": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "ASTOUND_AFFIRM_ATTRIBUTE_RULE_ID_ASTOUND_AFFIRM_RULE_RULE_ID": true
+        }
+    }
+}
