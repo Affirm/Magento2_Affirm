@@ -6,15 +6,19 @@
 declare(strict_types=1);
 
 namespace Astound\Affirm\Setup\Patch\Data;
+
 use Magento\Eav\Setup\EavSetupFactory;
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\ModuleDataSetupInterface;
 use Magento\Framework\Setup\Patch\DataPatchInterface;
+use Magento\Framework\Setup\Patch\PatchRevertableInterface;
 
 /**
 * Patch is mechanism, that allows to do atomic upgrade data changes
 */
-class AddProductCategoryAttributes implements DataPatchInterface
+class AddProductCategoryAttributes implements
+    DataPatchInterface,
+    PatchRevertableInterface
 {
     /**
      * @var ModuleDataSetupInterface $moduleDataSetup
@@ -41,8 +45,10 @@ class AddProductCategoryAttributes implements DataPatchInterface
      */
     public function apply()
     {
+        $this->moduleDataSetup->getConnection()->startSetup();
+
         /** @var EavSetup $eavSetup */
-        $eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
+        $eavSetup = $this->eavSetupFactory->create(['setup' => $this->$moduleDataSetup]);
 
         if (version_compare($context->getVersion(), '0.4.2', '<')) {
             /**
@@ -329,7 +335,35 @@ class AddProductCategoryAttributes implements DataPatchInterface
                 ]
             );
         }
+        $this->moduleDataSetup->getConnection()->endSetup();
     }
+
+      /**
+     * @inheritdoc
+     */
+    public function revert()
+    {
+        $this->moduleDataSetup->getConnection()->startSetup();
+
+        /** @var EavSetup $eavSetup */
+        $eavSetup = $this->eavSetupFactory->create(['setup' => $this->$moduleDataSetup]);
+
+        $eavSetup->removeAttribute(Product::ENTITY, 'affirm_product_mfp');
+		$eavSetup->removeAttribute(Category::ENTITY, 'affirm_category_mfp');
+		$eavSetup->removeAttribute(Product::ENTITY, 'affirm_product_mfp_type');
+		$eavSetup->removeAttribute(Product::ENTITY, 'affirm_product_mfp_priority');
+		$eavSetup->removeAttribute(Category::ENTITY, 'affirm_category_mfp_type');
+		$eavSetup->removeAttribute(Category::ENTITY, 'affirm_category_mfp_priority');
+		$eavSetup->removeAttribute(Product::ENTITY, 'affirm_product_mfp_start_date');
+		$eavSetup->removeAttribute(Product::ENTITY, 'affirm_product_mfp_end_date');
+		$eavSetup->removeAttribute(Category::ENTITY, 'affirm_category_mfp_start_date');
+		$eavSetup->removeAttribute(Category::ENTITY, 'affirm_category_mfp_end_date');
+		$eavSetup->removeAttribute(Category::ENTITY, 'affirm_category_promo_id');
+		$eavSetup->removeAttribute(Product::ENTITY, 'affirm_product_promo_id');
+
+        $this->moduleDataSetup->getConnection()->endSetup();
+    }
+
 
     /**
      * @inheritdoc
