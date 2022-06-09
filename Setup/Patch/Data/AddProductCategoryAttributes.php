@@ -371,7 +371,7 @@ class AddProductCategoryAttributes implements
      */
     public static function getVersion()
     {
-        return '1.0.3';
+        return '3.1.3';
     }
 
     /**
