@@ -11,7 +11,6 @@ use Magento\Eav\Setup\EavSetupFactory;
 use Magento\Framework\Setup\ModuleDataSetupInterface;
 use Magento\Framework\Setup\Patch\DataPatchInterface;
 use Magento\Framework\Setup\Patch\PatchRevertableInterface;
-use Magento\Framework\Setup\Patch\PatchVersionInterface;
 
 
 /**
@@ -19,8 +18,7 @@ use Magento\Framework\Setup\Patch\PatchVersionInterface;
 */
 class AddProductCategoryAttributes implements
     DataPatchInterface,
-    PatchRevertableInterface,
-    PatchVersionInterface
+    PatchRevertableInterface
 {
     /**
      * @var ModuleDataSetupInterface $moduleDataSetup
@@ -364,14 +362,6 @@ class AddProductCategoryAttributes implements
     public function getAliases()
     {
         return [];
-    }
-
-    /**
-     * Get the version for the data patch
-     */
-    public static function getVersion()
-    {
-        return '3.1.3';
     }
 
     /**
