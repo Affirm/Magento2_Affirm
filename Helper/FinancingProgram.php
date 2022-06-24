@@ -44,7 +44,12 @@ class FinancingProgram
      *
      * @var \Magento\Quote\Model\Quote
      */
-    protected $quote;
+    protected $quote = null;
+
+    /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $session;
 
     /**
      * Customer session
@@ -120,7 +125,7 @@ class FinancingProgram
         CategoryCollectionFactory $categoryCollectionFactory
     ) {
         $this->customerSession = $customerSession;
-        $this->quote = $session->getQuote();
+        $this->session = $session;
         $this->scopeConfig = $scopeConfig;
         $this->affirmPaymentConfig = $configAffirm;
         $this->_localeDate = $localeDate;
@@ -128,6 +133,19 @@ class FinancingProgram
         $this->categoryCollectionFactory = $categoryCollectionFactory;
 
         $this->_init();
+    }
+
+    /**
+     * Return current quote from checkout session.
+     * @return \Magento\Quote\Api\Data\CartInterface|\Magento\Quote\Model\Quote
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function getQuote(){
+        if(null == $this->quote){
+            $this->quote = $this->session->getQuote();
+        }
+        return $this->quote;
     }
 
     /**
@@ -257,7 +275,7 @@ class FinancingProgram
     protected function getQuoteProductCollection()
     {
         if (null === $this->products) {
-            $visibleQuoteItems = $this->quote->getAllVisibleItems();
+            $visibleQuoteItems = $this->getQuote()->getAllVisibleItems();
             $productIds = [];
             foreach ($visibleQuoteItems as $visibleQuoteItem) {
                 $productIds[] = $visibleQuoteItem->getProductId();
@@ -496,7 +514,7 @@ class FinancingProgram
      */
     protected function getQuoteBaseGrandTotal()
     {
-        return $this->quote->getBaseGrandTotal();
+        return $this->getQuote()->getBaseGrandTotal();
     }
 
     /**

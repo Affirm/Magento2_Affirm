@@ -81,7 +81,12 @@ class Confirm extends Action implements CsrfAwareActionInterface
      *
      * @var \Magento\Quote\Model\Quote
      */
-    protected $quote;
+    protected $quote = null;
+
+    /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $session;
 
     /**
      * Inject objects to the Confirm action
@@ -100,10 +105,23 @@ class Confirm extends Action implements CsrfAwareActionInterface
         $this->checkout = $checkout;
         $this->checkoutSession = $checkoutSession;
         $this->quoteManagement = $quoteManager;
-        $this->quote = $checkoutSession->getQuote();
+        $this->session = $checkoutSession;
         parent::__construct($context);
     }
- 
+
+    /**
+     * Return current quote from checkout session.
+     * @return \Magento\Quote\Api\Data\CartInterface|\Magento\Quote\Model\Quote
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function getQuote(){
+        if(null == $this->quote){
+            $this->quote = $this->session->getQuote();
+        }
+        return $this->quote;
+    }
+
     /**
      * @inheritDoc
      */
@@ -112,14 +130,14 @@ class Confirm extends Action implements CsrfAwareActionInterface
     ): ?InvalidRequestException {
         return null;
     }
- 
+
     /**
      * @inheritDoc
      */
     public function validateForCsrf(RequestInterface $request): ?bool
     {
         return true;
-    }      
+    }
 
     /**
      * Dispatch request
@@ -137,7 +155,7 @@ class Confirm extends Action implements CsrfAwareActionInterface
                 $this->checkoutSession->clearHelperData();
 
                 // "last successful quote"
-                $quoteId = $this->quote->getId();
+                $quoteId = $this->getQuote()->getId();
                 $this->checkoutSession->setLastQuoteId($quoteId)->setLastSuccessQuoteId($quoteId);
 
                 // an order may be created
@@ -149,7 +167,7 @@ class Confirm extends Action implements CsrfAwareActionInterface
                 }
                 $this->_eventManager->dispatch(
                     'affirm_place_order_success',
-                    ['order' => $order, 'quote' => $this->quote ]
+                    ['order' => $order, 'quote' => $this->getQuote() ]
                 );
                 $this->_redirect('checkout/onepage/success');
                 return;

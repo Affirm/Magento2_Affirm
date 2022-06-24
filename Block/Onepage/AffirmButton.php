@@ -48,7 +48,12 @@ class AffirmButton extends Template
      *
      * @var \Magento\Quote\Model\Quote
      */
-    protected $quote;
+    protected $quote = null;
+
+    /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $session;
 
     /**
      * Button template
@@ -72,8 +77,21 @@ class AffirmButton extends Template
         array $data = []
     ) {
         $this->helper = $helper;
-        $this->quote = $session->getQuote();
+        $this->session = $session;
         parent::__construct($context, $data);
+    }
+
+    /**
+     * Return current quote from checkout session.
+     * @return \Magento\Quote\Api\Data\CartInterface|\Magento\Quote\Model\Quote
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function getQuote(){
+        if(null == $this->quote){
+            $this->quote = $this->session->getQuote();
+        }
+        return $this->quote;
     }
 
     /**

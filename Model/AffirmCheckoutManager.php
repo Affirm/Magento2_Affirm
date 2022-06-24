@@ -62,7 +62,7 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
      *
      * @var \Magento\Quote\Model\Quote
      */
-    protected $quote;
+    protected $quote = null;
 
     /**
      * Injected repository
@@ -136,7 +136,6 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
         Logger $logger
     ) {
         $this->checkoutSession = $checkoutSession;
-        $this->quote = $this->checkoutSession->getQuote();
         $this->quoteRepository = $quoteRepository;
         $this->productMetadata = $productMetadata;
         $this->moduleResource = $moduleResource;
@@ -144,6 +143,19 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
         $this->helper = $helper;
         $this->affirmConfig = $affirmConfig;
         $this->logger = $logger;
+    }
+
+    /**
+     * Return current quote from checkout session.
+     * @return \Magento\Quote\Api\Data\CartInterface|\Magento\Quote\Model\Quote
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function getQuote(){
+        if(null == $this->quote){
+            $this->quote = $this->checkoutSession->getQuote();
+        }
+        return $this->quote;
     }
 
     /**
@@ -156,11 +168,11 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
     public function initCheckout()
     {
         // collection totals before submit
-        $this->quote->collectTotals();
-        $this->quote->reserveOrderId();
-        $orderIncrementId = $this->quote->getReservedOrderId();
-        $discountAmount = $this->quote->getBaseSubtotal() - $this->quote->getBaseSubtotalWithDiscount();
-        $shippingAddress = $this->quote->getShippingAddress();
+        $this->getQuote()->collectTotals();
+        $this->getQuote()->reserveOrderId();
+        $orderIncrementId = $this->getQuote()->getReservedOrderId();
+        $discountAmount = $this->getQuote()->getBaseSubtotal() - $this->getQuote()->getBaseSubtotalWithDiscount();
+        $shippingAddress = $this->getQuote()->getShippingAddress();
 
         $response = [];
         if ($discountAmount > 0.001) {
@@ -173,11 +185,10 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
         }
 
         try {
-            $country = $this
-                ->quote
+            $country = $this->getQuote()
                 ->getBillingAddress()
                 ->getCountry();
-            $result = $this->quote
+            $result = $this->getQuote()
                 ->getPayment()
                 ->getMethodInstance()
                 ->canUseForCountry($country);
@@ -190,7 +201,7 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
             return $e->getMessage();
         }
         if ($orderIncrementId) {
-            $this->quoteRepository->save($this->quote);
+            $this->quoteRepository->save($this->getQuote());
             $response['order_increment_id'] = $orderIncrementId;
         }
         if ($this->productMetadata->getEdition() == 'Enterprise') {
@@ -199,7 +210,7 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
             if ($wrapped) {
                 $response['wrapped_items'] = $wrapped;
             }
-            $giftCards = $this->quote->getGiftCards();
+            $giftCards = $this->getQuote()->getGiftCards();
             if ($giftCards) {
                 $giftCards = json_decode($giftCards);
                 foreach ($giftCards as $giftCard) {
@@ -213,7 +224,7 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
 
 
         $itemTypes = array();
-        $items = $this->quote->getAllVisibleItems();
+        $items = $this->getQuote()->getAllVisibleItems();
         foreach ($items as $item) {
             $itemTypes[] = $item->getProductType();
         }
@@ -248,7 +259,7 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
     }
 
     private function getShippingAddress(){
-        $shippingAddress =  $this->quote->getShippingAddress();
+        $shippingAddress =  $this->getQuote()->getShippingAddress();
         $shippingObject = array(
             'name' => array(
                 'full_name' => $shippingAddress->getName(),
@@ -267,7 +278,7 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
     }
 
     private function getBillingAddress(){
-        $billingAddress =  $this->quote->getBillingAddress();
+        $billingAddress =  $this->getQuote()->getBillingAddress();
         $billingObject = array(
             'name' => array(
                 'full_name' => $billingAddress->getName(),
