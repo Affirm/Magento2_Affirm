@@ -9,6 +9,7 @@ use Magento\Framework\Module\ResourceInterface;
 use Magento\Framework\UrlInterface;
 use Magento\Quote\Model\QuoteValidator;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\ObjectManagerInterface;
 
 /**
  * Class InlineCheckout
@@ -47,13 +48,21 @@ class InlineCheckout implements InlineCheckoutInterface
      */
     private $quoteValidator;
 
+    /**
+     * Object manager
+     *
+     * @var \Magento\Framework\ObjectManagerInterface
+     */
+    protected $objectManager;
+
     public function __construct(
         Session $checkoutSession,
         UrlInterface $urlInterface,
         ResourceInterface $moduleResource,
         ProductMetadataInterface $productMetadata,
         Util $util,
-        QuoteValidator $quoteValidator
+        QuoteValidator $quoteValidator,
+        ObjectManagerInterface $objectManager,
     ){
         $this->session = $checkoutSession;
         $this->quote = $checkoutSession->getQuote();
@@ -62,6 +71,7 @@ class InlineCheckout implements InlineCheckoutInterface
         $this->productMetadata = $productMetadata;
         $this->util = $util;
         $this->quoteValidator = $quoteValidator;
+        $this->objectManager = $objectManager;
     }
 
     public function initInline(){
