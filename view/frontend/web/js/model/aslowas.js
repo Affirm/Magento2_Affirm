@@ -39,7 +39,7 @@ define([
                     formatted = formatted / options.currency_rate;
                     formatted = formatted.toFixed(2);
                 }
-                priceInt = formatted * 100;
+                priceInt = Math.floor((formatted * 100).toFixed(2));
 
                 if (options) {
                     self.options = options;
