@@ -63,6 +63,8 @@ class Config implements ConfigInterface
     const KEY_SORT_ORDER = 'sort_order';
     const API_URL_SANDBOX = 'https://sandbox.affirm.com';
     const API_URL_PRODUCTION = 'https://api.affirm.com';
+    const API_URL_SANDBOX_GLOBAL = 'https://api.global-sandbox.affirm.com';
+    const API_URL_PRODUCTION_GLOBAL = 'https://api.global.affirm.com';
     const METHOD_BML = 'affirm_promo';
     const KEY_ASLOWAS = 'affirm_aslowas';
     const KEY_MFP = 'affirm_mfp';
