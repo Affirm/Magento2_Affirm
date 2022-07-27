@@ -33,7 +33,11 @@ class Util
     /**
      * Idempotency key
      */
-    const IDEMPOTENCY_KEY = "Idempotency-Key";
+    const IDEMPOTENCY_KEY = "Idempotency-Key";/**
+ *
+     * Country code
+     */
+    const COUNTRY_CODE = "Country-Code";
 
     /**
      * Constructor

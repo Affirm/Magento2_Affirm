@@ -37,9 +37,13 @@ class TransferFactory extends AbstractTransferFactory
         $method = isset($request['method']) ? $request['method'] : ClientService::POST;
         // Admin actions will include store id in the request
         $storeId = isset($request['storeId']) ? $request['storeId'] : $this->getStoreId();
+        $country_code = $request['country_code']; // TODO
         return $this->transferBuilder
             ->setMethod($method)
-            ->setHeaders(['Content-Type' => 'application/json'])
+            ->setHeaders([
+                'Content-Type' => 'application/json',
+                'Country-Code' => $country_code
+            ])
             ->setBody($request['body'])
             ->setAuthUsername($this->getPublicApiKey($storeId))
             ->setAuthPassword($this->getPrivateApiKey($storeId))
