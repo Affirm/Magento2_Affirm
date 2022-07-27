@@ -46,6 +46,7 @@ class CaptureRequest extends AbstractDataBuilder
         $payment = $paymentDataObject->getPayment();
         $transactionId = $payment->getAdditionalInformation(self::TRANSACTION_ID) ?:
             $payment->getAdditionalInformation(self::CHARGE_ID);
+        $countryCode = $payment->getAdditionalInformation(self::COUNTRY_CODE)?: 'USA'; // TODO
         $order = $payment->getOrder();
         $storeId = isset($order) ? $order->getStoreId() : $this->_storeManager->getStore()->getId();
         if (!$storeId) {
@@ -62,7 +63,8 @@ class CaptureRequest extends AbstractDataBuilder
         return [
             'path' => "{$transactionId}/capture",
             'storeId' => $storeId,
-            'body' => $_body
+            'body' => $_body,
+            'country_code' => $countryCode,
         ];
     }
 }
