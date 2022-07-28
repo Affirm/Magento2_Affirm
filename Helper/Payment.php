@@ -38,9 +38,9 @@ use Magento\ConfigurableProduct\Model\Product\Type\Configurable as ConfigurableP
 class Payment
 {
     /**
-     * Country code for address validation
+     * Region (country) code for address validation
      */
-    const VALIDATE_COUNTRY = 'US';
+    const VALID_REGIONS = array('US', 'CA');
 
     /**
      * Affirm payment facade
@@ -311,7 +311,7 @@ class Payment
     public function validateVirtual()
     {
         if ($this->quote->getIsVirtual() && !$this->quote->getCustomerIsGuest()) {
-            $countryId = self::VALIDATE_COUNTRY;
+            $countryId = '';
             // get customer addresses list
             $addresses = $this->quote->getCustomer()->getAddresses();
             // get default shipping address for the customer
@@ -321,11 +321,13 @@ class Payment
                 foreach ($addresses as $address) {
                     if ($address->getId() == $defaultShipping) {
                         $countryId = $address->getCountryId();
+                        if (in_array($countryId, self::VALID_REGIONS)) {
+                            return true;
+                        } else {
+                            return false;
+                        }
                         break;
                     }
-                }
-                if ($countryId != self::VALIDATE_COUNTRY) {
-                    return false;
                 }
             }
         }
