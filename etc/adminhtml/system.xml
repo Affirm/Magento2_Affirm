@@ -44,9 +44,9 @@
                     <label>Enabled</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="country" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Country</label>
-                    <source_model>Astound\Affirm\Model\Adminhtml\Source\PaymentCountry</source_model>
+                <field id="region" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Region</label>
+                    <source_model>Astound\Affirm\Model\Adminhtml\Source\PaymentRegion</source_model>
                 </field>
                 <field id="mode" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Mode</label>
@@ -56,7 +56,7 @@
                     <label>Public API Key (US)</label>
                     <depends>
                         <field id="*/*/mode">sandbox</field>
-                        <field id="*/*/country">US</field>
+                        <field id="*/*/region">US</field>
                     </depends>
                 </field>
                 <field id="private_api_key_sandbox" translate="label" type="obscure" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -66,7 +66,7 @@
                     <attribute type="shared">1</attribute>
                     <depends>
                         <field id="*/*/mode">sandbox</field>
-                        <field id="*/*/country">US</field>
+                        <field id="*/*/region">US</field>
                     </depends>
                 </field>
                 <field id="public_api_key_production" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -74,7 +74,7 @@
                     <config_path>payment/affirm_gateway/public_api_key_production</config_path>
                     <depends>
                         <field id="*/*/mode">production</field>
-                        <field id="*/*/country">US</field>
+                        <field id="*/*/region">US</field>
                     </depends>
                 </field>
                 <field id="private_api_key_production" translate="label" type="obscure" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -83,14 +83,14 @@
                     <attribute type="shared">1</attribute>
                     <depends>
                         <field id="*/*/mode">production</field>
-                        <field id="*/*/country">US</field>
+                        <field id="*/*/region">US</field>
                     </depends>
                 </field>
                 <field id="public_api_key_sandbox_ca" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Public API Key (CA)</label>
                     <depends>
                         <field id="*/*/mode">sandbox</field>
-                        <field id="*/*/country">CA</field>
+                        <field id="*/*/region">CA</field>
                     </depends>
                 </field>
                 <field id="private_api_key_sandbox_ca" translate="label" type="obscure" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -100,7 +100,7 @@
                     <attribute type="shared">1</attribute>
                     <depends>
                         <field id="*/*/mode">sandbox</field>
-                        <field id="*/*/country">CA</field>
+                        <field id="*/*/region">CA</field>
                     </depends>
                 </field>
                 <field id="public_api_key_production_ca" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -108,7 +108,7 @@
                     <config_path>payment/affirm_gateway/public_api_key_production_ca</config_path>
                     <depends>
                         <field id="*/*/mode">production</field>
-                        <field id="*/*/country">CA</field>
+                        <field id="*/*/region">CA</field>
                     </depends>
                 </field>
                 <field id="private_api_key_production_ca" translate="label" type="obscure" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -118,7 +118,7 @@
                     <attribute type="shared">1</attribute>
                     <depends>
                         <field id="*/*/mode">production</field>
-                        <field id="*/*/country">CA</field>
+                        <field id="*/*/region">CA</field>
                     </depends>
                 </field>
                 <field id="payment_action" translate="label" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="0">
