@@ -318,21 +318,9 @@ class Config implements ConfigInterface
      */
     public function getScript()
     {
-        $apiUrl = $this->getApiUrl();
-        $prefix = "cdn1";
-        if ($apiUrl) {
-            if ($this->getMode() == 'sandbox') {
-                $pattern = '~(http|https)://~';
-                $replacement = '-';
-            } else {
-                $pattern = '~(http|https)://api~';
-                $replacement = '';
-            }
-            $apiString = preg_replace($pattern, $replacement, $apiUrl);
-            $result = 'https://' . $prefix . $apiString . '/js/v2/affirm.js';
-            return $result;
-        }
-        return '';
+        return ($this->getMode() == 'sandbox') ?
+            self::JS_URL_SANDBOX :
+            self::JS_URL_PRODUCTION;
     }
 
     /**
