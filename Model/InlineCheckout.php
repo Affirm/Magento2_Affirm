@@ -161,11 +161,11 @@ class InlineCheckout implements InlineCheckoutInterface
                     'last'  => $address->getLastName(),
                 ),
                 'address' => array(
-                    'line1'   => isset($street[0]) ? $street[0] : '',
-                    'line2'   => isset($street[1]) ? $street[1] : '',
+                    'street1'   => isset($street[0]) ? $street[0] : '',
+                    'street2'   => isset($street[1]) ? $street[1] : '',
                     'city'    => $address->getCity(),
-                    'state'   => $address->getRegion(),
-                    'zipcode' => $address->getPostcode(),
+                    'region1_code'   => $address->getRegion(),
+                    'postal_code' => $address->getPostcode(),
                     'country' => $address->getCountryId()
                 ),
                 'phone_number' => $address->getTelephone() ? $address->getTelephone() : '',
