@@ -141,19 +141,19 @@ define([
                 street = this.address[type].address.line[0];
             }
             result["address"] = {
-                "line1": street,
+                "street1": street,
                 "city": address.city ? address.city : this.address[type].address.city,
-                "state": address.regionCode ? address.regionCode : this.address[type].address.state,
-                "zipcode": address.postcode ? address.postcode : this.address[type].address.postcode,
+                "region1_code": address.regionCode ? address.regionCode : this.address[type].address.state,
+                "postal_code": address.postcode ? address.postcode : this.address[type].address.postcode,
                 "country": address.countryId ? address.countryId : this.address[type].address.country
              };
             result["name"] = name;
             if (address.street !== undefined) {
                 if (address.street[1]) {
-                    result.address.line2 = address.street[1];
+                    result.address.street2 = address.street[1];
                 }
             } else if(this.address[type].address.line[1]) {
-                result.address.line2 = this.address[type].address.line[1]
+                result.address.street2 = this.address[type].address.line[1]
             }
             if (address.telephone) {
                 result.phone_number = address.telephone;
