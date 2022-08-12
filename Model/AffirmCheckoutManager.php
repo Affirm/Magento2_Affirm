@@ -225,6 +225,8 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
             $productType = false;
         }
 
+        $response['currency'] = $this->affirmConfig->getCurrency();
+
 
         $response['address'] = [
             'shipping' => $productType ? $this->getShippingAddress() :  $this->getBillingAddress(),

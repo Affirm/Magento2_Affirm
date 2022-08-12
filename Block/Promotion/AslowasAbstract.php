@@ -23,7 +23,7 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
      *
      * @var array
      */
-    protected $data = ['logo', 'script', 'public_api_key'];
+    protected $data = ['logo', 'script', 'public_api_key', 'country_code', 'locale'];
 
     /**
      * Colors which could be set in "data-affirm-color".
@@ -208,6 +208,8 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
                 $config = $configProvider['payment'][ConfigProvider::CODE];
                 $this->setData('script', $config['script']);
                 $this->setData('public_api_key', $config['apiKeyPublic']);
+                $this->setData('country_code', $config['countryCode']);
+                $this->setData('locale', $config['locale']);
             }
             // Set max and min options amounts from payment configuration
             $this->setData('min_order_total', $this->getPaymentConfigValue('min_order_total'));
