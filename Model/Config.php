@@ -58,12 +58,16 @@ class Config implements ConfigInterface
     const KEY_PRIVATE_KEY_SANDBOX = 'private_api_key_sandbox';
     const KEY_PUBLIC_KEY_PRODUCTION = 'public_api_key_production';
     const KEY_PRIVATE_KEY_PRODUCTION = 'private_api_key_production';
+    const KEY_PUBLIC_KEY_SANDBOX_CA = 'public_api_key_sandbox_ca';
+    const KEY_PRIVATE_KEY_SANDBOX_CA = 'private_api_key_sandbox_ca';
+    const KEY_PUBLIC_KEY_PRODUCTION_CA = 'public_api_key_production_ca';
+    const KEY_PRIVATE_KEY_PRODUCTION_CA = 'private_api_key_production_ca';
     const KEY_MINIMUM_ORDER_TOTAL = 'minimum_order_total';
     const KEY_MAXIMUM_ORDER_TOTAL = 'maximum_order_total';
     const KEY_SORT_ORDER = 'sort_order';
     const API_URL_SANDBOX = 'https://sandbox.affirm.com';
     const API_URL_PRODUCTION = 'https://api.affirm.com';
-    const JS_URL_SANDBOX = 'https://sandbox.affirm.com/js/v2/affirm.js';
+    const JS_URL_SANDBOX = 'https://cdn1-sandbox.affirm.com/js/v2/affirm.js';
     const JS_URL_PRODUCTION = 'https://cdn1.global.affirm.com/js/v2/affirm.js';
     const API_URL_SANDBOX_GLOBAL = 'https://api.global-sandbox.affirm.com';
     const API_URL_PRODUCTION_GLOBAL = 'https://api.global.affirm.com';
@@ -137,7 +141,9 @@ class Config implements ConfigInterface
         'maximum_order_total' => true,
         'minimum_order_total' => true,
         'api_url_production' => true,
-        'api_url_sandbox' => true
+        'api_url_sandbox' => true,
+        'api_url_production_global' => true,
+        'api_url_sandbox_global' => true
     ];
 
     /**
@@ -196,9 +202,9 @@ class Config implements ConfigInterface
         $currentCurrency = $this->storeManager->getStore()
             ->getBaseCurrencyCode();
         $isValid = true;
-        if ($currentCurrency != self::CURRENCY_CODE) {
-            $isValid = false;
-        }
+        // if ($currentCurrency != self::CURRENCY_CODE) {
+        //     $isValid = false;
+        // }
         return $isValid;
     }
 
@@ -293,12 +299,18 @@ class Config implements ConfigInterface
      *
      * @return mixed
      */
-    public function getPublicApiKey()
+    public function getPublicApiKey($region = 'USD')
     {
         $storeId = $this->getCurrentStoreId();
+        $currentCurrency = $this->storeManager->getStore()
+            ->getCurrentCurrencyCode();
+        $region_suffix = '';
+        if ($currentCurrency == 'CAD') {
+            $region_suffix = '_ca';
+        }
         return ($this->getMode() == 'sandbox') ?
-            $this->getValue(self::KEY_PUBLIC_KEY_SANDBOX, $storeId) :
-            $this->getValue(self::KEY_PUBLIC_KEY_PRODUCTION, $storeId);
+            $this->getValue(self::KEY_PUBLIC_KEY_SANDBOX . $region_suffix, $storeId) :
+            $this->getValue(self::KEY_PUBLIC_KEY_PRODUCTION . $region_suffix, $storeId);
     }
 
     /**
@@ -309,8 +321,8 @@ class Config implements ConfigInterface
     public function getApiUrl()
     {
         return ($this->getMode() == 'sandbox') ?
-            self::API_URL_SANDBOX :
-            self::API_URL_PRODUCTION;
+            self::API_URL_SANDBOX_GLOBAL :
+            self::API_URL_PRODUCTION_GLOBAL;
     }
 
     /**
@@ -323,6 +335,32 @@ class Config implements ConfigInterface
         return ($this->getMode() == 'sandbox') ?
             self::JS_URL_SANDBOX :
             self::JS_URL_PRODUCTION;
+    }
+
+    public function getCountryCode()
+    {
+        $currency = $this->getCurrency();
+        if ($currency == 'CAD') {
+            return 'CAN';
+        } else {
+            return 'USA';
+        }
+    }
+
+    public function getLocale()
+    {
+        $currency = $this->getCurrency();
+        if ($currency == 'CAD') {
+            return 'en_CA';
+        } else {
+            return 'en_US';
+        }
+    }
+
+    public function getCurrency()
+    {
+        $currentStore = $this->getCurrentStore();
+        return $currentStore->getCurrentCurrencyCode();
     }
 
     /**
@@ -618,7 +656,10 @@ class Config implements ConfigInterface
             'max_order_total' => $this->getConfigData('max_order_total'),
             'currency_rate' => !$this->isCurrentStoreCurrencyUSD() ? $this->getUSDCurrencyRate() : null,
             'display_cart_subtotal_incl_tax' => (int)$this->taxConfig->displayCartSubtotalInclTax(),
-            'display_cart_subtotal_excl_tax' => (int)$this->taxConfig->displayCartSubtotalExclTax()
+            'display_cart_subtotal_excl_tax' => (int)$this->taxConfig->displayCartSubtotalExclTax(),
+            'locale' => $this->getLocale(),
+            'country_code' => $this->getCountryCode(),
+            'currency' => $this->getCurrency(),
         ];
     }
 

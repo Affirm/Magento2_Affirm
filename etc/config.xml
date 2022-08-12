@@ -31,7 +31,7 @@
                 <allowspecific>1</allowspecific>
                 <specificcountry>US,AS,GU,MP,PR,VI,CA</specificcountry>
                 <allowspecificcurrency>1</allowspecificcurrency>
-                <currency>USD</currency>
+                <currency>USD,CAD</currency>
                 <can_authorize>1</can_authorize>
                 <can_capture>1</can_capture>
                 <can_capture_partial>1</can_capture_partial>

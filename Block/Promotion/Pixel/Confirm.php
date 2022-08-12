@@ -149,6 +149,8 @@ class Confirm extends \Magento\Framework\View\Element\Template
             if ($config && isset($config['script']) && isset($config['apiKeyPublic'])) {
                 $options['script'] = $config['script'];
                 $options['public_api_key'] = $config['apiKeyPublic'];
+                $options['country_code'] = $config['countryCode'];
+                $options['locale'] = $config['locale'];
             }
         }
         return $options;

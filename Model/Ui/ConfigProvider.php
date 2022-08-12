@@ -119,6 +119,9 @@ class ConfigProvider implements ConfigProviderInterface
                         'financial_product_key' => null
                     ],
                     'script' => $this->affirmConfig->getScript(),
+                    'countryCode' => $this->affirmConfig->getCountryCode(),
+                    'locale' => $this->affirmConfig->getLocale(),
+                    'currency' => $this->affirmConfig->getCurrency(),
                     'redirectUrl' => $this->urlBuilder->getUrl('affirm/checkout/start', ['_secure' => true]),
                     'afterAffirmConf' => $this->config->getValue('after_affirm_conf'),
                     'logoSrc' => $this->config->getValue('icon'),
