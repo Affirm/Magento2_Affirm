@@ -60,7 +60,6 @@ define([
                     locale: locale,
                     country_code: countryCode,
                 };
-                debugger;
                 (function (m, g, n, d, a, e, h, c) {
                     var b = m[n] || {},
                         k = document.createElement(e),
