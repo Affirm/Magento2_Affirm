@@ -23,6 +23,9 @@ define([
         shippingAmount: null,
         tax_amount: null,
         total: null,
+        currency: configData.currency,
+        locale: configData.locale,
+        country_code: configData.CountryCode,
 
         /**
          * Get checkout data
@@ -45,7 +48,10 @@ define([
                 shipping: _self.prepareAddress('shipping'),
                 billing: _self.prepareAddress('billing'),
                 discounts: _self.discounts,
-                metadata: _self.metadata
+                metadata: _self.metadata,
+                currency: _self.currency,
+                locale: _self.locale,
+                country_code: _self.country_code
             }
         },
 

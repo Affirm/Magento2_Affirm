@@ -23,12 +23,8 @@ define(["jquery",
             if (newValue) {
                 price = newValue;
             }
-            if (price && price.base_grand_total) {
-                if (newValue) {
-                    result = price.base_grand_total.toString();
-                } else {
-                    result = price.base_grand_total;
-                }
+            if (price && price.grand_total) {
+                result = price.grand_total.toString();
                 aslowas.process(result, this.options);
             }
         },
