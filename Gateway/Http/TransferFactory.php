@@ -45,8 +45,8 @@ class TransferFactory extends AbstractTransferFactory
                 'Country-Code' => $country_code
             ])
             ->setBody($request['body'])
-            ->setAuthUsername($this->getPublicApiKey($storeId))
-            ->setAuthPassword($this->getPrivateApiKey($storeId))
+            ->setAuthUsername($this->getPublicApiKey($storeId, $country_code))
+            ->setAuthPassword($this->getPrivateApiKey($storeId, $country_code))
             ->setUri($this->getApiUrl($request['path'], $storeId))
             ->build();
     }

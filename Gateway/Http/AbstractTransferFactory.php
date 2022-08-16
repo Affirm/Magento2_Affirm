@@ -30,6 +30,16 @@ use Magento\Store\Model\StoreManagerInterface;
 abstract class AbstractTransferFactory implements TransferFactoryInterface
 {
     /**
+     * Constants
+     */
+    const MODE = 'mode';
+    const SANDBOX = 'sandbox';
+    const PRODUCTION = 'production';
+    const SUFFIX_CANADA = '_ca'; // Config API key suffix for Canada
+    /**
+
+
+    /**
      * Config
      *
      * @var ConfigInterface
@@ -82,16 +92,17 @@ abstract class AbstractTransferFactory implements TransferFactoryInterface
      * @param int $storeId
      * @return string
      */
-    protected function getPublicApiKey($storeId)
+    protected function getPublicApiKey($storeId, $country_code)
     {
+        $country_suffix = $this->getApiKeyNameByCountry($country_code);
         if(!empty($storeId)){
-            return $this->config->getValue('mode', $storeId) == 'sandbox'
-                ? $this->config->getValue('public_api_key_sandbox', $storeId)
-                : $this->config->getValue('public_api_key_production', $storeId);
+            return $this->config->getValue(self::MODE, $storeId) == self::SANDBOX
+                ? $this->config->getValue('public_api_key_sandbox' . $country_suffix, $storeId)
+                : $this->config->getValue('public_api_key_production' . $country_suffix, $storeId);
         } else {
-            return $this->config->getValue('mode') == 'sandbox'
-                ? $this->config->getValue('public_api_key_sandbox')
-                : $this->config->getValue('public_api_key_production');
+            return $this->config->getValue('mode') == self::SANDBOX
+                ? $this->config->getValue('public_api_key_sandbox' . $country_suffix)
+                : $this->config->getValue('public_api_key_production' . $country_suffix);
         }
 
     }
@@ -102,16 +113,17 @@ abstract class AbstractTransferFactory implements TransferFactoryInterface
      * @param int $storeId
      * @return string
      */
-    protected function getPrivateApiKey($storeId)
+    protected function getPrivateApiKey($storeId, $country_code)
     {
+        $country_suffix = $this->getApiKeyNameByCountry($country_code);
         if(!empty($storeId)){
-            return $this->config->getValue('mode', $storeId) == 'sandbox'
-                ? $this->config->getValue('private_api_key_sandbox', $storeId)
-                : $this->config->getValue('private_api_key_production', $storeId);
+            return $this->config->getValue('mode', $storeId) == self::SANDBOX
+                ? $this->config->getValue('private_api_key_sandbox' . $country_suffix, $storeId)
+                : $this->config->getValue('private_api_key_production' . $country_suffix, $storeId);
         } else {
-            return $this->config->getValue('mode') == 'sandbox'
-                ? $this->config->getValue('private_api_key_sandbox')
-                : $this->config->getValue('private_api_key_production');
+            return $this->config->getValue('mode') == self::SANDBOX
+                ? $this->config->getValue('private_api_key_sandbox' . $country_suffix)
+                : $this->config->getValue('private_api_key_production' . $country_suffix);
         }
     }
 
@@ -123,5 +135,18 @@ abstract class AbstractTransferFactory implements TransferFactoryInterface
     protected function getStoreId()
     {
         return $this->_storeManager->getStore()->getId();
+    }
+
+    /**
+     * Map country code to API key config name
+     *
+     * @return string
+     */
+    protected function getApiKeyNameByCountry($country_code)
+    {
+        if ($country_code == 'CAN') {
+            return self::SUFFIX_CANADA;
+        }
+        return '';
     }
 }

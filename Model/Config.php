@@ -74,7 +74,7 @@ class Config implements ConfigInterface
     const METHOD_BML = 'affirm_promo';
     const KEY_ASLOWAS = 'affirm_aslowas';
     const KEY_MFP = 'affirm_mfp';
-    const CURRENCY_CODE = 'USD';
+    const VALID_CURRENCIES = array('USD', 'CAD');
     const KEY_ASLOWAS_DEVELOPER = 'affirm_aslowas_developer';
     const KEY_PIXEL = 'affirm_pixel';
     /**#@-*/
@@ -201,11 +201,7 @@ class Config implements ConfigInterface
     {
         $currentCurrency = $this->storeManager->getStore()
             ->getBaseCurrencyCode();
-        $isValid = true;
-        // if ($currentCurrency != self::CURRENCY_CODE) {
-        //     $isValid = false;
-        // }
-        return $isValid;
+        return in_array($currentCurrency, self::VALID_CURRENCIES);
     }
 
     /**
@@ -217,11 +213,7 @@ class Config implements ConfigInterface
     {
         $currentCurrency = $this->storeManager->getStore()
             ->getCurrentCurrencyCode();
-        $isUSD = true;
-        if ($currentCurrency != self::CURRENCY_CODE) {
-            $isUSD = false;
-        }
-        return $isUSD;
+        return $currentCurrency == 'USD';
     }
 
     /**
