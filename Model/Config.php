@@ -39,6 +39,7 @@ use Magento\Payment\Model\Method\ConfigInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Store\Model\ScopeInterface;
 use Magento\Store\Model\StoreManagerInterface;
+use Magento\Framework\Locale\Resolver;
 use Magento\Directory\Model\Currency;
 use Magento\Tax\Model\Config as TaxConfig;
 
@@ -75,6 +76,7 @@ class Config implements ConfigInterface
     const KEY_ASLOWAS = 'affirm_aslowas';
     const KEY_MFP = 'affirm_mfp';
     const VALID_CURRENCIES = array('USD', 'CAD');
+    const ACCEPTED_LOCALES = array('en_CA', 'fr_CA', 'en_US');
     const KEY_ASLOWAS_DEVELOPER = 'affirm_aslowas_developer';
     const KEY_PIXEL = 'affirm_pixel';
     /**#@-*/
@@ -113,6 +115,13 @@ class Config implements ConfigInterface
      * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
+
+    /**
+     * Store locale resolver
+     *
+     * @var \Magento\Framework\Locale\Resolver
+     */
+    protected $_store;
 
     /**
      * Path pattern
@@ -158,18 +167,21 @@ class Config implements ConfigInterface
      *
      * @param ScopeConfigInterface  $scopeConfig
      * @param StoreManagerInterface $storeManager
+     * @param Resolver              $store
      * @param Currency              $currency
      * @param TaxConfig             $taxConfig
      */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
         StoreManagerInterface $storeManager,
+        Resolver $store,
         Currency $currency,
         TaxConfig $taxConfig
     )
     {
         $this->scopeConfig = $scopeConfig;
         $this->storeManager = $storeManager;
+        $this->_store = $store;
         $this->currency = $currency;
         $this->taxConfig = $taxConfig;
     }
@@ -343,6 +355,10 @@ class Config implements ConfigInterface
     {
         $currency = $this->getCurrency();
         if ($currency == 'CAD') {
+            $currentLocale = $this->_store->getLocale();
+            if (in_array($currentLocale, self::ACCEPTED_LOCALES)) {
+                return $currentLocale;
+            }
             return 'en_CA';
         } else {
             return 'en_US';
