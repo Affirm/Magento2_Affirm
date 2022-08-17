@@ -352,7 +352,7 @@ class Config implements ConfigInterface
         $currency = $this->getCurrency();
         if ($currency == 'CAD') {
             $currentLocale = $this->_store->getLocale();
-            if (in_array($currentLocale, self::ACCEPTED_LOCALES)) {
+            if (in_array($currentLocale, preg_grep('/(_CA)$/', self::ACCEPTED_LOCALES))) {
                 return $currentLocale;
             }
             return 'en_CA';
