@@ -33,6 +33,22 @@ class PaymentActionsValidator extends AbstractResponseValidator
     {
         $response = SubjectReader::readResponse($validationSubject);
         $amount = SubjectReader::readAmount($validationSubject);
+
+        if ( (isset($response['checkout_status']) && $response['checkout_status'] == 'confirmed')
+            || (isset($response['status']) && $response['status'] == 'authorized')
+            || (isset($response['type']) && $response['type'] == 'capture'))
+        {
+            // Pre-Auth/Auth/Capture
+            $_payment = $validationSubject['payment']->getPayment();
+            $payment_data = $_payment->getData();
+            $amount = $payment_data['amount_ordered'];
+        } elseif ( (isset($response['type']) && $response['type'] == 'refund') ) {
+            // Refund (including partial)
+            $_payment = $validationSubject['payment']->getPayment();
+            $_creditMemo = $_payment->getData()['creditmemo'];
+            $amount = $_creditMemo->getGrandTotal();
+        }
+
         $amountInCents = Util::formatToCents($amount);
 
         $errorMessages = [];

@@ -37,7 +37,7 @@ class TransferFactory extends AbstractTransferFactory
         $method = isset($request['method']) ? $request['method'] : ClientService::POST;
         // Admin actions will include store id in the request
         $storeId = isset($request['storeId']) ? $request['storeId'] : $this->getStoreId();
-        $country_code = $request['country_code']; // TODO
+        $country_code = $request['country_code'] ?: 'USA';
         return $this->transferBuilder
             ->setMethod($method)
             ->setHeaders([
