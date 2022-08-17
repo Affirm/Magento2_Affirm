@@ -279,7 +279,7 @@ class Checkout
             $payment->setAdditionalInformation('checkout_token', $token);
             $quoteCurrencyCode = $payment->getQuote()->getCurrency()->getQuoteCurrencyCode();
             $countryCode = $this->getCountryCodeByCurrency($quoteCurrencyCode);
-            $payment->setAdditionalInformation('country_code', $countryCode[1]); // TODO: cleanup
+            $payment->setAdditionalInformation('country_code', $countryCode[1]);
             $payment->save();
         }
     }

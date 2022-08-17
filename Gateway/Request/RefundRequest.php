@@ -46,8 +46,9 @@ class RefundRequest extends AbstractDataBuilder
         $payment = $paymentDataObject->getPayment();
         $transactionId = $payment->getAdditionalInformation(self::TRANSACTION_ID) ?:
             $payment->getAdditionalInformation(self::CHARGE_ID);
-        $countryCode = $payment->getAdditionalInformation(self::COUNTRY_CODE)?: 'USA'; // TODO
-        $amountInCents = Util::formatToCents($buildSubject['amount']);
+        $countryCode = $payment->getAdditionalInformation(self::COUNTRY_CODE) ?: 'USA';
+        $creditMemoAmount = $payment->getCreditmemo()->getGrandTotal();
+        $amountInCents = Util::formatToCents($creditMemoAmount);
         $order = $payment->getOrder();
         if($order) {
             $storeId = $order->getStoreId();
