@@ -679,12 +679,12 @@ class Config implements ConfigInterface
     }
 
     /**
-     * Get partial capture
+     * Get partial capture (US only)
      *
      * @return bool
      */
-    public function getPartialCapture()
+    public function getPartialCapture($countryCode = 'USA')
     {
-        return $this->getConfigData('partial_capture');
+        return $this->getConfigData('partial_capture') && $countryCode == 'USA';
     }
 }
