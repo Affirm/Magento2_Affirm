@@ -40,7 +40,8 @@ class CanCapturePartial
    */
   public function afterCanCapturePartial(Payment $subject, $result)
   {
-    if (!$this->affirmPaymentConfig->getPartialCapture()) {
+    $countryCode = $subject->getData()['additional_information']['country_code'] ?: 'USA';
+    if (!$this->affirmPaymentConfig->getPartialCapture() || $countryCode != 'USA') {
       return false;
     }
     return $result;
