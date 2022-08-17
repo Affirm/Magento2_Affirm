@@ -52,7 +52,7 @@ class CaptureRequest extends AbstractDataBuilder
         if (!$storeId) {
             $storeId = null;
         }
-        if ($this->affirmPaymentConfig->getPartialCapture()) {
+        if ($this->affirmPaymentConfig->getPartialCapture($countryCode)) {
             $_amount = $buildSubject['amount'] ? Util::formatToCents($buildSubject['amount']) : null;
             $_body = [
                 'amount' => $_amount
