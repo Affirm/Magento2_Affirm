@@ -31,8 +31,14 @@ define([
              */
             process: function(price, options) {
                 self = this;
-                var formatted, priceInt, optionsPrice;
-                formatted = Number(price.replace(/[^0-9\.]+/g,""));
+                var formatted, priceInt, optionsPrice, priceStr;
+
+                priceStr = price.replace(/^(-)|[^0-9.,]+/g, '$1').trim();
+                var result = priceStr.replace(/[^0-9]/g, '');
+                if (/[,\.]\d{2}$/.test(priceStr)) {
+                    result = result.replace(/(\d{2})$/, '.$1'); // restore decimal point
+                }
+                formatted = parseFloat(result);
                 priceInt = formatted.toFixed(2) * 100;
 
                 if (options) {
