@@ -75,6 +75,7 @@ class Config implements ConfigInterface
     const KEY_MFP = 'affirm_mfp';
     const VALID_CURRENCIES = array('USD', 'CAD');
     const ACCEPTED_LOCALES = array('en_CA', 'fr_CA', 'en_US');
+    const SUFFIX_CANADA = '_ca';
     const KEY_ASLOWAS_DEVELOPER = 'affirm_aslowas_developer';
     const KEY_PIXEL = 'affirm_pixel';
     /**#@-*/
@@ -289,9 +290,12 @@ class Config implements ConfigInterface
     public function getPrivateApiKey()
     {
         $storeId = $this->getCurrentStoreId();
+        $currentCurrency = $this->storeManager->getStore()
+            ->getCurrentCurrencyCode();
+        $region_suffix = $this->getApiKeyNameByCurrency($currentCurrency);
         return ($this->getMode() == 'sandbox') ?
-            $this->getValue(self::KEY_PRIVATE_KEY_SANDBOX, $storeId) :
-            $this->getValue(self::KEY_PRIVATE_KEY_PRODUCTION, $storeId);
+            $this->getValue(self::KEY_PRIVATE_KEY_SANDBOX . $region_suffix, $storeId) :
+            $this->getValue(self::KEY_PRIVATE_KEY_PRODUCTION . $region_suffix, $storeId);
     }
 
     /**
@@ -299,15 +303,12 @@ class Config implements ConfigInterface
      *
      * @return mixed
      */
-    public function getPublicApiKey($region = 'USD')
+    public function getPublicApiKey()
     {
         $storeId = $this->getCurrentStoreId();
         $currentCurrency = $this->storeManager->getStore()
             ->getCurrentCurrencyCode();
-        $region_suffix = '';
-        if ($currentCurrency == 'CAD') {
-            $region_suffix = '_ca';
-        }
+        $region_suffix = $this->getApiKeyNameByCurrency($currentCurrency);
         return ($this->getMode() == 'sandbox') ?
             $this->getValue(self::KEY_PUBLIC_KEY_SANDBOX . $region_suffix, $storeId) :
             $this->getValue(self::KEY_PUBLIC_KEY_PRODUCTION . $region_suffix, $storeId);
@@ -698,5 +699,24 @@ class Config implements ConfigInterface
     public function getPartialCapture($countryCode = 'USA')
     {
         return $this->getConfigData('partial_capture') && $countryCode == 'USA';
+    }
+
+    /**
+     * Map currency to API key config suffix name
+     *
+     * @return string
+     */
+    protected function getApiKeyNameByCurrency($currency_code)
+    {
+        $_suffix = '';
+        $currencyCodeToSuffix = array(
+            'CAD' => self::SUFFIX_CANADA,
+            'USD' => '',
+        );
+
+        if (isset($currency_code)) {
+            $_suffix = $currencyCodeToSuffix[$currency_code] ?: '';
+        }
+        return $_suffix;
     }
 }

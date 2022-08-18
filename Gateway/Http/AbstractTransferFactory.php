@@ -35,7 +35,9 @@ abstract class AbstractTransferFactory implements TransferFactoryInterface
     const MODE = 'mode';
     const SANDBOX = 'sandbox';
     const PRODUCTION = 'production';
-    const SUFFIX_CANADA = '_ca'; // Config API key suffix for Canada
+    const COUNTRY_CODE_USA = 'USA';
+    const COUNTRY_CODE_CAN = 'CAN';
+    const SUFFIX_CANADA = '_ca';
     /**
 
 
@@ -138,15 +140,21 @@ abstract class AbstractTransferFactory implements TransferFactoryInterface
     }
 
     /**
-     * Map country code to API key config name
+     * Map country code to API key config suffix name
      *
      * @return string
      */
     protected function getApiKeyNameByCountry($country_code)
     {
-        if ($country_code == 'CAN') {
-            return self::SUFFIX_CANADA;
+        $_suffix = '';
+        $countryCodeToSuffix = array(
+            'CAN' => self::SUFFIX_CANADA,
+            'USA' => '',
+        );
+
+        if (isset($country_code)) {
+            $_suffix = $countryCodeToSuffix[$country_code] ?: '';
         }
-        return '';
+        return $_suffix;
     }
 }
