@@ -32,7 +32,7 @@ class PaymentActionsValidator extends AbstractResponseValidator
     public function validate(array $validationSubject)
     {
         $response = SubjectReader::readResponse($validationSubject);
-        $amount = SubjectReader::readAmount($validationSubject);
+        $amount = '';
 
         if ( (isset($response['checkout_status']) && $response['checkout_status'] == 'confirmed')
             || (isset($response['status']) && $response['status'] == 'authorized')
@@ -47,6 +47,9 @@ class PaymentActionsValidator extends AbstractResponseValidator
             $_payment = $validationSubject['payment']->getPayment();
             $_creditMemo = $_payment->getData()['creditmemo'];
             $amount = $_creditMemo->getGrandTotal();
+        } else {
+            // Partial capture (US only)
+            $amount = SubjectReader::readAmount($validationSubject);
         }
 
         $amountInCents = Util::formatToCents($amount);
