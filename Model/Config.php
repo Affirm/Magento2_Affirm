@@ -704,6 +704,7 @@ class Config implements ConfigInterface
     /**
      * Map currency to API key config suffix name
      *
+     * @param string $currency_code
      * @return string
      */
     protected function getApiKeyNameByCurrency($currency_code)

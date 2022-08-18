@@ -92,6 +92,7 @@ abstract class AbstractTransferFactory implements TransferFactoryInterface
      * Get public API key
      *
      * @param int $storeId
+     * @param string $country_code
      * @return string
      */
     protected function getPublicApiKey($storeId, $country_code)
@@ -113,6 +114,7 @@ abstract class AbstractTransferFactory implements TransferFactoryInterface
      * Get private API key
      *
      * @param int $storeId
+     * @param string $country_code
      * @return string
      */
     protected function getPrivateApiKey($storeId, $country_code)
@@ -142,6 +144,7 @@ abstract class AbstractTransferFactory implements TransferFactoryInterface
     /**
      * Map country code to API key config suffix name
      *
+     * @param string $country_code
      * @return string
      */
     protected function getApiKeyNameByCountry($country_code)
