@@ -127,7 +127,7 @@ class ConfigProvider implements ConfigProviderInterface
                     'logoSrc' => $this->config->getValue('icon'),
                     'info' => $this->config->getValue('info'),
                     'visibleType' => $this->config->getValue('control') ? true: false,
-                    'edu' => $this->config->getValue('edu') ? true : false
+                    'edu' => $this->affirmConfig->getEdu() ? true : false
                 ]
             ]
         ];

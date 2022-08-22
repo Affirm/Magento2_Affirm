@@ -183,7 +183,7 @@
                 <field id="edu" translate="label" type="select" sortOrder="180" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Inline Checkout Messaging</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <comment>Enable/Disable Inline checkout value props on the checkout page when Affirm is selected as a payment method</comment>
+                    <comment>Enable/Disable Inline checkout value props on the checkout page when Affirm is selected as a payment method (US only)</comment>
                 </field>
                 <group id="notification" translate="label" type="text" sortOrder="180" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Notification</label>

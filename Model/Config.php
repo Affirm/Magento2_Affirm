@@ -338,6 +338,16 @@ class Config implements ConfigInterface
             self::JS_URL_PRODUCTION;
     }
 
+    /**
+     * Get inline checkout edu modal (US only)
+     *
+     * @return bool
+     */
+    public function getEdu()
+    {
+        return ($this->getConfigData('edu') && $this->getCountryCode() == 'USA');
+    }
+
     public function getCountryCode()
     {
         $currency = $this->getCurrency();
@@ -662,6 +672,7 @@ class Config implements ConfigInterface
             'currency_rate' => !$this->isCurrentStoreCurrencyUSD() ? $this->getUSDCurrencyRate() : null,
             'display_cart_subtotal_incl_tax' => (int)$this->taxConfig->displayCartSubtotalInclTax(),
             'display_cart_subtotal_excl_tax' => (int)$this->taxConfig->displayCartSubtotalExclTax(),
+            'edu' => $this->getEdu(),
             'locale' => $this->getLocale(),
             'country_code' => $this->getCountryCode(),
             'currency' => $this->getCurrency(),
