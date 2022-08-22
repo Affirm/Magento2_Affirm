@@ -41,6 +41,11 @@ class Util
     const COUNTRY_CODE = "Country-Code";
 
     /**
+     * USD currency code
+     */
+    const CURRENCY_CODE_USD = "USD";
+
+    /**
      * Constructor
      *
      * @param Random $random
@@ -57,7 +62,7 @@ class Util
      * @param int $amount
      * @return int
      */
-    public static function formatToCents($amount = 0)
+    public static function formatToCents($amount = 0, $currencyCode = self::CURRENCY_CODE_USD)
     {
         $negative = false;
         $str = self::formatMoney($amount);
