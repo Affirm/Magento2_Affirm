@@ -31,15 +31,10 @@ define([
              */
             process: function(price, options) {
                 self = this;
-                var formatted, priceInt, optionsPrice, priceStr;
+                var priceInt, optionsPrice;
 
-                priceStr = price.replace(/^(-)|[^0-9.,]+/g, '$1').trim();
-                var result = priceStr.replace(/[^0-9]/g, '');
-                if (/[,\.]\d{2}$/.test(priceStr)) {
-                    result = result.replace(/(\d{2})$/, '.$1'); // restore decimal point
-                }
-                formatted = parseFloat(result);
-                priceInt = formatted.toFixed(2) * 100;
+                // Format price to cents
+                priceInt = this.formatToPriceInt(price);
 
                 if (options) {
                     self.options = options;
@@ -61,6 +56,21 @@ define([
                 } else {
                     self.hideAsLowAs(optionsPrice);
                 }
+            },
+
+            /**
+             * Helper function to format price to amount integer
+             */
+             formatToPriceInt: function (price) {
+                var formatted, priceStr;
+
+                priceStr = price.replace(/^(-)|[^0-9.,]+/g, '$1').trim();
+                var result = priceStr.replace(/[^0-9]/g, '');
+                if (/[,\.]\d{2}$/.test(priceStr)) {
+                    result = result.replace(/(\d{2})$/, '.$1'); // restore decimal point
+                }
+                formatted = parseFloat(result);
+                return formatted.toFixed(2) * 100;
             },
 
             /**
