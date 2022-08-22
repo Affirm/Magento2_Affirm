@@ -151,8 +151,8 @@ abstract class AbstractTransferFactory implements TransferFactoryInterface
     {
         $_suffix = '';
         $countryCodeToSuffix = array(
-            'CAN' => self::SUFFIX_CANADA,
-            'USA' => '',
+            self::COUNTRY_CODE_CAN => self::SUFFIX_CANADA,
+            self::COUNTRY_CODE_USA => '',
         );
 
         if (isset($country_code)) {

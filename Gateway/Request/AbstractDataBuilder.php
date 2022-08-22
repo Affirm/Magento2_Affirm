@@ -35,6 +35,7 @@ abstract class AbstractDataBuilder implements BuilderInterface
     const TRANSACTION_ID = 'transaction_id';
     const CHARGE_ID = 'charge_id';
     const COUNTRY_CODE = 'country_code';
+    const DEFAULT_COUNTRY_CODE = 'USA';
     /**#@-*/
 
     /**

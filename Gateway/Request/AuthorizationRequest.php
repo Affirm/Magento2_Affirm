@@ -44,7 +44,7 @@ class AuthorizationRequest extends AbstractDataBuilder
         $paymentDataObject = $buildSubject['payment'];
         $payment = $paymentDataObject->getPayment();
         $token = $payment->getAdditionalInformation(self::CHECKOUT_TOKEN);
-        $countryCode = $payment->getAdditionalInformation(self::COUNTRY_CODE);
+        $countryCode = $payment->getAdditionalInformation(self::COUNTRY_CODE) ?: self::DEFAULT_COUNTRY_CODE;
         return [
             'body' => [
                 self::TRANSACTION_ID => $token

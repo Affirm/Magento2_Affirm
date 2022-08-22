@@ -41,6 +41,7 @@ class Payment
      * Region (country) code for address validation
      */
     const VALID_REGIONS = array('US', 'CA');
+    const DEFAULT_REGION = 'US';
 
     /**
      * Affirm payment facade
@@ -311,7 +312,7 @@ class Payment
     public function validateVirtual()
     {
         if ($this->quote->getIsVirtual() && !$this->quote->getCustomerIsGuest()) {
-            $countryId = '';
+            $countryId = self::DEFAULT_REGION;
             // get customer addresses list
             $addresses = $this->quote->getCustomer()->getAddresses();
             // get default shipping address for the customer
