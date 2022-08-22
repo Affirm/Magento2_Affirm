@@ -100,7 +100,6 @@ class ViewAbstract extends \Magento\Framework\DataObject
                 $this->setData('public_api_key', $config['apiKeyPublic']);
                 $this->setData('country_code', $config['countryCode']);
                 $this->setData('locale', $config['locale']);
-                $this->setData('currency', $config['currency']);
             }
             // Set max and min options amounts from payment configuration
             $this->setData('min_order_total', $this->getPaymentConfigValue('min_order_total'));

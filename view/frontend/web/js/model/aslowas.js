@@ -31,24 +31,25 @@ define([
              */
             process: function(price, options) {
                 self = this;
-                var priceInt, optionsPrice, currency;
-                
-                priceInt = this.formatToPriceInt(price);
-                
+                var formatted, priceInt, optionsPrice, priceStr;
+
+                priceStr = price.replace(/^(-)|[^0-9.,]+/g, '$1').trim();
+                var result = priceStr.replace(/[^0-9]/g, '');
+                if (/[,\.]\d{2}$/.test(priceStr)) {
+                    result = result.replace(/(\d{2})$/, '.$1'); // restore decimal point
+                }
+                formatted = parseFloat(result);
+                priceInt = formatted.toFixed(2) * 100;
+
+                if (options) {
+                    self.options = options;
+                }
+
                 /**
                  * Specify options
                  *
                  * @type {{apr: (*|apr), months: (*|months|c.months|.step.months|gc.months|._data.months), amount: number}}
                  */
-                if (options) {
-                    self.options = options;
-                }
-
-                if (options && typeof options.currency !== 'undefined') {
-                    currency = options.currency
-                }
-                priceInt = this.formatToPriceInt(price, currency);
-
                 optionsPrice = {
                     element_id: (options.element_id ? options.element_id : ''),
                     color_id: (options.color_id ? options.color_id : ''),
@@ -61,22 +62,6 @@ define([
                     self.hideAsLowAs(optionsPrice);
                 }
             },
-
-            /**
-             * Helper function to format price to amount integer
-             */
-            formatToPriceInt: function (price, currency) {
-                var formatted, priceStr;
-
-                priceStr = price.replace(/^(-)|[^0-9.,]+/g, '$1').trim();
-                var result = priceStr.replace(/[^0-9]/g, '');
-                if (/[,\.]\d{2}$/.test(priceStr)) {
-                    result = result.replace(/(\d{2})$/, '.$1'); // restore decimal point
-                }
-                formatted = parseFloat(result);
-                return formatted.toFixed(2) * 100;
-            },
-
 
             /**
              * Hide As Low As
