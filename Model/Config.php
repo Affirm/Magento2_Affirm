@@ -75,6 +75,13 @@ class Config implements ConfigInterface
     const KEY_MFP = 'affirm_mfp';
     const VALID_CURRENCIES = array('USD', 'CAD');
     const ACCEPTED_LOCALES = array('en_CA', 'fr_CA', 'en_US');
+    const COUNTRY_CODE_USA = 'USA';
+    const COUNTRY_CODE_CAN = 'CAN';
+    const CURRENCY_CODE_USD = 'USD';
+    const CURRENCY_CODE_CAD = 'CAD';
+    const LOCALE_EN_CA = 'en_CA';
+    const LOCALE_FR_CA = 'fr_CA';
+    const LOCALE_EN_US = 'en_US';
     const SUFFIX_CANADA = '_ca';
     const KEY_ASLOWAS_DEVELOPER = 'affirm_aslowas_developer';
     const KEY_PIXEL = 'affirm_pixel';
@@ -222,7 +229,7 @@ class Config implements ConfigInterface
     {
         $currentCurrency = $this->storeManager->getStore()
             ->getCurrentCurrencyCode();
-        return $currentCurrency == 'USD';
+        return $currentCurrency == self::CURRENCY_CODE_USD;
     }
 
     /**
@@ -234,7 +241,7 @@ class Config implements ConfigInterface
     {
         $currentStore = $this->getCurrentStore();
         $currencyCode = $currentStore->getCurrentCurrencyCode();
-        $rate = $this->currency->getCurrencyRates('USD', $currencyCode);
+        $rate = $this->currency->getCurrencyRates(self::CURRENCY_CODE_USD, $currencyCode);
         return isset($rate[$currencyCode]) ? $rate[$currencyCode] : false;
     }
 
@@ -345,30 +352,30 @@ class Config implements ConfigInterface
      */
     public function getEdu()
     {
-        return ($this->getConfigData('edu') && $this->getCountryCode() == 'USA');
+        return ($this->getConfigData('edu') && $this->getCountryCode() == self::COUNTRY_CODE_USA);
     }
 
     public function getCountryCode()
     {
         $currency = $this->getCurrency();
-        if ($currency == 'CAD') {
-            return 'CAN';
+        if ($currency == self::CURRENCY_CODE_CAD) {
+            return self::COUNTRY_CODE_CAN;
         } else {
-            return 'USA';
+            return self::COUNTRY_CODE_USA;
         }
     }
 
     public function getLocale()
     {
         $currency = $this->getCurrency();
-        if ($currency == 'CAD') {
+        if ($currency == self::CURRENCY_CODE_CAD) {
             $currentLocale = $this->_store->getLocale();
             if (in_array($currentLocale, preg_grep('/(_CA)$/', self::ACCEPTED_LOCALES))) {
                 return $currentLocale;
             }
-            return 'en_CA';
+            return self::LOCALE_EN_CA;
         } else {
-            return 'en_US';
+            return self::LOCALE_EN_US;
         }
     }
 
@@ -707,9 +714,9 @@ class Config implements ConfigInterface
      *
      * @return bool
      */
-    public function getPartialCapture($countryCode = 'USA')
+    public function getPartialCapture($countryCode = self::COUNTRY_CODE_USA)
     {
-        return $this->getConfigData('partial_capture') && $countryCode == 'USA';
+        return $this->getConfigData('partial_capture') && $countryCode == self::COUNTRY_CODE_USA;
     }
 
     /**
@@ -722,8 +729,8 @@ class Config implements ConfigInterface
     {
         $_suffix = '';
         $currencyCodeToSuffix = array(
-            'CAD' => self::SUFFIX_CANADA,
-            'USD' => '',
+            self::CURRENCY_CODE_CAD => self::SUFFIX_CANADA,
+            self::CURRENCY_CODE_USD => '',
         );
 
         if (isset($currency_code)) {
