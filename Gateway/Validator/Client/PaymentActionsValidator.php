@@ -27,7 +27,10 @@ use Astound\Affirm\Gateway\Helper\Util;
 class PaymentActionsValidator extends AbstractResponseValidator
 {
     /**
-     * @inheritdoc
+     * Validate response
+     *
+     * @param array $validationSubject
+     * @return \Magento\Payment\Gateway\Validator\ResultInterface
      */
     public function validate(array $validationSubject)
     {
@@ -38,17 +41,17 @@ class PaymentActionsValidator extends AbstractResponseValidator
             || (isset($response['status']) && $response['status'] == 'authorized')
             || (isset($response['type']) && $response['type'] == 'capture'))
         {
-            // Pre-Auth/Auth/Capture
+            // Pre-Auth/Auth/Capture uses amount_ordered from payment
             $_payment = $validationSubject['payment']->getPayment();
             $payment_data = $_payment->getData();
             $amount = $payment_data['amount_ordered'];
         } elseif ( (isset($response['type']) && $response['type'] == 'refund') ) {
-            // Refund (including partial)
+            // Refund (including partial) uses grand_total from creditmemo (credit memo invoice)
             $_payment = $validationSubject['payment']->getPayment();
             $_creditMemo = $_payment->getData()['creditmemo'];
             $amount = $_creditMemo->getGrandTotal();
         } else {
-            // Partial capture (US only)
+            // Partial capture (US only) uses validationSubject
             $amount = SubjectReader::readAmount($validationSubject);
         }
 
