@@ -9,7 +9,6 @@ define([
     "mage/translate"
 ],
     function ($, $t) {
-        'use strict';
 
         var self;
         return {
@@ -32,14 +31,10 @@ define([
              */
             process: function(price, options) {
                 self = this;
-                var formatted, priceInt, optionsPrice;
-                formatted = Number(price.replace(/[^0-9\.]+/g,""));
+                var priceInt, optionsPrice;
 
-                if (options.currency_rate) {
-                    formatted = formatted / options.currency_rate;
-                    formatted = formatted.toFixed(2);
-                }
-                priceInt = formatted * 100;
+                // Format price to cents
+                priceInt = this.formatToPriceInt(price);
 
                 if (options) {
                     self.options = options;
@@ -61,6 +56,21 @@ define([
                 } else {
                     self.hideAsLowAs(optionsPrice);
                 }
+            },
+
+            /**
+             * Helper function to format price to amount integer
+             */
+             formatToPriceInt: function (price) {
+                var formatted, priceStr;
+
+                priceStr = price.replace(/^(-)|[^0-9.,]+/g, '$1').trim();
+                var result = priceStr.replace(/[^0-9]/g, '');
+                if (/[,\.]\d{2}$/.test(priceStr)) {
+                    result = result.replace(/(\d{2})$/, '.$1'); // restore decimal point
+                }
+                formatted = parseFloat(result);
+                return formatted.toFixed(2) * 100;
             },
 
             /**
@@ -131,39 +141,47 @@ define([
              * @private
              */
             loadScript: function(options) {
-                "use strict";
                 var pubKey = options.public_api_key,
                     script = options.script,
-                    _affirm_config = {
-                        public_api_key: pubKey, /* Use the PUBLIC API KEY Affirm sent you. */
-                        script: script
-                    };
-                (function(l, g, m, e, a, f, b) {
-                    var d, c = l[m] || {},
-                        h = document.createElement(f),
-                        n = document.getElementsByTagName(f)[0],
-                        k = function(a, b, c) {
-                            return function() {
-                                a[b]._.push([c, arguments])
-                            }
+                    locale = options.locale,
+                    countryCode = options.country_code
+
+                _affirm_config = {
+                    public_api_key: pubKey, /* Use the PUBLIC API KEY Affirm sent you. */
+                    script: script,
+                    locale: locale,
+                    country_code: countryCode,
+                };
+                (function (m, g, n, d, a, e, h, c) {
+                    var b = m[n] || {},
+                        k = document.createElement(e),
+                        p = document.getElementsByTagName(e)[0],
+                        l = function (a, b, c) {
+                            return function () {
+                                a[b]._.push([c, arguments]);
+                            };
                         };
-                    c[e] = k(c, e, "set");
-                    d = c[e];
-                    c[a] = {};
-                    c[a]._ = [];
-                    d._ = [];
-                    c[a][b] = k(c, a, b);
+                    b[d] = l(b, d, "set");
+                    var f = b[d];
+                    b[a] = {};
+                    b[a]._ = [];
+                    f._ = [];
+                    b._ = [];
+                    b[a][h] = l(b, a, h);
+                    b[c] = function () {
+                        b._.push([h, arguments]);
+                    };
                     a = 0;
-                    for (b = "set add save post open empty reset on off trigger ready setProduct".split(" "); a < b.length; a++) d[b[a]] = k(c, e, b[a]);
+                    for (c = "set add save post open empty reset on off trigger ready setProduct".split(" "); a < c.length; a++) f[c[a]] = l(b, d, c[a]);
                     a = 0;
-                    for (b = ["get", "token", "url", "items"]; a < b.length; a++) d[b[a]] = function() {};
-                    h.async = !0;
-                    h.src = g[f];
-                    n.parentNode.insertBefore(h, n);
-                    delete g[f];
-                    d(g);
-                    l[m] = c
-                })(window, _affirm_config, "affirm", "checkout", "ui", "script", "ready");
+                    for (c = ["get", "token", "url", "items"]; a < c.length; a++) f[c[a]] = function () {};
+                    k.async = !0;
+                    k.src = g[e];
+                    p.parentNode.insertBefore(k, p);
+                    delete g[e];
+                    f(g);
+                    m[n] = b;
+                })(window, _affirm_config, "affirm", "checkout", "ui", "script", "ready", "jsReady");
             },
 
             /**

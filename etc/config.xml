@@ -17,18 +17,21 @@
                 <active>0</active>
                 <debug>1</debug>
                 <model>OnePicaAffirmGatewayFacade</model>
+                <region>United States</region>
                 <mode>sandbox</mode>
                 <private_api_key_sandbox backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
                 <private_api_key_production backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
+                <private_api_key_sandbox_ca backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
+                <private_api_key_production_ca backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
                 <min_order_total>0.01</min_order_total>
                 <max_order_total>50000</max_order_total>
                 <payment_action>authorize</payment_action>
                 <partial_capture>0</partial_capture>
                 <disable_for_backordered_items>0</disable_for_backordered_items>
                 <allowspecific>1</allowspecific>
-                <specificcountry>US,AS,GU,MP,PR,VI</specificcountry>
+                <specificcountry>US,AS,GU,MP,PR,VI,CA</specificcountry>
                 <allowspecificcurrency>1</allowspecificcurrency>
-                <currency>USD</currency>
+                <currency>USD,CAD</currency>
                 <can_authorize>1</can_authorize>
                 <can_capture>1</can_capture>
                 <can_capture_partial>1</can_capture_partial>

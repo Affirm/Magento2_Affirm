@@ -34,6 +34,8 @@ abstract class AbstractDataBuilder implements BuilderInterface
     const CHECKOUT_TOKEN = 'checkout_token';
     const TRANSACTION_ID = 'transaction_id';
     const CHARGE_ID = 'charge_id';
+    const COUNTRY_CODE = 'country_code';
+    const DEFAULT_COUNTRY_CODE = 'USA';
     /**#@-*/
 
     /**

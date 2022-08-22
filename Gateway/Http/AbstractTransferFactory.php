@@ -30,6 +30,18 @@ use Magento\Store\Model\StoreManagerInterface;
 abstract class AbstractTransferFactory implements TransferFactoryInterface
 {
     /**
+     * Constants
+     */
+    const MODE = 'mode';
+    const SANDBOX = 'sandbox';
+    const PRODUCTION = 'production';
+    const COUNTRY_CODE_USA = 'USA';
+    const COUNTRY_CODE_CAN = 'CAN';
+    const SUFFIX_CANADA = '_ca';
+    /**
+
+
+    /**
      * Config
      *
      * @var ConfigInterface
@@ -80,18 +92,20 @@ abstract class AbstractTransferFactory implements TransferFactoryInterface
      * Get public API key
      *
      * @param int $storeId
+     * @param string $country_code
      * @return string
      */
-    protected function getPublicApiKey($storeId)
+    protected function getPublicApiKey($storeId, $country_code)
     {
+        $country_suffix = $this->getApiKeyNameByCountry($country_code);
         if(!empty($storeId)){
-            return $this->config->getValue('mode', $storeId) == 'sandbox'
-                ? $this->config->getValue('public_api_key_sandbox', $storeId)
-                : $this->config->getValue('public_api_key_production', $storeId);
+            return $this->config->getValue(self::MODE, $storeId) == self::SANDBOX
+                ? $this->config->getValue('public_api_key_sandbox' . $country_suffix, $storeId)
+                : $this->config->getValue('public_api_key_production' . $country_suffix, $storeId);
         } else {
-            return $this->config->getValue('mode') == 'sandbox'
-                ? $this->config->getValue('public_api_key_sandbox')
-                : $this->config->getValue('public_api_key_production');
+            return $this->config->getValue('mode') == self::SANDBOX
+                ? $this->config->getValue('public_api_key_sandbox' . $country_suffix)
+                : $this->config->getValue('public_api_key_production' . $country_suffix);
         }
 
     }
@@ -100,18 +114,20 @@ abstract class AbstractTransferFactory implements TransferFactoryInterface
      * Get private API key
      *
      * @param int $storeId
+     * @param string $country_code
      * @return string
      */
-    protected function getPrivateApiKey($storeId)
+    protected function getPrivateApiKey($storeId, $country_code)
     {
+        $country_suffix = $this->getApiKeyNameByCountry($country_code);
         if(!empty($storeId)){
-            return $this->config->getValue('mode', $storeId) == 'sandbox'
-                ? $this->config->getValue('private_api_key_sandbox', $storeId)
-                : $this->config->getValue('private_api_key_production', $storeId);
+            return $this->config->getValue('mode', $storeId) == self::SANDBOX
+                ? $this->config->getValue('private_api_key_sandbox' . $country_suffix, $storeId)
+                : $this->config->getValue('private_api_key_production' . $country_suffix, $storeId);
         } else {
-            return $this->config->getValue('mode') == 'sandbox'
-                ? $this->config->getValue('private_api_key_sandbox')
-                : $this->config->getValue('private_api_key_production');
+            return $this->config->getValue('mode') == self::SANDBOX
+                ? $this->config->getValue('private_api_key_sandbox' . $country_suffix)
+                : $this->config->getValue('private_api_key_production' . $country_suffix);
         }
     }
 
@@ -123,5 +139,25 @@ abstract class AbstractTransferFactory implements TransferFactoryInterface
     protected function getStoreId()
     {
         return $this->_storeManager->getStore()->getId();
+    }
+
+    /**
+     * Map country code to API key config suffix name
+     *
+     * @param string $country_code
+     * @return string
+     */
+    protected function getApiKeyNameByCountry($country_code)
+    {
+        $_suffix = '';
+        $countryCodeToSuffix = array(
+            self::COUNTRY_CODE_CAN => self::SUFFIX_CANADA,
+            self::COUNTRY_CODE_USA => '',
+        );
+
+        if (isset($country_code)) {
+            $_suffix = $countryCodeToSuffix[$country_code] ?: '';
+        }
+        return $_suffix;
     }
 }

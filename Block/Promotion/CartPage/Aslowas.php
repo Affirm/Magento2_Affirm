@@ -21,7 +21,7 @@ class Aslowas extends AslowasAbstract
      *
      * @var array
      */
-    protected $data = ['logo', 'script', 'public_api_key', 'min_order_total', 'max_order_total', 'element_id'];
+    protected $data = ['logo', 'script', 'public_api_key', 'min_order_total', 'max_order_total', 'element_id', 'country_code', 'locale'];
 
     /**
      * Checkout session

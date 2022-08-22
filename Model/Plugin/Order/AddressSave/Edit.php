@@ -123,11 +123,11 @@ class Edit
                         'full' => $newAddress['firstname'] . ' ' . $newAddress['lastname']
                     ),
                     'address' => array(
-                        'line1' => $street[0],
-                        'line2' => isset($street[1]) ? $street[1]: '' ,
-                        'state' => $newAddress['region'],
+                        'street1' => $street[0],
+                        'street2' => isset($street[1]) ? $street[1]: '' ,
+                        'region1_code' => $newAddress['region'],
                         'city' => $newAddress['city'],
-                        'zipcode' => $newAddress['postcode'],
+                        'postal_code' => $newAddress['postcode'],
                         'country' => $newAddress['country_id']
                     )
                 )

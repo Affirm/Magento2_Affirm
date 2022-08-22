@@ -123,16 +123,17 @@ class ClientService implements ClientInterface
             $client = $this->httpClientFactory->create();
             $client->setUri($requestUri);
             $client->setAuth($transferObject->getAuthUsername(), $transferObject->getAuthPassword());
+            $headers = $transferObject->getHeaders();
             if (strpos($transferObject->getUri(), $this->action::API_TRANSACTIONS_PATH) !== false) {
                 $idempotencyKey = $this->util->generateIdempotencyKey();
-                $client->setHeaders([Util::IDEMPOTENCY_KEY => $idempotencyKey]);
+                $headers[Util::IDEMPOTENCY_KEY] = $idempotencyKey;
             }
+            $client->setHeaders($headers);
             if (!empty($transferObject->getBody())) {
                 $data = $transferObject->getBody();
                 $data = json_encode($data, JSON_UNESCAPED_SLASHES);
                 $client->setRawData($data, 'application/json');
             }
-
             $response = $client->request($transferObject->getMethod());
             $rawResponse = $response->getRawBody();
             $response = $this->converter->convert($rawResponse);

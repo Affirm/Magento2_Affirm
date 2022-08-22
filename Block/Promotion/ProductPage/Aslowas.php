@@ -33,7 +33,7 @@ class Aslowas extends AslowasAbstract
      * @var array
      */
     protected $data = ['logo', 'script', 'public_api_key', 'min_order_total', 'max_order_total',
-            'selector', 'currency_rate', 'backorders_options', 'element_id'];
+            'selector', 'currency_rate', 'backorders_options', 'element_id', 'country_code', 'locale'];
 
     /**
      * Validate block before showing on front

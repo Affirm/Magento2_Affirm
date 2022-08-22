@@ -44,31 +44,82 @@
                     <label>Enabled</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
+                <field id="region" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Region</label>
+                    <source_model>Astound\Affirm\Model\Adminhtml\Source\PaymentRegion</source_model>
+                </field>
                 <field id="mode" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Mode</label>
                     <source_model>Astound\Affirm\Model\Adminhtml\Source\ModeAction</source_model>
                 </field>
                 <field id="public_api_key_sandbox" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Public API Key</label>
-                    <depends><field id="*/*/mode">sandbox</field></depends>
+                    <label>Public API Key (US)</label>
+                    <depends>
+                        <field id="*/*/mode">sandbox</field>
+                        <field id="*/*/region">US</field>
+                    </depends>
                 </field>
                 <field id="private_api_key_sandbox" translate="label" type="obscure" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Private API Key</label>
+                    <label>Private API Key (US)</label>
                     <config_path>payment/affirm_gateway/private_api_key_sandbox</config_path>
                     <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                     <attribute type="shared">1</attribute>
-                    <depends><field id="*/*/mode">sandbox</field></depends>
+                    <depends>
+                        <field id="*/*/mode">sandbox</field>
+                        <field id="*/*/region">US</field>
+                    </depends>
                 </field>
                 <field id="public_api_key_production" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Public API Key</label>
+                    <label>Public API Key (US)</label>
                     <config_path>payment/affirm_gateway/public_api_key_production</config_path>
-                    <depends><field id="*/*/mode">production</field></depends>
+                    <depends>
+                        <field id="*/*/mode">production</field>
+                        <field id="*/*/region">US</field>
+                    </depends>
                 </field>
                 <field id="private_api_key_production" translate="label" type="obscure" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Private API Key</label>
+                    <label>Private API Key (US)</label>
                     <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                     <attribute type="shared">1</attribute>
-                    <depends><field id="*/*/mode">production</field></depends>
+                    <depends>
+                        <field id="*/*/mode">production</field>
+                        <field id="*/*/region">US</field>
+                    </depends>
+                </field>
+                <field id="public_api_key_sandbox_ca" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Public API Key (CA)</label>
+                    <depends>
+                        <field id="*/*/mode">sandbox</field>
+                        <field id="*/*/region">CA</field>
+                    </depends>
+                </field>
+                <field id="private_api_key_sandbox_ca" translate="label" type="obscure" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Private API Key (CA)</label>
+                    <config_path>payment/affirm_gateway/private_api_key_sandbox_ca</config_path>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                    <attribute type="shared">1</attribute>
+                    <depends>
+                        <field id="*/*/mode">sandbox</field>
+                        <field id="*/*/region">CA</field>
+                    </depends>
+                </field>
+                <field id="public_api_key_production_ca" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Public API Key (CA)</label>
+                    <config_path>payment/affirm_gateway/public_api_key_production_ca</config_path>
+                    <depends>
+                        <field id="*/*/mode">production</field>
+                        <field id="*/*/region">CA</field>
+                    </depends>
+                </field>
+                <field id="private_api_key_production_ca" translate="label" type="obscure" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Private API Key (CA)</label>
+                    <config_path>payment/affirm_gateway/private_api_key_production_ca</config_path>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                    <attribute type="shared">1</attribute>
+                    <depends>
+                        <field id="*/*/mode">production</field>
+                        <field id="*/*/region">CA</field>
+                    </depends>
                 </field>
                 <field id="payment_action" translate="label" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment Action</label>
@@ -78,6 +129,7 @@
                     <label>Enable Partial Capture</label>
                     <depends><field id="payment_action">authorize</field></depends>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Enable/Disable partial capture in order invoices interface (requires auhorize only payment action; US only)</comment>
                 </field>
                 <field id="disable_for_backordered_items" translate="label" type="select" sortOrder="72" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Disable for backordered items</label>
@@ -132,7 +184,7 @@
                 <field id="edu" translate="label" type="select" sortOrder="180" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Inline Checkout Messaging</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <comment>Enable/Disable Inline checkout value props on the checkout page when Affirm is selected as a payment method</comment>
+                    <comment>Enable/Disable Inline checkout value props on the checkout page when Affirm is selected as a payment method (US only)</comment>
                 </field>
                 <group id="notification" translate="label" type="text" sortOrder="180" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Notification</label>

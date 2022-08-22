@@ -46,12 +46,13 @@ class CaptureRequest extends AbstractDataBuilder
         $payment = $paymentDataObject->getPayment();
         $transactionId = $payment->getAdditionalInformation(self::TRANSACTION_ID) ?:
             $payment->getAdditionalInformation(self::CHARGE_ID);
+        $countryCode = $payment->getAdditionalInformation(self::COUNTRY_CODE) ?: self::DEFAULT_COUNTRY_CODE;
         $order = $payment->getOrder();
         $storeId = isset($order) ? $order->getStoreId() : $this->_storeManager->getStore()->getId();
         if (!$storeId) {
             $storeId = null;
         }
-        if ($this->affirmPaymentConfig->getPartialCapture()) {
+        if ($this->affirmPaymentConfig->getPartialCapture($countryCode)) {
             $_amount = $buildSubject['amount'] ? Util::formatToCents($buildSubject['amount']) : null;
             $_body = [
                 'amount' => $_amount
@@ -62,7 +63,8 @@ class CaptureRequest extends AbstractDataBuilder
         return [
             'path' => "{$transactionId}/capture",
             'storeId' => $storeId,
-            'body' => $_body
+            'body' => $_body,
+            'country_code' => $countryCode,
         ];
     }
 }

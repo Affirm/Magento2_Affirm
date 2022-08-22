@@ -277,6 +277,9 @@ class Checkout
         if ($token) {
             $payment = $this->quote->getPayment();
             $payment->setAdditionalInformation('checkout_token', $token);
+            $quoteCurrencyCode = $payment->getQuote()->getCurrency()->getQuoteCurrencyCode();
+            $countryCode = $this->getCountryCodeByCurrency($quoteCurrencyCode);
+            $payment->setAdditionalInformation('country_code', $countryCode[1]);
             $payment->save();
         }
     }
@@ -297,5 +300,20 @@ class Checkout
         $this->quote->assignCustomerWithAddressChange($customerData, $billingAddress, $shippingAddress);
         $this->customerId = $customerData->getId();
         return $this;
+    }
+
+    /**
+     * Maps currency code to country code
+     *
+     * @param string $currencyCode
+     * @return string
+     */
+    protected function getCountryCodeByCurrency($currencyCode)
+    {
+        $currency_map = array(
+            "USD" => ['US','USA'],
+            "CAD" => ['CA','CAN']
+        );
+        return $currency_map[$currencyCode];
     }
 }

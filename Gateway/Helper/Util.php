@@ -36,6 +36,11 @@ class Util
     const IDEMPOTENCY_KEY = "Idempotency-Key";
 
     /**
+     * Country code
+     */
+    const COUNTRY_CODE = "Country-Code";
+
+    /**
      * Constructor
      *
      * @param Random $random
