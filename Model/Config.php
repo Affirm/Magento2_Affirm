@@ -355,6 +355,26 @@ class Config implements ConfigInterface
         return ($this->getConfigData('edu') && $this->getCountryCode() == self::COUNTRY_CODE_USA);
     }
 
+    /**
+     * Get Affirm title
+     *
+     * @return string
+     */
+    public function getAffirmTitle()
+    {
+        return $this->getEdu() ? __('Place Order') : __('Continue with Affirm');
+    }
+
+    /**
+     * Get default edu description
+     *
+     * @return string
+     */
+    public function getDefaultEduDesc()
+    {
+        return __('You will be redirected to Affirm to securely complete your purchase. Just fill out a few pieces of basic information and get a real-time decision. Checking your eligibility won\'t affect your credit score.');
+    }
+
     public function getCountryCode()
     {
         $currency = $this->getCurrency();
@@ -680,6 +700,8 @@ class Config implements ConfigInterface
             'display_cart_subtotal_incl_tax' => (int)$this->taxConfig->displayCartSubtotalInclTax(),
             'display_cart_subtotal_excl_tax' => (int)$this->taxConfig->displayCartSubtotalExclTax(),
             'edu' => $this->getEdu(),
+            'defaultEduDesc' => $this->getDefaultEduDesc(),
+            'affirmTitle' => $this->getAffirmTitle(),
             'locale' => $this->getLocale(),
             'country_code' => $this->getCountryCode(),
             'currency' => $this->getCurrency(),

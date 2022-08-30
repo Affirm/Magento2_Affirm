@@ -1,0 +1,193 @@
+"Payment Restriction Rules","Payment Restriction Rules"
+"Add Rule","Add Rule"
+"Save and Continue Edit","Save and Continue Edit"
+"Edit Payment Restriction Rule `%1`","Edit Payment Restriction Rule `%1`"
+"Add new Payment Restriction Rule","Add new Payment Restriction Rule"
+"Payment Restriction Information","Payment Restriction Information"
+Conditions,Conditions
+"Apply the rule only if the following conditions are met (leave blank for all products).","Apply the rule only if the following conditions are met (leave blank for all products)."
+General,General
+"Rule Name","Rule Name"
+Status,Status
+"Disable Selected Payment Methods","Disable Selected Payment Methods"
+"Customer Groups","Customer Groups"
+"Leave empty or select all to apply the rule to any group","Leave empty or select all to apply the rule to any group"
+Stores,Stores
+"Leave empty or select all to apply the rule to any","Leave empty or select all to apply the rule to any"
+"Payment Restriction Rules Options","Payment Restriction Rules Options"
+"Restricts For All","Restricts For All"
+"Allows All","Allows All"
+"Restricts in All","Restricts in All"
+"Affirm error page","Affirm error page"
+Promotions,Promotions
+"You deleted the item.","You deleted the item."
+"We can't delete item right now. Please review the log and try again.","We can't delete item right now. Please review the log and try again."
+"We can't find a item to delete.","We can't find a item to delete."
+"Please select a rule to duplicate.","Please select a rule to duplicate."
+"This item no longer exists.","This item no longer exists."
+"The rule has been duplicated. Please feel free to activate it.","The rule has been duplicated. Please feel free to activate it."
+"Something went wrong while saving the item data. Please review the error log.","Something went wrong while saving the item data. Please review the error log."
+"Edit Payment Restrictions Rule `%1`","Edit Payment Restrictions Rule `%1`"
+"Payment Restrictions Rules","Payment Restrictions Rules"
+"You deleted the rule(s).","You deleted the rule(s)."
+"You activated the rule(s).","You activated the rule(s)."
+"You deactivated the rule(s).","You deactivated the rule(s)."
+"We can't delete/activate/deactivate rule(s) right now. Please review the log and try again.","We can't delete/activate/deactivate rule(s) right now. Please review the log and try again."
+"We can't find a rule(s) to delete/activate/deactivate.","We can't find a rule(s) to delete/activate/deactivate."
+"The wrong item is specified.","The wrong item is specified."
+"You saved the rule.","You saved the rule."
+"We can't place the order.","We can't place the order."
+"Wrong response type","Wrong response type"
+" Affirm status code: "," Affirm status code: "
+"Transaction has been declined, please, try again later.","Transaction has been declined, please, try again later."
+"NOT LOGGED IN","NOT LOGGED IN"
+Active,Active
+Inactive,Inactive
+Sandbox,Sandbox
+Production,Production
+Authorize,Authorize
+"Authorize and Capture","Authorize and Capture"
+Redirect,Redirect
+Modal,Modal
+"United States","United States"
+Canada,Canada
+"Discount (%s)","Discount (%s)"
+Discount,Discount
+"Your billing country isn't allowed by Affirm.","Your billing country isn't allowed by Affirm."
+"Gift Card (%s)","Gift Card (%s)"
+"Affirm can't process orders with a zero balance due. To finish your purchase, please go through the standard checkout process.","Affirm can't process orders with a zero balance due. To finish your purchase, please go through the standard checkout process."
+"Token is absent, some problem with response from Affirm happened.","Token is absent, some problem with response from Affirm happened."
+"Place Order","Place Order"
+"Continue with Affirm","Continue with Affirm"
+"You will be redirected to Affirm to securely complete your purchase. Just fill out a few pieces of basic information and get a real-time decision. Checking your eligibility won't affect your credit score.","You will be redirected to Affirm to securely complete your purchase. Just fill out a few pieces of basic information and get a real-time decision. Checking your eligibility won't affect your credit score."
+"↑ Center top","↑ Center top"
+"↓ Center bottom","↓ Center bottom"
+"↖ Sidebar top","↖ Sidebar top"
+"↙ Sidebar bottom","↙ Sidebar bottom"
+"↑ Center Top","↑ Center Top"
+"↑ Near checkout button","↑ Near checkout button"
+"↑ Header (center) top","↑ Header (center) top"
+"↓ Header (center) bottom","↓ Header (center) bottom"
+"After Price","After Price"
+"Before Price","Before Price"
+"End of Product Info","End of Product Info"
+Exclusive,Exclusive
+Inclusive,Inclusive
+Subtotal,Subtotal
+"Total Items Quantity","Total Items Quantity"
+"Total Weight","Total Weight"
+"Shipping Method","Shipping Method"
+"Shipping Postcode","Shipping Postcode"
+"Shipping Region","Shipping Region"
+"Shipping State/Province","Shipping State/Province"
+"Shipping Country","Shipping Country"
+"Address Line","Address Line"
+City,City
+contains,contains
+"does not contain","does not contain"
+"starts from","starts from"
+"ends with","ends with"
+"Product attribute combination","Product attribute combination"
+"Products subselection","Products subselection"
+"Conditions combination","Conditions combination"
+"Cart Attribute","Cart Attribute"
+"total quantity","total quantity"
+"total amount excl. tax","total amount excl. tax"
+"total amount incl. tax","total amount incl. tax"
+"total weight","total weight"
+Success,Success
+Fraud,Fraud
+"Affirm is not available as a payment method in Magento at this time.
+     Instead you may use %1","Affirm is not available as a payment method in Magento at this time.
+     Instead you may use %1"
+Affirm,Affirm
+"My Cart","My Cart"
+Close,Close
+item,item
+items,items
+"Go to Checkout","Go to Checkout"
+"Recently added item(s)","Recently added item(s)"
+"You have no items in your shopping cart.","You have no items in your shopping cart."
+"View and edit cart","View and edit cart"
+"Items in Cart","Items in Cart"
+"Affirm payment","Affirm payment"
+"We have a problem with your Affirm script loading, please verify your API URL!","We have a problem with your Affirm script loading, please verify your API URL!"
+"Extension Version","Extension Version"
+Enabled,Enabled
+Region,Region
+Mode,Mode
+"Public API Key (US)","Public API Key (US)"
+"Private API Key (US)","Private API Key (US)"
+"Public API Key (CA)","Public API Key (CA)"
+"Private API Key (CA)","Private API Key (CA)"
+"Payment Action","Payment Action"
+"Enable Partial Capture","Enable Partial Capture"
+"Disable for backordered items","Disable for backordered items"
+"Minimum Order Total","Minimum Order Total"
+"Maximum Order Total","Maximum Order Total"
+"Sort Order","Sort Order"
+"Plain Text Appearance","Plain Text Appearance"
+Title,Title
+Icon,Icon
+"Affirm Payment Method HTML","Affirm Payment Method HTML"
+"Enabled Checkout Button","Enabled Checkout Button"
+"Checkout Button Code","Checkout Button Code"
+"Checkout Button Width","Checkout Button Width"
+"Checkout Flow Type","Checkout Flow Type"
+"Inline Checkout Messaging","Inline Checkout Messaging"
+Notification,Notification
+"I'd like to be informed about Affirm extension updates","I'd like to be informed about Affirm extension updates"
+"Affirm Promos","Affirm Promos"
+"Banner Settings","Banner Settings"
+"Home Page Settings","Home Page Settings"
+Display,Display
+"Promo Size","Promo Size"
+"Promo Position","Promo Position"
+"Catalog Category Page Settings","Catalog Category Page Settings"
+"Catalog Product Page Settings","Catalog Product Page Settings"
+"Checkout Cart Page Settings","Checkout Cart Page Settings"
+"Developer settings","Developer settings"
+"Home page container","Home page container"
+"Catalog Category Container","Catalog Category Container"
+"Catalog Product Container","Catalog Product Container"
+"Checkout Cart Container","Checkout Cart Container"
+"As Low As Functionality","As Low As Functionality"
+"Enable for PDP","Enable for PDP"
+"Enable for Category PLP","Enable for Category PLP"
+"Enable for Shopping Cart","Enable for Shopping Cart"
+"Enable for Mini Shopping Cart","Enable for Mini Shopping Cart"
+"Affirm logo","Affirm logo"
+"Minimum amount for displaying the promotional payment pricing","Minimum amount for displaying the promotional payment pricing"
+"Enable Learn More","Enable Learn More"
+"Default Affirm Promo ID","Default Affirm Promo ID"
+"As Low As Additional Developer Settings","As Low As Additional Developer Settings"
+"PDP Placement options for As low as","PDP Placement options for As low as"
+"Multiple Financing Program","Multiple Financing Program"
+"Default Financing Program value","Default Financing Program value"
+"Financing Program value","Financing Program value"
+"Start date for Financing Program value","Start date for Financing Program value"
+"End date for Financing Program value","End date for Financing Program value"
+"Affirm Promo ID","Affirm Promo ID"
+"Cart-size Financing Program value","Cart-size Financing Program value"
+"Cart-size Financing Program Minimum Order Total","Cart-size Financing Program Minimum Order Total"
+"Cart-size Financing Program Maximum Order Total","Cart-size Financing Program Maximum Order Total"
+"Cart-size Affirm Promo ID","Cart-size Affirm Promo ID"
+"Enhanced Analytics","Enhanced Analytics"
+"Enable Affirm Checkout Tracking Pixel","Enable Affirm Checkout Tracking Pixel"
+"Payment Restrictions Options","Payment Restrictions Options"
+Activate,Activate
+Inactivate,Inactivate
+Delete,Delete
+"Are you sure?","Are you sure?"
+ID,ID
+Name,Name
+Methods,Methods
+"Store Views","Store Views"
+Action,Action
+Duplicate,Duplicate
+Custom,Custom
+"Multiple Financing Program value","Multiple Financing Program value"
+"Multiple Financing Program type","Multiple Financing Program type"
+"Multiple Financing Program priority","Multiple Financing Program priority"
+"Start date for time based Financing Program value","Start date for time based Financing Program value"
+"End date for time based Financing Program value","End date for time based Financing Program value"
