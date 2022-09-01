@@ -59,7 +59,7 @@ Discount,Remise
 "Token is absent, some problem with response from Affirm happened.","Le jeton est absent, un problème de réponse d'Affirm s'est produit."
 "Place Order","Passer la commande"
 "Continue with Affirm","Continuer avec Affirm"
-"You will be redirected to Affirm to securely complete your purchase. Just fill out a few pieces of basic information and get a real-time decision. Checking your eligibility won't affect your credit score.","Vous serez redirigé vers Affirm pour terminer votre achat en toute sécurité. C'est rapide et facile : prenez une décision en temps réel!"
+"You will be redirected to Affirm to securely complete your purchase. Just fill out a few pieces of basic information and get a real-time decision. Checking your eligibility won\'t affect your credit score.","Vous serez redirigé vers Affirm pour terminer votre achat en toute sécurité. Remplissez simplement quelques renseignements de base et obtenez une décision en temps réel. La vérification de votre admissibilité n'affectera pas votre cote de crédit."
 "↑ Center top","↑ Haut du centre"
 "↓ Center bottom","↓ Bas du centre"
 "↖ Sidebar top","↖ Haut de la barre latérale"
@@ -191,3 +191,9 @@ Custom,Personnalisé
 "Multiple Financing Program priority","Priorité du Programme de financement multiple"
 "Start date for time based Financing Program value","Valeur Date de début du Programme de financement temporel"
 "End date for time based Financing Program value","Valeur Date de fin du Programme de financement temporel"
+"Pay attention! Please, specify public key inside Affirm payment method. Stores->Configuration->Sales->Payment Methods->Affirm.
+     ""As low as"" will be visible only in case if product price or checkout cart total will be above of $50.","Fais attention! Veuillez spécifier la clé publique dans le mode de paiement Affirm. Magasins->Configuration->Ventes->Modes de paiement->Affirm.
+     ""Aussi peu que"" sera visible uniquement dans le cas où le prix du produit ou le total du panier de paiement sera supérieur à 50 $."
+"Enable/Disable partial capture in order invoices interface (requires authorize only payment action; US only)","Activer/désactiver la capture partielle dans l'interface des factures de commande (nécessite une action de paiement autorisée uniquement; États-Unis uniquement)"
+"Enable/Disable Inline checkout value props on the checkout page when Affirm is selected as a payment method (US only)","Activez/désactivez les propositions de valeur de paiement en ligne sur la page de paiement lorsque Affirm est sélectionné comme mode de paiement. (États-Unis uniquement)"
+"Pay over time","Payer par versements"
