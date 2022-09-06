@@ -1,0 +1,199 @@
+"Payment Restriction Rules","Règles de restriction des paiements"
+"Add Rule","Ajouter une règle"
+"Save and Continue Edit","Enregistrer et continuer la modification"
+"Edit Payment Restriction Rule `%1`","Modifier la règle de restriction de paiement `%1'"
+"Add new Payment Restriction Rule","Ajouter une nouvelle règle de restriction de paiement"
+"Payment Restriction Information","Informations sur les restrictions de paiement"
+Conditions,Modalités
+"Apply the rule only if the foldlowing conditions are met (leave blank for all products).","Appliquer la règle uniquement si les conditions suivantes sont remplies (laissez ce champ vide pour tous les produits)."
+General,Généralités
+"Rule Name","Nom de la règle"
+Status,Statut
+"Disable Selected Payment Methods","Désactiver les méthodes de paiement sélectionnées"
+"Customer Groups","Groupes de clients"
+"Leave empty or select all to apply the rule to any group","Laissez vide ou sélectionnez tout pour appliquer la règle à n'importe quel groupe"
+Stores,Magasins
+"Leave empty or select all to apply the rule to any","Laissez vide ou sélectionnez tout pour appliquer la règle à n'importe quel"
+"Payment Restriction Rules Options","Options des règles de restriction des paiements"
+"Restricts For All","Restrictions pour tous"
+"Allows All","Permet à tous"
+"Restricts in All","Restrictions dans tous"
+"Affirm error page","Page d'erreur Affirm"
+Promotions,Promotions
+"You deleted the item.","Vous avez supprimé l'élément."
+"We can't delete item right now. Please review the log and try again.","Nous ne pouvons pas supprimer cet élément pour l'instant. Veuillez vérifier le registre et réessayer."
+"We can't find a item to delete.","Nous ne trouvons pas d'élément à supprimer."
+"Please select a rule to duplicate.","Veuillez sélectionner une règle à dupliquer."
+"This item no longer exists.","Cet élément n'existe plus."
+"The rule has been duplicated. Please feel free to activate it.","La règle a été dupliquée. N'hésitez pas à l'activer."
+"Something went wrong while saving the item data. Please review the error log.","Un problème est survenu lors de la sauvegarde des données de l'élément. Veuillez consulter le registre des erreurs."
+"Edit Payment Restrictions Rule `%1`","Modifier la règle de restriction de paiement `%1'"
+"Payment Restrictions Rules","Règles de restriction des paiements"
+"You deleted the rule(s).","Vous avez supprimé la ou les règles."
+"You activated the rule(s).","Vous avez activé la ou les règles."
+"You deactivated the rule(s).","Vous avez désactivé la ou les règles."
+"We can't delete/activate/deactivate rule(s) right now. Please review the log and try again.","Nous ne pouvons pas supprimer/activer/désactiver les règles pour l'instant. Veuillez vérifier le registre et réessayer."
+"We can't find a rule(s) to delete/activate/deactivate.","Nous ne trouvons pas de règle(s) à supprimer/activer/désactiver."
+"The wrong item is specified.","Le mauvais élément est spécifié."
+"You saved the rule.","Vous avez enregistré la règle."
+"We can't place the order.","Nous ne pouvons pas passer la commande."
+"Wrong response type","Type de réponse incorrect"
+" Affirm status code: "," Code d'état Affirm : "
+"Transaction has been declined, please, try again later.","La transaction a été refusée, veuillez réessayer plus tard."
+"NOT LOGGED IN","NON CONNECTÉ"
+Active,actif
+Inactive,Inactif
+Sandbox,Sandbox
+Production,Production
+Authorize,Autoriser
+"Authorize and Capture","Autoriser et capturer"
+Redirect,Redirection
+Modal,Modal
+"United States","États-Unis"
+Canada,Canada
+"Discount (%s)","Remise (%s)"
+Discount,Remise
+"Your billing country isn't allowed by Affirm.","Votre pays de facturation n'est pas autorisé par Affirm."
+"Gift Card (%s)","Carte-cadeau (%s)"
+"Affirm can't process orders with a zero balance due. To finish your purchase, please go through the standard checkout process.","Affirm ne peut pas traiter les commandes avec un solde dû nul. Pour terminer votre achat, veuillez passer par le processus de paiement standard."
+"Token is absent, some problem with response from Affirm happened.","Le jeton est absent, un problème de réponse d'Affirm s'est produit."
+"Place Order","Passer la commande"
+"Continue with Affirm","Continuer avec Affirm"
+"You will be redirected to Affirm to securely complete your purchase. Just fill out a few pieces of basic information and get a real-time decision. Checking your eligibility won\'t affect your credit score.","Vous serez redirigé vers Affirm pour terminer votre achat en toute sécurité. Remplissez simplement quelques renseignements de base et obtenez une décision en temps réel. La vérification de votre admissibilité n'affectera pas votre cote de crédit."
+"↑ Center top","↑ Haut du centre"
+"↓ Center bottom","↓ Bas du centre"
+"↖ Sidebar top","↖ Haut de la barre latérale"
+"↙ Sidebar bottom","↙ Bas de la barre latérale"
+"↑ Center Top","↑ Haut du centre"
+"↑ Near checkout button","↑ Bouton près de la caisse"
+"↑ Header (center) top","↑ En-tête haut du centre"
+"↓ Header (center) bottom","↓ En-tête bas du centre"
+"After Price","Après le prix"
+"Before Price","Avant le prix"
+"End of Product Info","Renseignements sur la fin du produit"
+Exclusive,Exclus
+Inclusive,Inclus
+Subtotal,Sous-total
+"Total Items Quantity","Quantité totale d'articles"
+"Total Weight","Poids total"
+"Shipping Method","Méthode d'expédition"
+"Shipping Postcode","Code postal d'expédition"
+"Shipping Region","Région d'expédition"
+"Shipping State/Province","État/Province d'expédition"
+"Shipping Country","Pays d'expédition"
+"Address Line","Ligne Adresse"
+City,Ville
+contains,accepte
+"does not contain","n'accepte pas"
+"starts from","débute le"
+"ends with","se termine le"
+"Product attribute combination","Combinaison d'attributs de produits"
+"Products subselection","Sous-sélection des produits"
+"Conditions combination","Combinaison de conditions"
+"Cart Attribute","Attribut de panier"
+"total quantity","quantité totale"
+"total amount excl. tax","montant total excluant taxes"
+"total amount incl. tax","montant total incluant taxes"
+"total weight","poids total"
+Success,Réussite
+Fraud,Fraude
+"Affirm is not available as a payment method in Magento at this time.
+     Instead you may use %1","Affirm n'est pas disponible comme méthode de paiement dans Magento pour le moment.
+     À la place, vous pouvez utiliser %1"
+Affirm,Affirm
+"My Cart","Mon panier"
+Close,Fermer
+item,article
+items,Articles
+"Go to Checkout","Passez à la caisse"
+"Recently added item(s)","Article(s) récemment ajouté(s)"
+"You have no items in your shopping cart.","Vous n'avez aucun article dans votre panier."
+"View and edit cart","Afficher et modifier le panier"
+"Items in Cart","Articles dans le panier"
+"Affirm payment","Paiement Affirm"
+"We have a problem with your Affirm script loading, please verify your API URL!","Nous avons un problème avec le chargement de votre script Affirm, veuillez vérifier votre URL API!"
+"Extension Version","Version d'extension"
+Enabled,Activé
+Region,Région
+Mode,Mode
+"Public API Key (US)","Clé API publique (É.-U.)"
+"Private API Key (US)","Clé API privée (É.-U.)"
+"Public API Key (CA)","Clé API publique (CA)"
+"Private API Key (CA)","Clé API privée (É.-U.)"
+"Payment Action","Action de paiement"
+"Enable Partial Capture","Activer la capture partielle"
+"Disable for backordered items","Désactiver pour les articles en rupture de stock"
+"Minimum Order Total","Total minimum de la commande"
+"Maximum Order Total","Total maximum de la commande"
+"Sort Order","Trier la commande"
+"Plain Text Appearance","Apparence de texte brut"
+Title,Titre
+Icon,Icône
+"Affirm Payment Method HTML","Mode de paiement Affirm HTML"
+"Enabled Checkout Button","Bouton de caisse activé"
+"Checkout Button Code","Code de bouton de caisse"
+"Checkout Button Width","Largeur de bouton de caisse"
+"Checkout Flow Type","Type de flux de caisse"
+"Inline Checkout Messaging","Messagerie de caisse en ligne"
+Notification,Notifications
+"I'd like to be informed about Affirm extension updates","Je souhaite être informé des mises à jour de l'extension Affirm"
+"Affirm Promos","Promos Affirm"
+"Banner Settings","Paramètres de la bannière"
+"Home Page Settings","Paramètres de la page d'accueil"
+Display,Affichage
+"Promo Size","Taille de la promo"
+"Promo Position","Position de la promo"
+"Catalog Category Page Settings","Paramètres de la page de catégories du catalogue"
+"Catalog Product Page Settings","Paramètres de la page de produits du catalogue"
+"Checkout Cart Page Settings","Paramètres de la page de panier de caisse"
+"Developer settings","Paramètres du développeur"
+"Home page container","Conteneur de la page d'accueil"
+"Catalog Category Container","Conteneur de catégories du catalogue"
+"Catalog Product Container","Conteneur de produits du catalogue"
+"Checkout Cart Container","Conteneur de panier de caisse"
+"As Low As Functionality","Fonctionnalité Aussi peu que"
+"Enable for PDP","Activer pour PDP"
+"Enable for Category PLP","Activer pour PLP de catégorie"
+"Enable for Shopping Cart","Activer pour le panier d'achat"
+"Enable for Mini Shopping Cart","Activer pour le mini-panier d'achat"
+"Affirm logo","Logo Affirm"
+"Minimum amount for displaying the promotional payment pricing","Montant minimum pour l'affichage du prix du paiement promotionnel"
+"Enable Learn More","Activer En savoir plus"
+"Default Affirm Promo ID","ID de promo Affirm par défaut"
+"As Low As Additional Developer Settings","Paramètres supplémentaires de développeur Aussi peu que"
+"PDP Placement options for As low as","Options de placement PDP pour Aussi peu que"
+"Multiple Financing Program","Programme de financement multiple"
+"Default Financing Program value","Valeur du programme de financement par défaut"
+"Financing Program value","Valeur Programme de financement"
+"Start date for Financing Program value","Valeur Date de début du programme de financement"
+"End date for Financing Program value","Valeur Date de fin du programme de financement"
+"Affirm Promo ID","ID de promo Affirm"
+"Cart-size Financing Program value","Valeur Programme de financement par taille de panier"
+"Cart-size Financing Program Minimum Order Total","Total minimum de la commande du Programme de financement par taille de panier"
+"Cart-size Financing Program Maximum Order Total","Total maximum de la commande du Programme de financement par taille de panier"
+"Cart-size Affirm Promo ID","ID de promo Affirm par taille de panier"
+"Enhanced Analytics","Analytique améliorée"
+"Enable Affirm Checkout Tracking Pixel","Activer le pixel de suivi de caisse Affirm"
+"Payment Restrictions Options","Options de restrictions de paiement"
+Activate,Activer
+Inactivate,Désactiver
+Delete,Supprimer
+"Are you sure?","Êtes-vous sûr(e)?"
+ID,ID
+Name,Nom
+Methods,Méthodes
+"Store Views","Vues du magasin"
+Action,Action
+Duplicate,Double
+Custom,Personnalisé
+"Multiple Financing Program value","Valeur de Programme de financement multiple"
+"Multiple Financing Program type","Type de Programme de financement multiple"
+"Multiple Financing Program priority","Priorité du Programme de financement multiple"
+"Start date for time based Financing Program value","Valeur Date de début du Programme de financement temporel"
+"End date for time based Financing Program value","Valeur Date de fin du Programme de financement temporel"
+"Pay attention! Please, specify public key inside Affirm payment method. Stores->Configuration->Sales->Payment Methods->Affirm.
+     ""As low as"" will be visible only in case if product price or checkout cart total will be above of $50.","Fais attention! Veuillez spécifier la clé publique dans le mode de paiement Affirm. Magasins->Configuration->Ventes->Modes de paiement->Affirm.
+     ""Aussi peu que"" sera visible uniquement dans le cas où le prix du produit ou le total du panier de paiement sera supérieur à 50 $."
+"Enable/Disable partial capture in order invoices interface (requires authorize only payment action; US only)","Activer/désactiver la capture partielle dans l'interface des factures de commande (nécessite une action de paiement autorisée uniquement; États-Unis uniquement)"
+"Enable/Disable Inline checkout value props on the checkout page when Affirm is selected as a payment method (US only)","Activez/désactivez les propositions de valeur de paiement en ligne sur la page de paiement lorsque Affirm est sélectionné comme mode de paiement. (États-Unis uniquement)"
+"Pay over time","Payer par versements"
