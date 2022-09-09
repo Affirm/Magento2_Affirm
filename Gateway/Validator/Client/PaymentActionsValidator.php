@@ -36,22 +36,25 @@ class PaymentActionsValidator extends AbstractResponseValidator
     {
         $response = SubjectReader::readResponse($validationSubject);
         $amount = '';
+        $_payment = $validationSubject['payment']->getPayment();
 
         if ( (isset($response['checkout_status']) && $response['checkout_status'] == 'confirmed')
             || (isset($response['status']) && $response['status'] == 'authorized')
-            || (isset($response['type']) && $response['type'] == 'capture'))
-        {
-            // Pre-Auth/Auth/Capture uses amount_ordered from payment
-            $_payment = $validationSubject['payment']->getPayment();
+        ) {
+            // Pre-Auth/Auth uses amount_ordered from payment
             $payment_data = $_payment->getData();
             $amount = $payment_data['amount_ordered'];
-        } elseif ( (isset($response['type']) && $response['type'] == 'refund') ) {
+        } elseif ( (isset($response['type']) && $response['type'] == 'capture')
+            || (isset($response['type']) && $response['type'] == 'split_capture')
+        ) {
+            // Capture or partial capture (US only) uses stored value from invoice total
+            $amount = $_payment->getAdditionalInformation(self::LAST_INVOICE_AMOUNT);
+        } elseif ( (isset($response['type']) && $response['type'] == 'refund')
+        ) {
             // Refund (including partial) uses grand_total from creditmemo (credit memo invoice)
-            $_payment = $validationSubject['payment']->getPayment();
             $_creditMemo = $_payment->getData()['creditmemo'];
             $amount = $_creditMemo->getGrandTotal();
         } else {
-            // Partial capture (US only) uses validationSubject
             $amount = SubjectReader::readAmount($validationSubject);
         }
 

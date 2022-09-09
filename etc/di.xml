@@ -300,6 +300,18 @@
         <plugin name="ProductAttributes" type="Astound\Affirm\Plugin\ProductAttributes" />
     </type>
 
+    <type name="Magento\Sales\Model\Order\Payment\State\AuthorizeCommand">
+        <plugin name="UpdateAuthMessage" type="Astound\Affirm\Plugin\UpdateAuthMessage" sortOrder="1" />
+    </type>
+
+    <type name="Magento\Sales\Model\Order\Payment">
+        <plugin name="UpdatePrependMessage" type="Astound\Affirm\Plugin\UpdatePrependMessage" sortOrder="1" />
+    </type>
+
+    <type name="Magento\Sales\Model\Order\Payment\Operations\ProcessInvoiceOperation">
+        <plugin name="SaveInvoiceAmountToCapture" type="Astound\Affirm\Plugin\SaveInvoiceAmountToCapture" sortOrder="1" />
+    </type>
+
     <type name="Magento\Payment\Model\PaymentMethodList">
         <plugin name="Astound_Affirm::restrictPaymentMethods" type="\Astound\Affirm\Plugin\RestrictPaymentMethods" sortOrder="1" />
     </type>
