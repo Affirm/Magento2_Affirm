@@ -62,7 +62,7 @@ class InlineCheckout implements InlineCheckoutInterface
         ProductMetadataInterface $productMetadata,
         Util $util,
         QuoteValidator $quoteValidator,
-        ObjectManagerInterface $objectManager,
+        ObjectManagerInterface $objectManager
     ){
         $this->session = $checkoutSession;
         $this->quote = $checkoutSession->getQuote();
