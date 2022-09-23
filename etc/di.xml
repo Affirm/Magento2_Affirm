@@ -254,6 +254,7 @@
     <type name="Astound\Affirm\Gateway\Helper\Request\Action">
         <arguments>
             <argument name="config" xsi:type="object">OnePicaAffirmGatewayConfig</argument>
+            <argument name="action" xsi:type="const">Astound\Affirm\Gateway\Helper\Request\Action::API_TRANSACTIONS_PATH</argument>
         </arguments>
     </type>
 
