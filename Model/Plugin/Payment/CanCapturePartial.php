@@ -20,6 +20,11 @@ use Astound\Affirm\Model\Config;
 class CanCapturePartial
 {
   /**
+   * Define constants
+   */
+  const DEFAULT_COUNTRY_CODE = 'USA';
+
+  /**
    * Constructor
    *
    * @param Config $configAffirm
@@ -40,8 +45,12 @@ class CanCapturePartial
    */
   public function afterCanCapturePartial(Payment $subject, $result)
   {
-    $countryCode = $subject->getData()['additional_information']['country_code'] ?: 'USA';
-    if (!$this->affirmPaymentConfig->getPartialCapture() || $countryCode != 'USA') {
+    $countryCode = self::DEFAULT_COUNTRY_CODE;
+    if (isset($subject->getData()['additional_information']['country_code'])) {
+      $countryCode = $subject->getData()['additional_information']['country_code'];
+    }
+
+    if (!$this->affirmPaymentConfig->getPartialCapture() || $countryCode != self::DEFAULT_COUNTRY_CODE) {
       return false;
     }
     return $result;
