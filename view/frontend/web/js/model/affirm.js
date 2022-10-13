@@ -99,9 +99,9 @@ define([
          */
         prepareTotals: function() {
             var totals = quote.getTotals()();
-            this.shippingAmount = this.convertPriceToCents(totals.shipping_amount);
-            this.total = this.convertPriceToCents(totals.grand_total);
-            this.tax_amount = this.convertPriceToCents(totals.tax_amount);
+            this.shippingAmount = this.convertPriceToCents(totals.base_shipping_amount);
+            this.total = this.convertPriceToCents(totals.base_grand_total);
+            this.tax_amount = this.convertPriceToCents(totals.base_tax_amount);
         },
 
         /**
