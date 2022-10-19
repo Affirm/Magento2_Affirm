@@ -172,7 +172,8 @@ class Checkout
             case \Magento\Sales\Model\Order::STATE_PROCESSING:
             case \Magento\Sales\Model\Order::STATE_COMPLETE:
             case \Magento\Sales\Model\Order::STATE_PAYMENT_REVIEW:
-                $this->orderSender->send(($this->order));
+                if (!$this->order->getEmailSent()) // Check if order confirmation has already been sent, prevent double email notification.
+                    $this->orderSender->send(($this->order));
                 $this->checkoutSession->start();
                 break;
             default:
