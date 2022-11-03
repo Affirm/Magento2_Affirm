@@ -755,7 +755,7 @@ class Config implements ConfigInterface
             self::CURRENCY_CODE_USD => '',
         );
 
-        if (isset($currency_code)) {
+        if (array_key_exists($currency_code, $currencyCodeToSuffix)) {
             $_suffix = $currencyCodeToSuffix[$currency_code] ?: '';
         }
         return $_suffix;
