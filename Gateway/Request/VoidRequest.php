@@ -45,6 +45,7 @@ class VoidRequest extends AbstractDataBuilder
         $payment = $paymentDataObject->getPayment();
         $transactionId = $payment->getAdditionalInformation(self::TRANSACTION_ID) ?:
             $payment->getAdditionalInformation(self::CHARGE_ID);
+        $countryCode = $payment->getAdditionalInformation(self::COUNTRY_CODE) ?: self::DEFAULT_COUNTRY_CODE;
         $order = $payment->getOrder();
         if($order) {
             $storeId = $order->getStoreId();
@@ -55,7 +56,8 @@ class VoidRequest extends AbstractDataBuilder
         return [
             'body' => [],
             'path' => "{$transactionId}/void",
-            'storeId' => $storeId
+            'storeId' => $storeId,
+            'country_code' => $countryCode,
         ];
     }
 }

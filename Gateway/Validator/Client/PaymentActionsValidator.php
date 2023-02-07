@@ -27,12 +27,37 @@ use Astound\Affirm\Gateway\Helper\Util;
 class PaymentActionsValidator extends AbstractResponseValidator
 {
     /**
-     * @inheritdoc
+     * Validate response
+     *
+     * @param array $validationSubject
+     * @return \Magento\Payment\Gateway\Validator\ResultInterface
      */
     public function validate(array $validationSubject)
     {
         $response = SubjectReader::readResponse($validationSubject);
-        $amount = SubjectReader::readAmount($validationSubject);
+        $amount = '';
+        $_payment = $validationSubject['payment']->getPayment();
+
+        if ( (isset($response['checkout_status']) && $response['checkout_status'] == 'confirmed')
+            || (isset($response['status']) && $response['status'] == 'authorized')
+        ) {
+            // Pre-Auth/Auth uses amount_ordered from payment
+            $payment_data = $_payment->getData();
+            $amount = $payment_data['amount_ordered'];
+        } elseif ( (isset($response['type']) && $response['type'] == 'capture')
+            || (isset($response['type']) && $response['type'] == 'split_capture')
+        ) {
+            // Capture or partial capture (US only) uses stored value from invoice total
+            $amount = $_payment->getAdditionalInformation(self::LAST_INVOICE_AMOUNT);
+        } elseif ( (isset($response['type']) && $response['type'] == 'refund')
+        ) {
+            // Refund (including partial) uses grand_total from creditmemo (credit memo invoice)
+            $_creditMemo = $_payment->getData()['creditmemo'];
+            $amount = $_creditMemo->getGrandTotal();
+        } else {
+            $amount = SubjectReader::readAmount($validationSubject);
+        }
+
         $amountInCents = Util::formatToCents($amount);
 
         $errorMessages = [];
@@ -41,9 +66,9 @@ class PaymentActionsValidator extends AbstractResponseValidator
 
         if (!$validationResult) {
             $errorMessages = (isset($response[self::ERROR_MESSAGE])) ?
-                [__('Affirm error code:') . $response[self::RESPONSE_CODE] . __(' error: ') .
-                    __($response[self::ERROR_MESSAGE])]:
+                [__($response[self::ERROR_MESSAGE]) . __(' Affirm status code: ') . $response[self::RESPONSE_CODE]]:
                 [__('Transaction has been declined, please, try again later.')];
+            throw new \Magento\Framework\Validator\Exception(__($errorMessages[0]));
         }
 
         return $this->createResult($validationResult, $errorMessages);

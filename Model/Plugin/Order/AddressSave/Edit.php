@@ -23,6 +23,8 @@ use Magento\Sales\Model\ResourceModel\Order\CollectionFactory;
 use Astound\Affirm\Model\Ui\ConfigProvider;
 use Magento\Framework\HTTP\ZendClientFactory;
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Store\Model\StoreManagerInterface;
+use Magento\Store\Model\ScopeInterface;
 use Astound\Affirm\Logger\Logger;
 
 /**
@@ -63,6 +65,13 @@ class Edit
     protected $scopeConfig;
 
     /**
+     * Store manager
+     *
+     * @var \Magento\Store\App\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * Affirm logging instance
      *
      * @var \Astound\Affirm\Logger\Logger
@@ -73,11 +82,13 @@ class Edit
         CollectionFactory $collectionFactory,
         ZendClientFactory $httpClientFactory,
         ScopeConfigInterface $scopeConfig,
+        StoreManagerInterface $storeManager,
         Logger $logger
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->httpClientFactory = $httpClientFactory;
         $this->scopeConfig = $scopeConfig;
+        $this->_storeManager = $storeManager;
         $this->logger = $logger;
     }
 
@@ -112,11 +123,11 @@ class Edit
                         'full' => $newAddress['firstname'] . ' ' . $newAddress['lastname']
                     ),
                     'address' => array(
-                        'line1' => $street[0],
-                        'line2' => isset($street[1]) ? $street[1]: '' ,
-                        'state' => $newAddress['region'],
+                        'street1' => $street[0],
+                        'street2' => isset($street[1]) ? $street[1]: '' ,
+                        'region1_code' => $newAddress['region'],
                         'city' => $newAddress['city'],
-                        'zipcode' => $newAddress['postcode'],
+                        'postal_code' => $newAddress['postcode'],
                         'country' => $newAddress['country_id']
                     )
                 )
@@ -147,7 +158,7 @@ class Edit
 
     protected function getApiUrl($additionalPath)
     {
-        $gateway = $this->scopeConfig->getValue('payment/affirm_gateway/mode') == 'sandbox'
+        $gateway = $this->getIsSandboxMode()
             ? \Astound\Affirm\Model\Config::API_URL_SANDBOX
             : \Astound\Affirm\Model\Config::API_URL_PRODUCTION;
 
@@ -161,9 +172,9 @@ class Edit
 
     protected function getPrivateApiKey()
     {
-        return $this->scopeConfig->getValue('payment/affirm_gateway/mode') == 'sandbox'
-            ? $this->scopeConfig->getValue('payment/affirm_gateway/private_api_key_sandbox')
-            : $this->scopeConfig->getValue('payment/affirm_gateway/private_api_key_production');
+        return $this->getIsSandboxMode()
+            ? $this->scopeConfig->getValue('payment/affirm_gateway/private_api_key_sandbox', ScopeInterface::SCOPE_STORE, $this->getStoreId())
+            : $this->scopeConfig->getValue('payment/affirm_gateway/private_api_key_production', ScopeInterface::SCOPE_STORE, $this->getStoreId());
     }
 
     /**
@@ -173,8 +184,28 @@ class Edit
      */
     protected function getPublicApiKey()
     {
-        return $this->scopeConfig->getValue('payment/affirm_gateway/mode') == 'sandbox'
-            ? $this->scopeConfig->getValue('payment/affirm_gateway/public_api_key_sandbox')
-            : $this->scopeConfig->getValue('payment/affirm_gateway/public_api_key_production');
+        return $this->getIsSandboxMode()
+            ? $this->scopeConfig->getValue('payment/affirm_gateway/public_api_key_sandbox', ScopeInterface::SCOPE_STORE, $this->getStoreId())
+            : $this->scopeConfig->getValue('payment/affirm_gateway/public_api_key_production', ScopeInterface::SCOPE_STORE, $this->getStoreId());
+    }
+
+    /**
+     * Get is sandbox mode
+     *
+     * @return boolean
+     */
+    protected function getIsSandboxMode()
+    {
+        return $this->scopeConfig->getValue('payment/affirm_gateway/mode', ScopeInterface::SCOPE_STORE, $this->getStoreId()) == 'sandbox';
+    }
+
+    /**
+     * Get store id
+     *
+     * @return string
+     */
+    protected function getStoreId()
+    {
+        return $this->_storeManager->getStore()->getId();
     }
 }

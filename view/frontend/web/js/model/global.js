@@ -50,40 +50,46 @@ define([
              * @private
              */
             loadScript: function (options) {
-                "use strict";
                 var pubKey = options.public_api_key,
                     script = options.script,
-                    _affirm_config = {
-                        public_api_key: pubKey, /* Use the PUBLIC API KEY Affirm sent you. */
-                        script: script,
-                    };
-                (function (l, g, m, e, a, f, b) {
-                    var d, c = l[m] || {},
-                        h = document.createElement(f),
-                        n = document.getElementsByTagName(f)[0],
-                        k = function (a, b, c) {
+                    locale = options.locale,
+                    countryCode = options.country_code
+                _affirm_config = {
+                    public_api_key: pubKey, /* Use the PUBLIC API KEY Affirm sent you. */
+                    script: script,
+                    locale: locale,
+                    country_code: countryCode,
+                };
+                (function (m, g, n, d, a, e, h, c) {
+                    var b = m[n] || {},
+                        k = document.createElement(e),
+                        p = document.getElementsByTagName(e)[0],
+                        l = function (a, b, c) {
                             return function () {
-                                a[b]._.push([c, arguments])
-                            }
+                                a[b]._.push([c, arguments]);
+                            };
                         };
-                    c[e] = k(c, e, "set");
-                    d = c[e];
-                    c[a] = {};
-                    c[a]._ = [];
-                    d._ = [];
-                    c[a][b] = k(c, a, b);
-                    a = 0;
-                    for (b = "set add save post open empty reset on off trigger ready setProduct".split(" "); a < b.length; a++) d[b[a]] = k(c, e, b[a]);
-                    a = 0;
-                    for (b = ["get", "token", "url", "items"]; a < b.length; a++) d[b[a]] = function () {
+                    b[d] = l(b, d, "set");
+                    var f = b[d];
+                    b[a] = {};
+                    b[a]._ = [];
+                    f._ = [];
+                    b._ = [];
+                    b[a][h] = l(b, a, h);
+                    b[c] = function () {
+                        b._.push([h, arguments]);
                     };
-                    h.async = !0;
-                    h.src = g[f];
-                    n.parentNode.insertBefore(h, n);
-                    delete g[f];
-                    d(g);
-                    l[m] = c
-                })(window, _affirm_config, "affirm", "checkout", "ui", "script", "ready");
+                    a = 0;
+                    for (c = "set add save post open empty reset on off trigger ready setProduct".split(" "); a < c.length; a++) f[c[a]] = l(b, d, c[a]);
+                    a = 0;
+                    for (c = ["get", "token", "url", "items"]; a < c.length; a++) f[c[a]] = function () {};
+                    k.async = !0;
+                    k.src = g[e];
+                    p.parentNode.insertBefore(k, p);
+                    delete g[e];
+                    f(g);
+                    m[n] = b;
+                })(window, _affirm_config, "affirm", "checkout", "ui", "script", "ready", "jsReady");
             }
         }
     });

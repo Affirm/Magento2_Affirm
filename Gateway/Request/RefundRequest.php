@@ -46,7 +46,10 @@ class RefundRequest extends AbstractDataBuilder
         $payment = $paymentDataObject->getPayment();
         $transactionId = $payment->getAdditionalInformation(self::TRANSACTION_ID) ?:
             $payment->getAdditionalInformation(self::CHARGE_ID);
-        $amountInCents = Util::formatToCents($buildSubject['amount']);
+        $countryCode = $payment->getAdditionalInformation(self::COUNTRY_CODE) ?: self::DEFAULT_COUNTRY_CODE;
+        $creditMemoAmount = $payment->getCreditmemo()->getGrandTotal();
+        $payment->setAdditionalInformation(self::LAST_INVOICE_AMOUNT, $creditMemoAmount);
+        $amountInCents = Util::formatToCents($creditMemoAmount);
         $order = $payment->getOrder();
         if($order) {
             $storeId = $order->getStoreId();
@@ -59,7 +62,8 @@ class RefundRequest extends AbstractDataBuilder
                 'amount' => $amountInCents
             ],
             'path' => "{$transactionId}/refund",
-            'storeId' => $storeId
+            'storeId' => $storeId,
+            'country_code' => $countryCode,
         ];
     }
 }

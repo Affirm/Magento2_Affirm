@@ -21,7 +21,7 @@ class Aslowas extends AslowasAbstract
      *
      * @var array
      */
-    protected $data = ['logo', 'script', 'public_api_key', 'min_order_total', 'max_order_total', 'element_id'];
+    protected $data = ['logo', 'script', 'public_api_key', 'min_order_total', 'max_order_total', 'element_id', 'country_code', 'locale'];
 
     /**
      * Checkout session
@@ -55,13 +55,13 @@ class Aslowas extends AslowasAbstract
         \Astound\Affirm\Model\Config $configAffirm,
         \Astound\Affirm\Helper\Payment $helperAffirm,
         Session $session,
-        array $data = [],
-        Helper\AsLowAs $asLowAs,
+        Helper\AsLowAs $asLowAsHelper,
         \Astound\Affirm\Helper\Rule $rule,
-        CategoryCollectionFactory $categoryCollectionFactory
+        CategoryCollectionFactory $categoryCollectionFactory,
+        array $data = []
     ) {
         $this->checkoutSession = $session;
-        parent::__construct($context, $configProvider, $configAffirm, $helperAffirm, $data, $asLowAs, $rule, $categoryCollectionFactory);
+        parent::__construct($context, $configProvider, $configAffirm, $helperAffirm, $asLowAsHelper, $rule, $categoryCollectionFactory, $data);
     }
 
     /**

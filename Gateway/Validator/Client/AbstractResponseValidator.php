@@ -32,6 +32,7 @@ abstract class AbstractResponseValidator extends AbstractValidator
     const AMOUNT = 'amount';
     const TOTAL = 'total';
     const ERROR_MESSAGE = 'message';
+    const LAST_INVOICE_AMOUNT = 'last_invoice_amount';
     /**#@-*/
 
     /**

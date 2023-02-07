@@ -9,6 +9,7 @@ use Magento\Framework\Module\ResourceInterface;
 use Magento\Framework\UrlInterface;
 use Magento\Quote\Model\QuoteValidator;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\ObjectManagerInterface;
 
 /**
  * Class InlineCheckout
@@ -47,13 +48,21 @@ class InlineCheckout implements InlineCheckoutInterface
      */
     private $quoteValidator;
 
+    /**
+     * Object manager
+     *
+     * @var \Magento\Framework\ObjectManagerInterface
+     */
+    protected $objectManager;
+
     public function __construct(
         Session $checkoutSession,
         UrlInterface $urlInterface,
         ResourceInterface $moduleResource,
         ProductMetadataInterface $productMetadata,
         Util $util,
-        QuoteValidator $quoteValidator
+        QuoteValidator $quoteValidator,
+        ObjectManagerInterface $objectManager
     ){
         $this->session = $checkoutSession;
         $this->quote = $checkoutSession->getQuote();
@@ -62,6 +71,7 @@ class InlineCheckout implements InlineCheckoutInterface
         $this->productMetadata = $productMetadata;
         $this->util = $util;
         $this->quoteValidator = $quoteValidator;
+        $this->objectManager = $objectManager;
     }
 
     public function initInline(){
@@ -161,11 +171,11 @@ class InlineCheckout implements InlineCheckoutInterface
                     'last'  => $address->getLastName(),
                 ),
                 'address' => array(
-                    'line1'   => isset($street[0]) ? $street[0] : '',
-                    'line2'   => isset($street[1]) ? $street[1] : '',
+                    'street1'   => isset($street[0]) ? $street[0] : '',
+                    'street2'   => isset($street[1]) ? $street[1] : '',
                     'city'    => $address->getCity(),
-                    'state'   => $address->getRegion(),
-                    'zipcode' => $address->getPostcode(),
+                    'region1_code'   => $address->getRegion(),
+                    'postal_code' => $address->getPostcode(),
                     'country' => $address->getCountryId()
                 ),
                 'phone_number' => $address->getTelephone() ? $address->getTelephone() : '',

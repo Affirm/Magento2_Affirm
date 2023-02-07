@@ -52,8 +52,10 @@ class Action
      * @param string $action
      * @param ConfigInterface $config
      */
-    public function __construct($action, ConfigInterface $config)
-    {
+    public function __construct(
+        $action,
+        ConfigInterface $config
+    ) {
         $this->action = $action;
         $this->config = $config;
     }
@@ -64,9 +66,9 @@ class Action
      * @param string $additionalPath
      * @return string
      */
-    public function getUrl($additionalPath = '')
+    public function getUrl($additionalPath = '', $storeId = null)
     {
-        $gateway = $this->config->getValue('mode') == 'sandbox'
+        $gateway = $this->config->getValue('mode', $storeId) == 'sandbox'
             ? \Astound\Affirm\Model\Config::API_URL_SANDBOX
             : \Astound\Affirm\Model\Config::API_URL_PRODUCTION;
 

@@ -93,7 +93,7 @@ define(
              */
             getEdu: function() {
                 if (!window.checkoutConfig.payment['affirm_gateway'].edu) {
-                    return "You will be redirected to Affirm to securely complete your purchase. Just fill out a few pieces of basic information and get a real-time decision. Checking your eligibility won\'t affect your credit score."
+                    return window.checkoutConfig.payment['affirm_gateway'].defaultEduDesc;
                 }
             },
 
@@ -130,11 +130,7 @@ define(
              * @returns {*}
              */
             getAffirmTitle: function() {
-                if (!window.checkoutConfig.payment['affirm_gateway'].edu) {
-                    return "Continue with Affirm"
-                } else {
-                    return "Place Order"
-                }
+                return window.checkoutConfig.payment['affirm_gateway'].affirmTitle;
             },
 
             /**

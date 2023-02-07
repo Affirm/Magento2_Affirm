@@ -254,6 +254,7 @@
     <type name="Astound\Affirm\Gateway\Helper\Request\Action">
         <arguments>
             <argument name="config" xsi:type="object">OnePicaAffirmGatewayConfig</argument>
+            <argument name="action" xsi:type="const">Astound\Affirm\Gateway\Helper\Request\Action::API_TRANSACTIONS_PATH</argument>
         </arguments>
     </type>
 
@@ -285,6 +286,9 @@
     <type name="Magento\Checkout\CustomerData\Cart">
         <plugin name="checkout-aslowas-minicart" type="Astound\Affirm\Model\Plugin\Checkout\CustomerData\Cart"/>
     </type>
+    <type name="Magento\Sales\Model\Order\Payment">
+        <plugin name="after-can-capture-partial" type="Astound\Affirm\Model\Plugin\Payment\CanCapturePartial" sortOrder="1"/>
+    </type>
 
     <!-- Init payment helper -->
     <type name="Astound\Affirm\Helper\Payment">
@@ -295,6 +299,18 @@
 
     <type name="Magento\Quote\Model\Quote\Config">
         <plugin name="ProductAttributes" type="Astound\Affirm\Plugin\ProductAttributes" />
+    </type>
+
+    <type name="Magento\Sales\Model\Order\Payment\State\AuthorizeCommand">
+        <plugin name="UpdateAuthMessage" type="Astound\Affirm\Plugin\UpdateAuthMessage" sortOrder="1" />
+    </type>
+
+    <type name="Magento\Sales\Model\Order\Payment">
+        <plugin name="UpdatePrependMessage" type="Astound\Affirm\Plugin\UpdatePrependMessage" sortOrder="1" />
+    </type>
+
+    <type name="Magento\Sales\Model\Order\Payment\Operations\ProcessInvoiceOperation">
+        <plugin name="SaveInvoiceAmountToCapture" type="Astound\Affirm\Plugin\SaveInvoiceAmountToCapture" sortOrder="1" />
     </type>
 
     <type name="Magento\Payment\Model\PaymentMethodList">

@@ -39,6 +39,7 @@ use Magento\Payment\Model\Method\ConfigInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Store\Model\ScopeInterface;
 use Magento\Store\Model\StoreManagerInterface;
+use Magento\Framework\Locale\Resolver;
 use Magento\Directory\Model\Currency;
 use Magento\Tax\Model\Config as TaxConfig;
 
@@ -58,15 +59,30 @@ class Config implements ConfigInterface
     const KEY_PRIVATE_KEY_SANDBOX = 'private_api_key_sandbox';
     const KEY_PUBLIC_KEY_PRODUCTION = 'public_api_key_production';
     const KEY_PRIVATE_KEY_PRODUCTION = 'private_api_key_production';
+    const KEY_PUBLIC_KEY_SANDBOX_CA = 'public_api_key_sandbox_ca';
+    const KEY_PRIVATE_KEY_SANDBOX_CA = 'private_api_key_sandbox_ca';
+    const KEY_PUBLIC_KEY_PRODUCTION_CA = 'public_api_key_production_ca';
+    const KEY_PRIVATE_KEY_PRODUCTION_CA = 'private_api_key_production_ca';
     const KEY_MINIMUM_ORDER_TOTAL = 'minimum_order_total';
     const KEY_MAXIMUM_ORDER_TOTAL = 'maximum_order_total';
     const KEY_SORT_ORDER = 'sort_order';
-    const API_URL_SANDBOX = 'https://sandbox.affirm.com';
-    const API_URL_PRODUCTION = 'https://api.affirm.com';
+    const API_URL_SANDBOX = 'https://api.global-sandbox.affirm.com';
+    const API_URL_PRODUCTION = 'https://api.global.affirm.com';
+    const JS_URL_SANDBOX = 'https://cdn1-sandbox.affirm.com/js/v2/affirm.js';
+    const JS_URL_PRODUCTION = 'https://www.affirm.com/js/v2/affirm.js';
     const METHOD_BML = 'affirm_promo';
     const KEY_ASLOWAS = 'affirm_aslowas';
     const KEY_MFP = 'affirm_mfp';
-    const CURRENCY_CODE = 'USD';
+    const VALID_CURRENCIES = array('USD', 'CAD');
+    const ACCEPTED_LOCALES = array('en_CA', 'fr_CA', 'en_US');
+    const COUNTRY_CODE_USA = 'USA';
+    const COUNTRY_CODE_CAN = 'CAN';
+    const CURRENCY_CODE_USD = 'USD';
+    const CURRENCY_CODE_CAD = 'CAD';
+    const LOCALE_EN_CA = 'en_CA';
+    const LOCALE_FR_CA = 'fr_CA';
+    const LOCALE_EN_US = 'en_US';
+    const SUFFIX_CANADA = '_ca';
     const KEY_ASLOWAS_DEVELOPER = 'affirm_aslowas_developer';
     const KEY_PIXEL = 'affirm_pixel';
     /**#@-*/
@@ -105,6 +121,13 @@ class Config implements ConfigInterface
      * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
+
+    /**
+     * Store locale resolver
+     *
+     * @var \Magento\Framework\Locale\Resolver
+     */
+    protected $_store;
 
     /**
      * Path pattern
@@ -148,18 +171,21 @@ class Config implements ConfigInterface
      *
      * @param ScopeConfigInterface  $scopeConfig
      * @param StoreManagerInterface $storeManager
+     * @param Resolver              $store
      * @param Currency              $currency
      * @param TaxConfig             $taxConfig
      */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
         StoreManagerInterface $storeManager,
+        Resolver $store,
         Currency $currency,
         TaxConfig $taxConfig
     )
     {
         $this->scopeConfig = $scopeConfig;
         $this->storeManager = $storeManager;
+        $this->_store = $store;
         $this->currency = $currency;
         $this->taxConfig = $taxConfig;
     }
@@ -191,11 +217,7 @@ class Config implements ConfigInterface
     {
         $currentCurrency = $this->storeManager->getStore()
             ->getBaseCurrencyCode();
-        $isValid = true;
-        if ($currentCurrency != self::CURRENCY_CODE) {
-            $isValid = false;
-        }
-        return $isValid;
+        return in_array($currentCurrency, self::VALID_CURRENCIES);
     }
 
     /**
@@ -207,11 +229,7 @@ class Config implements ConfigInterface
     {
         $currentCurrency = $this->storeManager->getStore()
             ->getCurrentCurrencyCode();
-        $isUSD = true;
-        if ($currentCurrency != self::CURRENCY_CODE) {
-            $isUSD = false;
-        }
-        return $isUSD;
+        return $currentCurrency == self::CURRENCY_CODE_USD;
     }
 
     /**
@@ -223,7 +241,7 @@ class Config implements ConfigInterface
     {
         $currentStore = $this->getCurrentStore();
         $currencyCode = $currentStore->getCurrentCurrencyCode();
-        $rate = $this->currency->getCurrencyRates('USD', $currencyCode);
+        $rate = $this->currency->getCurrencyRates(self::CURRENCY_CODE_USD, $currencyCode);
         return isset($rate[$currencyCode]) ? $rate[$currencyCode] : false;
     }
 
@@ -250,13 +268,25 @@ class Config implements ConfigInterface
     }
 
     /**
-     * Get payment method mode
+     * Get current store id
+     *
+     * @return int
+     */
+    protected function getCurrentStoreId()
+    {
+        return $this->storeManager->getStore()->getId();
+    }
+
+
+    /**
+     * Get payment method environment mode
      *
      * @return mixed
      */
     public function getMode()
     {
-        return $this->getValue('mode');
+        $storeId = $this->getCurrentStoreId();
+        return $this->getValue(self::KEY_MODE, $storeId);
     }
 
     /**
@@ -266,9 +296,13 @@ class Config implements ConfigInterface
      */
     public function getPrivateApiKey()
     {
-        return ($this->getValue('mode') == 'sandbox') ?
-            $this->getValue(self::KEY_PRIVATE_KEY_SANDBOX) :
-            $this->getValue(self::KEY_PRIVATE_KEY_PRODUCTION);
+        $storeId = $this->getCurrentStoreId();
+        $currentCurrency = $this->storeManager->getStore()
+            ->getCurrentCurrencyCode();
+        $region_suffix = $this->getApiKeyNameByCurrency($currentCurrency);
+        return ($this->getMode() == 'sandbox') ?
+            $this->getValue(self::KEY_PRIVATE_KEY_SANDBOX . $region_suffix, $storeId) :
+            $this->getValue(self::KEY_PRIVATE_KEY_PRODUCTION . $region_suffix, $storeId);
     }
 
     /**
@@ -278,9 +312,13 @@ class Config implements ConfigInterface
      */
     public function getPublicApiKey()
     {
-        return ($this->getValue('mode') == 'sandbox') ?
-            $this->getValue(self::KEY_PUBLIC_KEY_SANDBOX) :
-            $this->getValue(self::KEY_PUBLIC_KEY_PRODUCTION);
+        $storeId = $this->getCurrentStoreId();
+        $currentCurrency = $this->storeManager->getStore()
+            ->getCurrentCurrencyCode();
+        $region_suffix = $this->getApiKeyNameByCurrency($currentCurrency);
+        return ($this->getMode() == 'sandbox') ?
+            $this->getValue(self::KEY_PUBLIC_KEY_SANDBOX . $region_suffix, $storeId) :
+            $this->getValue(self::KEY_PUBLIC_KEY_PRODUCTION . $region_suffix, $storeId);
     }
 
     /**
@@ -302,21 +340,69 @@ class Config implements ConfigInterface
      */
     public function getScript()
     {
-        $apiUrl = $this->getApiUrl();
-        $prefix = "cdn1";
-        if ($apiUrl) {
-            if ($this->getValue('mode') == 'sandbox') {
-                $pattern = '~(http|https)://~';
-                $replacement = '-';
-            } else {
-                $pattern = '~(http|https)://api~';
-                $replacement = '';
-            }
-            $apiString = preg_replace($pattern, $replacement, $apiUrl);
-            $result = 'https://' . $prefix . $apiString . '/js/v2/affirm.js';
-            return $result;
+        return ($this->getMode() == 'sandbox') ?
+            self::JS_URL_SANDBOX :
+            self::JS_URL_PRODUCTION;
+    }
+
+    /**
+     * Get inline checkout edu modal (US only)
+     *
+     * @return bool
+     */
+    public function getEdu()
+    {
+        return ($this->getConfigData('edu') && $this->getCountryCode() == self::COUNTRY_CODE_USA);
+    }
+
+    /**
+     * Get Affirm title
+     *
+     * @return string
+     */
+    public function getAffirmTitle()
+    {
+        return $this->getEdu() ? __('Place Order') : __('Continue with Affirm');
+    }
+
+    /**
+     * Get default edu description
+     *
+     * @return string
+     */
+    public function getDefaultEduDesc()
+    {
+        return __('You will be redirected to Affirm to securely complete your purchase. Just fill out a few pieces of basic information and get a real-time decision. Checking your eligibility won\'t affect your credit score.');
+    }
+
+    public function getCountryCode()
+    {
+        $currency = $this->getCurrency();
+        if ($currency == self::CURRENCY_CODE_CAD) {
+            return self::COUNTRY_CODE_CAN;
+        } else {
+            return self::COUNTRY_CODE_USA;
         }
-        return '';
+    }
+
+    public function getLocale()
+    {
+        $currency = $this->getCurrency();
+        if ($currency == self::CURRENCY_CODE_CAD) {
+            $currentLocale = $this->_store->getLocale();
+            if (in_array($currentLocale, preg_grep('/(_CA)$/', self::ACCEPTED_LOCALES))) {
+                return $currentLocale;
+            }
+            return self::LOCALE_EN_CA;
+        } else {
+            return self::LOCALE_EN_US;
+        }
+    }
+
+    public function getCurrency()
+    {
+        $currentStore = $this->getCurrentStore();
+        return $currentStore->getCurrentCurrencyCode();
     }
 
     /**
@@ -524,10 +610,12 @@ class Config implements ConfigInterface
     {
         $underscored = strtolower(preg_replace('/(.)([A-Z])/', "$1_$2", $key));
         $path = $this->_getSpecificConfigPath($underscored);
+        $storeScope = !empty($storeId) ? ScopeInterface::SCOPE_STORE : ScopeInterface::SCOPE_WEBSITE;
         if ($path !== null) {
             $value = $this->scopeConfig->getValue(
                 $path,
-                ScopeInterface::SCOPE_WEBSITE
+                $storeScope,
+                $storeId
             );
             return $value;
         }
@@ -610,7 +698,13 @@ class Config implements ConfigInterface
             'max_order_total' => $this->getConfigData('max_order_total'),
             'currency_rate' => !$this->isCurrentStoreCurrencyUSD() ? $this->getUSDCurrencyRate() : null,
             'display_cart_subtotal_incl_tax' => (int)$this->taxConfig->displayCartSubtotalInclTax(),
-            'display_cart_subtotal_excl_tax' => (int)$this->taxConfig->displayCartSubtotalExclTax()
+            'display_cart_subtotal_excl_tax' => (int)$this->taxConfig->displayCartSubtotalExclTax(),
+            'edu' => $this->getEdu(),
+            'defaultEduDesc' => $this->getDefaultEduDesc(),
+            'affirmTitle' => $this->getAffirmTitle(),
+            'locale' => $this->getLocale(),
+            'country_code' => $this->getCountryCode(),
+            'currency' => $this->getCurrency(),
         ];
     }
 
@@ -635,5 +729,35 @@ class Config implements ConfigInterface
     public function getCheckoutFlowType()
     {
         return $this->getConfigData('checkout_flow_type');
+    }
+
+    /**
+     * Get partial capture (US only)
+     *
+     * @return bool
+     */
+    public function getPartialCapture($countryCode = self::COUNTRY_CODE_USA)
+    {
+        return $this->getConfigData('partial_capture') && $countryCode == self::COUNTRY_CODE_USA;
+    }
+
+    /**
+     * Map currency to API key config suffix name
+     *
+     * @param string $currency_code
+     * @return string
+     */
+    protected function getApiKeyNameByCurrency($currency_code)
+    {
+        $_suffix = '';
+        $currencyCodeToSuffix = array(
+            self::CURRENCY_CODE_CAD => self::SUFFIX_CANADA,
+            self::CURRENCY_CODE_USD => '',
+        );
+
+        if (array_key_exists($currency_code, $currencyCodeToSuffix)) {
+            $_suffix = $currencyCodeToSuffix[$currency_code] ?: '';
+        }
+        return $_suffix;
     }
 }

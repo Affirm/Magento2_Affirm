@@ -122,9 +122,9 @@ class Banners extends \Magento\Framework\View\Element\Template
         Config $configAffirm,
         ConfigProvider $configProvider,
         Payment $helper,
-        array $data = [],
         Helper\FinancingProgram $fpHelper,
-        Helper\AsLowAs $alaHelper
+        Helper\AsLowAs $alaHelper,
+        array $data = []
     ) {
         $this->affirmPaymentConfig = $configAffirm;
         $this->helper = $helper;
@@ -232,6 +232,8 @@ class Banners extends \Magento\Framework\View\Element\Template
             if ($config && isset($config['script']) && isset($config['apiKeyPublic'])) {
                 $options['script'] = $config['script'];
                 $options['public_api_key'] = $config['apiKeyPublic'];
+                $options['country_code'] = $config['countryCode'];
+                $options['locale'] = $config['locale'];
             }
         }
         if ($this->isProductPage()) {

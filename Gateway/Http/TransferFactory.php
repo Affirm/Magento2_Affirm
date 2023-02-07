@@ -35,14 +35,19 @@ class TransferFactory extends AbstractTransferFactory
     public function create(array $request)
     {
         $method = isset($request['method']) ? $request['method'] : ClientService::POST;
-        $storeId = isset($request['storeId']) ? $request['storeId'] : '';
+        // Admin actions will include store id in the request
+        $storeId = isset($request['storeId']) ? $request['storeId'] : $this->getStoreId();
+        $country_code = $request['country_code'] ?: 'USA';
         return $this->transferBuilder
             ->setMethod($method)
-            ->setHeaders(['Content-Type' => 'application/json'])
+            ->setHeaders([
+                'Content-Type' => 'application/json',
+                'Country-Code' => $country_code
+            ])
             ->setBody($request['body'])
-            ->setAuthUsername($this->getPublicApiKey($storeId))
-            ->setAuthPassword($this->getPrivateApiKey($storeId))
-            ->setUri($this->getApiUrl($request['path']))
+            ->setAuthUsername($this->getPublicApiKey($storeId, $country_code))
+            ->setAuthPassword($this->getPrivateApiKey($storeId, $country_code))
+            ->setUri($this->getApiUrl($request['path'], $storeId))
             ->build();
     }
 
@@ -50,10 +55,11 @@ class TransferFactory extends AbstractTransferFactory
      * Get Api url
      *
      * @param string $additionalPath
+     * @param string $storeId
      * @return string
      */
-    protected function getApiUrl($additionalPath)
+    protected function getApiUrl($additionalPath, $storeId)
     {
-        return $this->action->getUrl($additionalPath);
+        return $this->action->getUrl($additionalPath, $storeId);
     }
 }

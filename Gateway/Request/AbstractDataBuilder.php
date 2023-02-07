@@ -20,6 +20,8 @@ namespace Astound\Affirm\Gateway\Request;
 
 use Magento\Payment\Gateway\ConfigInterface;
 use Magento\Payment\Gateway\Request\BuilderInterface;
+use Magento\Store\Model\StoreManagerInterface;
+use Astound\Affirm\Model\Config;
 
 /**
  * Class AbstractDataBuilder
@@ -32,6 +34,9 @@ abstract class AbstractDataBuilder implements BuilderInterface
     const CHECKOUT_TOKEN = 'checkout_token';
     const TRANSACTION_ID = 'transaction_id';
     const CHARGE_ID = 'charge_id';
+    const COUNTRY_CODE = 'country_code';
+    const DEFAULT_COUNTRY_CODE = 'USA';
+    const LAST_INVOICE_AMOUNT = 'last_invoice_amount';
     /**#@-*/
 
     /**
@@ -42,14 +47,25 @@ abstract class AbstractDataBuilder implements BuilderInterface
     private $config;
 
     /**
+     * Store manager
+     *
+     * @var \Magento\Store\App\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * Constructor
      *
      * @param ConfigInterface $config
      */
     public function __construct(
-        ConfigInterface $config
+        ConfigInterface $config,
+        StoreManagerInterface $storeManager,
+        Config $configAffirm
     ) {
         $this->config = $config;
+        $this->_storeManager = $storeManager;
+        $this->affirmPaymentConfig = $configAffirm;
     }
 
     /**
