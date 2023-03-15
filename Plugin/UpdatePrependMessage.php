@@ -12,7 +12,7 @@ class UpdatePrependMessage
      * Constants
      */
     const LAST_INVOICE_AMOUNT = 'last_invoice_amount';
-    const AFFIRM_PAYMENT_TITLE = 'Affirm'
+    const AFFIRM_PAYMENT_TITLE = 'Affirm';
 
     /**
      * @var CurrencyInterface
@@ -38,7 +38,7 @@ class UpdatePrependMessage
     public function beforePrependMessage(Payment $subject, $messagePrependTo)
     {
         $payment_method = $subject->getMethodInstance()->getTitle();
-        if ($payment_method != AFFIRM_PAYMENT_TITLE) {
+        if ($payment_method != self::AFFIRM_PAYMENT_TITLE) {
             return null;
         }
         $order_currency_code = $subject->getOrder()->getOrderCurrencyCode();
