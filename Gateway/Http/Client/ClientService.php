@@ -25,7 +25,7 @@ use Astound\Affirm\Gateway\Helper\Request\Action;
 use Astound\Affirm\Gateway\Helper\Util;
 use Magento\Payment\Model\Method\Logger;
 use Magento\Payment\Gateway\Http\ConverterInterface;
-use Magento\Framework\HTTP\ZendClientFactory;
+use Laminas\Http\Client;
 use Astound\Affirm\Logger\Logger as AffirmLogger;
 
 /**
@@ -64,7 +64,7 @@ class ClientService implements ClientInterface
     /**
      * Client factory
      *
-     * @var \Magento\Framework\HTTP\ZendClientFactory
+     * @var \Laminas\Http\Client
      */
     protected $httpClientFactory;
 
@@ -87,14 +87,14 @@ class ClientService implements ClientInterface
      *
      * @param Logger $logger
      * @param ConverterInterface $converter,
-     * @param ZendClientFactory $httpClientFactory
+     * @param Client $httpClientFactory
      * @param Action $action
      */
     public function __construct(
         Logger $logger,
         AffirmLogger $affirmLogger,
         ConverterInterface $converter,
-        ZendClientFactory $httpClientFactory,
+        Client $httpClientFactory,
         Action $action,
         Util $util
     ) {
@@ -110,7 +110,7 @@ class ClientService implements ClientInterface
      * Places request to gateway. Returns result as ENV array
      *
      * @param TransferInterface $transferObject
-     * @return array|\Zend_Http_Response
+     * @return array|\Http_Response
      * @throws \Magento\Payment\Gateway\Http\ClientException
      */
     public function placeRequest(TransferInterface $transferObject)
@@ -119,8 +119,7 @@ class ClientService implements ClientInterface
         $response = [];
         $requestUri = trim($transferObject->getUri(), '/');
         try {
-            /** @var \Magento\Framework\HTTP\ZendClient $client */
-            $client = $this->httpClientFactory->create();
+            $client = $this->httpClientFactory;
             $client->setUri($requestUri);
             $client->setAuth($transferObject->getAuthUsername(), $transferObject->getAuthPassword());
             $headers = $transferObject->getHeaders();
@@ -132,10 +131,12 @@ class ClientService implements ClientInterface
             if (!empty($transferObject->getBody())) {
                 $data = $transferObject->getBody();
                 $data = json_encode($data, JSON_UNESCAPED_SLASHES);
-                $client->setRawData($data, 'application/json');
+                $client->setEncType('application/json');
+                $client->setRawBody($data);
             }
-            $response = $client->request($transferObject->getMethod());
-            $rawResponse = $response->getRawBody();
+            $client->setMethod($transferObject->getMethod());
+            $response = $client->send();
+            $rawResponse = $response->getBody();
             $response = $this->converter->convert($rawResponse);
         } catch (\Exception $e) {
             $log['error'] = $e->getMessage();
