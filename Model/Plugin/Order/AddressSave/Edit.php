@@ -144,7 +144,7 @@ class Edit
                 $data = json_encode($data, JSON_UNESCAPED_SLASHES);
                 $client->setEncType('application/json');
                 $client->setRawBody($data);
-                $client->setMethod($transferObject->getMethod());
+                $client->setMethod('POST');
                 $response = $client->send();
                 $responseBody = $response->getBody();
                 $log['response'] = json_decode($responseBody, true);
