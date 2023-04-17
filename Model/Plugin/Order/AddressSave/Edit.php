@@ -21,7 +21,7 @@ namespace Astound\Affirm\Model\Plugin\Order\AddressSave;
 use Magento\Sales\Controller\Adminhtml\Order\Address;
 use Magento\Sales\Model\ResourceModel\Order\CollectionFactory;
 use Astound\Affirm\Model\Ui\ConfigProvider;
-use Magento\Framework\HTTP\ZendClientFactory;
+use Laminas\Http\Client;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Store\Model\ScopeInterface;
@@ -47,7 +47,7 @@ class Edit
     /**
      * Client factory
      *
-     * @var \Magento\Framework\HTTP\ZendClientFactory
+     * @var \Laminas\Http\Client;
      */
     protected $httpClientFactory;
 
@@ -80,7 +80,7 @@ class Edit
 
     public function __construct(
         CollectionFactory $collectionFactory,
-        ZendClientFactory $httpClientFactory,
+        Client $httpClientFactory,
         ScopeConfigInterface $scopeConfig,
         StoreManagerInterface $storeManager,
         Logger $logger
@@ -138,12 +138,14 @@ class Edit
             $log['url'] = $url;
 
             try {
-                $client = $this->httpClientFactory->create();
+                $client = $this->httpClientFactory;
                 $client->setUri($url);
                 $client->setAuth($this->getPublicApiKey(), $this->getPrivateApiKey());
                 $data = json_encode($data, JSON_UNESCAPED_SLASHES);
-                $client->setRawData($data, 'application/json');
-                $response = $client->request('POST');
+                $client->setEncType('application/json');
+                $client->setRawBody($data);
+                $client->setMethod('POST');
+                $response = $client->send();
                 $responseBody = $response->getBody();
                 $log['response'] = json_decode($responseBody, true);
             } catch (\Exception $e) {
