@@ -24,6 +24,7 @@ use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Payment\Gateway\Helper\SubjectReader;
 use Magento\Sales\Model\Order;
+use Astound\Affirm\Gateway\Helper\Util;
 
 /**
  * Class CaptureStrategyCommand
@@ -38,6 +39,8 @@ class CaptureStrategyCommand implements CommandInterface
     const CHECKOUT_TOKEN = 'checkout_token';
     const TRANSACTION_ID = 'transaction_id';
     const CHARGE_ID = 'charge_id';
+    const LAST_INVOICE_AMOUNT = 'last_invoice_amount';
+    const VOID = 'caputure_fail_void';
     /**#@-*/
 
     /**
@@ -69,9 +72,9 @@ class CaptureStrategyCommand implements CommandInterface
     {
         /** @var PaymentDataObjectInterface $paymentDO */
         $paymentDO = SubjectReader::readPayment($commandSubject);
-
-        /** @var Order\Payment $paymentInfo */
+           /** @var Order\Payment $paymentInfo */
         $paymentInfo = $paymentDO->getPayment();
+        
         $transactionId = $paymentInfo->getAdditionalInformation(self::TRANSACTION_ID) ?:
             $paymentInfo->getAdditionalInformation(self::CHARGE_ID);
         if (($paymentInfo instanceof Order\Payment) && !$transactionId) {
@@ -81,6 +84,14 @@ class CaptureStrategyCommand implements CommandInterface
                     ->get(self::AUTHORIZE)
                     ->execute($commandSubject);
             }
+        }
+
+        $last_invoice_amount = $paymentInfo->getAdditionalInformation(self::LAST_INVOICE_AMOUNT);
+        $amountInCents = Util::formatToCents($last_invoice_amount);
+        if ($amountInCents == 0 ) {
+            return $this->commandPool
+                ->get(self::VOID)
+                ->execute($commandSubject);    
         }
 
         return $this->commandPool

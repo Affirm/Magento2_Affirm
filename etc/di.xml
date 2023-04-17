@@ -91,6 +91,7 @@
                 <item name="refund" xsi:type="string">AffirmGatewayRefundCommand</item>
                 <item name="void" xsi:type="string">AffirmGatewayVoidCommand</item>
                 <item name="cancel" xsi:type="string">Astound\Affirm\Gateway\Command\CancelStrategyCommand</item>
+                <item name="caputure_fail_void" xsi:type="string">AffirmGatewayCaptureFailVoidCommand</item>
             </argument>
         </arguments>
     </virtualType>
@@ -172,6 +173,18 @@
         </arguments>
     </virtualType>
     <!-- Void command -->
+
+    <!-- Capture Fail Void command -->
+    <virtualType name="AffirmGatewayCaptureFailVoidCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">AffirmGatewayVoidRequest</argument>
+            <argument name="transferFactory" xsi:type="object">AffirmClientGatewayTransferFactory</argument>
+            <argument name="client" xsi:type="object">Astound\Affirm\Gateway\Http\Client\ClientService</argument>
+            <argument name="validator" xsi:type="object">Astound\Affirm\Gateway\Validator\Client\PaymentActionsValidatorCaptureFailVoid</argument>
+            <!--<argument name="handler" xsi:type="object">Astound\Affirm\Gateway\Response\TransactionRefundHandler</argument>-->
+        </arguments>
+    </virtualType>
+    <!-- Capture Fail Void command -->
 
     <type name="Astound\Affirm\Gateway\Http\Client\ClientService">
         <arguments>
