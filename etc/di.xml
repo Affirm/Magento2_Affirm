@@ -181,7 +181,6 @@
             <argument name="transferFactory" xsi:type="object">AffirmClientGatewayTransferFactory</argument>
             <argument name="client" xsi:type="object">Astound\Affirm\Gateway\Http\Client\ClientService</argument>
             <argument name="validator" xsi:type="object">Astound\Affirm\Gateway\Validator\Client\PaymentActionsValidatorCaptureFailVoid</argument>
-            <!--<argument name="handler" xsi:type="object">Astound\Affirm\Gateway\Response\TransactionRefundHandler</argument>-->
         </arguments>
     </virtualType>
     <!-- Capture Fail Void command -->
