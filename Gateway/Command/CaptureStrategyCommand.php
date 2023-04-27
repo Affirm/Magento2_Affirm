@@ -24,6 +24,9 @@ use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Payment\Gateway\Helper\SubjectReader;
 use Magento\Sales\Model\Order;
+use Astound\Affirm\Gateway\Helper\Util;
+use Magento\Store\Model\ScopeInterface;
+use Magento\Framework\App\Config\ScopeConfigInterface;
 
 /**
  * Class CaptureStrategyCommand
@@ -38,7 +41,16 @@ class CaptureStrategyCommand implements CommandInterface
     const CHECKOUT_TOKEN = 'checkout_token';
     const TRANSACTION_ID = 'transaction_id';
     const CHARGE_ID = 'charge_id';
+    const LAST_INVOICE_AMOUNT = 'last_invoice_amount';
+    const VOID = 'caputure_fail_void';
     /**#@-*/
+
+    /**
+     * Payment code
+     *
+     * @var string
+     */
+    protected $methodCode = 'affirm_gateway';
 
     /**
      * Command pool
@@ -48,14 +60,24 @@ class CaptureStrategyCommand implements CommandInterface
     private $commandPool;
 
     /**
+     * Scope configuration object
+     *
+     * @var ScopeConfigInterface
+     */
+    protected $scopeConfig;
+
+    /**
      * Constructor
      *
      * @param Command\CommandPoolInterface $commandPool
+     * @param ScopeConfigInterface  $scopeConfig
      */
     public function __construct(
-        Command\CommandPoolInterface $commandPool
+        Command\CommandPoolInterface $commandPool,
+        ScopeConfigInterface $scopeConfig,
     ) {
         $this->commandPool = $commandPool;
+        $this->scopeConfig = $scopeConfig;
     }
 
     /**
@@ -69,9 +91,9 @@ class CaptureStrategyCommand implements CommandInterface
     {
         /** @var PaymentDataObjectInterface $paymentDO */
         $paymentDO = SubjectReader::readPayment($commandSubject);
-
-        /** @var Order\Payment $paymentInfo */
+           /** @var Order\Payment $paymentInfo */
         $paymentInfo = $paymentDO->getPayment();
+        
         $transactionId = $paymentInfo->getAdditionalInformation(self::TRANSACTION_ID) ?:
             $paymentInfo->getAdditionalInformation(self::CHARGE_ID);
         if (($paymentInfo instanceof Order\Payment) && !$transactionId) {
@@ -83,8 +105,37 @@ class CaptureStrategyCommand implements CommandInterface
             }
         }
 
+        if($this->getConfigData('payment_action') == 'authorize_capture'){
+            $last_invoice_amount = $paymentInfo->getAdditionalInformation(self::LAST_INVOICE_AMOUNT);
+            $amountInCents = Util::formatToCents($last_invoice_amount);
+            if ($amountInCents == 0 ) {
+                return $this->commandPool
+                    ->get(self::VOID)
+                    ->execute($commandSubject);    
+                }
+        }
+
+
         return $this->commandPool
             ->get(self::ORDER_CAPTURE)
             ->execute($commandSubject);
+    }
+
+    /**
+     * Get config data
+     *
+     * @param        $field
+     * @param null   $id
+     * @param string $scope
+     * @return mixed
+     */
+    public function getConfigData($field, $id = null, $scope = ScopeInterface::SCOPE_STORE)
+    {
+        if ($this->methodCode) {
+            $path = 'payment/' . $this->methodCode . '/' . $field;
+            $res = $this->scopeConfig->getValue($path, $scope, $id);
+            return $res;
+        }
+        return false;
     }
 }
