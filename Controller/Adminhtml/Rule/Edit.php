@@ -40,7 +40,7 @@ class Edit extends \Astound\Affirm\Controller\Adminhtml\Rule
         foreach ($fields as $f){
             $val = $model->getData($f);
             if (!is_array($val)){
-                $model->setData($f, explode(',', $val));
+                $model->setData($f, explode(',', $val ?? ''));
             }
         }
 
