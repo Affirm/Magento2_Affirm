@@ -1,5 +1,6 @@
 <?php
 namespace Astound\Affirm\Controller\Adminhtml\Rule;
+use Magento\Framework\Filter\FilterInput;
 
 class Save extends \Astound\Affirm\Controller\Adminhtml\Rule
 {
@@ -9,7 +10,7 @@ class Save extends \Astound\Affirm\Controller\Adminhtml\Rule
             try {
                 $model = $this->_objectManager->create('Astound\Affirm\Model\Rule');
                 $data = $this->getRequest()->getPostValue();
-                $inputFilter = new \Zend_Filter_Input(
+                $inputFilter = new FilterInput(
                     [],
                     [],
                     $data
