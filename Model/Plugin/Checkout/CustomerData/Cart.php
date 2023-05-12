@@ -77,6 +77,13 @@ class Cart
      */
     protected $quote = null;
 
+    /**
+     * Checkout session
+     * 
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $checkoutSession = null;
+
 
     /**
      * @param \Astound\Affirm\Helper\Payment    $helperAffirm
