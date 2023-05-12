@@ -70,6 +70,13 @@ class ConfigProvider implements ConfigProviderInterface
     protected $productMetadata;
 
     /**
+     * Checkout session
+     *
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $checkoutSession;
+
+    /**
      * Inject all needed object for getting data from config
      *
      * @param ConfigInterface          $config

@@ -7,11 +7,11 @@ declare(strict_types=1);
 
 namespace Astound\Affirm\Setup\Patch\Data;
 
-use Magento\Eav\Setup\EavSetupFactory;
 use Magento\Framework\Setup\ModuleDataSetupInterface;
 use Magento\Framework\Setup\Patch\DataPatchInterface;
 use Magento\Framework\Setup\Patch\PatchRevertableInterface;
-
+use Magento\Eav\Api\AttributeSetRepositoryInterface;
+use Magento\Catalog\Setup\CategorySetupFactory;
 
 /**
 * Patch is mechanism, that allows to do atomic upgrade data changes
@@ -26,14 +26,26 @@ class AddProductCategoryAttributes implements
     private $moduleDataSetup;
 
     /**
+     * @var AttributeSetRepositoryInterface $attributeSetRepositoryInterface
+     */
+    private $attributeSetRepositoryInterface;
+
+    /**
+     * @var CategorySetupFactory $categorySetupFactory
+     */
+    private $categorySetupFactory;
+
+    /**
      * @param ModuleDataSetupInterface $moduleDataSetup
      */
     public function __construct(
         ModuleDataSetupInterface $moduleDataSetup,
-        EavSetupFactory $eavSetupFactory
+        AttributeSetRepositoryInterface $attributeSetRepositoryInterface,
+        CategorySetupFactory $categorySetupFactory
     ) {
         $this->moduleDataSetup = $moduleDataSetup;
-        $this->eavSetupFactory = $eavSetupFactory;
+        $this->attributeSetRepositoryInterface = $attributeSetRepositoryInterface;
+        $this->categorySetupFactory = $categorySetupFactory;
     }
 
     /**
@@ -46,7 +58,7 @@ class AddProductCategoryAttributes implements
         $this->moduleDataSetup->getConnection()->startSetup();
 
         /** @var EavSetup $eavSetup */
-        $eavSetup = $this->eavSetupFactory->create(['setup' => $this->moduleDataSetup]);
+        $eavSetup = $this->categorySetupFactory->create(['setup' => $this->moduleDataSetup]);
 
         /**
          * Add attributes to the product eav/attribute
@@ -337,7 +349,7 @@ class AddProductCategoryAttributes implements
         $this->moduleDataSetup->getConnection()->startSetup();
 
         /** @var EavSetup $eavSetup */
-        $eavSetup = $this->eavSetupFactory->create(['setup' => $this->moduleDataSetup]);
+        $eavSetup = $this->categorySetupFactory->create(['setup' => $this->moduleDataSetup]);
 
         $eavSetup->removeAttribute(\Magento\Catalog\Model\Product::ENTITY, 'affirm_product_mfp');
 		$eavSetup->removeAttribute(\Magento\Catalog\Model\Category::ENTITY, 'affirm_category_mfp');

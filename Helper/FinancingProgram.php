@@ -100,6 +100,13 @@ class FinancingProgram
     protected $categoryCollectionFactory;
 
     /**
+     * Config model
+     *
+     * @var \Astound\Affirm\Model\Config
+     */
+    protected $affirmPaymentConfig;
+
+    /**
      * Init
      *
      * @param Session $session

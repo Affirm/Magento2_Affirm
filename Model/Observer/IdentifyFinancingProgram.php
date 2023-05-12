@@ -23,11 +23,27 @@ use Magento\Framework\Event\Observer;
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\RequestInterface;
 
+
 /**
  * Identify Financing Program for customer
  */
 class IdentifyFinancingProgram implements ObserverInterface
 {
+     /**
+     * Customer session
+     *
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $customerSession;
+    
+    /**
+     * Request interface
+     *
+     * @var \Magento\Framework\App\RequestInterface
+     */
+    protected $request;
+    
+
     /**
      * Init
      *
@@ -36,7 +52,7 @@ class IdentifyFinancingProgram implements ObserverInterface
         Session $customerSession,
         RequestInterface $request
     ) {
-        $this->_customerSession = $customerSession;
+        $this->customerSession = $customerSession;
         $this->request = $request;
     }
 
@@ -53,7 +69,7 @@ class IdentifyFinancingProgram implements ObserverInterface
         if (empty($financingProgramValue)) {
             return;
         }
-        if ($this->_customerSession->isLoggedIn()) {
+        if ($this->customerSession->isLoggedIn()) {
             $this->_updateLoggedInCustomerMFP($financingProgramValue);
         } else {
             $this->_updateGuestCustomerMFP($financingProgramValue);
@@ -68,7 +84,7 @@ class IdentifyFinancingProgram implements ObserverInterface
      */
     protected function _updateLoggedInCustomerMFP($financingProgramValue)
     {
-        $customer = $this->_customerSession->getCustomer();
+        $customer = $this->customerSession->getCustomer();
         $customerMFPValue = $customer->getAffirmCustomerMfp();
         if (empty($customerMFPValue) || ($financingProgramValue != $customerMFPValue)) {
             $customerData = $customer->getDataModel();
@@ -87,9 +103,9 @@ class IdentifyFinancingProgram implements ObserverInterface
      */
     protected function _updateGuestCustomerMFP($financingProgramValue)
     {
-        $sessionMFPValue = $this->_customerSession->getAffirmCustomerMfp();
+        $sessionMFPValue = $this->customerSession->getAffirmCustomerMfp();
         if (empty($sessionMFPValue) || ($financingProgramValue != $sessionMFPValue)) {
-            $this->_customerSession->setAffirmCustomerMfp($financingProgramValue);
+            $this->customerSession->setAffirmCustomerMfp($financingProgramValue);
         }
     }
 }
