@@ -74,7 +74,7 @@ class CaptureStrategyCommand implements CommandInterface
      */
     public function __construct(
         Command\CommandPoolInterface $commandPool,
-        ScopeConfigInterface $scopeConfig,
+        ScopeConfigInterface $scopeConfig
     ) {
         $this->commandPool = $commandPool;
         $this->scopeConfig = $scopeConfig;
