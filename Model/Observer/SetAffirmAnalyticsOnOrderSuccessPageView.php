@@ -45,6 +45,20 @@ use Magento\Customer\Model\Session;
 class SetAffirmAnalyticsOnOrderSuccessPageView implements ObserverInterface
 {
     /**
+     * Store manager
+     *
+     * @var \Magento\Framework\View\LayoutInterface
+     */
+    protected $_layout;
+
+    /**
+     * Store manager
+     *
+     * @var \Magento\Store\App\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\View\LayoutInterface $layout
      */

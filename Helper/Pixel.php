@@ -61,6 +61,13 @@ class Pixel
     protected $_storeManager;
 
     /**
+     * Affirm config
+     *
+     * @var \Astound\Affirm\Model\Config
+     */
+    protected $affirmPaymentConfig;
+
+    /**
      * Init
      *
      * @param ScopeConfigInterface $scopeConfig
