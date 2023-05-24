@@ -54,6 +54,13 @@ abstract class AbstractDataBuilder implements BuilderInterface
     protected $_storeManager;
 
     /**
+     * Affirm config
+     *
+     * @var \Astound\Affirm\Model\Config;
+     */
+    protected $affirmPaymentConfig;
+
+    /**
      * Constructor
      *
      * @param ConfigInterface $config
