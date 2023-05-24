@@ -20,7 +20,7 @@ class PredispatchObserver implements ObserverInterface
      */
     protected $_backendAuthSession;
     /**
-     * @param \Astound|Affirm\Model\Adminhtml|FeedFactory $feedFactory
+     * @param \Astound|Affirm\Model\Adminhtml\FeedFactory $feedFactory
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      */
     public function __construct(

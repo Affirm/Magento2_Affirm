@@ -28,6 +28,13 @@ use Magento\Customer\Model\Session;
 class UpdateFinancingProgramOnLogin implements ObserverInterface
 {
     /**
+     * Customer session
+     *
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+    
+    /**
      * Init
      *
      * @param Session $customerSession

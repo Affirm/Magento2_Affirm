@@ -38,6 +38,13 @@ class Aslowas extends AslowasAbstract
     protected $fpHelper;
 
     /**
+     * As low as helper
+     *
+     * @var  Helper\AsLowAs
+     */
+    protected $asLowAsHelper;
+
+    /**
      * Cart page block.
      *
      * @param Template\Context               $context

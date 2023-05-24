@@ -26,6 +26,13 @@ use Magento\Framework\Math\Random;
 class Util
 {
     /**
+     * Random
+     *
+     * @var \Magento\Framework\Math\Random
+     */
+    protected $_random;
+
+    /**
      * Money format
      */
     const MONEY_FORMAT = "%.2f";
