@@ -1,5 +1,6 @@
 <?php
 namespace Astound\Affirm\Controller\Adminhtml\Rule;
+
 class Duplicate extends \Astound\Affirm\Controller\Adminhtml\Rule
 {
     public function execute()
@@ -25,7 +26,7 @@ class Duplicate extends \Astound\Affirm\Controller\Adminhtml\Rule
             $session = $this->_objectManager->get('Magento\Backend\Model\Session');
             $this->messageManager->addSuccess(__('The rule has been duplicated. Please feel free to activate it.'));
 
-            return $this->_redirect('*/*/edit', array('id' => $rule->getId()));
+            return $this->_redirect('*/*/edit', ['id' => $rule->getId()]);
         } catch (\Magento\Framework\Exception\LocalizedException $e) {
             $this->messageManager->addError($e->getMessage());
             $this->_redirect('*/*');

@@ -94,12 +94,12 @@ class Confirm extends \Magento\Framework\View\Element\Template
      */
     public function getOrdersTrackingCode()
     {
-        $result = array();
+        $result = [];
         $result['method'] = 'trackOrderConfirmed';
 
         $order = $this->_checkoutSession->getLastRealOrder();
 
-        $result['parameter'][0] = array();
+        $result['parameter'][0] = [];
         $result['parameter'][0]['orderId'] = $order->getIncrementId();
         $result['parameter'][0]['currency'] = $order->getOrderCurrencyCode();
         $result['parameter'][0]['total'] = Util::formatToCents($order->getBaseGrandTotal());
@@ -107,10 +107,10 @@ class Confirm extends \Magento\Framework\View\Element\Template
 
         $result['parameter'][1] = null;
 
-        $strictBool = True;
+        $strictBool = true;
         foreach ($result['parameter'][0] as $item) {
             if (empty($item)) {
-                $strictBool = False;
+                $strictBool = false;
                 break;
             }
         }
@@ -167,7 +167,7 @@ class Confirm extends \Magento\Framework\View\Element\Template
 
         foreach ($collection as $order) {
                 $customerId = ($order->getCustomerId()) ? $order->getCustomerId() : $guestId = "CUSTOMER-" . $this->affirmPixelHelper->getDateMicrotime();
-            }
+        }
         return $customerId;
     }
 }

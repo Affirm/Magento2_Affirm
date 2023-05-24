@@ -73,8 +73,8 @@ class Config implements ConfigInterface
     const METHOD_BML = 'affirm_promo';
     const KEY_ASLOWAS = 'affirm_aslowas';
     const KEY_MFP = 'affirm_mfp';
-    const VALID_CURRENCIES = array('USD', 'CAD');
-    const ACCEPTED_LOCALES = array('en_CA', 'fr_CA', 'en_US');
+    const VALID_CURRENCIES = ['USD', 'CAD'];
+    const ACCEPTED_LOCALES = ['en_CA', 'fr_CA', 'en_US'];
     const COUNTRY_CODE_USA = 'USA';
     const COUNTRY_CODE_CAN = 'CAN';
     const CURRENCY_CODE_USD = 'USD';
@@ -181,8 +181,7 @@ class Config implements ConfigInterface
         Resolver $store,
         Currency $currency,
         TaxConfig $taxConfig
-    )
-    {
+    ) {
         $this->scopeConfig = $scopeConfig;
         $this->storeManager = $storeManager;
         $this->_store = $store;
@@ -523,7 +522,8 @@ class Config implements ConfigInterface
     public function getAsLowAsApr()
     {
         return $this->scopeConfig->getValue(
-            'affirm/' . self::KEY_ASLOWAS . '/' . 'apr_value', ScopeInterface::SCOPE_WEBSITE
+            'affirm/' . self::KEY_ASLOWAS . '/' . 'apr_value',
+            ScopeInterface::SCOPE_WEBSITE
         );
     }
 
@@ -535,7 +535,8 @@ class Config implements ConfigInterface
     public function getAsLowAsMonths()
     {
         return $this->scopeConfig->getValue(
-            'affirm/' . self::KEY_ASLOWAS . '/' . 'month', ScopeInterface::SCOPE_WEBSITE
+            'affirm/' . self::KEY_ASLOWAS . '/' . 'month',
+            ScopeInterface::SCOPE_WEBSITE
         );
     }
 
@@ -547,7 +548,8 @@ class Config implements ConfigInterface
     public function getAsLowAsLogo()
     {
         return $this->scopeConfig->getValue(
-            'affirm/' . self::KEY_ASLOWAS . '/' . 'logo', ScopeInterface::SCOPE_WEBSITE
+            'affirm/' . self::KEY_ASLOWAS . '/' . 'logo',
+            ScopeInterface::SCOPE_WEBSITE
         );
     }
 
@@ -559,7 +561,8 @@ class Config implements ConfigInterface
     public function getAsLowAsMinMpp()
     {
         return $this->scopeConfig->getValue(
-            'affirm/' . self::KEY_ASLOWAS . '/' . 'min_mpp', ScopeInterface::SCOPE_WEBSITE
+            'affirm/' . self::KEY_ASLOWAS . '/' . 'min_mpp',
+            ScopeInterface::SCOPE_WEBSITE
         );
     }
 
@@ -571,7 +574,8 @@ class Config implements ConfigInterface
     public function getAsLowAsValue($key)
     {
         return $this->scopeConfig->getValue(
-            'affirm/' . self::KEY_ASLOWAS . '/' . $key, ScopeInterface::SCOPE_WEBSITE
+            'affirm/' . self::KEY_ASLOWAS . '/' . $key,
+            ScopeInterface::SCOPE_WEBSITE
         );
     }
 
@@ -583,7 +587,8 @@ class Config implements ConfigInterface
     public function getMfpValue($key)
     {
         return $this->scopeConfig->getValue(
-            'affirm/' . self::KEY_MFP . '/' . $key, ScopeInterface::SCOPE_WEBSITE
+            'affirm/' . self::KEY_MFP . '/' . $key,
+            ScopeInterface::SCOPE_WEBSITE
         );
     }
 
@@ -595,7 +600,8 @@ class Config implements ConfigInterface
     public function getPixelValue($key)
     {
         return $this->scopeConfig->getValue(
-            'affirm/' . self::KEY_PIXEL . '/' . $key, ScopeInterface::SCOPE_WEBSITE
+            'affirm/' . self::KEY_PIXEL . '/' . $key,
+            ScopeInterface::SCOPE_WEBSITE
         );
     }
 
@@ -750,10 +756,10 @@ class Config implements ConfigInterface
     protected function getApiKeyNameByCurrency($currency_code)
     {
         $_suffix = '';
-        $currencyCodeToSuffix = array(
+        $currencyCodeToSuffix = [
             self::CURRENCY_CODE_CAD => self::SUFFIX_CANADA,
             self::CURRENCY_CODE_USD => '',
-        );
+        ];
 
         if (array_key_exists($currency_code, $currencyCodeToSuffix)) {
             $_suffix = $currencyCodeToSuffix[$currency_code] ?: '';

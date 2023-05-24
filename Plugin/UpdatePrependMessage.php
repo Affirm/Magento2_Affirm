@@ -50,6 +50,5 @@ class UpdatePrependMessage
         } else {
             return null;
         }
-
     }
 }

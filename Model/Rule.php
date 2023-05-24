@@ -7,7 +7,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     protected $storeManager;
 
 
-	public function __construct(
+    public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
@@ -20,11 +20,16 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         $this->objectManager = $objectManager;
         $this->storeManager = $storeManager;
         parent::__construct(
-            $context, $registry, $formFactory, $localeDate, null, null, $data
+            $context,
+            $registry,
+            $formFactory,
+            $localeDate,
+            null,
+            null,
+            $data
         );
-
     }
-	public function validate(\Magento\Framework\DataObject $object)
+    public function validate(\Magento\Framework\DataObject $object)
     {
         return $this->getConditions()->validateNotModel($object);
     }
@@ -34,8 +39,8 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         $this->_init('Astound\Affirm\Model\ResourceModel\Rule');
         parent::_construct();
     }
-	
-	public function restrict($method)
+    
+    public function restrict($method)
     {
         return (false !== strpos($this->getMethods(), ',' . $method->getCode() . ','));
     }
@@ -49,8 +54,8 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     {
         return $this->objectManager->create('Astound\Affirm\Model\Rule\Condition\Combine');
     }
-	
-	public function getActionsInstance()
+    
+    public function getActionsInstance()
     {
         return $this->objectManager->create('Magento\SalesRule\Model\Rule\Condition\Product\Combine');
     }
@@ -76,11 +81,10 @@ class Rule extends \Magento\Rule\Model\AbstractModel
 
     protected function _getUsedAttributes($serializedString)
     {
-        $result = array();
+        $result = [];
         $pattern = '~s:46:"Magento\\\SalesRule\\\Model\\\Rule\\\Condition\\\Product";s:9:"attribute";s:\d+:"(.*?)"~s';
-        $matches = array();
-        if (preg_match_all($pattern, $serializedString, $matches))
-		{
+        $matches = [];
+        if (preg_match_all($pattern, $serializedString, $matches)) {
             foreach ($matches[1] as $attributeCode) {
                 $result[] = $attributeCode;
             }

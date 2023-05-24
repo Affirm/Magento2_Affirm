@@ -111,5 +111,4 @@ class Util
     {
         return $this->_random->getUniqueHash();
     }
-
 }

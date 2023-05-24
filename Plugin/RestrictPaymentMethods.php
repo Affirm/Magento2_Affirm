@@ -9,8 +9,7 @@ class RestrictPaymentMethods
 
     public function __construct(
         \Magento\Framework\ObjectManagerInterface $objectManager
-    )
-    {
+    ) {
         $this->objectManager = $objectManager;
     }
 
@@ -34,7 +33,6 @@ class RestrictPaymentMethods
         }
 
         return $methods;
-
     }
 
     public function getRules($address)

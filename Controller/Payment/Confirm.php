@@ -47,7 +47,6 @@ use Magento\Framework\App\CsrfAwareActionInterface;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\Request\InvalidRequestException;
 
-
 /**
  * Class Confirm
  *
@@ -119,7 +118,7 @@ class Confirm extends Action implements CsrfAwareActionInterface
     public function validateForCsrf(RequestInterface $request): ?bool
     {
         return true;
-    }      
+    }
 
     /**
      * Dispatch request

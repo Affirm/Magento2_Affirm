@@ -23,17 +23,16 @@ use Magento\Framework\Event\Observer;
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\RequestInterface;
 
-
 /**
  * Identify Financing Program for customer
  */
 class IdentifyFinancingProgram implements ObserverInterface
 {
      /**
-     * Customer session
-     *
-     * @var \Magento\Customer\Model\Session
-     */
+      * Customer session
+      *
+      * @var \Magento\Customer\Model\Session
+      */
     protected $customerSession;
     
     /**

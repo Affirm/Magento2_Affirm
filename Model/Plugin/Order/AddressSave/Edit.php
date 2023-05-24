@@ -99,7 +99,7 @@ class Edit
      * @param callable   $method
      * @return \Magento\Framework\Controller\Result\Redirect
      */
-    public function afterExecute($controller , $method)
+    public function afterExecute($controller, $method)
     {
 
             $addressId = $controller->getRequest()->getParam('address_id');
@@ -117,21 +117,21 @@ class Edit
             $newAddress = $order->getShippingAddress()->getData();
             $street = explode(PHP_EOL, $newAddress['street']);
             $url = $this->getApiUrl("{$transactionId}");
-            $data = array(
-                'shipping' => array(
-                    'name' => array(
+            $data = [
+                'shipping' => [
+                    'name' => [
                         'full' => $newAddress['firstname'] . ' ' . $newAddress['lastname']
-                    ),
-                    'address' => array(
+                    ],
+                    'address' => [
                         'street1' => $street[0],
                         'street2' => isset($street[1]) ? $street[1]: '' ,
                         'region1_code' => $newAddress['region'],
                         'city' => $newAddress['city'],
                         'postal_code' => $newAddress['postcode'],
                         'country' => $newAddress['country_id']
-                    )
-                )
-            );
+                    ]
+                ]
+            ];
 
             $log = [];
             $log['data'] = $data;

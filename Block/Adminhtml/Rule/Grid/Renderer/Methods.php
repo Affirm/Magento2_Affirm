@@ -15,13 +15,11 @@ class Methods extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Input
         $v = explode(',', $v);
         
         $html = '';
-        foreach($hlp->getAllMethods() as $row)
-        {
-            if (in_array($row['value'], $v)){
+        foreach ($hlp->getAllMethods() as $row) {
+            if (in_array($row['value'], $v)) {
                 $html .= $row['label'] . "<br />";
             }
         }
         return $html;
     }
-
 }

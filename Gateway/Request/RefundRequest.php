@@ -51,7 +51,7 @@ class RefundRequest extends AbstractDataBuilder
         $payment->setAdditionalInformation(self::LAST_INVOICE_AMOUNT, $creditMemoAmount);
         $amountInCents = Util::formatToCents($creditMemoAmount);
         $order = $payment->getOrder();
-        if($order) {
+        if ($order) {
             $storeId = $order->getStoreId();
         }
         if (!$storeId) {

@@ -10,7 +10,6 @@ namespace Astound\Affirm\Plugin;
 use Magento\Framework\GraphQl\Exception\GraphQlInputException;
 use Magento\Quote\Model\Quote;
 
-
 /**
  * Set additionalInformation on payment for Hosted Pro method
  */
@@ -32,11 +31,10 @@ class setCheckoutTokenGraphQL
         $result,
         Quote $cart,
         array $paymentData
-    ): void
-    {
+    ): void {
         $paymentMethod = $cart->getPayment()->getMethod();
         if ($paymentMethod === 'affirm_gateway') {
-            if(array_key_exists( 'checkout_token' , $paymentData['affirm'] )) {
+            if (array_key_exists('checkout_token', $paymentData['affirm'])) {
                 $payment = $cart->getPayment();
                 $token =  $paymentData['affirm']['checkout_token'];
                 $payment->setAdditionalInformation('checkout_token', $token);
@@ -45,4 +43,3 @@ class setCheckoutTokenGraphQL
         }
     }
 }
-
