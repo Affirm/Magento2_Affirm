@@ -1,6 +1,11 @@
 <?php
 namespace Astound\Affirm\Controller\Adminhtml;
 
+/**
+ * Class rule
+ *
+ * @package Astound\Affirm\Controller\Adminhtml
+ */
 abstract class Rule extends \Magento\Backend\App\Action
 {
     protected $_coreRegistry;
