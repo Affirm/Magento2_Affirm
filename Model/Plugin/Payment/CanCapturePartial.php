@@ -20,6 +20,14 @@ use Astound\Affirm\Model\Config;
 class CanCapturePartial
 {
   /**
+     * Affirm config model payment
+     *
+     * @var \Astound\Affirm\Model\Config
+     */
+    protected $affirmPaymentConfig;
+
+
+  /**
    * Define constants
    */
   const DEFAULT_COUNTRY_CODE = 'USA';
