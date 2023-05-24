@@ -56,8 +56,8 @@ class AsLowAs extends FinancingProgram
             /** @var Category\Collection $categoryProductCollection */
             $categoryProductCollection = $product->getCategoryCollection();
             $categoryProductCollection
-                ->addAttributeToFilter('affirm_category_mfp', array('neq' => ''))
-                ->addAttributeToFilter('affirm_category_mfp', array('notnull' => true));
+                ->addAttributeToFilter('affirm_category_mfp', ['neq' => ''])
+                ->addAttributeToFilter('affirm_category_mfp', ['notnull' => true]);
             $categoryIds = $categoryProductCollection->getAllIds();
             if (!empty($categoryIds)) {
                 $categoryItemsIds = array_merge($categoryItemsIds, $categoryIds);
@@ -68,7 +68,7 @@ class AsLowAs extends FinancingProgram
         /** @var \Magento\Catalog\Model\ResourceModel\Category\Collection $categoryCollection */
         $categoryCollection = $this->categoryCollectionFactory->create()
             ->addAttributeToSelect(['affirm_category_mfp', 'affirm_category_mfp_type', 'affirm_category_mfp_priority', 'affirm_category_mfp_start_date', 'affirm_category_mfp_end_date'])
-            ->addAttributeToFilter('entity_id', array('in' => $categoryItemsIds));
+            ->addAttributeToFilter('entity_id', ['in' => $categoryItemsIds]);
         if ($flagProductWithoutMfpCategories) {
             $categoryCollection->setFlag('productWithoutMfpCategories', true);
         }

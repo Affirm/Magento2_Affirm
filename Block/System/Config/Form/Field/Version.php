@@ -5,7 +5,6 @@ namespace Astound\Affirm\Block\System\Config\Form\Field;
 use Magento\Framework\Registry;
 use Magento\Backend\Block\Template\Context;
 
-
 /**
  * Class Date
  */

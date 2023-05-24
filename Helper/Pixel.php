@@ -124,12 +124,12 @@ class Pixel
     }
 
     /**
-    * Based on provided configuration path returns configuration value.
-    *
-    * @param string $configPath
-    * @param string|int $scope
-    * @return string
-    */
+     * Based on provided configuration path returns configuration value.
+     *
+     * @param string $configPath
+     * @param string|int $scope
+     * @return string
+     */
     public function getConfig($configPath, $scope = 'default')
     {
         return $this->scopeConfig->getValue(

@@ -1,5 +1,6 @@
 <?php
 namespace Astound\Affirm\Model\Rule\Condition;
+
 use Magento\Rule\Model\Condition\Context;
 
 class Combine extends \Magento\Rule\Model\Condition\Combine
@@ -13,8 +14,7 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
         \Magento\Framework\ObjectManagerInterface $objectManager,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         array $data = []
-    )
-    {
+    ) {
         parent::__construct($context, $data);
         $this->objectManager = $objectManager;
         $this->_eventManager = $eventManager;
@@ -26,18 +26,18 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
         $addressCondition = $this->objectManager->create('Astound\Affirm\Model\Rule\Condition\Address');
         $addressAttributes = $addressCondition->loadAttributeOptions()->getAttributeOption();
 
-        $attributes = array();
-        foreach ($addressAttributes as $code=>$label) {
-            $attributes[] = array('value'=>'Astound\Affirm\Model\Rule\Condition\Address|'.$code, 'label'=>$label);
+        $attributes = [];
+        foreach ($addressAttributes as $code => $label) {
+            $attributes[] = ['value'=>'Astound\Affirm\Model\Rule\Condition\Address|'.$code, 'label'=>$label];
         }
 
         $conditions = parent::getNewChildSelectOptions();
-        $conditions = array_merge_recursive($conditions, array(
-            array('value' => 'Magento\SalesRule\Model\Rule\Condition\Product\Found', 'label'=>__('Product attribute combination')),
-            array('value' => 'Astound\Affirm\Model\Rule\Condition\Product\Subselect', 'label'=>__('Products subselection')),
-            array('label' => __('Conditions combination'), 'value' => $this->getType()),
-            array('label' => __('Cart Attribute'),         'value' => $attributes),
-        ));
+        $conditions = array_merge_recursive($conditions, [
+            ['value' => 'Magento\SalesRule\Model\Rule\Condition\Product\Found', 'label'=>__('Product attribute combination')],
+            ['value' => 'Astound\Affirm\Model\Rule\Condition\Product\Subselect', 'label'=>__('Products subselection')],
+            ['label' => __('Conditions combination'), 'value' => $this->getType()],
+            ['label' => __('Cart Attribute'),         'value' => $attributes],
+        ]);
 
         $additional = new \Magento\Framework\DataObject();
         $this->_eventManager->dispatch('salesrule_rule_condition_combine', ['additional' => $additional]);
@@ -48,8 +48,8 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
 
         return $conditions;
     }
-	
-	public function validateNotModel($entity)
+    
+    public function validateNotModel($entity)
     {
         if (!$this->getConditions()) {
             return true;
@@ -79,5 +79,4 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
         }
         return $all ? true : false;
     }
-
 }

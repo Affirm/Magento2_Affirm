@@ -98,7 +98,7 @@ abstract class AbstractTransferFactory implements TransferFactoryInterface
     protected function getPublicApiKey($storeId, $country_code)
     {
         $country_suffix = $this->getApiKeyNameByCountry($country_code);
-        if(!empty($storeId)){
+        if (!empty($storeId)) {
             return $this->config->getValue(self::MODE, $storeId) == self::SANDBOX
                 ? $this->config->getValue('public_api_key_sandbox' . $country_suffix, $storeId)
                 : $this->config->getValue('public_api_key_production' . $country_suffix, $storeId);
@@ -107,7 +107,6 @@ abstract class AbstractTransferFactory implements TransferFactoryInterface
                 ? $this->config->getValue('public_api_key_sandbox' . $country_suffix)
                 : $this->config->getValue('public_api_key_production' . $country_suffix);
         }
-
     }
 
     /**
@@ -120,7 +119,7 @@ abstract class AbstractTransferFactory implements TransferFactoryInterface
     protected function getPrivateApiKey($storeId, $country_code)
     {
         $country_suffix = $this->getApiKeyNameByCountry($country_code);
-        if(!empty($storeId)){
+        if (!empty($storeId)) {
             return $this->config->getValue('mode', $storeId) == self::SANDBOX
                 ? $this->config->getValue('private_api_key_sandbox' . $country_suffix, $storeId)
                 : $this->config->getValue('private_api_key_production' . $country_suffix, $storeId);
@@ -150,10 +149,10 @@ abstract class AbstractTransferFactory implements TransferFactoryInterface
     protected function getApiKeyNameByCountry($country_code)
     {
         $_suffix = '';
-        $countryCodeToSuffix = array(
+        $countryCodeToSuffix = [
             self::COUNTRY_CODE_CAN => self::SUFFIX_CANADA,
             self::COUNTRY_CODE_USA => '',
-        );
+        ];
 
         if (isset($country_code)) {
             $_suffix = $countryCodeToSuffix[$country_code] ?: '';

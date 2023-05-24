@@ -1,6 +1,7 @@
 <?php
 
 namespace Astound\Affirm\Model\Rule\Condition;
+
 class Address extends \Magento\Rule\Model\Condition\AbstractCondition
 {
     protected $_directoryCountry;
@@ -12,8 +13,7 @@ class Address extends \Magento\Rule\Model\Condition\AbstractCondition
         \Magento\Directory\Model\Config\Source\Country $directoryCountry,
         \Magento\Directory\Model\Config\Source\Allregion $directoryAllregion,
         array $data = []
-    )
-    {
+    ) {
         parent::__construct($context, $data);
         $this->_directoryCountry = $directoryCountry;
         $this->_directoryAllregion = $directoryAllregion;
@@ -77,20 +77,20 @@ class Address extends \Magento\Rule\Model\Condition\AbstractCondition
     {
         $operators = $this->getOperatorOption();
         if ($this->getAttribute() == 'street') {
-            $operators = array(
+            $operators = [
                 '{}' => __('contains'),
                 '!{}' => __('does not contain'),
                 '{%' => __('starts from'),
                 '%}' => __('ends with'),
-            );
+            ];
         }
 
         $type = $this->getInputType();
-        $opt = array();
+        $opt = [];
         $operatorByType = $this->getOperatorByInputType();
         foreach ($operators as $k => $v) {
             if (!$operatorByType || in_array($k, $operatorByType[$type])) {
-                $opt[] = array('value' => $k, 'label' => $v);
+                $opt[] = ['value' => $k, 'label' => $v];
             }
         }
         return $opt;
@@ -109,7 +109,7 @@ class Address extends \Magento\Rule\Model\Condition\AbstractCondition
                     break;
 
                 default:
-                    $options = array();
+                    $options = [];
             }
             $this->setData('value_select_options', $options);
         }

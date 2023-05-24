@@ -14,8 +14,8 @@ use Magento\Eav\Api\AttributeSetRepositoryInterface;
 use Magento\Catalog\Setup\CategorySetupFactory;
 
 /**
-* Patch is mechanism, that allows to do atomic upgrade data changes
-*/
+ * Patch is mechanism, that allows to do atomic upgrade data changes
+ */
 class AddProductCategoryAttributes implements
     DataPatchInterface,
     PatchRevertableInterface
@@ -352,17 +352,17 @@ class AddProductCategoryAttributes implements
         $eavSetup = $this->categorySetupFactory->create(['setup' => $this->moduleDataSetup]);
 
         $eavSetup->removeAttribute(\Magento\Catalog\Model\Product::ENTITY, 'affirm_product_mfp');
-		$eavSetup->removeAttribute(\Magento\Catalog\Model\Category::ENTITY, 'affirm_category_mfp');
-		$eavSetup->removeAttribute(\Magento\Catalog\Model\Product::ENTITY, 'affirm_product_mfp_type');
-		$eavSetup->removeAttribute(\Magento\Catalog\Model\Product::ENTITY, 'affirm_product_mfp_priority');
-		$eavSetup->removeAttribute(\Magento\Catalog\Model\Category::ENTITY, 'affirm_category_mfp_type');
-		$eavSetup->removeAttribute(\Magento\Catalog\Model\Category::ENTITY, 'affirm_category_mfp_priority');
-		$eavSetup->removeAttribute(\Magento\Catalog\Model\Product::ENTITY, 'affirm_product_mfp_start_date');
-		$eavSetup->removeAttribute(\Magento\Catalog\Model\Product::ENTITY, 'affirm_product_mfp_end_date');
-		$eavSetup->removeAttribute(\Magento\Catalog\Model\Category::ENTITY, 'affirm_category_mfp_start_date');
-		$eavSetup->removeAttribute(\Magento\Catalog\Model\Category::ENTITY, 'affirm_category_mfp_end_date');
-		$eavSetup->removeAttribute(\Magento\Catalog\Model\Category::ENTITY, 'affirm_category_promo_id');
-		$eavSetup->removeAttribute(\Magento\Catalog\Model\Product::ENTITY, 'affirm_product_promo_id');
+        $eavSetup->removeAttribute(\Magento\Catalog\Model\Category::ENTITY, 'affirm_category_mfp');
+        $eavSetup->removeAttribute(\Magento\Catalog\Model\Product::ENTITY, 'affirm_product_mfp_type');
+        $eavSetup->removeAttribute(\Magento\Catalog\Model\Product::ENTITY, 'affirm_product_mfp_priority');
+        $eavSetup->removeAttribute(\Magento\Catalog\Model\Category::ENTITY, 'affirm_category_mfp_type');
+        $eavSetup->removeAttribute(\Magento\Catalog\Model\Category::ENTITY, 'affirm_category_mfp_priority');
+        $eavSetup->removeAttribute(\Magento\Catalog\Model\Product::ENTITY, 'affirm_product_mfp_start_date');
+        $eavSetup->removeAttribute(\Magento\Catalog\Model\Product::ENTITY, 'affirm_product_mfp_end_date');
+        $eavSetup->removeAttribute(\Magento\Catalog\Model\Category::ENTITY, 'affirm_category_mfp_start_date');
+        $eavSetup->removeAttribute(\Magento\Catalog\Model\Category::ENTITY, 'affirm_category_mfp_end_date');
+        $eavSetup->removeAttribute(\Magento\Catalog\Model\Category::ENTITY, 'affirm_category_promo_id');
+        $eavSetup->removeAttribute(\Magento\Catalog\Model\Product::ENTITY, 'affirm_product_promo_id');
 
         $this->moduleDataSetup->getConnection()->endSetup();
     }

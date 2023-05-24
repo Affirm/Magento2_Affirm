@@ -1,5 +1,6 @@
 <?php
 namespace Astound\Affirm\Controller\Adminhtml\Rule;
+
 use Magento\Framework\App\ResponseInterface;
 
 class Delete extends \Astound\Affirm\Controller\Adminhtml\Rule

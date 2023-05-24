@@ -26,8 +26,7 @@ class AddressFormat implements ObserverInterface
     protected $regionFactory;
     public function __construct(
         RegionFactory $regionFactory
-    )
-    {
+    ) {
         $this->regionFactory = $regionFactory;
     }
     /**
@@ -40,7 +39,7 @@ class AddressFormat implements ObserverInterface
     {
 
         $address = $observer->getEvent()->getAddress();
-        if($address->getAddressType()) {
+        if ($address->getAddressType()) {
             if ($address->getRegion() == null) {
                 $regionId = $address->getRegionId();
                 /** @var \Magento\Directory\Model\Region $region */

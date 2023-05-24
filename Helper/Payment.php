@@ -40,7 +40,7 @@ class Payment
     /**
      * Region (country) code for address validation
      */
-    const VALID_REGIONS = array('US', 'CA');
+    const VALID_REGIONS = ['US', 'CA'];
     const DEFAULT_REGION = 'US';
 
     /**
@@ -288,7 +288,7 @@ class Payment
             $productTypeConfigurable = $product->getTypeInstance();
             $childProducts = $productTypeConfigurable->getUsedProducts($product);
             $configurableAttributes = $productTypeConfigurable->getConfigurableAttributesAsArray($product);
-            $result = array();
+            $result = [];
             /** @var Product $childProduct */
             foreach ($childProducts as $childProduct) {
                 foreach ($configurableAttributes as $configurableAttribute) {

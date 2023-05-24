@@ -105,14 +105,14 @@ class CaptureStrategyCommand implements CommandInterface
             }
         }
 
-        if($this->getConfigData('payment_action') == 'authorize_capture'){
+        if ($this->getConfigData('payment_action') == 'authorize_capture') {
             $last_invoice_amount = $paymentInfo->getAdditionalInformation(self::LAST_INVOICE_AMOUNT);
             $amountInCents = Util::formatToCents($last_invoice_amount);
-            if ($amountInCents == 0 ) {
+            if ($amountInCents == 0) {
                 return $this->commandPool
                     ->get(self::VOID)
-                    ->execute($commandSubject);    
-                }
+                    ->execute($commandSubject);
+            }
         }
 
 

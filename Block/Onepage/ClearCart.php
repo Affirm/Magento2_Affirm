@@ -28,13 +28,12 @@ use Magento\Framework\View\Element\Template;
 class ClearCart extends Template
 {
       /**
-     * Clear mini cart
-     *
-     */
+       * Clear mini cart
+       *
+       */
     public function __construct(
         Template\Context $context
     ) {
         parent::__construct($context);
     }
-
 }

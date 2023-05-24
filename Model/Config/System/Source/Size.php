@@ -59,9 +59,9 @@ class Size implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        $options = array();
+        $options = [];
         foreach (self::$sizes as $size) {
-            $options[] = array('value' => $size, 'label' => $size);
+            $options[] = ['value' => $size, 'label' => $size];
         }
         return $options;
     }

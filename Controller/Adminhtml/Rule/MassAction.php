@@ -1,7 +1,6 @@
 <?php
 namespace Astound\Affirm\Controller\Adminhtml\Rule;
 
-
 class MassAction extends \Astound\Affirm\Controller\Adminhtml\Rule
 {
     public function execute()
@@ -12,11 +11,11 @@ class MassAction extends \Astound\Affirm\Controller\Adminhtml\Rule
         if ($ids && in_array($action, ['activate', 'inactivate', 'delete'])) {
             try {
                 $status = -1;
-                switch($action) {
+                switch ($action) {
                     case 'delete':
                         $collection = $this->_objectManager->create('Astound\Affirm\Model\ResourceModel\Rule\Collection');
 
-                        $collection->addFieldToFilter('rule_id', array('in'=>$ids));
+                        $collection->addFieldToFilter('rule_id', ['in'=>$ids]);
                         $collection->walk($action);
                         $status = -1;
                         $message = __('You deleted the rule(s).');
@@ -31,7 +30,7 @@ class MassAction extends \Astound\Affirm\Controller\Adminhtml\Rule
                         break;
                 }
 
-                if($status > -1) {
+                if ($status > -1) {
                     $this->_objectManager->create('Astound\Affirm\Model\Rule')->massChangeStatus($ids, $status);
                 }
 

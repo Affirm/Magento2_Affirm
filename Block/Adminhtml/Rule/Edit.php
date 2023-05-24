@@ -38,11 +38,10 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     public function getHeaderText()
     {
         $model = $this->_coreRegistry->registry('affirm_payment_restriction_rule');
-        if($model->getId()) {
+        if ($model->getId()) {
             $title = __('Edit Payment Restriction Rule `%1`', $model->getName());
         } else {
             $title = __("Add new Payment Restriction Rule");
         }
     }
-
 }

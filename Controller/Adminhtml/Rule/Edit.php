@@ -3,7 +3,7 @@ namespace Astound\Affirm\Controller\Adminhtml\Rule;
 
 class Edit extends \Astound\Affirm\Controller\Adminhtml\Rule
 {
-   public function execute()
+    public function execute()
     {
         $id = $this->getRequest()->getParam('id');
         $model = $this->_objectManager->create('Astound\Affirm\Model\Rule');
@@ -25,7 +25,7 @@ class Edit extends \Astound\Affirm\Controller\Adminhtml\Rule
         }
         $this->_coreRegistry->register('affirm_payment_restriction_rule', $model);
         $this->_initAction();
-        if($model->getId()) {
+        if ($model->getId()) {
             $title = __('Edit Payment Restrictions Rule `%1`', $model->getName());
         } else {
             $title = __("Add new Payment Restriction Rule");
@@ -36,10 +36,10 @@ class Edit extends \Astound\Affirm\Controller\Adminhtml\Rule
 
     public function _prepareForEdit(\Astound\Affirm\Model\Rule $model)
     {
-        $fields = array('stores', 'cust_groups', 'methods');
-        foreach ($fields as $f){
+        $fields = ['stores', 'cust_groups', 'methods'];
+        foreach ($fields as $f) {
             $val = $model->getData($f);
-            if (!is_array($val)){
+            if (!is_array($val)) {
                 $model->setData($f, explode(',', $val ?? ''));
             }
         }

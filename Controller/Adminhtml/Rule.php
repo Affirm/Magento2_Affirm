@@ -1,8 +1,11 @@
 <?php
 namespace Astound\Affirm\Controller\Adminhtml;
 
-use Magento\Backend\Model\View\Result\ForwardFactory
-
+/**
+ * Class rule
+ *
+ * @package Astound\Affirm\Controller\Adminhtml
+ */
 abstract class Rule extends \Magento\Backend\App\Action
 {
     protected $_coreRegistry;

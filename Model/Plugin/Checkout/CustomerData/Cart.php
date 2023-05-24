@@ -79,7 +79,7 @@ class Cart
 
     /**
      * Checkout session
-     * 
+     *
      * @var \Magento\Checkout\Model\Session
      */
     protected $checkoutSession = null;
@@ -94,14 +94,13 @@ class Cart
      * @param \Magento\Checkout\Model\Session $checkoutSession
      */
     public function __construct(
-            Payment $helperAffirm,
-            StoreManagerInterface $storeManagerInterface,
-            Config $configAffirm,
-            AsLowAs $asLowAs,
-            ProductCollectionFactory $productCollectionFactory,
-            Session $checkoutSession
-    )
-    {
+        Payment $helperAffirm,
+        StoreManagerInterface $storeManagerInterface,
+        Config $configAffirm,
+        AsLowAs $asLowAs,
+        ProductCollectionFactory $productCollectionFactory,
+        Session $checkoutSession
+    ) {
         $this->checkoutSession = $checkoutSession;
 
         $this->affirmPaymentHelper = $helperAffirm;
@@ -141,7 +140,7 @@ class Cart
         $result['learnMore'] = '';
         $totals = $this->getQuote()->getTotals();
         $subtotal = isset($totals['subtotal']) ? $totals['subtotal']->getValue() : 0;
-        if($subtotal > (float)$this->affirmPaymentConfig->getAsLowAsMinMpp()) {
+        if ($subtotal > (float)$this->affirmPaymentConfig->getAsLowAsMinMpp()) {
             $result['mfpValue'] = $this->asLowAsHelper->getFinancingProgramValue();
         }
         $result['learnMore'] = $this->asLowAsHelper->isVisibleLearnmore() ? 'true' :'false';

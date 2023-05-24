@@ -47,9 +47,9 @@ class Aslowas extends AslowasAbstract
         if ($this->affirmPaymentConfig->getConfigData('active')
                 && $this->affirmPaymentHelper->isAffirmAvailableForProduct($product)
         ) {
-                if ((float)$product->getFinalPrice() < (float)$this->affirmPaymentConfig->getAsLowAsMinMpp()) {
-                    return false;
-                }
+            if ((float)$product->getFinalPrice() < (float)$this->affirmPaymentConfig->getAsLowAsMinMpp()) {
+                return false;
+            }
             return true;
         }
         return false;
@@ -75,8 +75,8 @@ class Aslowas extends AslowasAbstract
         }
         $product = $this->affirmPaymentHelper->getProduct();
         $this->setData(
-                'backorders_options',
-                $this->affirmPaymentHelper->getConfigurableProductBackordersOptions($product)
+            'backorders_options',
+            $this->affirmPaymentHelper->getConfigurableProductBackordersOptions($product)
         );
         $this->setData('element_id', 'als_pdp');
 
@@ -106,7 +106,8 @@ class Aslowas extends AslowasAbstract
         return $this->affirmPaymentHelper->getProduct()->getId();
     }
 
-    public function getLearnMoreValue(){
+    public function getLearnMoreValue()
+    {
         return $this->asLowAsHelper->isVisibleLearnmore() ? 'true' :'false';
     }
 }

@@ -34,6 +34,7 @@
  */
 
 namespace Astound\Affirm\Helper\Payment;
+
 class Data extends \Magento\Payment\Helper\Data
 {
     protected $_allRules = null;

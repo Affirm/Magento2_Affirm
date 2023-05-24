@@ -15,12 +15,12 @@ class Subselect extends \Magento\SalesRule\Model\Rule\Condition\Product\Subselec
 
     public function loadAttributeOptions()
     {
-        $this->setAttributeOption(array(
+        $this->setAttributeOption([
             'qty'                       => __('total quantity'),
             'base_row_total'            => __('total amount excl. tax'),
             'base_row_total_incl_tax'   => __('total amount incl. tax'),
             'row_weight'                => __('total weight'),
-        ));
+        ]);
         return $this;
     }
 
@@ -40,7 +40,7 @@ class Subselect extends \Magento\SalesRule\Model\Rule\Condition\Product\Subselec
         $attr = $this->getAttribute();
         $total = 0;
         if ($object->getAllItems()) {
-            $validIds = array();
+            $validIds = [];
             foreach ($object->getAllItems() as $item) {
 
 

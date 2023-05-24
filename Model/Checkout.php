@@ -115,7 +115,7 @@ class Checkout
         \Magento\Checkout\Helper\Data $checkoutData,
         OrderSender $orderSender,
         AffirmConfig $config,
-        $params = array()
+        $params = []
     ) {
         $this->checkoutSession = $checkoutSession;
         $this->quoteManagement = $cartManagement;
@@ -172,8 +172,9 @@ class Checkout
             case \Magento\Sales\Model\Order::STATE_PROCESSING:
             case \Magento\Sales\Model\Order::STATE_COMPLETE:
             case \Magento\Sales\Model\Order::STATE_PAYMENT_REVIEW:
-                if (!$this->order->getEmailSent()) // Check if order confirmation has already been sent, prevent double email notification.
+                if (!$this->order->getEmailSent()) { // Check if order confirmation has already been sent, prevent double email notification.
                     $this->orderSender->send(($this->order));
+                }
                 $this->checkoutSession->start();
                 break;
             default:
@@ -311,10 +312,10 @@ class Checkout
      */
     protected function getCountryCodeByCurrency($currencyCode)
     {
-        $currency_map = array(
+        $currency_map = [
             "USD" => ['US','USA'],
             "CAD" => ['CA','CAN']
-        );
+        ];
         return $currency_map[$currencyCode];
     }
 }

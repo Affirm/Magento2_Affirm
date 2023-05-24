@@ -1,5 +1,6 @@
 <?php
 namespace Astound\Affirm\Block\Adminhtml\Rule\Grid\Renderer;
+
 class Stores extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Text
 {
     public function render(\Magento\Framework\DataObject $row)

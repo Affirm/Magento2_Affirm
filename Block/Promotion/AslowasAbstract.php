@@ -185,7 +185,7 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
      */
     public function getDataAffirmColor()
     {
-        if(in_array($this->getData('logo'), $this->dataColors)) {
+        if (in_array($this->getData('logo'), $this->dataColors)) {
             return 'data-affirm-color="' . $this->getData('logo')  . '"';
         }
         return '';
@@ -256,5 +256,4 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
      * @return boolean
      */
     abstract public function validate();
-
 }
