@@ -63,7 +63,7 @@ class InlineCheckout implements InlineCheckoutInterface
         Util $util,
         QuoteValidator $quoteValidator,
         ObjectManagerInterface $objectManager
-    ){
+    ) {
         $this->session = $checkoutSession;
         $this->quote = $checkoutSession->getQuote();
         $this->urlBuilder = $urlInterface;
@@ -74,54 +74,55 @@ class InlineCheckout implements InlineCheckoutInterface
         $this->objectManager = $objectManager;
     }
 
-    public function initInline(){
+    public function initInline()
+    {
         $quote = $this->quote;
         $quote->collectTotals();
 
-        if(!$quote->getReservedOrderId()) {
+        if (!$quote->getReservedOrderId()) {
             $quote->reserveOrderId();
         }
 
-        try{
+        try {
             $this->quoteValidator->validateBeforeSubmit($quote);
         } catch (LocalizedException $e) {
-            return json_encode(array(
-                'merchant' => array(
+            return json_encode([
+                'merchant' => [
                     'user_confirmation_url'        => $this->urlBuilder
                         ->getUrl('affirm/payment/confirm', ['_secure' => true]),
                     'user_cancel_url'              => $this->urlBuilder
                         ->getUrl('affirm/payment/cancel', ['_secure' => true]),
                     'user_confirmation_url_action' => 'POST',
-                ),
+                ],
                 'order_id' => $quote->getReservedOrderId(),
                 'total'    => $this->util->formatToCents($quote->getGrandTotal())
-            ));
+            ]);
 
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
 
         }
 
-        $checkoutObject = array(
-            'merchant' => array(
+        $checkoutObject = [
+            'merchant' => [
                 'user_confirmation_url'        => $this->urlBuilder
                     ->getUrl('affirm/payment/confirm', ['_secure' => true]),
                 'user_cancel_url'              => $this->urlBuilder
                     ->getUrl('affirm/payment/cancel', ['_secure' => true]),
                 'user_confirmation_url_action' => 'POST',
-            ),
+            ],
             'order_id' => $quote->getReservedOrderId(),
             'shipping_amount' => $this->util->formatToCents($quote->getShippingAddress()->getShippingAmount()),
             'total'    => $this->util->formatToCents($quote->getGrandTotal()),
             'tax_amount' => $this->util->formatToCents($quote->getShippingAddress()->getTaxAmount()),
-            'metadata' => array(
+            'metadata' => [
                 'platform_type'    => $this->productMetadata->getName() . ' 2',
                 'platform_version' => $this->productMetadata->getVersion() . ' ' . $this->productMetadata->getEdition(),
                 'platform_affirm'  => $this->moduleResource->getDbVersion('Astound_Affirm'),
                 'mode'             => 'inline'
-            )
-        );
+            ]
+        ];
 
-        if($items = $this->formatItems($quote->getAllVisibleItems())) {
+        if ($items = $this->formatItems($quote->getAllVisibleItems())) {
             $checkoutObject['items'] = $items;
         }
 
@@ -161,45 +162,47 @@ class InlineCheckout implements InlineCheckoutInterface
         return json_encode($checkoutObject);
     }
 
-    private function formatAddress($address){
+    private function formatAddress($address)
+    {
         $formattedAddress = false;
-        if($address->getCity()) {
+        if ($address->getCity()) {
             $street = $address->getStreet();
-            $formattedAddress = array(
-                'name' => array(
+            $formattedAddress = [
+                'name' => [
                     'first' => $address->getFirstName(),
                     'last'  => $address->getLastName(),
-                ),
-                'address' => array(
+                ],
+                'address' => [
                     'street1'   => isset($street[0]) ? $street[0] : '',
                     'street2'   => isset($street[1]) ? $street[1] : '',
                     'city'    => $address->getCity(),
                     'region1_code'   => $address->getRegion(),
                     'postal_code' => $address->getPostcode(),
                     'country' => $address->getCountryId()
-                ),
+                ],
                 'phone_number' => $address->getTelephone() ? $address->getTelephone() : '',
                 'email'        => $address->getEmail() ? $address->getEmail() : ''
-            );
+            ];
         }
 
         return $formattedAddress;
     }
 
-    private function formatItems($items) {
-        $formattedItems = array();
-        foreach ( (object)$items as $item) {
-            if( is_object($item)){
+    private function formatItems($items)
+    {
+        $formattedItems = [];
+        foreach ((object)$items as $item) {
+            if (is_object($item)) {
                 $product = $item->getProduct();
 
-                $formattedItems[] = array(
+                $formattedItems[] = [
                     'display_name' => $item->getName(),
                     'sku' => $item->getSku(),
                     'unit_price' => $item->getPrice(),
                     'qty' => $item->getQty(),
                     'item_image_url' => $product->getData('thumbnail'),
                     'item_url' => $product->getUrlModel()->getUrl($product)
-                );
+                ];
             }
         }
         return $formattedItems;

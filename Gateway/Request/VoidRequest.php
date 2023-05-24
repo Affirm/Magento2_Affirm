@@ -47,7 +47,7 @@ class VoidRequest extends AbstractDataBuilder
             $payment->getAdditionalInformation(self::CHARGE_ID);
         $countryCode = $payment->getAdditionalInformation(self::COUNTRY_CODE) ?: self::DEFAULT_COUNTRY_CODE;
         $order = $payment->getOrder();
-        if($order) {
+        if ($order) {
             $storeId = $order->getStoreId();
         }
         if (!$storeId) {

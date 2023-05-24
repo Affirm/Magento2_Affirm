@@ -74,13 +74,12 @@ class ViewAbstract extends \Magento\Framework\DataObject
      *
      */
     public function __construct(
-            StoreManagerInterface $storeManagerInterface,
-            ConfigProvider $configProvider,
-            Config $configAffirm,
-            AsLowAs $asLowAs,
-            ProductCollectionFactory $productCollectionFactory
-    )
-    {
+        StoreManagerInterface $storeManagerInterface,
+        ConfigProvider $configProvider,
+        Config $configAffirm,
+        AsLowAs $asLowAs,
+        ProductCollectionFactory $productCollectionFactory
+    ) {
         $this->productCollectionFactory = $productCollectionFactory;
 
         $this->asLowAsHelper = $asLowAs;
@@ -130,7 +129,7 @@ class ViewAbstract extends \Magento\Framework\DataObject
      */
     public function getDataAffirmColor()
     {
-        if(in_array($this->getData('logo'), $this->dataColors)) {
+        if (in_array($this->getData('logo'), $this->dataColors)) {
             return 'data-affirm-color="' . $this->getData('logo')  . '"';
         }
         return '';

@@ -17,5 +17,4 @@ class Color extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Input
 
         return '<div style="text-align:center; color:#FFF;font-weight:bold;background:#' . $color . ';border-radius:8px;width:100%">' . $value . '</div>';
     }
-
 }

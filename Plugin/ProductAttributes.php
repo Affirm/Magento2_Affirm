@@ -7,8 +7,7 @@ class ProductAttributes
 
     public function __construct(
         \Magento\Framework\ObjectManagerInterface $objectManager
-    )
-    {
+    ) {
         $this->objectManager = $objectManager;
     }
 
@@ -18,11 +17,10 @@ class ProductAttributes
 
         $attributes = $this->objectManager->create('Astound\Affirm\Model\ResourceModel\Rule')->getAttributes();
 
-         foreach ($attributes as $code) {
+        foreach ($attributes as $code) {
             $attributesTransfer[] = $code;
         }
 
         return $attributesTransfer;
-
     }
 }

@@ -1,5 +1,6 @@
 <?php
 namespace Astound\Affirm\Controller\Adminhtml\Rule;
+
 use Magento\Framework\Filter\FilterInput;
 
 class Save extends \Astound\Affirm\Controller\Adminhtml\Rule
@@ -67,11 +68,11 @@ class Save extends \Astound\Affirm\Controller\Adminhtml\Rule
 
     protected function _prepareForSave($model)
     {
-        $fields = array('stores', 'cust_groups', 'methods');
-        foreach ($fields as $f){
+        $fields = ['stores', 'cust_groups', 'methods'];
+        foreach ($fields as $f) {
             $val = $model->getData($f);
             $model->setData($f, '');
-            if (is_array($val)){
+            if (is_array($val)) {
                 $model->setData($f, ',' . implode(',', $val) . ',');
             }
         }

@@ -20,29 +20,28 @@ use Astound\Affirm\Model\Config;
 class CanCapturePartial
 {
   /**
-     * Affirm config model payment
-     *
-     * @var \Astound\Affirm\Model\Config
-     */
+   * Affirm config model payment
+   *
+   * @var \Astound\Affirm\Model\Config
+   */
     protected $affirmPaymentConfig;
 
 
   /**
    * Define constants
    */
-  const DEFAULT_COUNTRY_CODE = 'USA';
+    const DEFAULT_COUNTRY_CODE = 'USA';
 
   /**
    * Constructor
    *
    * @param Config $configAffirm
    */
-  public function __construct(
-    Config $configAffirm
-  )
-  {
-    $this->affirmPaymentConfig = $configAffirm;
-  }
+    public function __construct(
+        Config $configAffirm
+    ) {
+        $this->affirmPaymentConfig = $configAffirm;
+    }
 
   /**
    * Plugin to verify if Partial Capture is enabled in config
@@ -51,16 +50,16 @@ class CanCapturePartial
    * @param callable                          $result
    * @return bool
    */
-  public function afterCanCapturePartial(Payment $subject, $result)
-  {
-    $countryCode = self::DEFAULT_COUNTRY_CODE;
-    if (isset($subject->getData()['additional_information']['country_code'])) {
-      $countryCode = $subject->getData()['additional_information']['country_code'];
-    }
+    public function afterCanCapturePartial(Payment $subject, $result)
+    {
+        $countryCode = self::DEFAULT_COUNTRY_CODE;
+        if (isset($subject->getData()['additional_information']['country_code'])) {
+            $countryCode = $subject->getData()['additional_information']['country_code'];
+        }
 
-    if (!$this->affirmPaymentConfig->getPartialCapture() || $countryCode != self::DEFAULT_COUNTRY_CODE) {
-      return false;
+        if (!$this->affirmPaymentConfig->getPartialCapture() || $countryCode != self::DEFAULT_COUNTRY_CODE) {
+            return false;
+        }
+        return $result;
     }
-    return $result;
-  }
 }

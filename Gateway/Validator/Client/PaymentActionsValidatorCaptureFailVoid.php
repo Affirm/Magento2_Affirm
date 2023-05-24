@@ -56,16 +56,15 @@ class PaymentActionsValidatorCaptureFailVoid extends PaymentActionsValidator
         $validationResult = $this->validateResponseCode($response)
             && $this->validateResponseType($response);
         
-        $this->affirmLogger->debug('Astound\Affirm\Gateway\Validator\Client\PaymentActionsValidator:validate', array('LAST_INVOICE_AMOUNT not set'));
+        $this->affirmLogger->debug('Astound\Affirm\Gateway\Validator\Client\PaymentActionsValidator:validate', ['LAST_INVOICE_AMOUNT not set']);
         
         if (!$validationResult) {
-            $this->affirmLogger->debug('Astound\Affirm\Gateway\Validator\Client\PaymentActionsValidator:validate', array('Affirm API Failed'));
+            $this->affirmLogger->debug('Astound\Affirm\Gateway\Validator\Client\PaymentActionsValidator:validate', ['Affirm API Failed']);
         }
         
         $errorMessages = [__('Transaction has been declined, please, try again later.')];
 
         throw new \Magento\Framework\Validator\Exception(__($errorMessages[0]));
-
     }
 
     /**

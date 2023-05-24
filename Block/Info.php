@@ -98,7 +98,10 @@ class Info extends ConfigurableInfo
     protected function getAdminAffirmUrl()
     {
         $loanId = $this->getLoanId();
-        return sprintf('https://%s/dashboard/#/details/%s?trk=%s', $this->getDomainUrl(), $loanId,
+        return sprintf(
+            'https://%s/dashboard/#/details/%s?trk=%s',
+            $this->getDomainUrl(),
+            $loanId,
             $this->getPublicApiKey()
         );
     }

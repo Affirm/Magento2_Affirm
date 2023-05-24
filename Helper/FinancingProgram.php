@@ -231,7 +231,9 @@ class FinancingProgram
     protected function isFinancingProgramValidCurrentDate()
     {
         return $this->getFinancingProgramDateRange() &&
-            $this->_localeDate->isScopeDateInInterval(null, $this->getFinancingProgramStartDate(),
+            $this->_localeDate->isScopeDateInInterval(
+                null,
+                $this->getFinancingProgramStartDate(),
                 $this->getFinancingProgramEndDate()
             );
     }
@@ -243,7 +245,9 @@ class FinancingProgram
      */
     public function getCustomerFinancingProgram()
     {
-        if($this->isALS) return '';
+        if ($this->isALS) {
+            return '';
+        }
 
         if (null === $this->customerFP) {
             if ($this->customerSession->isLoggedIn()) {
@@ -271,7 +275,7 @@ class FinancingProgram
             }
             $this->products = $this->productCollectionFactory->create()
                 ->addAttributeToSelect(['affirm_product_mfp', 'affirm_product_promo_id', 'affirm_product_mfp_type', 'affirm_product_mfp_priority', 'affirm_product_mfp_start_date', 'affirm_product_mfp_end_date'])
-                ->addAttributeToFilter('entity_id', array('in' => $productIds));
+                ->addAttributeToFilter('entity_id', ['in' => $productIds]);
         }
         return $this->products;
     }
@@ -283,7 +287,7 @@ class FinancingProgram
      */
     protected function getQuoteCategoryCollection($productCollection = null)
     {
-        if(is_null($productCollection)) {
+        if (is_null($productCollection)) {
             $productCollection = $this->getQuoteProductCollection();
         }
         $categoryItemsIds = [];
@@ -292,14 +296,14 @@ class FinancingProgram
         foreach ($productCollection as $product) {
             /** @var \Magento\Catalog\Model\ResourceModel\Category\Collection $categoryProductCollection */
             $categoryProductCollection = $product->getCategoryCollection();
-            if($this->isALS) {
+            if ($this->isALS) {
                 $categoryProductCollection
-                    ->addAttributeToFilter('affirm_category_promo_id', array('neq' => ''))
-                    ->addAttributeToFilter('affirm_category_promo_id', array('notnull' => true));
+                    ->addAttributeToFilter('affirm_category_promo_id', ['neq' => ''])
+                    ->addAttributeToFilter('affirm_category_promo_id', ['notnull' => true]);
             } else {
                 $categoryProductCollection
-                    ->addAttributeToFilter('affirm_category_mfp', array('neq' => ''))
-                    ->addAttributeToFilter('affirm_category_mfp', array('notnull' => true));
+                    ->addAttributeToFilter('affirm_category_mfp', ['neq' => ''])
+                    ->addAttributeToFilter('affirm_category_mfp', ['notnull' => true]);
             }
 
             $categoryIds = $categoryProductCollection->getAllIds();
@@ -312,7 +316,7 @@ class FinancingProgram
         /** @var \Magento\Catalog\Model\ResourceModel\Category\Collection $categoryCollection */
         $categoryCollection = $this->categoryCollectionFactory->create()
             ->addAttributeToSelect(['affirm_category_mfp', 'affirm_category_promo_id', 'affirm_category_mfp_type', 'affirm_category_mfp_priority', 'affirm_category_mfp_start_date', 'affirm_category_mfp_end_date'])
-            ->addAttributeToFilter('entity_id', array('in' => $categoryItemsIds));
+            ->addAttributeToFilter('entity_id', ['in' => $categoryItemsIds]);
         if ($flagProductWithoutMfpCategories) {
             $categoryCollection->setFlag('productWithoutMfpCategories', true);
         }
@@ -327,10 +331,10 @@ class FinancingProgram
      */
     protected function getFinancingProgramFromEntityItems(array $entityItems)
     {
-        $exclusiveMFP = array();
-        $inclusiveMFP = array();
+        $exclusiveMFP = [];
+        $inclusiveMFP = [];
         $existItemWithoutMFP = false;
-        $inclusiveMFPTemp = array();
+        $inclusiveMFPTemp = [];
         $this->entityFP = '';
         foreach ($entityItems as $entityItemMFP) {
             if (!$entityItemMFP['value']) {
@@ -343,10 +347,10 @@ class FinancingProgram
                 } else {
                     if (!in_array($entityItemMFP['value'], $inclusiveMFPTemp)) {
                         $inclusiveMFPTemp[] = $entityItemMFP['value'];
-                        $inclusiveMFP[] = array(
+                        $inclusiveMFP[] = [
                             'value'    => $entityItemMFP['value'],
                             'priority' => $entityItemMFP['priority']
-                        );
+                        ];
                     }
                 }
             }
@@ -383,10 +387,10 @@ class FinancingProgram
             $start_date = $entity->getAffirmProductMfpStartDate();
             $end_date = $entity->getAffirmProductMfpEndDate();
             $_value = $this->isALS ? $entity->getAffirmProductPromoId() : $entity->getAffirmProductMfp();
-            if(empty($start_date) || empty($end_date)) {
+            if (empty($start_date) || empty($end_date)) {
                 $mfpValue = $_value;
             } else {
-                if($this->_localeDate->isScopeDateInInterval(null, $start_date, $end_date)) {
+                if ($this->_localeDate->isScopeDateInInterval(null, $start_date, $end_date)) {
                     $mfpValue = $_value;
                 } else {
                     $mfpValue = "";
@@ -416,10 +420,10 @@ class FinancingProgram
             $start_date = $entity->getAffirmCategoryMfpStartDate();
             $end_date = $entity->getAffirmCategoryMfpEndDate();
             $_value = $this->isALS ? $entity->getAffirmCategoryPromoId() : $entity->getAffirmCategoryMfp();
-            if(empty($start_date) || empty($end_date)) {
+            if (empty($start_date) || empty($end_date)) {
                 $mfpValue = $_value;
             } else {
-                if($this->_localeDate->isScopeDateInInterval(null, $start_date, $end_date)) {
+                if ($this->_localeDate->isScopeDateInInterval(null, $start_date, $end_date)) {
                     $mfpValue = $_value;
                 } else {
                     $mfpValue = "";
@@ -524,20 +528,20 @@ class FinancingProgram
                 && $cartTotal >= $minTotal
                 && $cartTotal <= $maxTotal
             ) {
-                if($this->isALS) {
+                if ($this->isALS) {
                     $this->cartSizePromoId = $cartSizeValue;
                 } else {
                     $this->cartSizeFP = $cartSizeValue;
                 }
             } else {
-                if($this->isALS) {
+                if ($this->isALS) {
                     $this->cartSizePromoId = '';
                 } else {
                     $this->cartSizeFP = '';
                 }
             }
         }
-        if($this->isALS) {
+        if ($this->isALS) {
             return $this->cartSizePromoId;
         } else {
             return $this->cartSizeFP;

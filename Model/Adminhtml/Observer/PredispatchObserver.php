@@ -5,7 +5,6 @@ use Magento\Framework\Event\ObserverInterface;
 use Magento\Backend\Model\Auth\Session;
 use Astound\Affirm\Model\Adminhtml\FeedFactory;
 
-
 /**
  * Customer Observer Model
  */

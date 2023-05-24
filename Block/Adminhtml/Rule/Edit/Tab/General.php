@@ -15,8 +15,7 @@ class General extends Generic implements TabInterface
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Store\Model\System\Store $systemStore,
         array $data
-    )
-    {
+    ) {
         $this->_systemStore = $systemStore;
         parent::__construct($context, $registry, $formFactory, $data);
     }

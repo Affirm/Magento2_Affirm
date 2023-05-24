@@ -35,14 +35,14 @@
 ?>
 <?php
 
-$action = $this->getRequest()->getFullActionName();
+$action = $block->getRequest()->getFullActionName();
 
 if ($action == 'checkout_onepage_success') {
                 
-    $pixelCode = $this->getOrdersTrackingCode();
+    $pixelCode = $block->getOrdersTrackingCode();
     $pixelCode['pixelConfig'] = $block->getOptions();
 
-    $serializedPixelCode = $this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode($pixelCode);
+    $serializedPixelCode = $block->helper('Magento\Framework\Json\Helper\Data')->jsonEncode($pixelCode);
 }
 
 ?>

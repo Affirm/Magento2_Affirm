@@ -208,7 +208,7 @@ class Banners extends \Magento\Framework\View\Element\Template
             return '';
         }
 
-        if ( $this->affirmPaymentConfig->getBmlSize($this->section) == '"Pay over time banner sizes"' || $this->affirmPaymentConfig->getBmlSize($this->section) == '"Make Monthly Payments banner sizes"'  ) {
+        if ($this->affirmPaymentConfig->getBmlSize($this->section) == '"Pay over time banner sizes"' || $this->affirmPaymentConfig->getBmlSize($this->section) == '"Make Monthly Payments banner sizes"') {
             return '';
         }
 
@@ -313,9 +313,9 @@ class Banners extends \Magento\Framework\View\Element\Template
     {
         if ($this->isCartPage()) {
             return 'cart';
-        } else if ($this->isCategoryPage()) {
+        } elseif ($this->isCategoryPage()) {
             return 'category';
-        } else if ($this->isProductPage()) {
+        } elseif ($this->isProductPage()) {
             return 'product';
         } else {
             return 'homepage';

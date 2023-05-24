@@ -12,8 +12,11 @@ class Rule extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
     {
         $db = $this->getConnection();
         $ids = array_map('intval', $ids);
-        $db->update($this->getMainTable(),
-            array('is_active' => $status), 'rule_id IN(' . implode(',', $ids) . ') ');
+        $db->update(
+            $this->getMainTable(),
+            ['is_active' => $status],
+            'rule_id IN(' . implode(',', $ids) . ') '
+        );
 
         return true;
     }
@@ -32,14 +35,14 @@ class Rule extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
         $db = $this->getConnection();
         $tbl   = $this->getTable('astound_affirm_attribute');
 
-        $db->delete($tbl, array('rule_id=?' => $id));
+        $db->delete($tbl, ['rule_id=?' => $id]);
 
-        $data = array();
-        foreach ($attributes as $code){
-            $data[] = array(
+        $data = [];
+        foreach ($attributes as $code) {
+            $data[] = [
                 'rule_id' => $id,
                 'code'    => $code,
-            );
+            ];
         }
         $db->insertMultiple($tbl, $data);
 

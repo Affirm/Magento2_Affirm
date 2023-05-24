@@ -212,7 +212,7 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
         }
 
 
-        $itemTypes = array();
+        $itemTypes = [];
         $items = $this->quote->getAllVisibleItems();
         foreach ($items as $item) {
             $itemTypes[] = $item->getProductType();
@@ -221,7 +221,7 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
         $response['product_types'] = array_unique($itemTypes);
 
         $productType = true;
-        if (count($response['product_types'])  == 1 && ($response['product_types'][0] == 'downloadable' || $response['product_types'][0] == 'virtual'   )   ) {
+        if (count($response['product_types'])  == 1 && ($response['product_types'][0] == 'downloadable' || $response['product_types'][0] == 'virtual'   )) {
             $productType = false;
         }
 
@@ -249,47 +249,49 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
         return json_encode($response);
     }
 
-    private function getShippingAddress(){
+    private function getShippingAddress()
+    {
         $shippingAddress =  $this->quote->getShippingAddress();
-        $shippingObject = array(
-            'name' => array(
+        $shippingObject = [
+            'name' => [
                 'full_name' => $shippingAddress->getName(),
                 'first' => $shippingAddress->getFirstname(),
                 'last' => $shippingAddress->getLastname()
-            ),
-            'address'=>array(
+            ],
+            'address'=>[
                 'line' => $shippingAddress->getStreet(),
                 'city' => $shippingAddress->getCity(),
                 'state' => $shippingAddress->getRegionCode() ? $shippingAddress->getRegionCode() : $this->getRegionCode($shippingAddress->getRegionId()),
                 'postcode' =>$shippingAddress->getPostcode(),
                 'country' =>$shippingAddress->getCountryId()
-            )
-        );
+            ]
+        ];
         return $shippingObject;
     }
 
-    private function getBillingAddress(){
+    private function getBillingAddress()
+    {
         $billingAddress =  $this->quote->getBillingAddress();
-        $billingObject = array(
-            'name' => array(
+        $billingObject = [
+            'name' => [
                 'full_name' => $billingAddress->getName(),
                 'first' => $billingAddress->getFirstname(),
                 'last' => $billingAddress->getLastname()
-            ),
-            'address'=>array(
+            ],
+            'address'=>[
                 'line' => $billingAddress->getStreet(),
                 'city' => $billingAddress->getCity(),
                 'state' => $billingAddress->getRegionCode() ? $billingAddress->getRegionCode() : $this->getRegionCode($billingAddress->getRegionId()),
                 'postcode' =>$billingAddress->getPostcode(),
                 'country' =>$billingAddress->getCountryId()
-            )
-        );
+            ]
+        ];
 
         return $billingObject;
-
     }
 
-    private function getRegionCode( $regionID ){
+    private function getRegionCode($regionID)
+    {
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
         $region = $objectManager->create('Magento\Directory\Model\Region')
             ->load($regionID);

@@ -1,6 +1,7 @@
 <?php
 
 namespace Astound\Affirm\Plugin;
+
 /**/
 
 use Magento\Sales\Api\Data\InvoiceInterface;

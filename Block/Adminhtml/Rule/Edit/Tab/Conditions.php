@@ -1,5 +1,6 @@
 <?php
 namespace Astound\Affirm\Block\Adminhtml\Rule\Edit\Tab;
+
 use Magento\Backend\Block\Widget\Form\Generic;
 use Magento\Backend\Block\Widget\Tab\TabInterface;
 
@@ -21,7 +22,7 @@ class Conditions extends Generic implements TabInterface
         parent::__construct($context, $registry, $formFactory, $data);
     }
 
-	public function getTabLabel()
+    public function getTabLabel()
     {
         return __('Conditions');
     }
