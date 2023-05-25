@@ -1,7 +1,7 @@
 <?php
 namespace Astound\Affirm\Controller\Adminhtml;
 
-use Magento\Backend\Model\View\Result\ForwardFactory
+use Magento\Backend\Model\View\Result\ForwardFactory;
 
 abstract class Rule extends \Magento\Backend\App\Action
 {
