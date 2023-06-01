@@ -131,7 +131,7 @@ class Checkout
             $this->config = $params['config'];
         }
 
-        $this->_customerSession = isset($params['session'])
+        $this->customerSession = isset($params['session'])
         && $params['session'] instanceof \Magento\Customer\Model\Session ? $params['session'] : $customerSession;
     }
 
