@@ -716,8 +716,13 @@ class Config implements ConfigInterface
     public function getAffirmAssetsUrl()
     {
         $prefix = "cdn-assets";
-        $domain = "affirm.com";
-        $assetPath = "images/banners";
+        $domain = "affirm.com";       
+        $assetPath = "images/banners/";
+
+        if ($this->getLocale() == SELF::LOCALE_FR_CA ) {
+            $assetPath = "images/banners/fr/AFFIRM-DSP-B-";
+        }
+
         return 'https://' . $prefix . '.' . $domain . '/' . $assetPath ;
     }
 
