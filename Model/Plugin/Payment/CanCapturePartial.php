@@ -31,6 +31,7 @@ class CanCapturePartial
    * Define constants
    */
   const DEFAULT_COUNTRY_CODE = 'USA';
+  const PARTIAL_CAPTURE_COUNTRIES = ['USA', 'CAN'];
 
   /**
    * Constructor
@@ -58,7 +59,7 @@ class CanCapturePartial
       $countryCode = $subject->getData()['additional_information']['country_code'];
     }
 
-    if (!$this->affirmPaymentConfig->getPartialCapture() || $countryCode != self::DEFAULT_COUNTRY_CODE) {
+    if (!$this->affirmPaymentConfig->getPartialCapture() || !in_array( $countryCode, self::PARTIAL_CAPTURE_COUNTRIES ) ) {
       return false;
     }
     return $result;

@@ -85,6 +85,7 @@ class Config implements ConfigInterface
     const SUFFIX_CANADA = '_ca';
     const KEY_ASLOWAS_DEVELOPER = 'affirm_aslowas_developer';
     const KEY_PIXEL = 'affirm_pixel';
+    const PARTIAL_CAPTURE_COUNTRIES = ['USA', 'CAN'];
     /**#@-*/
 
     /**
@@ -743,7 +744,7 @@ class Config implements ConfigInterface
      */
     public function getPartialCapture($countryCode = self::COUNTRY_CODE_USA)
     {
-        return $this->getConfigData('partial_capture') && $countryCode == self::COUNTRY_CODE_USA;
+        return $this->getConfigData('partial_capture') && in_array($countryCode, self::PARTIAL_CAPTURE_COUNTRIES);
     }
 
     /**
