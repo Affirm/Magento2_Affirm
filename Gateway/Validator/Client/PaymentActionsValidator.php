@@ -20,6 +20,9 @@ namespace Astound\Affirm\Gateway\Validator\Client;
 
 use Magento\Payment\Gateway\Helper\SubjectReader;
 use Astound\Affirm\Gateway\Helper\Util;
+use Astound\Affirm\Helper\ErrorTracker;
+use Magento\Payment\Gateway\Validator\ResultInterface;
+use Magento\Payment\Gateway\Validator\ResultInterfaceFactory;
 
 /**
  * Class PaymentActionsValidator
@@ -27,16 +30,38 @@ use Astound\Affirm\Gateway\Helper\Util;
 class PaymentActionsValidator extends AbstractResponseValidator
 {
     /**
+     * Error Tracker
+     *
+     * @var ErrorTracker
+     */
+    protected $errorTracker;
+
+    /**
+     * Inject result factory and error tracker
+     * 
+     * @param ResultInterfaceFactory $resultFactory
+     * @param ErrorTracker $error_tracker
+     */
+    public function __construct(
+        ResultInterfaceFactory $resultFactory,
+        ErrorTracker $errorTracker
+    ) {
+        $this->errorTracker = $errorTracker;
+        parent::__construct($resultFactory);
+    }
+
+    /**
      * Validate response
      *
      * @param array $validationSubject
-     * @return \Magento\Payment\Gateway\Validator\ResultInterface
+     * @return ResultInterface
      */
     public function validate(array $validationSubject)
     {
         $response = SubjectReader::readResponse($validationSubject);
         $amount = '';
         $_payment = $validationSubject['payment']->getPayment();
+        $transaction_step = '';
 
         if ( (isset($response['checkout_status']) && $response['checkout_status'] == 'confirmed')
             || (isset($response['status']) && $response['status'] == 'authorized')
@@ -44,16 +69,21 @@ class PaymentActionsValidator extends AbstractResponseValidator
             // Pre-Auth/Auth uses amount_ordered from payment
             $payment_data = $_payment->getData();
             $amount = $payment_data['amount_ordered'];
+
+            $transaction_step = (isset($response['checkout_status']) && $response['checkout_status'] == 'confirmed') ?
+                'pre_auth' : 'auth';
         } elseif ( (isset($response['type']) && $response['type'] == 'capture')
             || (isset($response['type']) && $response['type'] == 'split_capture')
         ) {
             // Capture or partial capture (US only) uses stored value from invoice total
             $amount = $_payment->getAdditionalInformation(self::LAST_INVOICE_AMOUNT);
+            $transaction_step = 'capture';
         } elseif ( (isset($response['type']) && $response['type'] == 'refund')
         ) {
             // Refund (including partial) uses grand_total from creditmemo (credit memo invoice)
             $_creditMemo = $_payment->getData()['creditmemo'];
             $amount = $_creditMemo->getGrandTotal();
+            $transaction_step = 'refund';
         } else {
             $amount = SubjectReader::readAmount($validationSubject);
         }
@@ -64,10 +94,18 @@ class PaymentActionsValidator extends AbstractResponseValidator
         $validationResult = $this->validateResponseCode($response)
             && $this->validateTotalAmount($response, $amountInCents);
 
+        $validationResult = false;
         if (!$validationResult) {
             $errorMessages = (isset($response[self::ERROR_MESSAGE])) ?
                 [__($response[self::ERROR_MESSAGE]) . __(' Affirm status code: ') . $response[self::RESPONSE_CODE]]:
                 [__('Transaction has been declined, please, try again later.')];
+            
+            $this->errorTracker->logErrorToAffirm(
+                transaction_step: $transaction_step,
+                error_type: ErrorTracker::TRANSACTION_DECLINED,
+                error_message: $errorMessages[0]->render()
+            );
+            
             throw new \Magento\Framework\Validator\Exception(__($errorMessages[0]));
         }
 
