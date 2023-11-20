@@ -226,13 +226,13 @@ class Payment
                 $associatedProducts = $product->getTypeInstance()->getAssociatedProducts($product);
                 foreach ($associatedProducts as $associatedProduct) {
                     $stockItem = $this->stockRegistry->getStockItem($associatedProduct->getId());
-                    if ($stockItem->getBackorders() && ($stockItem->getQty() < 1)) {
+                    if ($stockItem->getManageStock() && $stockItem->getBackorders() && ($stockItem->getQty() < 1)) {
                         $check = false;
                     }
                 }
             } else {
                 $stockItem = $this->stockRegistry->getStockItem($product->getId());
-                if ($stockItem->getBackorders() && ($stockItem->getQty() < 1)) {
+                if ($stockItem->getManageStock() && $stockItem->getBackorders() && ($stockItem->getQty() < 1)) {
                     $check = false;
                 }
             }
