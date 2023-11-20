@@ -94,7 +94,6 @@ class PaymentActionsValidator extends AbstractResponseValidator
         $validationResult = $this->validateResponseCode($response)
             && $this->validateTotalAmount($response, $amountInCents);
 
-        $validationResult = false;
         if (!$validationResult) {
             $errorMessages = (isset($response[self::ERROR_MESSAGE])) ?
                 [__($response[self::ERROR_MESSAGE]) . __(' Affirm status code: ') . $response[self::RESPONSE_CODE]]:

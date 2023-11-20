@@ -42,6 +42,8 @@ class ErrorTracker
     const INTERNAL_SERVER_ERROR = 'INTERNAL_SERVER_ERROR';
     const INVALID_AMOUNT = 'INVALID_AMOUNT';
     const TRANSACTION_DECLINED = 'TRANSACTION_DECLINED';
+
+    const TRACKER_PATH = '/api/v1/partnersolutions/platform/tracker';
     /**#@-*/
 
     /**
@@ -97,7 +99,7 @@ class ErrorTracker
             'code_version'=>phpversion(),
             'extension_version'=>$this->moduleResource->getDbVersion('Astound_Affirm')
         ];
-        if (!is_null($exception)) {
+        if ($exception) {
             $error_data = (object)[
                 'error_type'=>$error_type,
                 'error_message'=>$error_message ? $error_message : $exception->getMessage(),
@@ -117,12 +119,15 @@ class ErrorTracker
             "error_data"=>$error_data
         ];
 
-        $tracker_endpoint = 'https://jojotle-thor-kite.affirm-thor.com/api/v1/partnersolutions/platform/tracker';
+        $gateway = $this->affirmConfig->getMode() == 'sandbox'
+            ? \Astound\Affirm\Model\Config::API_URL_SANDBOX
+            : \Astound\Affirm\Model\Config::API_URL_PRODUCTION;
+        $tracker_endpoint = $gateway . self::TRACKER_PATH;
+
         $headers = [
             'Content-Type'=>'application/json',
-            // TODO: Fix for prod
-            // 'Authorization'=>'Basic ' . base64_encode($this->affirmConfig->getPublicApiKey() . ':' . $this->affirmConfig->getPrivateApiKey())
-            'Authorization'=>'Basic ' . base64_encode('PreSeededApiKeyDirect' . ':' . 'PreSeededSecretKeyDirect')
+            'Authorization'=>'Basic ' . base64_encode($this->affirmConfig->getPublicApiKey() . ':' . 
+                $this->affirmConfig->getPrivateApiKey())
         ];
 
         // Send it and forget about it
@@ -134,10 +139,6 @@ class ErrorTracker
                 json_encode($error_tracker_obj)
             )
         );
-
-        // TODO: Remove - only here for debugging purposes
-        \Magento\Framework\App\ObjectManager::getInstance()
-            ->get(\Psr\Log\LoggerInterface::class)->debug("AAA: " . $response->get()->getBody());
     }
 
     /**
