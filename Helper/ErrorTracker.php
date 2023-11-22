@@ -21,8 +21,8 @@ namespace Astound\Affirm\Helper;
 use \Magento\Framework\Module\ResourceInterface;
 use Magento\Framework\HTTP\AsyncClientInterface;
 use Magento\Framework\HTTP\AsyncClient\Request;
-use Magento\Payment\Model\Method\Logger;
 use Astound\Affirm\Model\Config as ConfigAffirm;
+use Magento\Framework\App\ProductMetadataInterface;
 
 /**
  * Error tracker helper - sends error back to Affirm for monitoring
@@ -59,19 +59,29 @@ class ErrorTracker
     private $httpClient;
 
     /**
+     * Product metadata
+     *
+     * @var \Magento\Framework\App\ProductMetadataInterface
+     */
+    protected $productMetadata;
+
+    /**
      * Constructor
      * @param ResourceInterface $moduleResource
      * @param AsyncClientInterface $httpClient
      * @param ConfigAffirm $configAffirm
+     * @param ProductMetadataInterface $productMetadata
      */
     public function __construct(
         ResourceInterface $moduleResource,
         AsyncClientInterface $httpClient,
-        ConfigAffirm $configAffirm
+        ConfigAffirm $configAffirm,
+        ProductMetadataInterface $productMetadata
     ) {
         $this->moduleResource = $moduleResource;
         $this->httpClient = \Magento\Framework\App\ObjectManager::getInstance()->get(AsyncClientInterface::class);
         $this->affirmConfig = $configAffirm;
+        $this->productMetadata = $productMetadata;
     }
 
     /**
@@ -97,7 +107,8 @@ class ErrorTracker
             'environment'=>$this->affirmConfig->getMode() == 'sandbox' ? 'sandbox' : 'live',
             'language'=>'php',
             'code_version'=>phpversion(),
-            'extension_version'=>$this->moduleResource->getDbVersion('Astound_Affirm')
+            'extension_version'=>$this->moduleResource->getDbVersion('Astound_Affirm'),
+            'platform_version' => $this->productMetadata->getVersion() . ' ' . $this->productMetadata->getEdition()
         ];
         if ($exception) {
             $error_data = (object)[
