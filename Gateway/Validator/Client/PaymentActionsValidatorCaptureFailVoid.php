@@ -64,6 +64,12 @@ class PaymentActionsValidatorCaptureFailVoid extends PaymentActionsValidator
         
         $errorMessages = [__('Transaction has been declined, please, try again later.')];
 
+        $this->errorTracker(
+            transaction_step: self::RESPONSE_TYPE_VOID,
+            error_type: ErrorTracker::TRANSACTION_DECLINED,
+            error_message: $errorMessages[0]->render()
+        );
+
         throw new \Magento\Framework\Validator\Exception(__($errorMessages[0]));
 
     }
