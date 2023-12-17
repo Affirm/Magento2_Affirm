@@ -20,7 +20,7 @@ define(["jquery",
          */
         initPrices: function() {
             var elements = $(document)
-                    .find("[data-price-type='finalPrice'], [data-price-type='minPrice']"),
+                    .find("[data-price-type='finalPrice'], [data-price-type='minPrice'], [data-price-type='starting-price']"),
                 price,
                 options,
                 element_id,
@@ -97,7 +97,7 @@ define(["jquery",
                 if ($.contains(priceInfo, currentElement)) {
                     price = $(el[0]).find("[data-price-type='finalPrice'], [data-price-type='minPrice']").text();
                     options = this.options;
-                    options.element_id = 'as_low_as_plp_' + $(el[0]).find("[data-price-type='finalPrice'], [data-price-type='minPrice']").parent().parent().parent().attr('data-product-id');
+                    options.element_id = 'as_low_as_plp_' + $(el[0]).find("[data-price-type='finalPrice'], [data-price-type='minPrice'], [data-price-type='starting-price']").parent().parent().parent().attr('data-product-id');
                     aslowas.process(price, options);
                 }
             }
