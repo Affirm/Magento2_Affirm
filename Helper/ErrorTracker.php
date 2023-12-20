@@ -93,12 +93,14 @@ class ErrorTracker
      * @param string $error_message
      * @param string $error_type
      * @param \Exception $exception
+     * @param bool $is_telesales
      */
     public function logErrorToAffirm(
         string $transaction_step,
         string $error_type,
         string $error_message=null,
-        \Exception $exception=null
+        \Exception $exception=null,
+        bool $is_telesales=false
     )
     {
         // Form the object
@@ -107,7 +109,9 @@ class ErrorTracker
             'environment'=>$this->affirmConfig->getMode() == 'sandbox' ? 'sandbox' : 'live',
             'language'=>'php',
             'code_version'=>phpversion(),
-            'extension_version'=>$this->moduleResource->getDbVersion('Astound_Affirm'),
+            'extension_version'=>$is_telesales ? 
+                                    'affirm_telesales_' . $this->moduleResource->getDbVersion('Affirm_Telesales') : 
+                                    $this->moduleResource->getDbVersion('Astound_Affirm'),
             'platform_version' => $this->productMetadata->getVersion() . ' ' . $this->productMetadata->getEdition()
         ];
         if ($exception) {
