@@ -66,10 +66,10 @@ class Config implements ConfigInterface
     const KEY_MINIMUM_ORDER_TOTAL = 'minimum_order_total';
     const KEY_MAXIMUM_ORDER_TOTAL = 'maximum_order_total';
     const KEY_SORT_ORDER = 'sort_order';
-    const API_URL_SANDBOX = 'https://api.global.sandbox.affirm.com';
-    const API_URL_PRODUCTION = 'https://api.global.affirm.com';
-    const JS_URL_SANDBOX = 'https://cdn1-sandbox.affirm.com/js/v2/affirm.js';
-    const JS_URL_PRODUCTION = 'https://cdn1.affirm.com/js/v2/affirm.js';
+    const API_URL_SANDBOX = 'https://sandbox.affirm-stage.com';
+    const API_URL_PRODUCTION = 'https://affirm-stage.com';
+    const JS_URL_SANDBOX = 'https://cdn1-sandbox.affirm-stage.com/js/v2/affirm.js';
+    const JS_URL_PRODUCTION = 'https://cdn1.affirm-stage.com/js/v2/affirm.js';
     const METHOD_BML = 'affirm_promo';
     const KEY_ASLOWAS = 'affirm_aslowas';
     const KEY_MFP = 'affirm_mfp';
