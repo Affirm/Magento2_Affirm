@@ -11,24 +11,28 @@
         <policy id="script-src">
             <values>
                 <value id="affirm_script" type="host">*.affirm.com</value>
+                <value id="affirm_script_stage" type="host">*.affirm-stage.com</value>
                 <value id="affirm_script_ca" type="host">*.affirm.ca</value>
             </values>
         </policy>
         <policy id="frame-src">
             <values>
                 <value id="affirm_frame" type="host">*.affirm.com</value>
+                <value id="affirm_frame_stage" type="host">*.affirm-stage.com</value>
                 <value id="affirm_frame_ca" type="host">*.affirm.ca</value>
             </values>
         </policy>
         <policy id="connect-src">
             <values>
                 <value id="affirm_connect" type="host">*.affirm.com</value>
+                <value id="affirm_connect_stage" type="host">*.affirm-stage.com</value>
                 <value id="affirm_connect_ca" type="host">*.affirm.ca</value>
             </values>
         </policy>
         <policy id="img-src">
             <values>
                 <value id="affirm_assets" type="host">*.affirm.com</value>
+                <value id="affirm_assets_stage" type="host">*.affirm-stage.com</value>
                 <value id="affirm_assets_ca" type="host">*.affirm.ca</value>
             </values>
         </policy>
