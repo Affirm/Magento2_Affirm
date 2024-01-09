@@ -59,7 +59,7 @@ class Date extends \Magento\Config\Block\System\Config\Form\Field
     {
         $html = $element->getElementHtml();
         if (!$this->_coreRegistry->registry('datepicker_loaded')) {
-            $this->_coreRegistry->registry('datepicker_loaded', 1);
+            $this->_coreRegistry->registry('datepicker_loaded');
         }
         $html .= '<script type="text/javascript">
             require(["jquery","jquery-ui-modules/datepicker"], function (jQuery) {

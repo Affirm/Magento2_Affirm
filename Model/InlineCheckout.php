@@ -40,7 +40,7 @@ class InlineCheckout implements InlineCheckoutInterface
     private $productMetadata;
 
     /**
-     * @var Astound\Affirm\Gateway\Helper\Util
+     * @var \Astound\Affirm\Gateway\Helper\Util
      */
     private $util;
     /**
@@ -54,6 +54,21 @@ class InlineCheckout implements InlineCheckoutInterface
      * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $objectManager;
+
+    /**
+     * Gift card id cart key
+     *
+     * @var string
+     */
+    const ID = 'i';
+
+    /**
+     * Gift card amount cart key
+     *
+     * @var string
+     */
+    const AMOUNT = 'a';
+
 
     public function __construct(
         Session $checkoutSession,

@@ -40,19 +40,17 @@ class VoidRequest extends AbstractDataBuilder
             throw new \InvalidArgumentException('Payment data object should be provided');
         }
 
-        /** @var PaymentDataObjectInterface $payment */
         $paymentDataObject = $buildSubject['payment'];
         $payment = $paymentDataObject->getPayment();
         $transactionId = $payment->getAdditionalInformation(self::TRANSACTION_ID) ?:
             $payment->getAdditionalInformation(self::CHARGE_ID);
         $countryCode = $payment->getAdditionalInformation(self::COUNTRY_CODE) ?: self::DEFAULT_COUNTRY_CODE;
         $order = $payment->getOrder();
+        $storeId = null;
         if($order) {
             $storeId = $order->getStoreId();
         }
-        if (!$storeId) {
-            $storeId = null;
-        }
+
         return [
             'body' => [],
             'path' => "{$transactionId}/void",

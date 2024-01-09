@@ -17,7 +17,6 @@
  */
 
 namespace Astound\Affirm\Gateway\Request;
-
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 use Astound\Affirm\Gateway\Helper\Util;
 
@@ -41,7 +40,6 @@ class CaptureRequest extends AbstractDataBuilder
             throw new \InvalidArgumentException('Payment data object should be provided');
         }
 
-        /** @var PaymentDataObjectInterface $payment */
         $paymentDataObject = $buildSubject['payment'];
         $payment = $paymentDataObject->getPayment();
         $transactionId = $payment->getAdditionalInformation(self::TRANSACTION_ID) ?:

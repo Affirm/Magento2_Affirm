@@ -27,10 +27,10 @@ class Subselect extends \Magento\SalesRule\Model\Rule\Condition\Product\Subselec
     /**
      * validate
      *
-     * @param Varien_Object $object Quote
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return boolean
      */
-    public function validate(\Magento\Framework\Model\AbstractModel $object)
+    public function validate($object)
     {
         return $this->validateNotModel($object);
     }

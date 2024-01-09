@@ -49,7 +49,7 @@ abstract class AbstractDataBuilder implements BuilderInterface
     /**
      * Store manager
      *
-     * @var \Magento\Store\App\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 

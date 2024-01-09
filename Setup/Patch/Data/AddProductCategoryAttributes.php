@@ -57,7 +57,6 @@ class AddProductCategoryAttributes implements
     {
         $this->moduleDataSetup->getConnection()->startSetup();
 
-        /** @var EavSetup $eavSetup */
         $eavSetup = $this->categorySetupFactory->create(['setup' => $this->moduleDataSetup]);
 
         /**
@@ -348,7 +347,6 @@ class AddProductCategoryAttributes implements
     {
         $this->moduleDataSetup->getConnection()->startSetup();
 
-        /** @var EavSetup $eavSetup */
         $eavSetup = $this->categorySetupFactory->create(['setup' => $this->moduleDataSetup]);
 
         $eavSetup->removeAttribute(\Magento\Catalog\Model\Product::ENTITY, 'affirm_product_mfp');

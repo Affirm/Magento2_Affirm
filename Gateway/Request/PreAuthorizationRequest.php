@@ -45,7 +45,6 @@ class PreAuthorizationRequest extends AbstractDataBuilder
             throw new \InvalidArgumentException('Payment data object should be provided');
         }
 
-        /** @var PaymentDataObjectInterface $payment */
         $paymentDataObject = $buildSubject['payment'];
         $payment = $paymentDataObject->getPayment();
         $token = $payment->getAdditionalInformation(self::CHECKOUT_TOKEN);

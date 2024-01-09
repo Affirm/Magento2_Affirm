@@ -47,6 +47,8 @@ use Astound\Affirm\Logger\Logger;
  *
  * @package Astound\Affirm\Block\Pixel
  */
+
+ 
 class Confirm extends \Magento\Framework\View\Element\Template
 {
     /**
@@ -62,11 +64,26 @@ class Confirm extends \Magento\Framework\View\Element\Template
     protected $affirmPixelHelper;
 
     /**
+     * Affirm configurations
+     *
+     * @var ConfigProvider
+     */
+    protected $configProvider;
+
+    /**
+     * Affirm logging tool
+     *
+     * @var Logger
+     */
+    protected $logger;
+
+    /**
      * @param Template\Context $context
      * @param ConfigProvider   $configProvider
      * @param \Magento\Sales\Model\ResourceModel\Order\CollectionFactory $salesOrderCollection
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param Pixel          $helperPixelAffirm
+     * @param \Astound\Affirm\Logger\Logger $logger
      * @param array $data
      */
     public function __construct(
@@ -164,7 +181,7 @@ class Confirm extends \Magento\Framework\View\Element\Template
         }
         $collection = $this->_salesOrderCollection->create();
         $collection->addFieldToFilter('entity_id', ['in' => $orderIds]);
-
+        $customerId = '';
         foreach ($collection as $order) {
                 $customerId = ($order->getCustomerId()) ? $order->getCustomerId() : $guestId = "CUSTOMER-" . $this->affirmPixelHelper->getDateMicrotime();
             }

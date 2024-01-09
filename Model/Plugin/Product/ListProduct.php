@@ -48,7 +48,6 @@ class ListProduct extends ViewAbstract
      * @param $subject
      * @param $procede
      * @param \Magento\Catalog\Model\Product $product
-     * @param string $price
      * @return string
      */
     public function aroundGetProductPrice($subject, $procede, \Magento\Catalog\Model\Product $product)

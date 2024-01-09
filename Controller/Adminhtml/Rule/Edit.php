@@ -32,6 +32,7 @@ class Edit extends \Astound\Affirm\Controller\Adminhtml\Rule
         }
         $this->_view->getPage()->getConfig()->getTitle()->prepend($title);
         $this->_view->renderLayout();
+        return;
     }
 
     public function _prepareForEdit(\Astound\Affirm\Model\Rule $model)

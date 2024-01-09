@@ -24,6 +24,7 @@ use Magento\Sales\Model\Order\Email\Sender\OrderSender;
 use Magento\Sales\Model\ResourceModel\Report\Order;
 use Magento\Customer\Api\Data\CustomerInterface as CustomerDataObject;
 use Astound\Affirm\Model\Config as AffirmConfig;
+use Astound\Affirm\Model\Rule\Condition\Address;
 
 /**
  * Class Checkout for Affirm

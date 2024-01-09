@@ -27,8 +27,6 @@ use Magento\Payment\Model\Method\Logger;
 use Magento\Payment\Gateway\Http\ConverterInterface;
 use Laminas\Http\Client;
 use Astound\Affirm\Logger\Logger as AffirmLogger;
-use \Magento\Framework\Module\ResourceInterface;
-use Astound\Affirm\Helper\ErrorTracker;
 
 /**
  * Class ClientService
@@ -85,21 +83,12 @@ class ClientService implements ClientInterface
     protected $util;
 
     /**
-     * Error Tracker
-     *
-     * @var ErrorTracker
-     */
-    protected $errorTracker;
-
-    /**
      * Constructor
      *
      * @param Logger $logger
      * @param ConverterInterface $converter,
      * @param Client $httpClientFactory
      * @param Action $action
-     * @param ResourceInterface $moduleResource
-     * @param ErrorTracker $error_tracker
      */
     public function __construct(
         Logger $logger,
@@ -107,9 +96,7 @@ class ClientService implements ClientInterface
         ConverterInterface $converter,
         Client $httpClientFactory,
         Action $action,
-        Util $util,
-        ResourceInterface $moduleResource,
-        ErrorTracker $errorTracker
+        Util $util
     ) {
         $this->logger = $logger;
         $this->affirmLogger = $affirmLogger;
@@ -117,15 +104,13 @@ class ClientService implements ClientInterface
         $this->httpClientFactory = $httpClientFactory;
         $this->action = $action;
         $this->util = $util;
-        $this->moduleResource = $moduleResource;
-        $this->errorTracker = $errorTracker;
     }
 
     /**
      * Places request to gateway. Returns result as ENV array
      *
      * @param TransferInterface $transferObject
-     * @return array|\Http_Response
+     * @return array
      * @throws \Magento\Payment\Gateway\Http\ClientException
      */
     public function placeRequest(TransferInterface $transferObject)
@@ -156,21 +141,6 @@ class ClientService implements ClientInterface
         } catch (\Exception $e) {
             $log['error'] = $e->getMessage();
             $this->logger->debug($log);
-
-            // Get transaction step
-            if (strpos($transferObject->getUri(), $this->action::API_CHECKOUT_PATH) !== false) {
-                $transaction_step = 'pre_auth';
-            } else {
-                $last_section = substr(strrchr($transferObject->getUri(), '/'), 1);
-                $transaction_step = $last_section ? $last_section : 'auth';
-            }
-
-            $this->errorTracker->logErrorToAffirm(
-                transaction_step: $transaction_step,
-                error_type: ErrorTracker::INTERNAL_SERVER_ERROR,
-                exception: $e
-            );
-
             throw new ClientException(__($e->getMessage()));
         } finally {
             $log['uri'] = $requestUri;

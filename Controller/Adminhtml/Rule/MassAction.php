@@ -35,7 +35,6 @@ class MassAction extends \Astound\Affirm\Controller\Adminhtml\Rule
                     $this->_objectManager->create('Astound\Affirm\Model\Rule')->massChangeStatus($ids, $status);
                 }
 
-                $this->messageManager->addSuccess($message);
                 $this->_redirect('*/*/');
                 return;
             } catch (\Magento\Framework\Exception\LocalizedException $e) {
@@ -51,5 +50,6 @@ class MassAction extends \Astound\Affirm\Controller\Adminhtml\Rule
         }
         $this->messageManager->addError(__('We can\'t find a rule(s) to delete/activate/deactivate.'));
         $this->_redirect('*/*/');
+        return;
     }
 }

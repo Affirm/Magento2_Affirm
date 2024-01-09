@@ -159,13 +159,16 @@ class Confirm extends Action implements CsrfAwareActionInterface
                     $e->getMessage()
                 );
                 $this->_redirect('checkout/cart');
+                return;
             } catch (\Exception $e) {
                 $this->messageManager->addExceptionMessage(
                     $e,
                     __('We can\'t place the order.')
                 );
                 $this->_redirect('checkout/cart');
+                return;
             }
         }
+        return;
     }
 }

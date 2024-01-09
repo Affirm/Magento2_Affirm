@@ -65,7 +65,7 @@ class AfterShipmentSaveObserver implements ObserverInterface
     /**
      * Store manager
      *
-     * @var \Magento\Store\App\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -124,8 +124,8 @@ class AfterShipmentSaveObserver implements ObserverInterface
             $orderIncrementId = $order->getIncrementId();
             $transactionId = $order->getPayment()->getAdditionalInformation(self::TRANSACTION_ID) ?:
                 $order->getPayment()->getAdditionalInformation(self::CHARGE_ID);
-
-            $url = $this->getApiUrl("{$transactionId}");
+            
+            $url = $this->getApiUrl(json_encode($transactionId));
             $data = [
                 'order_id' => $orderIncrementId,
                 'shipping_carrier' => $shippingCarrier,

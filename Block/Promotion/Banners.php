@@ -107,6 +107,13 @@ class Banners extends \Magento\Framework\View\Element\Template
     protected $alaHelper;
 
     /**
+     * Affirm configurations
+     *
+     * @var ConfigProvider
+     */
+    protected $configProvider;
+
+    /**
      * Inject all needed objects
      *
      * @param Template\Context $context

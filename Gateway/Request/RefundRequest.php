@@ -41,7 +41,6 @@ class RefundRequest extends AbstractDataBuilder
             throw new \InvalidArgumentException('Payment data object should be provided');
         }
 
-        /** @var PaymentDataObjectInterface $payment */
         $paymentDataObject = $buildSubject['payment'];
         $payment = $paymentDataObject->getPayment();
         $transactionId = $payment->getAdditionalInformation(self::TRANSACTION_ID) ?:
@@ -51,12 +50,11 @@ class RefundRequest extends AbstractDataBuilder
         $payment->setAdditionalInformation(self::LAST_INVOICE_AMOUNT, $creditMemoAmount);
         $amountInCents = Util::formatToCents($creditMemoAmount);
         $order = $payment->getOrder();
+        $storeId = null;
         if($order) {
             $storeId = $order->getStoreId();
         }
-        if (!$storeId) {
-            $storeId = null;
-        }
+
         return [
             'body' => [
                 'amount' => $amountInCents

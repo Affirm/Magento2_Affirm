@@ -51,5 +51,7 @@ class AddressFormat implements ObserverInterface
                 $address->save();
             }
         }
+
+        return $address;
     }
 }

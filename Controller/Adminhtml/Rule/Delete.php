@@ -30,5 +30,6 @@ class Delete extends \Astound\Affirm\Controller\Adminhtml\Rule
         }
         $this->messageManager->addError(__('We can\'t find a item to delete.'));
         $this->_redirect('*/*/');
+        return;
     }
 }

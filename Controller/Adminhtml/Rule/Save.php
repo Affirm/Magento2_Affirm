@@ -57,12 +57,12 @@ class Save extends \Astound\Affirm\Controller\Adminhtml\Rule
                     __('Something went wrong while saving the item data. Please review the error log.')
                 );
                 $this->_objectManager->get('Psr\Log\LoggerInterface')->critical($e);
-                $this->_objectManager->get('Magento\Backend\Model\Session')->setPageData($data);
                 $this->_redirect('*/*/edit', ['id' => $this->getRequest()->getParam('id')]);
                 return;
             }
         }
         $this->_redirect('*/*/');
+        return;
     }
 
     protected function _prepareForSave($model)

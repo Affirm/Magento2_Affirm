@@ -99,7 +99,7 @@ class Aslowas extends AslowasAbstract
     /**
      * Get product id on PDP
      *
-     * @return Mage_Catalog_Model_Product|null
+     * @return int
      */
     public function getProductId()
     {

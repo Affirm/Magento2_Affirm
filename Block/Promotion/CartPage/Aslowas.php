@@ -52,8 +52,8 @@ class Aslowas extends AslowasAbstract
      * @param \Astound\Affirm\Model\Config   $configAffirm
      * @param \Astound\Affirm\Helper\Payment $helperAffirm
      * @param Session                        $session
+     * @param \Astound\Affirm\Helper\AsLowAs $asLowAsHelper
      * @param array                          $data
-     * @param Helper\AsLowAs                 $asLowAs
      * @param \Astound\Affirm\Helper\Rule    $rule
      */
     public function __construct(

@@ -77,14 +77,14 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
     /**
      * AsLowAs helper
      *
-     * @var string
+     * @var \Astound\Affirm\Helper\AsLowAs
      */
     protected $asLowAsHelper;
 
     /**
      * Rule helper
      *
-     * @var string
+     * @var \Astound\Affirm\Helper\Rule
      */
     protected $ruleHelper;
 
@@ -105,7 +105,7 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
      * @param Payment          $helperAffirm
      * @param array            $data
      * @param AsLowAs          $asLowAs
-     * @param Rule             $rule
+     * @param Rule             $ruleHelper
      * @param CategoryCollectionFactory $categoryCollectionFactory
      */
     public function __construct(
@@ -114,7 +114,7 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
         Config $configAffirm,
         Payment $helperAffirm,
         AsLowAs $asLowAs,
-        Rule $rule,
+        Rule $ruleHelper,
         CategoryCollectionFactory $categoryCollectionFactory,
         array $data = []
     ) {
@@ -129,7 +129,7 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
         $this->affirmPaymentHelper = $helperAffirm;
         $this->categoryCollectionFactory = $categoryCollectionFactory;
         $this->asLowAsHelper = $asLowAs;
-        $this->ruleHelper = $rule;
+        $this->ruleHelper = $ruleHelper;
 
         if (isset($data['type'])) {
             $this->type = $data['type'];
