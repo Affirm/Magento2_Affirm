@@ -66,6 +66,13 @@ class ErrorTracker
     protected $productMetadata;
 
     /**
+     * Product metadata
+     *
+     * @var ResourceInterface
+     */
+    protected $moduleResource;
+
+    /**
      * Constructor
      * @param ResourceInterface $moduleResource
      * @param AsyncClientInterface $httpClient

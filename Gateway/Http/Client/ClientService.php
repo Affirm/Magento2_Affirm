@@ -27,7 +27,7 @@ use Magento\Payment\Model\Method\Logger;
 use Magento\Payment\Gateway\Http\ConverterInterface;
 use Laminas\Http\Client;
 use Astound\Affirm\Logger\Logger as AffirmLogger;
-use \Magento\Framework\Module\ResourceInterface;
+use Magento\Framework\Module\ResourceInterface;
 use Astound\Affirm\Helper\ErrorTracker;
 
 /**
@@ -90,6 +90,13 @@ class ClientService implements ClientInterface
      * @var ErrorTracker
      */
     protected $errorTracker;
+
+    /**
+     * Error Tracker
+     *
+     * @var \Magento\Framework\Module\ResourceInterface
+     */
+    protected $moduleResource;
 
     /**
      * Constructor

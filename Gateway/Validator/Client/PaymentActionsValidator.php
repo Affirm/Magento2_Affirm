@@ -37,6 +37,13 @@ class PaymentActionsValidator extends AbstractResponseValidator
     protected $errorTracker;
 
     /**
+     * Error Tracker
+     *
+     * @var ResultInterfaceFactory
+     */
+    protected $resultFactory;
+
+    /**
      * Inject result factory and error tracker
      * 
      * @param ResultInterfaceFactory $resultFactory

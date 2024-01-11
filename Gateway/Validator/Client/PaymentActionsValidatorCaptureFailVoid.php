@@ -20,7 +20,6 @@ namespace Astound\Affirm\Gateway\Validator\Client;
 
 use Magento\Payment\Gateway\Helper\SubjectReader;
 use Astound\Affirm\Logger\Logger as affirmLogger;
-use Astound\Affirm\Helper\ErrorTracker;
 
 /**
  * Class PaymentActionsValidatorVoid
@@ -34,13 +33,6 @@ class PaymentActionsValidatorCaptureFailVoid extends PaymentActionsValidator
      */
     protected $affirmLogger;
 
-    /**
-     * Error Tracker
-     *
-     * @var ErrorTracker
-     */
-    protected $errorTracker;
-
     /**#@+
      * Define constants
      */
@@ -49,11 +41,9 @@ class PaymentActionsValidatorCaptureFailVoid extends PaymentActionsValidator
     /**#@-*/
 
     public function __construct(
-        AffirmLogger $affirmLogger,
-        ErrorTracker $errorTracker
+        AffirmLogger $affirmLogger
     ) {
         $this->affirmLogger = $affirmLogger;
-        $this->errorTracker = $errorTracker;
     }
     
     /**
