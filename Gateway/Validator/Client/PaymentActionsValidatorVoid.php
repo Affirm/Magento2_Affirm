@@ -19,6 +19,7 @@
 namespace Astound\Affirm\Gateway\Validator\Client;
 
 use Magento\Payment\Gateway\Helper\SubjectReader;
+use Astound\Affirm\Helper\ErrorTracker;
 
 /**
  * Class PaymentActionsValidatorVoid
@@ -45,7 +46,9 @@ class PaymentActionsValidatorVoid extends PaymentActionsValidator
 
         if (!$validationResult) {
             $errorMessages = [__('Transaction has been declined, please, try again later.')];
-            $this->errorTracker(
+            $om = \Magento\Framework\App\ObjectManager::getInstance();
+            $errorTracker = $om->create('Astound\Affirm\Helper\ErrorTracker');
+            $errorTracker->logErrorToAffirm(
                 transaction_step: self::RESPONSE_TYPE_VOID,
                 error_type: ErrorTracker::TRANSACTION_DECLINED,
                 error_message: $errorMessages[0]->render()
