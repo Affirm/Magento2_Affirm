@@ -47,6 +47,7 @@ class Rule extends Payment
 
     public function isQuoteItemsDisabledByPaymentRestRules()
     {
+        // return;
         foreach ($this->getRules() as $rule){
             if ($rule->restrictByName(\Astound\Affirm\Model\Ui\ConfigProvider::CODE)){
                 $om = \Magento\Framework\App\ObjectManager::getInstance();

@@ -18,7 +18,7 @@
 
 namespace Astound\Affirm\Block\Promotion\ProductPage;
 
-use Astound\Affirm\Block\Promotion\AslowasAbstract;
+use \Astound\Affirm\Block\Promotion\AslowasAbstract;
 
 /**
  * Class AsLowAs
@@ -89,7 +89,7 @@ class Aslowas extends AslowasAbstract
      */
     public function getMFPValue()
     {
-        $productCollection = $this->affirmPaymentHelper->getProduct()->getCollection()
+        $productCollection = $this->productCollectionFactory->create()
             ->addAttributeToSelect(['affirm_product_promo_id', 'affirm_product_mfp_type', 'affirm_product_mfp_priority', 'affirm_product_mfp_start_date', 'affirm_product_mfp_end_date'])
             ->addAttributeToFilter('entity_id', $this->affirmPaymentHelper->getProduct()->getId());
 

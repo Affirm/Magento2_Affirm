@@ -45,13 +45,13 @@ class AddressFormat implements ObserverInterface
                 $regionId = $address->getRegionId();
                 /** @var \Magento\Directory\Model\Region $region */
                 $region = $this->regionFactory->create();
-                $region->getResource()->load($region, $regionId);
+                $region->loadByCode($region, $regionId);
                 $address->setRegion($region->getName());
                 $address->setRegionCode($region->getCode());
                 $address->save();
             }
         }
 
-        return $address;
+        return $this;
     }
 }

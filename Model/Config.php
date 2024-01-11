@@ -42,6 +42,7 @@ use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\Locale\Resolver;
 use Magento\Directory\Model\Currency;
 use Magento\Tax\Model\Config as TaxConfig;
+use Astound\Affirm\Model\Entity\Attribute\Source\FinancingProgramType;
 
 /**
  * Config class
@@ -140,7 +141,7 @@ class Config implements ConfigInterface
     /**
      * Currency
      *
-     * @var \Magento\Directory\Model\Currency;
+     * @var \Magento\Directory\Model\Currency
      */
     protected $currency;
 
@@ -503,8 +504,8 @@ class Config implements ConfigInterface
 
     /**
      * Aslow as activation flag
-     *
-     * @param Astound\Affirm\Model\Entity\Attribute\Source\FinancingProgramType
+     * 
+     * @param \Astound\Affirm\Model\Entity\Attribute\Source\FinancingProgramType $position
      * @return int|mixed
      */
     public function isAsLowAsEnabled($position)

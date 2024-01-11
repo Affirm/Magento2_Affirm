@@ -65,7 +65,7 @@ abstract class AbstractTransferFactory implements TransferFactoryInterface
     /**
      * Store manager
      *
-     * @var \Magento\Store\Model\StoreManagerInterface;
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 

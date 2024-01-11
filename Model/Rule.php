@@ -1,6 +1,8 @@
 <?php
 namespace Astound\Affirm\Model;
 
+use \Astound\Affirm\Model\ResourceModel\Rule as ResourceModel;
+
 class Rule extends \Magento\Rule\Model\AbstractModel
 {
     protected $objectManager;
@@ -57,7 +59,8 @@ class Rule extends \Magento\Rule\Model\AbstractModel
 
     public function massChangeStatus($ids, $status)
     {
-        return $this->getResource()->massChangeStatus($ids, $status);
+        $rm = $this->objectManager->create('Astound\Affirm\Model\ResourceModel\Rule');
+        return $rm->massChangeStatus($ids, $status);
     }
 
     public function afterSave()
@@ -68,7 +71,8 @@ class Rule extends \Magento\Rule\Model\AbstractModel
             $this->_getUsedAttributes($this->getActionsSerialized())
         );
         if (count($ruleProductAttributes)) {
-            $this->getResource()->saveAttributes($this->getId(), $ruleProductAttributes);
+            $rm = $this->objectManager->create('Astound\Affirm\Model\ResourceModel\Rule');
+            $rm->saveAttributes($this->getId(), $ruleProductAttributes);
         }
 
         return parent::afterSave();

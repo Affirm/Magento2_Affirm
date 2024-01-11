@@ -122,9 +122,15 @@ class AfterShipmentSaveObserver implements ObserverInterface
             $shippingCarrier = implode(',', $carriers);
             $shippingConfirmation = implode(',', $confirmation);
             $orderIncrementId = $order->getIncrementId();
-            $transactionId = $order->getPayment()->getAdditionalInformation(self::TRANSACTION_ID) ?:
-                $order->getPayment()->getAdditionalInformation(self::CHARGE_ID);
-            
+            \Magento\Framework\App\ObjectManager::getInstance()
+            ->get(\Psr\Log\LoggerInterface::class)->debug('aftershipement');
+            \Magento\Framework\App\ObjectManager::getInstance()
+            ->get(\Psr\Log\LoggerInterface::class)->debug(json_encode($order->getPayment()->getAdditionalInformation()));
+            $orderAdditionalInfo = $order->getPayment()->getAdditionalInformation();
+            $transactionId = $orderAdditionalInfo[self::TRANSACTION_ID] ?:
+                $orderAdditionalInfo[self::CHARGE_ID];
+                \Magento\Framework\App\ObjectManager::getInstance()
+                ->get(\Psr\Log\LoggerInterface::class)->debug($transactionId);
             $url = $this->getApiUrl(json_encode($transactionId));
             $data = [
                 'order_id' => $orderIncrementId,

@@ -124,7 +124,7 @@ class Confirm extends Action implements CsrfAwareActionInterface
     /**
      * Dispatch request
      *
-     * @return \Magento\Framework\Controller\ResultInterface|ResponseInterface
+     * @return void
      * @throws \Magento\Framework\Exception\NotFoundException
      */
     public function execute()
@@ -152,23 +152,19 @@ class Confirm extends Action implements CsrfAwareActionInterface
                     ['order' => $order, 'quote' => $this->quote ]
                 );
                 $this->_redirect('checkout/onepage/success');
-                return;
             } catch (LocalizedException $e) {
                 $this->messageManager->addExceptionMessage(
                     $e,
                     $e->getMessage()
                 );
                 $this->_redirect('checkout/cart');
-                return;
             } catch (\Exception $e) {
                 $this->messageManager->addExceptionMessage(
                     $e,
                     __('We can\'t place the order.')
                 );
                 $this->_redirect('checkout/cart');
-                return;
             }
         }
-        return;
     }
 }

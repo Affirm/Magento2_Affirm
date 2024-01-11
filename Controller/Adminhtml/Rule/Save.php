@@ -4,6 +4,11 @@ use Magento\Framework\Filter\FilterInput;
 
 class Save extends \Astound\Affirm\Controller\Adminhtml\Rule
 {
+    /**
+     * Save
+     *
+     * @return void
+     */
     public function execute()
     {
         if ($this->getRequest()->getPostValue()) {
@@ -39,10 +44,8 @@ class Save extends \Astound\Affirm\Controller\Adminhtml\Rule
                 $session->setPageData(false);
                 if ($this->getRequest()->getParam('back')) {
                     $this->_redirect('*/*/edit', ['id' => $model->getId()]);
-                    return;
                 }
                 $this->_redirect('*/*/');
-                return;
             } catch (\Magento\Framework\Exception\LocalizedException $e) {
                 $this->messageManager->addError($e->getMessage());
                 $id = (int)$this->getRequest()->getParam('id');
@@ -51,18 +54,15 @@ class Save extends \Astound\Affirm\Controller\Adminhtml\Rule
                 } else {
                     $this->_redirect('*/*/new');
                 }
-                return;
             } catch (\Exception $e) {
                 $this->messageManager->addError(
                     __('Something went wrong while saving the item data. Please review the error log.')
                 );
                 $this->_objectManager->get('Psr\Log\LoggerInterface')->critical($e);
                 $this->_redirect('*/*/edit', ['id' => $this->getRequest()->getParam('id')]);
-                return;
             }
         }
         $this->_redirect('*/*/');
-        return;
     }
 
     protected function _prepareForSave($model)

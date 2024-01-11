@@ -71,7 +71,7 @@ class Feed extends AdminNotificationFeed
 
             return $this;
         }
-        return;
+        return $this;
     }
 
     /**

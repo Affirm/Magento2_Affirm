@@ -82,9 +82,6 @@ class SetAffirmAnalyticsOnOrderSuccessPageView implements ObserverInterface
         if (empty($orderIds) || !is_array($orderIds)) {
             return;
         }
-        $block = $this->_layout->getBlock('affirm_pixel_javascript');
-        if ($block) {
-            $block->setOrderIds($orderIds);
-        }
+        $this->_layout->getBlock('affirm_pixel_javascript');
     }
 }

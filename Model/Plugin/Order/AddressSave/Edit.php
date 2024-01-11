@@ -47,7 +47,7 @@ class Edit
     /**
      * Client factory
      *
-     * @var \Laminas\Http\Client;
+     * @var \Laminas\Http\Client
      */
     protected $httpClientFactory;
 
@@ -67,7 +67,7 @@ class Edit
     /**
      * Store manager
      *
-     * @var \Magento\Store\App\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 

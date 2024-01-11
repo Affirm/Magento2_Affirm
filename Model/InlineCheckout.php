@@ -43,6 +43,7 @@ class InlineCheckout implements InlineCheckoutInterface
      * @var \Astound\Affirm\Gateway\Helper\Util
      */
     private $util;
+    
     /**
      * @var QuoteValidator
      */

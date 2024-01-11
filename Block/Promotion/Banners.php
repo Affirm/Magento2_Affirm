@@ -42,6 +42,7 @@ use Astound\Affirm\Model\Ui\ConfigProvider;
 use Astound\Affirm\Model\Config;
 use Astound\Affirm\Helper\Payment;
 use Astound\Affirm\Helper;
+use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory as ProductCollectionFactory;
 
 /**
  * Class Banner
@@ -114,6 +115,13 @@ class Banners extends \Magento\Framework\View\Element\Template
     protected $configProvider;
 
     /**
+     * Product collection factory
+     *
+     * @var \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory
+     */
+    protected $productCollectionFactory;
+
+    /**
      * Inject all needed objects
      *
      * @param Template\Context $context
@@ -123,6 +131,7 @@ class Banners extends \Magento\Framework\View\Element\Template
      * @param array            $data
      * @param Helper\FinancingProgram $fpHelper
      * @param Helper\AsLowAs $alaHelper
+     * @param ProductCollectionFactory $productCollectionFactory
      */
     public function __construct(
         Template\Context $context,
@@ -131,6 +140,7 @@ class Banners extends \Magento\Framework\View\Element\Template
         Payment $helper,
         Helper\FinancingProgram $fpHelper,
         Helper\AsLowAs $alaHelper,
+        ProductCollectionFactory $productCollectionFactory,
         array $data = []
     ) {
         $this->affirmPaymentConfig = $configAffirm;
@@ -140,6 +150,7 @@ class Banners extends \Magento\Framework\View\Element\Template
         $this->configProvider = $configProvider;
         $this->fpHelper = $fpHelper;
         $this->alaHelper = $alaHelper;
+        $this->productCollectionFactory = $productCollectionFactory;
         parent::__construct($context, $data);
     }
 
@@ -299,10 +310,9 @@ class Banners extends \Magento\Framework\View\Element\Template
         if (!empty($dynamicallyMFPValue)) {
             return $dynamicallyMFPValue;
         } elseif ($this->isProductPage()) {
-            $productCollection = $this->helper->getProduct()->getCollection()
+            $productCollection = $this->productCollectionFactory->create()
                 ->addAttributeToSelect(['affirm_product_promo_id', 'affirm_product_mfp_type', 'affirm_product_mfp_priority', 'affirm_product_mfp_start_date', 'affirm_product_mfp_end_date'])
                 ->addAttributeToFilter('entity_id', $this->helper->getProduct()->getId());
-
             return $this->alaHelper->getFinancingProgramValueALS($productCollection);
         } elseif ($this->isCartPage()) {
             return $this->alaHelper->getFinancingProgramValue();

@@ -3,7 +3,12 @@ namespace Astound\Affirm\Controller\Adminhtml\Rule;
 
 class Edit extends \Astound\Affirm\Controller\Adminhtml\Rule
 {
-   public function execute()
+    /**
+     * Edit
+     *
+     * @return void
+     */
+    public function execute()
     {
         $id = $this->getRequest()->getParam('id');
         $model = $this->_objectManager->create('Astound\Affirm\Model\Rule');
@@ -13,7 +18,6 @@ class Edit extends \Astound\Affirm\Controller\Adminhtml\Rule
             if (!$model->getId()) {
                 $this->messageManager->addError(__('This item no longer exists.'));
                 $this->_redirect('*/*');
-                return;
             }
         }
         // set entered data if was error when we do save
@@ -32,7 +36,6 @@ class Edit extends \Astound\Affirm\Controller\Adminhtml\Rule
         }
         $this->_view->getPage()->getConfig()->getTitle()->prepend($title);
         $this->_view->renderLayout();
-        return;
     }
 
     public function _prepareForEdit(\Astound\Affirm\Model\Rule $model)

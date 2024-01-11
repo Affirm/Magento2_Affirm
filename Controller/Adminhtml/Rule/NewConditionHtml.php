@@ -6,6 +6,6 @@ class NewConditionHtml extends \Astound\Affirm\Controller\Adminhtml\Rule
     public function execute()
     {
         $this->newConditions('conditions');
-        return;
+        return $this;
     }
 }

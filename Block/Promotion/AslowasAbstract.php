@@ -10,6 +10,7 @@ use Astound\Affirm\Helper\Rule;
 use Magento\Catalog\Model\ResourceModel\Category;
 use Magento\Catalog\Model\ResourceModel\Product;
 use Magento\Catalog\Model\ResourceModel\Category\CollectionFactory as CategoryCollectionFactory;
+use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory as ProductCollectionFactory;
 
 /**
  * Class Aslowas
@@ -97,6 +98,13 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
     protected $categoryCollectionFactory;
 
     /**
+     * Product collection factory
+     *
+     * @var \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory
+     */
+    protected $productCollectionFactory;
+
+    /**
      * Inject block init data
      *
      * @param Template\Context $context
@@ -107,6 +115,7 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
      * @param AsLowAs          $asLowAs
      * @param Rule             $ruleHelper
      * @param CategoryCollectionFactory $categoryCollectionFactory
+     * @param ProductCollectionFactory $productCollectionFactory
      */
     public function __construct(
         Template\Context $context,
@@ -116,6 +125,7 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
         AsLowAs $asLowAs,
         Rule $ruleHelper,
         CategoryCollectionFactory $categoryCollectionFactory,
+        ProductCollectionFactory $productCollectionFactory,
         array $data = []
     ) {
         if (isset($data['position']) && $data['position']) {
@@ -130,7 +140,7 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
         $this->categoryCollectionFactory = $categoryCollectionFactory;
         $this->asLowAsHelper = $asLowAs;
         $this->ruleHelper = $ruleHelper;
-
+        $this->productCollectionFactory = $productCollectionFactory;
         if (isset($data['type'])) {
             $this->type = $data['type'];
         }
