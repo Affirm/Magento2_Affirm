@@ -45,6 +45,11 @@ class PaymentActionsValidatorVoid extends PaymentActionsValidator
 
         if (!$validationResult) {
             $errorMessages = [__('Transaction has been declined, please, try again later.')];
+            $this->errorTracker(
+                transaction_step: self::RESPONSE_TYPE_VOID,
+                error_type: ErrorTracker::TRANSACTION_DECLINED,
+                error_message: $errorMessages[0]->render()
+            );
         }
 
         return $this->createResult($validationResult, $errorMessages);

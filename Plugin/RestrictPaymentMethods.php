@@ -18,20 +18,20 @@ class RestrictPaymentMethods
     {
         $methods = $result;
 
-        // $om = \Magento\Framework\App\ObjectManager::getInstance();
-        // $checkoutsession = $om->get('Magento\Checkout\Model\Session');
-        // $quote = $checkoutsession->getQuote();
+        $om = \Magento\Framework\App\ObjectManager::getInstance();
+        $checkoutsession = $om->get('Magento\Checkout\Model\Session');
+        $quote = $checkoutsession->getQuote();
 
-        // $address = $quote->getShippingAddress();
-        // foreach ($methods as $k => $method) {
-        //     foreach ($this->getRules($address) as $rule) {
-        //         if ($rule->restrict($method)) {
-        //             if ($rule->validate($address)) {
-        //                 unset($methods[$k]);
-        //             }
-        //         }
-        //     }
-        // }
+        $address = $quote->getShippingAddress();
+        foreach ($methods as $k => $method) {
+            foreach ($this->getRules($address) as $rule) {
+                if ($rule->restrict($method)) {
+                    if ($rule->validate($address)) {
+                        unset($methods[$k]);
+                    }
+                }
+            }
+        }
 
         return $methods;
 
@@ -39,17 +39,15 @@ class RestrictPaymentMethods
 
     public function getRules($address)
     {
-        echo $address;
-        return '';
-        // if (is_null($this->_allRules)) {
-        //     $om = \Magento\Framework\App\ObjectManager::getInstance();
-        //     $hlp = $om->create('Astound\Affirm\Model\Rule');
-        //     $this->_allRules = $hlp->getCollection()->addAddressFilter($address)->load();
-        //     foreach ($this->_allRules as $rule) {
-        //         $rule->afterLoad();
-        //     }
-        // }
+        if (is_null($this->_allRules)) {
+            $om = \Magento\Framework\App\ObjectManager::getInstance();
+            $hlp = $om->create('Astound\Affirm\Model\Rule');
+            $this->_allRules = $hlp->getCollection()->addAddressFilter($address)->load();
+            foreach ($this->_allRules as $rule) {
+                $rule->afterLoad();
+            }
+        }
 
-        // return $this->_allRules;
+        return $this->_allRules;
     }
 }
