@@ -78,7 +78,7 @@ class PaymentActionsValidator extends AbstractResponseValidator
                 [__('Transaction has been declined, please, try again later.')];
             
             $om = \Magento\Framework\App\ObjectManager::getInstance();
-            /** @var $address \Astound\Affirm\Helper\ErrorTracker */
+            /** @var $errorTracker \Astound\Affirm\Helper\ErrorTracker */
             $errorTracker = $om->create('Astound\Affirm\Helper\ErrorTracker');
             $errorTracker->logErrorToAffirm(
                 transaction_step: $transaction_step,
