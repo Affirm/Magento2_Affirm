@@ -7,5 +7,6 @@ class NewAction extends \Astound\Affirm\Controller\Adminhtml\Rule
     public function execute()
     {
         $this->_forward('edit');
+        return $this;
     }
 }

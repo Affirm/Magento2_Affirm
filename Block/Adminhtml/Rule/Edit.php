@@ -43,6 +43,8 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         } else {
             $title = __("Add new Payment Restriction Rule");
         }
+        return $title;
+
     }
 
 }

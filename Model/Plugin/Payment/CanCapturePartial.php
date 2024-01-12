@@ -48,7 +48,7 @@ class CanCapturePartial
   /**
    * Plugin to verify if Partial Capture is enabled in config
    *
-   * @param Magento\Sales\Model\Order\Payment $subject
+   * @param \Magento\Sales\Model\Order\Payment $subject
    * @param callable                          $result
    * @return bool
    */

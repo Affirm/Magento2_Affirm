@@ -4,6 +4,11 @@ namespace Astound\Affirm\Controller\Adminhtml\Rule;
 
 class MassAction extends \Astound\Affirm\Controller\Adminhtml\Rule
 {
+    /**
+     * MassAction
+     *
+     * @return void
+     */
     public function execute()
     {
 
@@ -35,9 +40,7 @@ class MassAction extends \Astound\Affirm\Controller\Adminhtml\Rule
                     $this->_objectManager->create('Astound\Affirm\Model\Rule')->massChangeStatus($ids, $status);
                 }
 
-                $this->messageManager->addSuccess($message);
                 $this->_redirect('*/*/');
-                return;
             } catch (\Magento\Framework\Exception\LocalizedException $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
@@ -46,7 +49,6 @@ class MassAction extends \Astound\Affirm\Controller\Adminhtml\Rule
                 );
                 $this->_objectManager->get('Psr\Log\LoggerInterface')->critical($e);
                 $this->_redirect('*/*/');
-                return;
             }
         }
         $this->messageManager->addError(__('We can\'t find a rule(s) to delete/activate/deactivate.'));

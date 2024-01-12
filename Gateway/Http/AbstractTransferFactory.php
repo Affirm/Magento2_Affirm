@@ -65,7 +65,7 @@ abstract class AbstractTransferFactory implements TransferFactoryInterface
     /**
      * Store manager
      *
-     * @var \Magento\Store\App\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -155,9 +155,8 @@ abstract class AbstractTransferFactory implements TransferFactoryInterface
             self::COUNTRY_CODE_USA => '',
         );
 
-        if (isset($country_code)) {
-            $_suffix = $countryCodeToSuffix[$country_code] ?: '';
-        }
+        $_suffix = $countryCodeToSuffix[$country_code] ?: '';
+        
         return $_suffix;
     }
 }

@@ -22,34 +22,12 @@ use Magento\Payment\Gateway\Helper\SubjectReader;
 use Astound\Affirm\Gateway\Helper\Util;
 use Astound\Affirm\Helper\ErrorTracker;
 use Magento\Payment\Gateway\Validator\ResultInterface;
-use Magento\Payment\Gateway\Validator\ResultInterfaceFactory;
 
 /**
  * Class PaymentActionsValidator
  */
 class PaymentActionsValidator extends AbstractResponseValidator
 {
-    /**
-     * Error Tracker
-     *
-     * @var ErrorTracker
-     */
-    protected $errorTracker;
-
-    /**
-     * Inject result factory and error tracker
-     * 
-     * @param ResultInterfaceFactory $resultFactory
-     * @param ErrorTracker $error_tracker
-     */
-    public function __construct(
-        ResultInterfaceFactory $resultFactory,
-        ErrorTracker $errorTracker
-    ) {
-        $this->errorTracker = $errorTracker;
-        parent::__construct($resultFactory);
-    }
-
     /**
      * Validate response
      *
@@ -99,7 +77,10 @@ class PaymentActionsValidator extends AbstractResponseValidator
                 [__($response[self::ERROR_MESSAGE]) . __(' Affirm status code: ') . $response[self::RESPONSE_CODE]]:
                 [__('Transaction has been declined, please, try again later.')];
             
-            $this->errorTracker->logErrorToAffirm(
+            $om = \Magento\Framework\App\ObjectManager::getInstance();
+            /** @var $errorTracker \Astound\Affirm\Helper\ErrorTracker */
+            $errorTracker = $om->create('Astound\Affirm\Helper\ErrorTracker');
+            $errorTracker->logErrorToAffirm(
                 transaction_step: $transaction_step,
                 error_type: ErrorTracker::TRANSACTION_DECLINED,
                 error_message: $errorMessages[0]->render()

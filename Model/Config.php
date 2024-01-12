@@ -42,6 +42,7 @@ use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\Locale\Resolver;
 use Magento\Directory\Model\Currency;
 use Magento\Tax\Model\Config as TaxConfig;
+use Astound\Affirm\Model\Entity\Attribute\Source\FinancingProgramType;
 
 /**
  * Config class
@@ -133,14 +134,14 @@ class Config implements ConfigInterface
     /**
      * Path pattern
      *
-     * @var $pathPattern
+     * @var string
      */
     protected $pathPattern;
 
     /**
      * Currency
      *
-     * @var $currency
+     * @var \Magento\Directory\Model\Currency
      */
     protected $currency;
 
@@ -503,8 +504,8 @@ class Config implements ConfigInterface
 
     /**
      * Aslow as activation flag
-     *
-     * @param Astound\Affirm\Model\Entity\Attribute\Source\FinancingProgramType$position
+     * 
+     * @param \Astound\Affirm\Model\Entity\Attribute\Source\FinancingProgramType $position
      * @return int|mixed
      */
     public function isAsLowAsEnabled($position)
@@ -611,7 +612,7 @@ class Config implements ConfigInterface
     {
         $underscored = strtolower(preg_replace('/(.)([A-Z])/', "$1_$2", $key));
         $path = $this->_getSpecificConfigPath($underscored);
-        $storeScope = !empty($storeId) ? ScopeInterface::SCOPE_STORE : ScopeInterface::SCOPE_WEBSITE;
+        $storeScope = !is_null($storeId) ? ScopeInterface::SCOPE_STORE : ScopeInterface::SCOPE_WEBSITE;
         if ($path !== null) {
             $value = $this->scopeConfig->getValue(
                 $path,

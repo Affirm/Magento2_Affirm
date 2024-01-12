@@ -107,6 +107,14 @@ class Banners extends \Magento\Framework\View\Element\Template
     protected $alaHelper;
 
     /**
+     * Affirm configurations
+     *
+     * @var ConfigProvider
+     */
+    protected $configProvider;
+
+
+    /**
      * Inject all needed objects
      *
      * @param Template\Context $context
@@ -292,10 +300,10 @@ class Banners extends \Magento\Framework\View\Element\Template
         if (!empty($dynamicallyMFPValue)) {
             return $dynamicallyMFPValue;
         } elseif ($this->isProductPage()) {
-            $productCollection = $this->helper->getProduct()->getCollection()
+            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+            $productCollection = $objectManager->create('Magento\Catalog\Model\ResourceModel\Product\Collection')
                 ->addAttributeToSelect(['affirm_product_promo_id', 'affirm_product_mfp_type', 'affirm_product_mfp_priority', 'affirm_product_mfp_start_date', 'affirm_product_mfp_end_date'])
                 ->addAttributeToFilter('entity_id', $this->helper->getProduct()->getId());
-
             return $this->alaHelper->getFinancingProgramValueALS($productCollection);
         } elseif ($this->isCartPage()) {
             return $this->alaHelper->getFinancingProgramValue();

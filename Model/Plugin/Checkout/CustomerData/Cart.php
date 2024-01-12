@@ -54,7 +54,7 @@ class Cart
     /**
      * AsLowAs helper
      *
-     * @var Config
+     * @var \Astound\Affirm\Helper\AsLowAs
      */
     protected $asLowAsHelper;
 

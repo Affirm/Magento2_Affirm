@@ -317,8 +317,8 @@ class Payment
             $addresses = $this->quote->getCustomer()->getAddresses();
             // get default shipping address for the customer
             $defaultShipping = $this->quote->getCustomer()->getDefaultShipping();
-            /** @var $address \Magento\Customer\Api\Data\AddressInterface */
             if ($defaultShipping) {
+                /** @var $address \Magento\Customer\Api\Data\AddressInterface */
                 foreach ($addresses as $address) {
                     if ($address->getId() == $defaultShipping) {
                         $countryId = $address->getCountryId();
