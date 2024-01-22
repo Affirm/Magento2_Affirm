@@ -54,7 +54,7 @@ class Subselect extends \Magento\SalesRule\Model\Rule\Condition\Product\Subselec
                 )
                 ) {
                     $itemParentId = $item->getParentItemId();
-                    if (is_null($itemParentId)) {
+                    if ($itemParentId === null) {
                         $validIds[] = $item->getItemId();
                     } else {
                         if (in_array($itemParentId, $validIds)) {

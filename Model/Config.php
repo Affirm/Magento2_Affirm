@@ -612,7 +612,7 @@ class Config implements ConfigInterface
     {
         $underscored = strtolower(preg_replace('/(.)([A-Z])/', "$1_$2", $key));
         $path = $this->_getSpecificConfigPath($underscored);
-        $storeScope = !is_null($storeId) ? ScopeInterface::SCOPE_STORE : ScopeInterface::SCOPE_WEBSITE;
+        $storeScope = $storeId !== null ? ScopeInterface::SCOPE_STORE : ScopeInterface::SCOPE_WEBSITE;
         if ($path !== null) {
             $value = $this->scopeConfig->getValue(
                 $path,

@@ -17,7 +17,7 @@ class Rule extends Payment
 
     public function getRules()
     {
-        if (is_null($this->_allRules))
+        if ($this->_allRules === null)
         {
             $om = \Magento\Framework\App\ObjectManager::getInstance();
             $hlp = $om->create('Astound\Affirm\Model\Rule');
@@ -37,7 +37,6 @@ class Rule extends Payment
             switch ($position) {
                 case 'cc':
                     return $this->isQuoteItemsDisabledByPaymentRestRules();
-                    break;
                 default:
                     return true;
             }

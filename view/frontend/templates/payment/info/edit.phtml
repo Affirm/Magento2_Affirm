@@ -14,14 +14,14 @@ $specificInfo = $block->getSpecificInformation();
 $title = $block->escapeHtml($block->getMethod()->getTitle());
 ?>
 <dl class="payment-method">
-    <dt class="title"><a href="<?php echo $block->getAffirmMainUrl(); ?>" target="_blank"><?php /* @noEscape */ echo __('Affirm'); ?></a></dt>
+    <dt class="title"><a href="<? echo $block->getAffirmMainUrl(); ?>" target="_blank"><?php /* @noEscape */ echo __('Affirm'); ?></a></dt>
     <?php if ($specificInfo):?>
         <dd class="content">
             <table class="data table">
                 <caption class="table-caption"><?php /* @noEscape */ echo $title; ?></caption>
                 <?php foreach ($specificInfo as $label => $value):?>
                     <tr>
-                        <th scope="row"><?php echo $block->escapeHtml($label)?></th>
+                        <th scope="row"><? echo $block->escapeHtml($label)?></th>
                         <td>
                             <?php /* @noEscape */ echo nl2br($block->escapeHtml(implode("\n", $block->getValueAsArray($value, true))));?>
                         </td>
@@ -31,4 +31,4 @@ $title = $block->escapeHtml($block->getMethod()->getTitle());
         </dd>
     <?php endif;?>
 </dl>
-<?php echo $block->getChildHtml()?>
+<? echo $block->getChildHtml()?>
