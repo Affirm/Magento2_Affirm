@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <actionGroup name="AdminAffirmEnableActionGroup">
+        <annotations>
+            <description>Goes to the 'Configuration' page for 'Payment Methods'. Fills in the fake Affirm credentials and other details. Clicks on Save.</description>
+        </annotations>
+        <arguments>
+            <argument name="credentials" defaultValue="SamplePaypalExpressConfig"/>
+            <argument name="countryCode" type="string" defaultValue="us"/>
+        </arguments>
+        <amOnPage url="{{AdminConfigPaymentMethodsPage.url}}" stepKey="navigateToPaymentConfigurationPage"/>
+        <waitForPageLoad stepKey="waitForPageLoad1"/>
+        <click selector="{{AffirmConfigSettingsConfigSection.configureBtn(countryCode)}}" stepKey="clickPayPalConfigureBtn"/>
+        <selectOption selector ="{{AffirmConfigSettingsConfigSection.enabled(countryCode)}}" userInput="Yes" stepKey="inputAPIAuthenticationMethods"/>
+        <fillField selector ="{{AffirmConfigSettingsConfigSection.publicApiKey(countryCode)}}" userInput="1234" stepKey="inputAPIUsername"/>
+        <fillField selector ="{{AffirmConfigSettingsConfigSection.privateApiKey(countryCode)}}" userInput="1234" stepKey="inputAPIPassword"/>
+        <selectOption selector ="{{AffirmConfigSettingsConfigSection.checkoutFlowType(countryCode)}}" userInput="modal" stepKey="enableSandboxMode"/>
+        <click selector="{{AdminConfigSection.saveButton}}" stepKey="saveConfig"/>
+        <waitForPageLoad stepKey="waitForPageLoad2"/>
+    </actionGroup>
+</actionGroups>
