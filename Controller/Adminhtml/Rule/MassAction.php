@@ -1,9 +1,24 @@
 <?php
 namespace Astound\Affirm\Controller\Adminhtml\Rule;
+use Magento\Framework\Controller\ResultFactory;
 
 
 class MassAction extends \Astound\Affirm\Controller\Adminhtml\Rule
 {
+    /**
+     * @var \Magento\Framework\Controller\ResultFactory
+     */
+    protected $resultFactory;
+
+    /**
+     * @param \Magento\Framework\Controller\ResultFactory $resultFactory
+     */
+    public function __construct(
+        ResultFactory $resultFactory
+    ) {
+        $this->resultFactory = $resultFactory;
+    }
+
     /**
      * MassAction
      *
@@ -14,6 +29,8 @@ class MassAction extends \Astound\Affirm\Controller\Adminhtml\Rule
 
         $ids = $this->getRequest()->getParam('rules');
         $action = $this->getRequest()->getParam('action');
+        /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */
+        $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
         if ($ids && in_array($action, ['activate', 'inactivate', 'delete'])) {
             try {
                 $status = -1;
@@ -40,18 +57,18 @@ class MassAction extends \Astound\Affirm\Controller\Adminhtml\Rule
                     $this->_objectManager->create('Astound\Affirm\Model\Rule')->massChangeStatus($ids, $status);
                 }
 
-                $this->_redirect('*/*/');
+                $resultRedirect->setPath('*/*/');
             } catch (\Magento\Framework\Exception\LocalizedException $e) {
-                $this->messageManager->addError($e->getMessage());
+                $this->messageManager->addErrorMessage($e->getMessage());
             } catch (\Exception $e) {
-                $this->messageManager->addError(
+                $this->messageManager->addErrorMessage(
                     __('We can\'t delete/activate/deactivate rule(s) right now. Please review the log and try again.').$e->getMessage()
                 );
                 $this->_objectManager->get('Psr\Log\LoggerInterface')->critical($e);
-                $this->_redirect('*/*/');
+                $resultRedirect->setPath('*/*/');
             }
         }
-        $this->messageManager->addError(__('We can\'t find a rule(s) to delete/activate/deactivate.'));
-        $this->_redirect('*/*/');
+        $this->messageManager->addErrorMessage(__('We can\'t find a rule(s) to delete/activate/deactivate.'));
+        $resultRedirect->setPath('*/*/');
     }
 }

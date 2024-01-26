@@ -1,8 +1,24 @@
 <?php
 namespace Astound\Affirm\Controller\Adminhtml\Rule;
+use Magento\Framework\Controller\ResultFactory;
 
 class Edit extends \Astound\Affirm\Controller\Adminhtml\Rule
 {
+    /**
+     * @var \Magento\Framework\Controller\ResultFactory
+     */
+    protected $resultFactory;
+
+    /**
+     * @param \Magento\Framework\Controller\ResultFactory $resultFactory
+     */
+    public function __construct(
+        ResultFactory $resultFactory
+    ) {
+        $this->resultFactory = $resultFactory;
+    }
+
+
     /**
      * Edit
      *
@@ -16,8 +32,10 @@ class Edit extends \Astound\Affirm\Controller\Adminhtml\Rule
         if ($id) {
             $model->load($id);
             if (!$model->getId()) {
-                $this->messageManager->addError(__('This item no longer exists.'));
-                $this->_redirect('*/*');
+                $this->messageManager->addErrorMessage(__('This item no longer exists.'));
+                /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */
+                $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
+                $resultRedirect->setPath('*/*/');
             }
         }
         // set entered data if was error when we do save

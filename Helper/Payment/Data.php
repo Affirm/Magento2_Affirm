@@ -40,7 +40,9 @@ class Data extends \Magento\Payment\Helper\Data
 
     public function getStoreMethods($store = null, $quote = null)
     {
-        $methods = parent::getStoreMethods($store, $quote);
+        $om = \Magento\Framework\App\ObjectManager::getInstance();
+        $hlp = $om->get('Magento\Payment\Api\PaymentMethodListInterface');
+        $methods = $hlp->getActiveList($store);
         if (!$quote) {
             return $methods;
         }

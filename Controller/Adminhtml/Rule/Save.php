@@ -1,9 +1,24 @@
 <?php
 namespace Astound\Affirm\Controller\Adminhtml\Rule;
 use Magento\Framework\Filter\FilterInput;
+use Magento\Framework\Controller\ResultFactory;
 
 class Save extends \Astound\Affirm\Controller\Adminhtml\Rule
 {
+    /**
+     * @var \Magento\Framework\Controller\ResultFactory
+     */
+    protected $resultFactory;
+
+    /**
+     * @param \Magento\Framework\Controller\ResultFactory $resultFactory
+     */
+    public function __construct(
+        ResultFactory $resultFactory
+    ) {
+        $this->resultFactory = $resultFactory;
+    }
+
     /**
      * Save
      *
@@ -11,6 +26,8 @@ class Save extends \Astound\Affirm\Controller\Adminhtml\Rule
      */
     public function execute()
     {
+        /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */
+        $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
         if ($this->getRequest()->getPostValue()) {
             try {
                 $model = $this->_objectManager->create('Astound\Affirm\Model\Rule');
@@ -40,29 +57,30 @@ class Save extends \Astound\Affirm\Controller\Adminhtml\Rule
                 $session = $this->_objectManager->get('Magento\Backend\Model\Session');
                 $session->setPageData($model->getData());
                 $model->save();
-                $this->messageManager->addSuccess(__('You saved the rule.'));
+                $this->messageManager->addSuccessMessage(__('You saved the rule.'));
                 $session->setPageData(false);
                 if ($this->getRequest()->getParam('back')) {
-                    $this->_redirect('*/*/edit', ['id' => $model->getId()]);
+                    $resultRedirect->setPath('*/*/edit', ['id' => $model->getId()]);
                 }
-                $this->_redirect('*/*/');
+                $resultRedirect->setPath('*/*/');
             } catch (\Magento\Framework\Exception\LocalizedException $e) {
-                $this->messageManager->addError($e->getMessage());
+                $this->messageManager->addErrorMessage($e->getMessage());
                 $id = (int)$this->getRequest()->getParam('id');
                 if (!empty($id)) {
-                    $this->_redirect('*/*/edit', ['id' => $id]);
+                    $resultRedirect->setPath('*/*/edit', ['id' => $id]);
                 } else {
-                    $this->_redirect('*/*/new');
+                    $resultRedirect->setPath('*/*/new');
+
                 }
             } catch (\Exception $e) {
-                $this->messageManager->addError(
+                $this->messageManager->addErrorMessage(
                     __('Something went wrong while saving the item data. Please review the error log.')
                 );
                 $this->_objectManager->get('Psr\Log\LoggerInterface')->critical($e);
-                $this->_redirect('*/*/edit', ['id' => $this->getRequest()->getParam('id')]);
+                $resultRedirect->setPath('*/*/edit', ['id' => $this->getRequest()->getParam('id')]);
             }
         }
-        $this->_redirect('*/*/');
+        $resultRedirect->setPath('*/*/');
     }
 
     protected function _prepareForSave($model)
