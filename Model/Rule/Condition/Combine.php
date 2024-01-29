@@ -1,5 +1,6 @@
 <?php
 namespace Astound\Affirm\Model\Rule\Condition;
+use Magento\Rule\Model\Condition\Context;
 
 class Combine extends \Magento\Rule\Model\Condition\Combine
 {
@@ -8,10 +9,13 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
     protected $_eventManager = null;
 
     public function __construct(
+        Context $context,
         \Magento\Framework\ObjectManagerInterface $objectManager,
         \Magento\Framework\Event\ManagerInterface $eventManager,
+        array $data = []
     )
     {
+        parent::__construct($context, $data);
         $this->objectManager = $objectManager;
         $this->_eventManager = $eventManager;
         $this->setType('Astound\Affirm\Model\Rule\Condition\Combine');
