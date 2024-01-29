@@ -8,10 +8,13 @@ class Address extends \Magento\Rule\Model\Condition\AbstractCondition
     public $_directoryAllregion;
 
     public function __construct(
+        \Magento\Rule\Model\Condition\Context $context,
         \Magento\Directory\Model\Config\Source\Country $directoryCountry,
         \Magento\Directory\Model\Config\Source\Allregion $directoryAllregion,
+        array $data = []
     )
     {
+        parent::__construct($context, $data);
         $this->_directoryCountry = $directoryCountry;
         $this->_directoryAllregion = $directoryAllregion;
     }
