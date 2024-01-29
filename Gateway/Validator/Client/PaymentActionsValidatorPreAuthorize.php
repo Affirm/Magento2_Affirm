@@ -30,7 +30,7 @@ class PaymentActionsValidatorPreAuthorize extends PaymentActionsValidator
      * @param array|number|string $amount
      * @return bool
      */
-    protected function validateTotalAmount(array $response, $amount)
+    public function validateTotalAmount(array $response, $amount)
     {
         return isset($response[self::TOTAL])
             && ($response[self::TOTAL]) === $amount;

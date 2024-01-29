@@ -49,14 +49,14 @@ class SetAffirmAnalyticsOnOrderSuccessPageView implements ObserverInterface
      *
      * @var \Magento\Framework\View\LayoutInterface
      */
-    protected $_layout;
+    public $_layout;
 
     /**
      * Store manager
      *
      * @var \Magento\Store\Model\StoreManagerInterface
      */
-    protected $_storeManager;
+    public $_storeManager;
 
     /**
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager

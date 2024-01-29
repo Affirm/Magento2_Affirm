@@ -5,8 +5,8 @@ use \Astound\Affirm\Model\ResourceModel\Rule as ResourceModel;
 
 class Rule extends \Magento\Rule\Model\AbstractModel
 {
-    protected $objectManager;
-    protected $storeManager;
+    public $objectManager;
+    public $storeManager;
 
 
 	public function __construct(
@@ -31,7 +31,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         return $this->getConditions()->validateNotModel($object);
     }
 
-    protected function _construct()
+    public function _construct()
     {
         $this->_init('Astound\Affirm\Model\ResourceModel\Rule');
         parent::_construct();
@@ -78,7 +78,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         return parent::afterSave();
     }
 
-    protected function _getUsedAttributes($serializedString)
+    public function _getUsedAttributes($serializedString)
     {
         $result = array();
         $pattern = '~s:46:"Magento\\\SalesRule\\\Model\\\Rule\\\Condition\\\Product";s:9:"attribute";s:\d+:"(.*?)"~s';

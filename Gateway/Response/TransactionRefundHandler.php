@@ -40,7 +40,7 @@ class TransactionRefundHandler implements HandlerInterface
      *
      * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
-    protected $localeDate;
+    public $localeDate;
 
     /**
      * Constructor

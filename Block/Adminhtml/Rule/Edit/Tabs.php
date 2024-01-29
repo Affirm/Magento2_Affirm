@@ -3,7 +3,7 @@ namespace Astound\Affirm\Block\Adminhtml\Rule\Edit;
 
 class Tabs extends \Magento\Backend\Block\Widget\Tabs
 {
-    protected function _construct()
+    public function _construct()
     {
         parent::_construct();
         $this->setId('affirm_rule_edit_tabs');

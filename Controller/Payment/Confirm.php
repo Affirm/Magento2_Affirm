@@ -61,43 +61,43 @@ class Confirm implements CsrfAwareActionInterface
      *
      * @var \Magento\Checkout\Model\Session
      */
-    protected $checkoutSession;
+    public $checkoutSession;
 
     /**
      * Quote management
      *
      * @var \Magento\Quote\Api\CartManagementInterface
      */
-    protected $quoteManagement;
+    public $quoteManagement;
 
     /**
      * Affirm checkout instance
      *
      * @var \Astound\Affirm\Model\Checkout
      */
-    protected $checkout;
+    public $checkout;
 
     /**
      * Store sales quote
      *
      * @var \Magento\Quote\Model\Quote
      */
-    protected $quote;
+    public $quote;
 
     /**
      * @var \Magento\Framework\Controller\ResultFactory
      */
-    protected $resultFactory;
+    public $resultFactory;
 
     /**
      * @var MessageManagerInterface
      */
-    protected $messageManager;
+    public $messageManager;
 
     /**
      * @var EventManagerInterface
      */
-    protected $_eventManager;
+    public $_eventManager;
 
 
     /**

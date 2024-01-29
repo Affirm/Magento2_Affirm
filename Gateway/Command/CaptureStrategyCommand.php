@@ -27,6 +27,8 @@ use Magento\Sales\Model\Order;
 use Astound\Affirm\Gateway\Helper\Util;
 use Magento\Store\Model\ScopeInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\Math\Random;
+
 
 /**
  * Class CaptureStrategyCommand
@@ -50,7 +52,7 @@ class CaptureStrategyCommand implements CommandInterface
      *
      * @var string
      */
-    protected $methodCode = 'affirm_gateway';
+    public $methodCode = 'affirm_gateway';
 
     /**
      * Command pool
@@ -64,7 +66,7 @@ class CaptureStrategyCommand implements CommandInterface
      *
      * @var ScopeConfigInterface
      */
-    protected $scopeConfig;
+    public $scopeConfig;
 
     /**
      * Constructor
@@ -107,7 +109,9 @@ class CaptureStrategyCommand implements CommandInterface
 
         if($this->getConfigData('payment_action') == 'authorize_capture'){
             $last_invoice_amount = $paymentInfo->getAdditionalInformation(self::LAST_INVOICE_AMOUNT);
-            $amountInCents = Util::formatToCents($last_invoice_amount);
+            $random = new Random();
+            $util = new Util($random);
+            $amountInCents = $util->formatToCents($last_invoice_amount);
             if ($amountInCents == 0 ) {
                 return $this->commandPool
                     ->get(self::VOID)

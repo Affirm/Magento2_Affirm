@@ -5,8 +5,8 @@ use Magento\Backend\Block\Widget\Tab\TabInterface;
 
 class Conditions extends Generic implements TabInterface
 {
-    protected $_rendererFieldset;
-    protected $_conditions;
+    public $_rendererFieldset;
+    public $_conditions;
 
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
@@ -41,7 +41,7 @@ class Conditions extends Generic implements TabInterface
         return false;
     }
 
-    protected function _prepareForm()
+    public function _prepareForm()
     {
         $model = $this->_coreRegistry->registry('affirm_payment_restriction_rule');
         $om = \Magento\Framework\App\ObjectManager::getInstance();

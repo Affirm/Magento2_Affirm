@@ -34,14 +34,14 @@ class IdentifyFinancingProgram implements ObserverInterface
      *
      * @var \Magento\Customer\Model\Session
      */
-    protected $customerSession;
+    public $customerSession;
     
     /**
      * Request interface
      *
      * @var \Magento\Framework\App\RequestInterface
      */
-    protected $request;
+    public $request;
     
 
     /**
@@ -82,7 +82,7 @@ class IdentifyFinancingProgram implements ObserverInterface
      *
      * @param string $financingProgramValue
      */
-    protected function _updateLoggedInCustomerMFP($financingProgramValue)
+    public function _updateLoggedInCustomerMFP($financingProgramValue)
     {
         $customer = $this->customerSession->getCustomer();
         $customerMFPValue = $customer->getAffirmCustomerMfp();
@@ -101,7 +101,7 @@ class IdentifyFinancingProgram implements ObserverInterface
      *
      * @param string $financingProgramValue
      */
-    protected function _updateGuestCustomerMFP($financingProgramValue)
+    public function _updateGuestCustomerMFP($financingProgramValue)
     {
         $sessionMFPValue = $this->customerSession->getAffirmCustomerMfp();
         if (empty($sessionMFPValue) || ($financingProgramValue != $sessionMFPValue)) {

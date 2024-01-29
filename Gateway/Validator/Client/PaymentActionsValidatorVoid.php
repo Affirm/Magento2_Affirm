@@ -64,7 +64,7 @@ class PaymentActionsValidatorVoid extends PaymentActionsValidator
      * @param array $response
      * @return bool
      */
-    protected function validateResponseType(array $response)
+    public function validateResponseType(array $response)
     {
         return ($response[self::RESPONSE_TYPE] == self::RESPONSE_TYPE_VOID);
     }

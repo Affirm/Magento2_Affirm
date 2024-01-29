@@ -51,77 +51,77 @@ class Payment
      *
      * @var \Magento\Payment\Model\Method\Adapter
      */
-    protected $payment;
+    public $payment;
 
     /**
      * Current checkout quote instance
      *
      * @var \Magento\Quote\Model\Quote
      */
-    protected $quote;
+    public $quote;
 
     /**
      * Method specification factory
      *
      * @var \Magento\Payment\Model\Checks\SpecificationFactory
      */
-    protected $methodSpecificationFactory;
+    public $methodSpecificationFactory;
 
     /**
      * Customer session
      *
      * @var \Magento\Checkout\Model\Session
      */
-    protected $customerSession;
+    public $customerSession;
 
     /**
      * Store manager
      *
      * @var StoreManagerInterface
      */
-    protected $storeManager;
+    public $storeManager;
 
     /**
      * Design object
      *
      * @var Design
      */
-    protected $design;
+    public $design;
 
     /**
      * Media config instance
      *
      * @var \Magento\Catalog\Model\Product\Media\Config
      */
-    protected $config;
+    public $config;
 
     /**
      * Product image helper instance
      *
      * @var \Magento\Catalog\Helper\Image
      */
-    protected $imageHelper;
+    public $imageHelper;
 
     /**
      * Scope config instance
      *
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $scopeConfig;
+    public $scopeConfig;
 
     /**
      * Core registry
      *
      * @var \Magento\Framework\Registry
      */
-    protected $coreRegistry = null;
+    public $coreRegistry = null;
 
     /**
      * Stock registry
      *
      * @var \Magento\InventoryConfigurationApi\Api\GetStockItemConfigurationInterface;
      */
-    protected $stockRegistry;
+    public $stockRegistry;
 
     /**
      * Affirm payment helper initialization.

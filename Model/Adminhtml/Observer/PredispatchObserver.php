@@ -14,11 +14,11 @@ class PredispatchObserver implements ObserverInterface
     /**
      * @var \Astound\Affirm\Model\Adminhtml\Feed
      */
-    protected $_feedFactory;
+    public $_feedFactory;
     /**
      * @var \Magento\Backend\Model\Auth\Session
      */
-    protected $_backendAuthSession;
+    public $_backendAuthSession;
     /**
      * @param \Astound\Affirm\Model\Adminhtml\Feed $feed
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession

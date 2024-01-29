@@ -20,6 +20,7 @@ namespace Astound\Affirm\Gateway\Request;
 
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 use Astound\Affirm\Gateway\Helper\Util;
+use Magento\Framework\Math\Random;
 
 /**
  * Class RefundRequest
@@ -48,7 +49,9 @@ class RefundRequest extends AbstractDataBuilder
         $countryCode = $payment->getAdditionalInformation(self::COUNTRY_CODE) ?: self::DEFAULT_COUNTRY_CODE;
         $creditMemoAmount = $payment->getCreditmemo()->getGrandTotal();
         $payment->setAdditionalInformation(self::LAST_INVOICE_AMOUNT, $creditMemoAmount);
-        $amountInCents = Util::formatToCents($creditMemoAmount);
+        $random = new Random();
+        $util = new Util($random);
+        $amountInCents = $util->formatToCents($creditMemoAmount);
         $order = $payment->getOrder();
         $storeId = null;
         if($order) {

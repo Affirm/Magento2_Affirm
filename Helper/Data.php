@@ -5,12 +5,12 @@ use Magento\Framework\App\Helper\Context;
 
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
-    protected $_counter;
-    protected $_firstTime = true;
+    public $_counter;
+    public $_firstTime = true;
 
-    protected $objectManager;
+    public $objectManager;
 
-    protected $coreRegistry;
+    public $coreRegistry;
 
     public function __construct(Context $context,
         \Magento\Framework\ObjectManagerInterface $objectManager,

@@ -5,9 +5,9 @@ use Magento\Backend\Model\View\Result\ForwardFactory;
 
 abstract class Rule extends \Magento\Backend\App\Action
 {
-    protected $_coreRegistry;
+    public $_coreRegistry;
 
-    protected $resultPageFactory;
+    public $resultPageFactory;
 
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
@@ -19,14 +19,14 @@ abstract class Rule extends \Magento\Backend\App\Action
         $this->resultPageFactory = $resultPageFactory;
     }
 
-    protected function _initAction()
+    public function _initAction()
     {
         $this->_view->loadLayout();
         $this->_setActiveMenu('Astound_Affirm::rule')->_addBreadcrumb(__('Promotions'), __('Promotions'));
         return $this;
     }
 
-    protected function _isAllowed()
+    public function _isAllowed()
     {
         return $this->_authorization->isAllowed('Astound_Affirm::rule');
     }

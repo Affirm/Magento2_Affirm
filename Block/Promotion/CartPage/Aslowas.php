@@ -21,28 +21,28 @@ class Aslowas extends AslowasAbstract
      *
      * @var array
      */
-    protected $data = ['logo', 'script', 'public_api_key', 'min_order_total', 'max_order_total', 'element_id', 'country_code', 'locale'];
+    public $data = ['logo', 'script', 'public_api_key', 'min_order_total', 'max_order_total', 'element_id', 'country_code', 'locale'];
 
     /**
      * Checkout session
      *
      * @var \Magento\Checkout\Model\Session
      */
-    protected $checkoutSession;
+    public $checkoutSession;
 
     /**
      * Financing program helper factory
      *
      * @var Helper\FinancingProgram
      */
-    protected $fpHelper;
+    public $fpHelper;
 
     /**
      * As low as helper
      *
      * @var  Helper\AsLowAs
      */
-    protected $asLowAsHelper;
+    public $asLowAsHelper;
 
     /**
      * Cart page block.

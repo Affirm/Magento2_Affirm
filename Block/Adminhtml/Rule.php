@@ -3,7 +3,7 @@ namespace Astound\Affirm\Block\Adminhtml;
 
 class Rule extends \Magento\Backend\Block\Widget\Grid\Container
 {
-    protected function _construct()
+    public function _construct()
     {
         $this->_controller = 'adminhtml_rule';
         $this->_headerText = __('Payment Restriction Rules');

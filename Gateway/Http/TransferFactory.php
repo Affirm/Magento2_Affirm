@@ -58,7 +58,7 @@ class TransferFactory extends AbstractTransferFactory
      * @param string $storeId
      * @return string
      */
-    protected function getApiUrl($additionalPath, $storeId)
+    public function getApiUrl($additionalPath, $storeId)
     {
         return $this->action->getUrl($additionalPath, $storeId);
     }

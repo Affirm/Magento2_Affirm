@@ -3,9 +3,9 @@
 namespace Astound\Affirm\Model\Rule\Condition;
 class Address extends \Magento\Rule\Model\Condition\AbstractCondition
 {
-    protected $_directoryCountry;
+    public $_directoryCountry;
 
-    protected $_directoryAllregion;
+    public $_directoryAllregion;
 
     public function __construct(
         \Magento\Rule\Model\Condition\Context $context,
@@ -177,7 +177,7 @@ class Address extends \Magento\Rule\Model\Condition\AbstractCondition
         return $result;
     }
 
-    protected function _isArrayOperatorType()
+    public function _isArrayOperatorType()
     {
         $ret = false;
         if (method_exists($this, 'isArrayOperatorType')) {

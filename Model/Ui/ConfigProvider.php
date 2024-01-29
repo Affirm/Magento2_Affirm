@@ -46,35 +46,35 @@ class ConfigProvider implements ConfigProviderInterface
      *
      * @var \Astound\Affirm\Model\Config
      */
-    protected $affirmConfig;
+    public $affirmConfig;
 
     /**
      * Injected config object
      *
      * @var \Magento\Payment\Gateway\ConfigInterface
      */
-    protected $config;
+    public $config;
 
     /**
      * Injected url builder
      *
      * @var \Magento\Framework\UrlInterface
      */
-    protected $urlBuilder;
+    public $urlBuilder;
 
     /**
      * Product metadata object
      *
      * @var \Magento\Framework\App\ProductMetadataInterface
      */
-    protected $productMetadata;
+    public $productMetadata;
 
     /**
      * Checkout session
      *
      * @var \Magento\Checkout\Model\Session
      */
-    protected $checkoutSession;
+    public $checkoutSession;
 
     /**
      * Inject all needed object for getting data from config
