@@ -96,7 +96,7 @@ class AffirmButton extends Template
     /**
      * Get button image width from system configs
      *
-     * @return bool|mixed
+     * @return mixed
      */
     public function getButtonImageWidth()
     {

@@ -283,7 +283,7 @@ class FinancingProgram
      */
     protected function getQuoteCategoryCollection($productCollection = null)
     {
-        if(is_null($productCollection)) {
+        if($productCollection === null) {
             $productCollection = $this->getQuoteProductCollection();
         }
         $categoryItemsIds = [];

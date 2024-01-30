@@ -61,7 +61,7 @@ class Data extends \Magento\Payment\Helper\Data
 
     public function getRules($address)
     {
-        if (is_null($this->_allRules)) {
+        if ($this->_allRules === null) {
             $om = \Magento\Framework\App\ObjectManager::getInstance();
             $hlp = $om->create('Astound\Affirm\Model\Rule');
             $this->_allRules = $hlp->getCollection()->addAddressFilter($address)->load();

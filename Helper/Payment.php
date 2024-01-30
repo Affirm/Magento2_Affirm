@@ -217,7 +217,7 @@ class Payment
      */
     public function isAffirmAvailableForProduct(Product $product = null)
     {
-        if (is_null($product)) {
+        if ($product === null) {
             $product = $this->getProduct();
         }
         $check = $this->payment->isAvailable();
@@ -280,7 +280,7 @@ class Payment
      */
     public function getConfigurableProductBackordersOptions(Product $product = null)
     {
-        if (is_null($product)) {
+        if ($product === null) {
             $product = $this->getProduct();
         }
         if ($this->payment->getConfigData('disable_for_backordered_items') && $this->isProductConfigurable($product)) {

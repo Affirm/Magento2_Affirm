@@ -38,6 +38,6 @@
 $mfpValue = $block->getMFPValue();
 $learnMore = $block->getLearnMoreValue();
 ?>
-<span style="float: left; width: 100%; margin-bottom: 15px" data-mage-init='{"aslowasCC": <?php echo $block->getWidgetData(); ?>}'>
-    <?php echo '<div id="als_pcc" data-amount="0" class="affirm-as-low-as" data-page-type="cart" ' . (!empty($mfpValue) ? 'data-promo-id="' . $mfpValue . '"' : '') . ' ' . $block->getDataAffirmColor() . ' data-learnmore-show="'.$learnMore.'"></div>'; ?>
+<span style="float: left; width: 100%; margin-bottom: 15px" data-mage-init='{"aslowasCC": <? echo $block->getWidgetData(); ?>}'>
+    <? echo '<div id="als_pcc" data-amount="0" class="affirm-as-low-as" data-page-type="cart" ' . (!empty($mfpValue) ? 'data-promo-id="' . $mfpValue . '"' : '') . ' ' . $block->getDataAffirmColor() . ' data-learnmore-show="'.$learnMore.'"></div>'; ?>
 </span>

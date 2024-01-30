@@ -64,7 +64,7 @@ class Util
      * @param int $amount
      * @return int
      */
-    public static function formatToCents($amount = 0)
+    public function formatToCents($amount = 0)
     {
         $negative = false;
         $str = self::formatMoney($amount);
@@ -85,7 +85,7 @@ class Util
             $retVal .= '-';
         }
         $retVal .= ltrim($parts[0] . substr($parts[1], 0, 2), '0');
-        return intval($retVal);
+        return (int)($retVal);
     }
 
     /**
@@ -94,7 +94,7 @@ class Util
      * @param string $amount
      * @return string
      */
-    protected static function formatMoney($amount)
+    protected function formatMoney($amount)
     {
         return sprintf(self::MONEY_FORMAT, $amount);
     }

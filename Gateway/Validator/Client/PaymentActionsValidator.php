@@ -66,7 +66,9 @@ class PaymentActionsValidator extends AbstractResponseValidator
             $amount = SubjectReader::readAmount($validationSubject);
         }
 
-        $amountInCents = Util::formatToCents($amount);
+        $om = \Magento\Framework\App\ObjectManager::getInstance();
+        $util = $om->create('Astound\Affirm\Gateway\Helper\Util');
+        $amountInCents = $util->formatToCents($amount);
 
         $errorMessages = [];
         $validationResult = $this->validateResponseCode($response)
