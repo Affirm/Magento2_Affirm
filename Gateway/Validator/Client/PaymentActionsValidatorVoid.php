@@ -33,6 +33,21 @@ class PaymentActionsValidatorVoid extends PaymentActionsValidator
     const RESPONSE_TYPE_VOID = 'void';
     /**#@-*/
 
+    
+    /**
+     * Product collection factory
+     *
+     * @var \Astound\Affirm\Helper\ErrorTracker
+     */
+    protected $errorTracker;
+
+    public function __construct(
+        \Astound\Affirm\Helper\ErrorTracker $errorTracker
+    )
+    {
+        $this->errorTracker = $errorTracker;
+    }
+    
     /**
      * @inheritdoc
      */
@@ -46,9 +61,7 @@ class PaymentActionsValidatorVoid extends PaymentActionsValidator
 
         if (!$validationResult) {
             $errorMessages = [__('Transaction has been declined, please, try again later.')];
-            $om = \Magento\Framework\App\ObjectManager::getInstance();
-            $errorTracker = $om->create('Astound\Affirm\Helper\ErrorTracker');
-            $errorTracker->logErrorToAffirm(
+            $this->errorTracker->logErrorToAffirm(
                 transaction_step: self::RESPONSE_TYPE_VOID,
                 error_type: ErrorTracker::TRANSACTION_DECLINED,
                 error_message: $errorMessages[0]->render()

@@ -4,6 +4,8 @@ namespace Astound\Affirm\Helper;
 
 use Magento\Catalog\Model\ResourceModel\Category;
 use Magento\Catalog\Model\ResourceModel\Product;
+use \Astound\Affirm\Model\Rule as ModelRule;
+use Magento\Checkout\Model\Session;
 
 /**
  * Rule helper
@@ -12,16 +14,36 @@ use Magento\Catalog\Model\ResourceModel\Product;
  */
 class Rule extends Payment
 {
-
     public $_allRules = null;
+
+    /**
+     * Product collection factory
+     *
+     * @var \Astound\Affirm\Model\Rule
+     */
+    protected $modelRule;
+
+    /**
+     * Product collection factory
+     *
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $sessions;
+
+    public function __construct(
+        \Astound\Affirm\Model\Rule $modelRule,
+        \Magento\Checkout\Model\Session $sessions
+    )
+    {
+        $this->modelRule = $modelRule;
+        $this->sessions = $sessions;
+    }
 
     public function getRules()
     {
         if ($this->_allRules === null)
         {
-            $om = \Magento\Framework\App\ObjectManager::getInstance();
-            $hlp = $om->create('Astound\Affirm\Model\Rule');
-            $this->_allRules = $hlp->getCollection()->addFieldToFilter('is_active', 1);
+            $this->_allRules = $this->modelRule->getCollection()->addFieldToFilter('is_active', 1);
             $this->_allRules->load();
             foreach ($this->_allRules as $rule){
                 $rule->afterLoad();
@@ -48,9 +70,7 @@ class Rule extends Payment
     {
         foreach ($this->getRules() as $rule){
             if ($rule->restrictByName(\Astound\Affirm\Model\Ui\ConfigProvider::CODE)){
-                $om = \Magento\Framework\App\ObjectManager::getInstance();
-                $checkoutsession = $om->get('Magento\Checkout\Model\Session');
-                $quote = $checkoutsession->getQuote();
+                $quote = $this->sessions->getQuote();
                 $isValid = (bool) $rule->validate($quote);
                 if ($isValid) {
                     return false;
