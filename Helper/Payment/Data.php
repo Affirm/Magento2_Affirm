@@ -34,15 +34,40 @@
  */
 
 namespace Astound\Affirm\Helper\Payment;
+use \Magento\Payment\Api\PaymentMethodListInterface;
+use \Astound\Affirm\Model\Rule;
+
 class Data extends \Magento\Payment\Helper\Data
 {
     public $_allRules = null;
 
+    /**
+     * Product collection factory
+     *
+     * @var \Astound\Affirm\Model\Rule
+     */
+    protected $modelRule;
+
+    /**
+     * Product collection factory
+     *
+     * @var \Magento\Payment\Api\PaymentMethodListInterface
+     */
+    protected $paymentMethodListInterface;
+
+    public function __construct(
+        PaymentMethodListInterface $paymentMethodListInterface,
+        Rule $modelRule
+    )
+    {
+        $this->paymentMethodListInterface = $paymentMethodListInterface;
+        $this->modelRule = $modelRule;
+    }
+
+
     public function getStoreMethods($store = null, $quote = null)
     {
-        $om = \Magento\Framework\App\ObjectManager::getInstance();
-        $hlp = $om->get('Magento\Payment\Api\PaymentMethodListInterface');
-        $methods = $hlp->getActiveList($store);
+        $methods = $this->paymentMethodListInterface->getActiveList($store);
         if (!$quote) {
             return $methods;
         }
@@ -64,9 +89,7 @@ class Data extends \Magento\Payment\Helper\Data
     public function getRules($address)
     {
         if ($this->_allRules === null) {
-            $om = \Magento\Framework\App\ObjectManager::getInstance();
-            $hlp = $om->create('Astound\Affirm\Model\Rule');
-            $this->_allRules = $hlp->getCollection()->addAddressFilter($address)->load();
+            $this->_allRules = $this->modelRule->getCollection()->addAddressFilter($address)->load();
             foreach ($this->_allRules as $rule) {
                 $rule->afterLoad();
             }

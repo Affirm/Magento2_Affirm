@@ -44,9 +44,6 @@ class Conditions extends Generic implements TabInterface
     public function _prepareForm()
     {
         $model = $this->_coreRegistry->registry('affirm_payment_restriction_rule');
-        $om = \Magento\Framework\App\ObjectManager::getInstance();
-        $hlp = $om->get('Astound\Affirm\Helper\Data');
-
         $form = $this->_formFactory->create();
         
         $renderer = $this->_rendererFieldset->setTemplate(

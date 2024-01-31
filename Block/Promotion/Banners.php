@@ -42,6 +42,7 @@ use Astound\Affirm\Model\Ui\ConfigProvider;
 use Astound\Affirm\Model\Config;
 use Astound\Affirm\Helper\Payment;
 use Astound\Affirm\Helper;
+use Magento\Catalog\Model\ResourceModel\Product\Collection;
 
 /**
  * Class Banner
@@ -113,6 +114,13 @@ class Banners extends \Magento\Framework\View\Element\Template
      */
     public $configProvider;
 
+    /**
+     * Collection
+     *
+     * @var Collection
+     */
+    public $collection;
+
 
     /**
      * Inject all needed objects
@@ -124,6 +132,7 @@ class Banners extends \Magento\Framework\View\Element\Template
      * @param array            $data
      * @param Helper\FinancingProgram $fpHelper
      * @param Helper\AsLowAs $alaHelper
+     * @param Collection $collection
      */
     public function __construct(
         Template\Context $context,
@@ -132,6 +141,7 @@ class Banners extends \Magento\Framework\View\Element\Template
         Payment $helper,
         Helper\FinancingProgram $fpHelper,
         Helper\AsLowAs $alaHelper,
+        Collection $collection,
         array $data = []
     ) {
         $this->affirmPaymentConfig = $configAffirm;
@@ -141,6 +151,7 @@ class Banners extends \Magento\Framework\View\Element\Template
         $this->configProvider = $configProvider;
         $this->fpHelper = $fpHelper;
         $this->alaHelper = $alaHelper;
+        $this->collection = $collection;
         parent::__construct($context, $data);
     }
 
@@ -300,8 +311,7 @@ class Banners extends \Magento\Framework\View\Element\Template
         if (!empty($dynamicallyMFPValue)) {
             return $dynamicallyMFPValue;
         } elseif ($this->isProductPage()) {
-            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-            $productCollection = $objectManager->create('Magento\Catalog\Model\ResourceModel\Product\Collection')
+            $productCollection = $this->collection
                 ->addAttributeToSelect(['affirm_product_promo_id', 'affirm_product_mfp_type', 'affirm_product_mfp_priority', 'affirm_product_mfp_start_date', 'affirm_product_mfp_end_date'])
                 ->addAttributeToFilter('entity_id', $this->helper->getProduct()->getId());
             return $this->alaHelper->getFinancingProgramValueALS($productCollection);

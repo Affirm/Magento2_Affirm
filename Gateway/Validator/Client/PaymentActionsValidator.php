@@ -29,6 +29,29 @@ use Magento\Payment\Gateway\Validator\ResultInterface;
 class PaymentActionsValidator extends AbstractResponseValidator
 {
     /**
+     * Product collection factory
+     *
+     * @var \Astound\Affirm\Gateway\Helper\Util
+     */
+    protected $util;
+
+    /**
+     * Product collection factory
+     *
+     * @var \Astound\Affirm\Helper\ErrorTracker
+     */
+    protected $errorTracker;
+
+    public function __construct(
+        \Astound\Affirm\Gateway\Helper\Util $util,
+        \Astound\Affirm\Helper\ErrorTracker $errorTracker
+    )
+    {
+        $this->util = $util;
+        $this->errorTracker = $errorTracker;
+    }
+    
+    /**
      * Validate response
      *
      * @param array $validationSubject
@@ -66,9 +89,8 @@ class PaymentActionsValidator extends AbstractResponseValidator
             $amount = SubjectReader::readAmount($validationSubject);
         }
 
-        $om = \Magento\Framework\App\ObjectManager::getInstance();
-        $util = $om->create('Astound\Affirm\Gateway\Helper\Util');
-        $amountInCents = $util->formatToCents($amount);
+
+        $amountInCents = $this->util->formatToCents($amount);
 
         $errorMessages = [];
         $validationResult = $this->validateResponseCode($response)
@@ -78,11 +100,8 @@ class PaymentActionsValidator extends AbstractResponseValidator
             $errorMessages = (isset($response[self::ERROR_MESSAGE])) ?
                 [__($response[self::ERROR_MESSAGE]) . __(' Affirm status code: ') . $response[self::RESPONSE_CODE]]:
                 [__('Transaction has been declined, please, try again later.')];
-            
-            $om = \Magento\Framework\App\ObjectManager::getInstance();
-            /** @var $errorTracker \Astound\Affirm\Helper\ErrorTracker */
-            $errorTracker = $om->create('Astound\Affirm\Helper\ErrorTracker');
-            $errorTracker->logErrorToAffirm(
+
+            $this->errorTracker->logErrorToAffirm(
                 transaction_step: $transaction_step,
                 error_type: ErrorTracker::TRANSACTION_DECLINED,
                 error_message: $errorMessages[0]->render()

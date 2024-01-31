@@ -1,26 +1,49 @@
 <?php
 
 namespace Astound\Affirm\Plugin;
+use Magento\Checkout\Model\Session;
+use Astound\Affirm\Model\ResourceModel\Rule\Collection;
 
 class RestrictPaymentMethods
 {
-    public $objectManager;
     public $_allRules = null;
 
+     /**
+     * CheckoutSession
+     *
+     * @var \Magento\Checkout\Model\Session
+     */
+    public $checkoutsession;
+    
+    /**
+     * Affirm
+     *
+     * @var \Astound\Affirm\Model\ResourceModel\Rule\Collection
+     */
+    public $collection;
+
+    /**
+     * Initialize affirm checkout
+     *
+     * @param Session                                   $checkoutSession
+     * @param Rule                                      $rule
+     */
+
     public function __construct(
-        \Magento\Framework\ObjectManagerInterface $objectManager
+        \Magento\Checkout\Model\Session $checkoutsession,
+        Collection $collection
     )
     {
-        $this->objectManager = $objectManager;
+        $this->checkoutsession = $checkoutsession;
+        $this->collection = $collection;
     }
 
     public function afterGetActiveList(\Magento\Payment\Model\PaymentMethodList $subject, $result)
     {
         $methods = $result;
 
-        $om = \Magento\Framework\App\ObjectManager::getInstance();
-        $checkoutsession = $om->get('Magento\Checkout\Model\Session');
-        $quote = $checkoutsession->getQuote();
+
+        $quote = $this->checkoutsession->getQuote();
 
         $address = $quote->getShippingAddress();
         foreach ($methods as $k => $method) {
@@ -40,9 +63,7 @@ class RestrictPaymentMethods
     public function getRules($address)
     {
         if ($this->_allRules === null) {
-            $om = \Magento\Framework\App\ObjectManager::getInstance();
-            $hlp = $om->create('Astound\Affirm\Model\Rule');
-            $this->_allRules = $hlp->getCollection()->addAddressFilter($address)->load();
+            $this->_allRules = $this->collection->addAddressFilter($address)->load();
             foreach ($this->_allRules as $rule) {
                 $rule->afterLoad();
             }

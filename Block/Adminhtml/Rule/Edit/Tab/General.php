@@ -4,20 +4,30 @@ namespace Astound\Affirm\Block\Adminhtml\Rule\Edit\Tab;
 
 use Magento\Backend\Block\Widget\Form\Generic;
 use Magento\Backend\Block\Widget\Tab\TabInterface;
+use \Astound\Affirm\Helper\Data;
 
 class General extends Generic implements TabInterface
 {
     public $_systemStore;
+
+    /**
+     * Product collection factory
+     *
+     * @var \Astound\Affirm\Helper\Data
+     */
+    protected $affirmData;
 
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Store\Model\System\Store $systemStore,
+        \Astound\Affirm\Helper\Data $affirmData,
         array $data
     )
     {
         $this->_systemStore = $systemStore;
+        $this->affirmData = $affirmData;
         parent::__construct($context, $registry, $formFactory, $data);
     }
 
@@ -44,8 +54,6 @@ class General extends Generic implements TabInterface
     public function _prepareForm()
     {
         $model = $this->_coreRegistry->registry('affirm_payment_restriction_rule');
-        $om = \Magento\Framework\App\ObjectManager::getInstance();
-        $hlp = $om->get('Astound\Affirm\Helper\Data');
 
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('rule_');
@@ -63,20 +71,20 @@ class General extends Generic implements TabInterface
         $fieldset->addField('is_active', 'select', [
             'label' => __('Status'),
             'name' => 'is_active',
-            'options' => $hlp->getStatuses(),
+            'options' => $this->affirmData->getStatuses(),
         ]);
 
         $fieldset->addField('methods', 'multiselect', [
             'label' => __('Disable Selected Payment Methods'),
             'name' => 'methods[]',
-            'values' => $hlp->getAllMethods(),
+            'values' => $this->affirmData->getAllMethods(),
             'required' => true,
         ]);
 
         $fieldset->addField('cust_groups', 'multiselect', [
             'name' => 'cust_groups[]',
             'label' => __('Customer Groups'),
-            'values' => $hlp->getAllGroups(),
+            'values' => $this->affirmData->getAllGroups(),
             'note' => __('Leave empty or select all to apply the rule to any group'),
         ]);
 

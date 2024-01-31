@@ -28,6 +28,7 @@ use Symfony\Component\Config\Definition\Exception\Exception;
 use Astound\Affirm\Model\Config as Config;
 use Astound\Affirm\Logger\Logger;
 use Magento\Framework\Math\Random;
+use Magento\Directory\Model\Region;
 
 /**
  * Class AffirmCheckoutManager
@@ -115,6 +116,13 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
     public $logger;
 
     /**
+     * Affirm logging instance
+     *
+     * @var \Magento\Directory\Model\Region
+     */
+    public $region;
+
+    /**
      * Initialize affirm checkout
      *
      * @param Session                                    $checkoutSession
@@ -125,6 +133,7 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
      * @param FinancingProgram $helper
      * @param Config                                     $affirmConfig
      * @param Logger                                     $logger
+     * @param Region                                     $region
      */
     public function __construct(
         Session $checkoutSession,
@@ -134,7 +143,8 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
         ObjectManagerInterface $objectManager,
         FinancingProgram $helper,
         Config $affirmConfig,
-        Logger $logger
+        Logger $logger,
+        Region $region,
     ) {
         $this->checkoutSession = $checkoutSession;
         $this->quote = $this->checkoutSession->getQuote();
@@ -145,6 +155,7 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
         $this->helper = $helper;
         $this->affirmConfig = $affirmConfig;
         $this->logger = $logger;
+        $this->region = $region;
     }
 
     /**
@@ -293,10 +304,6 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
     }
 
     private function getRegionCode( $regionID ){
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $region = $objectManager->create('Magento\Directory\Model\Region')
-            ->load($regionID);
-
-        return $region->getCode();
+        return $this->region->getCode();
     }
 }
