@@ -22,6 +22,7 @@ use Magento\Payment\Gateway\Helper\SubjectReader;
 use Astound\Affirm\Gateway\Helper\Util;
 use Astound\Affirm\Helper\ErrorTracker;
 use Magento\Payment\Gateway\Validator\ResultInterface;
+use Magento\Payment\Gateway\Validator\ResultInterfaceFactory;
 
 /**
  * Class PaymentActionsValidator
@@ -29,28 +30,36 @@ use Magento\Payment\Gateway\Validator\ResultInterface;
 class PaymentActionsValidator extends AbstractResponseValidator
 {
     /**
-     * Product collection factory
+     * Error Tracker
      *
-     * @var \Astound\Affirm\Gateway\Helper\Util
+     * @var ErrorTracker
+     */
+    protected $errorTracker;
+
+    /**
+     * Error Tracker
+     *
+     * @var Util
      */
     protected $util;
 
     /**
-     * Product collection factory
-     *
-     * @var \Astound\Affirm\Helper\ErrorTracker
+     * Inject result factory and error tracker
+     * 
+     * @param ResultInterfaceFactory $resultFactory
+     * @param ErrorTracker $error_tracker
+     * @param Util $util
      */
-    protected $errorTracker;
-
     public function __construct(
-        \Astound\Affirm\Gateway\Helper\Util $util,
-        \Astound\Affirm\Helper\ErrorTracker $errorTracker
-    )
-    {
-        $this->util = $util;
+        ResultInterfaceFactory $resultFactory,
+        ErrorTracker $errorTracker,
+        Util $util
+    ) {
         $this->errorTracker = $errorTracker;
+        $this->util = $util;
+        parent::__construct($resultFactory);
     }
-    
+
     /**
      * Validate response
      *
@@ -89,7 +98,6 @@ class PaymentActionsValidator extends AbstractResponseValidator
             $amount = SubjectReader::readAmount($validationSubject);
         }
 
-
         $amountInCents = $this->util->formatToCents($amount);
 
         $errorMessages = [];
@@ -100,7 +108,7 @@ class PaymentActionsValidator extends AbstractResponseValidator
             $errorMessages = (isset($response[self::ERROR_MESSAGE])) ?
                 [__($response[self::ERROR_MESSAGE]) . __(' Affirm status code: ') . $response[self::RESPONSE_CODE]]:
                 [__('Transaction has been declined, please, try again later.')];
-
+            
             $this->errorTracker->logErrorToAffirm(
                 transaction_step: $transaction_step,
                 error_type: ErrorTracker::TRANSACTION_DECLINED,
