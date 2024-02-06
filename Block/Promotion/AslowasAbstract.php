@@ -89,7 +89,6 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
      */
     public $ruleHelper;
 
-
     /**
      * Category collection factory
      *
