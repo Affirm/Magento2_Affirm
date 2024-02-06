@@ -27,6 +27,7 @@ use Magento\Framework\ObjectManagerInterface;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Astound\Affirm\Model\Config as Config;
 use Astound\Affirm\Logger\Logger;
+use Magento\Framework\Math\Random;
 
 /**
  * Class AffirmCheckoutManager
@@ -55,63 +56,63 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
      *
      * @var Session
      */
-    protected $checkoutSession;
+    public $checkoutSession;
 
     /**
      * Injected model quote
      *
      * @var \Magento\Quote\Model\Quote
      */
-    protected $quote;
+    public $quote;
 
     /**
      * Injected repository
      *
      * @var \Magento\Quote\Api\CartRepositoryInterface
      */
-    protected $quoteRepository;
+    public $quoteRepository;
 
     /**
      * Object manager
      *
      * @var \Magento\Framework\ObjectManagerInterface
      */
-    protected $objectManager;
+    public $objectManager;
 
     /**
      * Product metadata
      *
      * @var \Magento\Framework\App\ProductMetadataInterface
      */
-    protected $productMetadata;
+    public $productMetadata;
 
     /**
      * Module resource
      *
      * @var \Magento\Framework\Module\ResourceInterface
      */
-    protected $moduleResource;
+    public $moduleResource;
 
     /**
      * Affirm financing program helper
      *
      * @var \Astound\Affirm\Helper\FinancingProgram
      */
-    protected $helper;
+    public $helper;
 
     /**
      * Affirm config model
      *
      * @var \Astound\Affirm\Model\Config
      */
-    protected $affirmConfig;
+    public $affirmConfig;
 
     /**
      * Affirm logging instance
      *
      * @var \Astound\Affirm\Logger\Logger
      */
-    protected $logger;
+    public $logger;
 
     /**
      * Initialize affirm checkout
@@ -163,12 +164,14 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
         $shippingAddress = $this->quote->getShippingAddress();
 
         $response = [];
+        $random = new Random();
+        $util = new Util($random);
         if ($discountAmount > 0.001) {
             $discountDescription = $shippingAddress->getDiscountDescription();
             $discountDescription = ($discountDescription) ? sprintf(__('Discount (%s)'), $discountDescription) :
                 sprintf(__('Discount'));
             $response['discounts'][$discountDescription] = [
-                'discount_amount' => Util::formatToCents($discountAmount)
+                'discount_amount' => $util->formatToCents($discountAmount)
             ];
         }
 
@@ -205,7 +208,7 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
                 foreach ($giftCards as $giftCard) {
                     $giftCardDiscountDescription = sprintf(__('Gift Card (%s)'), $giftCard[self::ID]);
                     $response['discounts'][$giftCardDiscountDescription] = [
-                        'discount_amount' => Util::formatToCents($giftCard[self::AMOUNT])
+                        'discount_amount' => $util->formatToCents($giftCard[self::AMOUNT])
                     ];
                 }
             }

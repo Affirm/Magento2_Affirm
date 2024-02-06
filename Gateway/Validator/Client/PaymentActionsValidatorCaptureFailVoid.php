@@ -32,7 +32,7 @@ class PaymentActionsValidatorCaptureFailVoid extends PaymentActionsValidator
      *
      * @var AffirmLogger
      */
-    protected $affirmLogger;
+    public $affirmLogger;
 
     /**#@+
      * Define constants
@@ -83,7 +83,7 @@ class PaymentActionsValidatorCaptureFailVoid extends PaymentActionsValidator
      * @param array $response
      * @return bool
      */
-    protected function validateResponseType(array $response)
+    public function validateResponseType(array $response)
     {
         return ($response[self::RESPONSE_TYPE] == self::RESPONSE_TYPE_VOID);
     }

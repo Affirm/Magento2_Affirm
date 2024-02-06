@@ -13,7 +13,7 @@ use Magento\Catalog\Model\ResourceModel\Product;
 class Rule extends Payment
 {
 
-    protected $_allRules = null;
+    public $_allRules = null;
 
     public function getRules()
     {

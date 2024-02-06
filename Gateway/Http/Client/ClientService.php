@@ -47,56 +47,56 @@ class ClientService implements ClientInterface
      *
      * @var Logger
      */
-    protected $logger;
+    public $logger;
 
     /**
      * Affirm logging instance
      *
      * @var AffirmLogger
      */
-    protected $affirmLogger;
+    public $affirmLogger;
 
     /**
      * Converter
      *
      * @var ConverterInterface
      */
-    protected $converter;
+    public $converter;
 
     /**
      * Client factory
      *
      * @var \Laminas\Http\Client
      */
-    protected $httpClientFactory;
+    public $httpClientFactory;
 
     /**
      * Action
      *
      * @var Action
      */
-    protected $action;
+    public $action;
 
     /**
      * Util
      *
      * @var Util
      */
-    protected $util;
+    public $util;
 
     /**
      * Error Tracker
      *
      * @var ErrorTracker
      */
-    protected $errorTracker;
+    public $errorTracker;
 
     /**
      * Error Tracker
      *
      * @var \Magento\Framework\Module\ResourceInterface
      */
-    protected $moduleResource;
+    public $moduleResource;
 
     /**
      * Constructor

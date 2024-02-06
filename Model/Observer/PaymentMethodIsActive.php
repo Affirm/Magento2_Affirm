@@ -31,14 +31,14 @@ class PaymentMethodIsActive implements ObserverInterface
      *
      * @var \Astound\Affirm\Model\Config
      */
-    protected $affirmPaymentConfig;
+    public $affirmPaymentConfig;
 
     /**
      * Stock registry
      *
      * @var \Magento\CatalogInventory\Api\StockRegistryInterface
      */
-    protected $stockRegistry;
+    public $stockRegistry;
 
     /**
      * Init

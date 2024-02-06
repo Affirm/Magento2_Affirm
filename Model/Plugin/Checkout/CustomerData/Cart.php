@@ -49,40 +49,40 @@ class Cart
      *
      * @var Payment
      */
-    protected $affirmPaymentHelper;
+    public $affirmPaymentHelper;
 
     /**
      * AsLowAs helper
      *
      * @var \Astound\Affirm\Helper\AsLowAs
      */
-    protected $asLowAsHelper;
+    public $asLowAsHelper;
 
     /**
      * Affirm config model payment
      *
      * @var \Astound\Affirm\Model\Config
      */
-    protected $affirmPaymentConfig;
+    public $affirmPaymentConfig;
 
     /**
      * Product collection factory
      *
      * @var \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory
      */
-    protected $productCollectionFactory;
+    public $productCollectionFactory;
 
     /**
      * @var \Magento\Quote\Model\Quote|null
      */
-    protected $quote = null;
+    public $quote = null;
 
     /**
      * Checkout session
      * 
      * @var \Magento\Checkout\Model\Session
      */
-    protected $checkoutSession = null;
+    public $checkoutSession = null;
 
 
     /**
@@ -120,7 +120,7 @@ class Cart
      *
      * @return \Magento\Quote\Model\Quote
      */
-    protected function getQuote()
+    public function getQuote()
     {
         if (null === $this->quote) {
             $this->quote = $this->checkoutSession->getQuote();

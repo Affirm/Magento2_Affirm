@@ -4,8 +4,8 @@ namespace Astound\Affirm\Plugin;
 
 class RestrictPaymentMethods
 {
-    protected $objectManager;
-    protected $_allRules = null;
+    public $objectManager;
+    public $_allRules = null;
 
     public function __construct(
         \Magento\Framework\ObjectManagerInterface $objectManager

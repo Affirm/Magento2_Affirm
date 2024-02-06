@@ -36,7 +36,7 @@
 namespace Astound\Affirm\Helper\Payment;
 class Data extends \Magento\Payment\Helper\Data
 {
-    protected $_allRules = null;
+    public $_allRules = null;
 
     public function getStoreMethods($store = null, $quote = null)
     {

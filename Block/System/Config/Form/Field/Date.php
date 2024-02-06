@@ -31,7 +31,7 @@ class Date extends \Magento\Config\Block\System\Config\Form\Field
      *
      * @var Registry $_coreRegistry
      */
-    protected $_coreRegistry;
+    public $_coreRegistry;
 
     /**
      * Construct
@@ -55,7 +55,7 @@ class Date extends \Magento\Config\Block\System\Config\Form\Field
      * @param \Magento\Framework\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    protected function _getElementHtml(\Magento\Framework\Data\Form\Element\AbstractElement $element)
+    public function _getElementHtml(\Magento\Framework\Data\Form\Element\AbstractElement $element)
     {
         $html = $element->getElementHtml();
         if (!$this->_coreRegistry->registry('datepicker_loaded')) {

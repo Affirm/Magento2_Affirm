@@ -55,63 +55,63 @@ class Banners extends \Magento\Framework\View\Element\Template
      *
      * @var string
      */
-    protected $startTag;
+    public $startTag;
 
     /**
      * Ended tag for html container
      *
      * @var string
      */
-    protected $endTag;
+    public $endTag;
 
     /**
      * Section in which the banner will be visible
      *
      * @var string
      */
-    protected $section;
+    public $section;
 
     /**
      * Position of the banner
      *
      * @var string
      */
-    protected $position;
+    public $position;
 
     /**
      * Config payment
      *
      * @var Config
      */
-    protected $affirmPaymentConfig;
+    public $affirmPaymentConfig;
 
     /**
      * Affirm payment model instance
      *
      * @var Payment
      */
-    protected $helper;
+    public $helper;
 
     /**
      * Financing program helper factory
      *
      * @var Helper\FinancingProgram
      */
-    protected $fpHelper;
+    public $fpHelper;
 
     /**
      * AsLowAs helper factory
      *
      * @var Helper\AsLowAs
      */
-    protected $alaHelper;
+    public $alaHelper;
 
     /**
      * Affirm configurations
      *
      * @var ConfigProvider
      */
-    protected $configProvider;
+    public $configProvider;
 
 
     /**
@@ -149,7 +149,7 @@ class Banners extends \Magento\Framework\View\Element\Template
      *
      * @return mixed
      */
-    protected function getIsActive()
+    public function getIsActive()
     {
         return $this->_scopeConfig->getValue(
             'affirm/affirm_promo/enabled',
@@ -162,7 +162,7 @@ class Banners extends \Magento\Framework\View\Element\Template
      *
      * @return bool
      */
-    protected function isCartPage()
+    public function isCartPage()
     {
         return $this->section === 'checkout_cart';
     }
@@ -172,7 +172,7 @@ class Banners extends \Magento\Framework\View\Element\Template
      *
      * @return bool
      */
-    protected function isProductPage()
+    public function isProductPage()
     {
         return $this->section === 'product';
     }
@@ -182,7 +182,7 @@ class Banners extends \Magento\Framework\View\Element\Template
      *
      * @return bool
      */
-    protected function isCategoryPage()
+    public function isCategoryPage()
     {
         return $this->section === 'category';
     }
@@ -192,7 +192,7 @@ class Banners extends \Magento\Framework\View\Element\Template
      *
      * @return string
      */
-    protected function _toHtml()
+    public function _toHtml()
     {
         if (!$this->getIsActive() || !$this->affirmPaymentConfig->isCurrencyValid()) {
             return '';
@@ -255,7 +255,7 @@ class Banners extends \Magento\Framework\View\Element\Template
      *
      * @param $section
      */
-    protected function processContainer($section)
+    public function processContainer($section)
     {
         $container = $this->affirmPaymentConfig
             ->getHtmlContainer($section);

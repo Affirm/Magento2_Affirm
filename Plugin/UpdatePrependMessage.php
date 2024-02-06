@@ -17,7 +17,7 @@ class UpdatePrependMessage
     /**
      * @var CurrencyInterface
      */
-    protected $currencyInterface;
+    public $currencyInterface;
 
     /**
      * @param CurrencyInterface $currencyInterface

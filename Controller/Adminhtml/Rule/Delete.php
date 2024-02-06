@@ -8,7 +8,8 @@ class Delete extends \Astound\Affirm\Controller\Adminhtml\Rule
     /**
      * @var \Magento\Framework\Controller\ResultFactory
      */
-    protected $resultFactory;
+
+    public $resultFactory;
 
     /**
      * @param \Magento\Framework\Controller\ResultFactory $resultFactory

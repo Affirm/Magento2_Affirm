@@ -3,7 +3,7 @@ namespace Astound\Affirm\Model\ResourceModel\Rule;
 
 class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection
 {
-    protected function _construct()
+    public function _construct()
     {
         $this->_init('Astound\Affirm\Model\Rule', 'Astound\Affirm\Model\ResourceModel\Rule');
     }

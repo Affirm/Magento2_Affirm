@@ -30,7 +30,7 @@ class Util
      *
      * @var \Magento\Framework\Math\Random
      */
-    protected $_random;
+    public $_random;
 
     /**
      * Money format
@@ -94,7 +94,8 @@ class Util
      * @param string $amount
      * @return string
      */
-    protected function formatMoney($amount)
+    public function formatMoney($amount)
+
     {
         return sprintf(self::MONEY_FORMAT, $amount);
     }

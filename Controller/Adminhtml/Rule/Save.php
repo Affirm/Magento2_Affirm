@@ -8,7 +8,9 @@ class Save extends \Astound\Affirm\Controller\Adminhtml\Rule
     /**
      * @var \Magento\Framework\Controller\ResultFactory
      */
-    protected $resultFactory;
+
+    public $resultFactory;
+
 
     /**
      * @param \Magento\Framework\Controller\ResultFactory $resultFactory
@@ -83,7 +85,7 @@ class Save extends \Astound\Affirm\Controller\Adminhtml\Rule
         $resultRedirect->setPath('*/*/');
     }
 
-    protected function _prepareForSave($model)
+    public function _prepareForSave($model)
     {
         $fields = array('stores', 'cust_groups', 'methods');
         foreach ($fields as $f){

@@ -3,7 +3,7 @@ namespace Astound\Affirm\Block\Adminhtml\Rule;
 
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
-    protected $_coreRegistry = null;
+    public $_coreRegistry = null;
 
     public function __construct(
         \Magento\Backend\Block\Widget\Context $context,
@@ -14,7 +14,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         parent::__construct($context, $data);
     }
 
-    protected function _construct()
+    public function _construct()
     {
         $this->_objectId = 'id';
         $this->_controller = 'adminhtml_rule';

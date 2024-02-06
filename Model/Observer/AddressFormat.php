@@ -23,7 +23,7 @@ use Magento\Directory\Model\RegionFactory;
 
 class AddressFormat implements ObserverInterface
 {
-    protected $regionFactory;
+    public $regionFactory;
     public function __construct(
         RegionFactory $regionFactory
     )

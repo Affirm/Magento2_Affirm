@@ -32,7 +32,7 @@ class UpdateFinancingProgramOnLogin implements ObserverInterface
      *
      * @var \Magento\Customer\Model\Session
      */
-    protected $_customerSession;
+    public $_customerSession;
     
     /**
      * Init

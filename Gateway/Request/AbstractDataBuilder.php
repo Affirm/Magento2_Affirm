@@ -51,14 +51,14 @@ abstract class AbstractDataBuilder implements BuilderInterface
      *
      * @var \Magento\Store\Model\StoreManagerInterface
      */
-    protected $_storeManager;
+    public $_storeManager;
 
     /**
      * Affirm config
      *
      * @var \Astound\Affirm\Model\Config
      */
-    protected $affirmPaymentConfig;
+    public $affirmPaymentConfig;
 
     /**
      * Constructor

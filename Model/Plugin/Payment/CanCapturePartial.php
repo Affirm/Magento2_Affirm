@@ -24,7 +24,7 @@ class CanCapturePartial
      *
      * @var \Astound\Affirm\Model\Config
      */
-    protected $affirmPaymentConfig;
+    public $affirmPaymentConfig;
 
 
   /**

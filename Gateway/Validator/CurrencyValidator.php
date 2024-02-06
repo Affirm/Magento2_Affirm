@@ -35,7 +35,7 @@ class CurrencyValidator extends AbstractValidator
      *
      * @var \Magento\Payment\Gateway\ConfigInterface
      */
-    protected $config;
+    public $config;
 
     /**
      * Inject config object and result factory

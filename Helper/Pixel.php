@@ -51,21 +51,21 @@ class Pixel
      *
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $scopeConfig;
+    public $scopeConfig;
 
     /**
      * Store manager
      *
      * @var \Magento\Store\Model\StoreManagerInterface
      */
-    protected $_storeManager;
+    public $_storeManager;
 
     /**
      * Affirm config
      *
      * @var \Astound\Affirm\Model\Config
      */
-    protected $affirmPaymentConfig;
+    public $affirmPaymentConfig;
 
     /**
      * Init
@@ -144,7 +144,7 @@ class Pixel
      *
      * @return int
      */
-    protected function getStoreId()
+    public function getStoreId()
     {
         return $this->_storeManager->getStore()->getId();
     }

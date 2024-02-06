@@ -29,13 +29,13 @@ use Magento\Catalog\Model\ResourceModel\Product;
 class AsLowAs extends FinancingProgram
 {
 
-    protected $_allRules = null;
+    public $_allRules = null;
 
     /**
      * Initialization
      *
      */
-    protected function _init()
+    public function _init()
     {
         $this->isALS = true;
     }
@@ -47,7 +47,7 @@ class AsLowAs extends FinancingProgram
      *
      * @return Category\Collection
      */
-    protected function getCategoryCollection(Product\Collection $productCollection)
+    public function getCategoryCollection(Product\Collection $productCollection)
     {
         $categoryItemsIds = [];
         $flagProductWithoutMfpCategories = false;

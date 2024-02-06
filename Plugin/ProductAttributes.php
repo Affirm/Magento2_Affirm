@@ -3,7 +3,7 @@ namespace Astound\Affirm\Plugin;
 
 class ProductAttributes
 {
-    protected $objectManager;
+    public $objectManager;
 
     public function __construct(
         \Magento\Framework\ObjectManagerInterface $objectManager

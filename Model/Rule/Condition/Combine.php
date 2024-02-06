@@ -4,9 +4,9 @@ use Magento\Rule\Model\Condition\Context;
 
 class Combine extends \Magento\Rule\Model\Condition\Combine
 {
-    protected $objectManager;
+    public $objectManager;
 
-    protected $_eventManager = null;
+    public $_eventManager = null;
 
     public function __construct(
         Context $context,

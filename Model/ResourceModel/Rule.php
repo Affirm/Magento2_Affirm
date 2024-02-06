@@ -3,7 +3,7 @@ namespace Astound\Affirm\Model\ResourceModel;
 
 class Rule extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
 {
-    protected function _construct()
+    public function _construct()
     {
         $this->_init('astound_affirm_rule', 'rule_id');
     }

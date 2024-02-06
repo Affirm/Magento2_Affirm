@@ -39,56 +39,56 @@ class Checkout
      *
      * @var int
      */
-    protected $customerId;
+    public $customerId;
 
     /**
      * Checkout session object
      *
      * @var \Magento\Checkout\Model\Session
      */
-    protected $checkoutSession;
+    public $checkoutSession;
 
     /**
      * Quote management object
      *
      * @var \Magento\Quote\Api\CartManagementInterfaces
      */
-    protected $quoteManagement;
+    public $quoteManagement;
 
     /**
      * Current checkout quote
      *
      * @var \Magento\Quote\Model\Quote
      */
-    protected $quote;
+    public $quote;
 
     /**
      * Customer session object
      *
      * @var \Magento\Customer\Model\Session
      */
-    protected $customerSession;
+    public $customerSession;
 
     /**
      * Checkout helper data
      *
      * @var \Magento\Checkout\Helper\Data
      */
-    protected $checkoutData;
+    public $checkoutData;
 
     /**
      * Magento order instance
      *
      * @var \Magento\Sales\Model\Order
      */
-    protected $order;
+    public $order;
 
     /**
      * Order sender object
      *
      * @var \Magento\Sales\Model\Order\Email\Sender\OrderSender
      */
-    protected $orderSender;
+    public $orderSender;
 
 
     /**
@@ -96,7 +96,7 @@ class Checkout
      *
      * @var \Astound\Affirm\Model\Config
      */
-    protected $config;
+    public $config;
 
     /**
      * Init config object
@@ -187,7 +187,7 @@ class Checkout
      *
      * @return \Magento\Customer\Model\Session
      */
-    protected function getCustomerSession()
+    public function getCustomerSession()
     {
         return $this->customerSession;
     }
@@ -197,7 +197,7 @@ class Checkout
      *
      * @return string
      */
-    protected function getCheckoutMethod()
+    public function getCheckoutMethod()
     {
         if ($this->getCustomerSession()->isLoggedIn()) {
             return \Magento\Checkout\Model\Type\Onepage::METHOD_CUSTOMER;
@@ -217,7 +217,7 @@ class Checkout
      *
      * @return $this
      */
-    protected function prepareGuestQuote()
+    public function prepareGuestQuote()
     {
         $quote = $this->quote;
         $quote->setCustomerId(null)
@@ -232,7 +232,7 @@ class Checkout
      *
      * @return void
      */
-    protected function ignoreAddressValidation()
+    public function ignoreAddressValidation()
     {
         $this->quote->getBillingAddress()->setShouldIgnoreValidation(true);
         if (!$this->quote->getIsVirtual()) {
@@ -274,7 +274,7 @@ class Checkout
      *
      * @param string $token
      */
-    protected function initToken($token)
+    public function initToken($token)
     {
         if ($token) {
             $payment = $this->quote->getPayment();
@@ -310,7 +310,7 @@ class Checkout
      * @param string $currencyCode
      * @return string
      */
-    protected function getCountryCodeByCurrency($currencyCode)
+    public function getCountryCodeByCurrency($currencyCode)
     {
         $currency_map = array(
             "USD" => ['US','USA'],

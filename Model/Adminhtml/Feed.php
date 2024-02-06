@@ -95,7 +95,7 @@ class Feed extends AdminNotificationFeed
         return $this;
     }
 
-    protected function _isNotificationSubscribed()
+    public function _isNotificationSubscribed()
     {
         return $this->_backendConfig->getValue(self::XML_FEEDS_SUBSCRIBED) == 1;
     }
