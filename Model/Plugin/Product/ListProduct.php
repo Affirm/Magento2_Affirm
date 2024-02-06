@@ -49,7 +49,7 @@ class ListProduct extends ViewAbstract
      * @param \Magento\Catalog\Model\Product $product
      * @return string
      */
-    public function aroundGetProductPrice($subject, $procede, \Magento\Catalog\Model\Product $product)
+    public function afterGetProductPrice($subject, $procede, \Magento\Catalog\Model\Product $product)
     {
         $priceHtml = $procede($product);
         if (!$this->affirmPaymentConfig->isAsLowAsEnabled('plp')) {
