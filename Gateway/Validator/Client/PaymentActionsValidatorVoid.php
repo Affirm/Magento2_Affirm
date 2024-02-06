@@ -39,7 +39,7 @@ class PaymentActionsValidatorVoid extends PaymentActionsValidator
      *
      * @var \Astound\Affirm\Helper\ErrorTracker
      */
-    protected $errorTracker;
+    public $errorTracker;
 
     public function __construct(
         \Astound\Affirm\Helper\ErrorTracker $errorTracker

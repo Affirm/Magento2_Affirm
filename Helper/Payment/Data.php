@@ -46,14 +46,14 @@ class Data extends \Magento\Payment\Helper\Data
      *
      * @var \Astound\Affirm\Model\Rule
      */
-    protected $modelRule;
+    public $modelRule;
 
     /**
      * Product collection factory
      *
      * @var \Magento\Payment\Api\PaymentMethodListInterface
      */
-    protected $paymentMethodListInterface;
+    public $paymentMethodListInterface;
 
     public function __construct(
         PaymentMethodListInterface $paymentMethodListInterface,

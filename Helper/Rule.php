@@ -21,14 +21,14 @@ class Rule extends Payment
      *
      * @var \Astound\Affirm\Model\Rule
      */
-    protected $modelRule;
+    public $modelRule;
 
     /**
      * Product collection factory
      *
      * @var \Magento\Checkout\Model\Session
      */
-    protected $sessions;
+    public $sessions;
 
     public function __construct(
         \Astound\Affirm\Model\Rule $modelRule,

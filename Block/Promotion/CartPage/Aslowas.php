@@ -50,7 +50,7 @@ class Aslowas extends AslowasAbstract
      *
      * @var \Magento\Catalog\Model\ResourceModel\Product\Collection
      */
-    protected $productCollection;
+    public $productCollection;
 
     /**
      * Cart page block.

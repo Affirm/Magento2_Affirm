@@ -8,7 +8,7 @@ class Groups extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Input
      *
      * @var \Astound\Affirm\Helper\Data
      */
-    protected $affirmData;
+    public $affirmData;
 
     public function __construct(
         \Astound\Affirm\Helper\Data $affirmData,

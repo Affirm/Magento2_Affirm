@@ -9,7 +9,7 @@ class Stores extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Text
      *
      * @var \Magento\Store\Model\System\Store
      */
-    protected $affirmData;
+    public $affirmData;
 
     public function __construct(
         \Magento\Store\Model\System\Store $store,

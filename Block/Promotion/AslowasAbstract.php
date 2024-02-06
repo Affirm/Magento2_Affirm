@@ -24,70 +24,70 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
      *
      * @var array
      */
-    protected $data = ['logo', 'script', 'public_api_key', 'country_code', 'locale'];
+    public $data = ['logo', 'script', 'public_api_key', 'country_code', 'locale'];
 
     /**
      * Colors which could be set in "data-affirm-color".
      *
      * @var array
      */
-    protected $dataColors = ['blue', 'black', 'white'];
+    public $dataColors = ['blue', 'black', 'white'];
 
     /**
      * Affirm config model payment
      *
      * @var \Astound\Affirm\Model\Config
      */
-    protected $affirmPaymentConfig;
+    public $affirmPaymentConfig;
 
     /**
      * Affirm config provider
      *
      * @var \Astound\Affirm\Model\Ui\ConfigProvider
      */
-    protected $configProvider;
+    public $configProvider;
 
     /**
      * Affirm payment model instance
      *
      * @var Payment
      */
-    protected $affirmPaymentHelper;
+    public $affirmPaymentHelper;
 
     /**
      * Block type
      *
      * @var string
      */
-    protected $type;
+    public $type;
 
     /**
      * Position of "As Low As" block
      *
      * @var string
      */
-    protected $position;
+    public $position;
 
     /**
      * Placement of "As Low As" block
      *
      * @var string
      */
-    protected $placement;
+    public $placement;
 
     /**
      * AsLowAs helper
      *
      * @var \Astound\Affirm\Helper\AsLowAs
      */
-    protected $asLowAsHelper;
+    public $asLowAsHelper;
 
     /**
      * Rule helper
      *
      * @var \Astound\Affirm\Helper\Rule
      */
-    protected $ruleHelper;
+    public $ruleHelper;
 
 
     /**
@@ -95,21 +95,21 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
      *
      * @var \Magento\Catalog\Model\ResourceModel\Category\CollectionFactory
      */
-    protected $categoryCollectionFactory;
+    public $categoryCollectionFactory;
 
     /**
      * Product collection factory
      *
      * @var \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory
      */
-    protected $productCollectionFactory;
+    public $productCollectionFactory;
 
     /**
      * Product collection factory
      *
      * @var \Magento\Catalog\Model\ResourceModel\Product\Collection
      */
-    protected $productCollection;
+    public $productCollection;
 
     /**
      * Inject block init data
@@ -162,7 +162,7 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
      *
      * @return $this
      */
-    protected function _beforeToHtml()
+    public function _beforeToHtml()
     {
         $this->process();
         return parent::_beforeToHtml();
@@ -174,7 +174,7 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
      * @param $position
      * @return int|mixed
      */
-    protected function isAllowed($position)
+    public function isAllowed($position)
     {
         return $this->affirmPaymentConfig->isAslowasEnabled($position) && $this->affirmPaymentConfig->isCurrencyValid() && $this->ruleHelper->isAslowasAllowedPerRule($position);
     }
@@ -252,7 +252,7 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
      *
      * @return string|void
      */
-    protected function _toHtml()
+    public function _toHtml()
     {
         $isAllowed = $this->isAllowed($this->position);
         $placement = $this->affirmPaymentConfig->getAlaPlacement();

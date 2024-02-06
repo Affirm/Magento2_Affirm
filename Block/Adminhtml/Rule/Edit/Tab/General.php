@@ -15,7 +15,7 @@ class General extends Generic implements TabInterface
      *
      * @var \Astound\Affirm\Helper\Data
      */
-    protected $affirmData;
+    public $affirmData;
 
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
