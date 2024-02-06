@@ -99,6 +99,13 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
     /**
      * Product collection factory
      *
+     * @var \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory
+     */
+    public $productCollectionFactory;
+
+    /**
+     * Product collection factory
+     *
      * @var \Magento\Catalog\Model\ResourceModel\Product\Collection
      */
     public $productCollection;
