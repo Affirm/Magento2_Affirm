@@ -3,6 +3,9 @@
     "description": "Affirm's extension for the Magento 2 https://www.affirm.com/",
     "type": "magento2-module",
     "version": "3.3.5",
+    "require": {
+        "php": "~7.4.0||~8.1.0||~8.2.0"
+    },
     "license": [
         "BSD-3-Clause"
     ],

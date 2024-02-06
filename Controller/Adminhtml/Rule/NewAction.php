@@ -9,6 +9,7 @@ class NewAction extends \Astound\Affirm\Controller\Adminhtml\Rule
      */
     public $resultFactory;
 
+
     /**
      * @param \Magento\Framework\Controller\ResultFactory $resultFactory
      */

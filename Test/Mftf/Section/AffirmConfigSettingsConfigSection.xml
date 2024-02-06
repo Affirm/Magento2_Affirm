@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+<sections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="urn:magento:mftf:Page/etc/SectionObject.xsd">
+    <section name="AffirmConfigSettingsConfigSection">
+        <element name="configureBtn" type="button" selector="#payment_{{countryCode}}_affirm_gateway-head" parameterized="true"/>
+        <element name="enabled" type="input" selector="#payment_{{countryCode}}_affirm_gateway_active" parameterized="true"/>
+        <element name="region" type="input" selector="#payment_{{countryCode}}_affirm_gateway_region" parameterized="true"/>
+        <element name="mode" type="input" selector="#payment_{{countryCode}}_affirm_gateway_mode" parameterized="true"/>
+        <element name="publicApiKey" type="input" selector="#payment_{{countryCode}}_affirm_gateway_public_api_key_sandbox" parameterized="true"/>
+        <element name="privateApiKey" type="input" selector="#payment_{{countryCode}}_affirm_gateway_private_api_key_sandbox" parameterized="true"/>
+        <element name="enablePartialCapture" type="input" selector="#payment_{{countryCode}}_affirm_gateway_partial_capture" parameterized="true"/>
+        <element name="disableBackorder" type="input" selector="#payment_{{countryCode}}_affirm_gateway_disable_for_backordered_items" parameterized="true"/>
+        <element name="min" type="input" selector="#payment_{{countryCode}}_affirm_gateway_min_order_total" parameterized="true"/>
+        <element name="max" type="input" selector="#payment_{{countryCode}}_affirm_gateway_max_order_total" parameterized="true"/>
+        <element name="checkoutFlowType" type="select" selector="#payment_{{countryCode}}_affirm_gateway_checkout_flow_type" parameterized="true"/>
+    </section>
+</sections>
