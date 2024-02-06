@@ -95,7 +95,6 @@ class Util
      * @return string
      */
     public function formatMoney($amount)
-
     {
         return sprintf(self::MONEY_FORMAT, $amount);
     }

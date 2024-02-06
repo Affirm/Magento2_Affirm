@@ -101,22 +101,6 @@ class Confirm implements CsrfAwareActionInterface
 
 
     /**
-     * @var \Magento\Framework\Controller\ResultFactory
-     */
-    protected $resultFactory;
-
-    /**
-     * @var MessageManagerInterface
-     */
-    protected $messageManager;
-
-    /**
-     * @var EventManagerInterface
-     */
-    protected $_eventManager;
-
-
-    /**
      * Inject objects to the Confirm action
      *
      * @param Context                 $context

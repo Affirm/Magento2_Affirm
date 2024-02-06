@@ -8,9 +8,7 @@ class Save extends \Astound\Affirm\Controller\Adminhtml\Rule
     /**
      * @var \Magento\Framework\Controller\ResultFactory
      */
-
     public $resultFactory;
-
 
     /**
      * @param \Magento\Framework\Controller\ResultFactory $resultFactory

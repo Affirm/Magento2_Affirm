@@ -172,6 +172,7 @@ class Address extends \Magento\Rule\Model\Condition\AbstractCondition
                 break;
             default:
                 return parent::validateAttribute($validatedValue);
+                break;
         }
         return $result;
     }

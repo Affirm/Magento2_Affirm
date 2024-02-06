@@ -34,6 +34,14 @@ class PaymentActionsValidatorCaptureFailVoid extends PaymentActionsValidator
      */
     public $affirmLogger;
 
+    /**
+     * Affirm logging instance
+     *
+     * @var ErrorTracker
+     */
+    public $errorTracker;
+
+
     /**#@+
      * Define constants
      */
@@ -42,9 +50,11 @@ class PaymentActionsValidatorCaptureFailVoid extends PaymentActionsValidator
     /**#@-*/
 
     public function __construct(
-        AffirmLogger $affirmLogger
+        AffirmLogger $affirmLogger,
+        ErrorTracker $errorTracker
     ) {
         $this->affirmLogger = $affirmLogger;
+        $this->errorTracker = $errorTracker;
     }
     
     /**
@@ -64,10 +74,8 @@ class PaymentActionsValidatorCaptureFailVoid extends PaymentActionsValidator
         }
         
         $errorMessages = [__('Transaction has been declined, please, try again later.')];
-        /** @var $errorTracker \Astound\Affirm\Helper\ErrorTracker */
-        $om = \Magento\Framework\App\ObjectManager::getInstance();
-        $errorTracker = $om->create('Astound\Affirm\Helper\ErrorTracker');
-        $errorTracker->logErrorToAffirm(
+
+        $this->errorTracker->logErrorToAffirm(
             transaction_step: self::RESPONSE_TYPE_VOID,
             error_type: ErrorTracker::TRANSACTION_DECLINED,
             error_message: $errorMessages[0]->render()

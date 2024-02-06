@@ -1,13 +1,26 @@
 <?php
 namespace Astound\Affirm\Block\Adminhtml\Rule\Grid\Renderer;
+use \Astound\Affirm\Helper\Data;
 
 class Methods extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Input
 {
-    public function render(\Magento\Framework\DataObject $row)
+    /**
+     * Product collection factory
+     *
+     * @var \Astound\Affirm\Helper\Data
+     */
+    public $affirmData;
+
+    public function __construct(
+        \Astound\Affirm\Helper\Data $affirmData,
+    )
     {
-        $om = \Magento\Framework\App\ObjectManager::getInstance();
-        $hlp = $om->get('Astound\Affirm\Helper\Data');
-        
+        $this->affirmData = $affirmData;
+    }
+
+
+    public function render(\Magento\Framework\DataObject $row)
+    {        
         $v = $row->getData('methods');
         if (!$v) {
             return __('Allows All');
@@ -15,7 +28,7 @@ class Methods extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Input
         $v = explode(',', $v);
         
         $html = '';
-        foreach($hlp->getAllMethods() as $row)
+        foreach($this->affirmData->getAllMethods() as $row)
         {
             if (in_array($row['value'], $v)){
                 $html .= $row['label'] . "<br />";

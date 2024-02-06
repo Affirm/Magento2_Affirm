@@ -8,6 +8,7 @@ use Magento\Framework\View\Element\Template;
 use Magento\Checkout\Model\Session;
 use Astound\Affirm\Helper;
 use Magento\Catalog\Model\ResourceModel\Category\CollectionFactory as CategoryCollectionFactory;
+use Magento\Catalog\Model\ResourceModel\Product\Collection;
 
 /**
  * Class AsLowAs
@@ -45,6 +46,13 @@ class Aslowas extends AslowasAbstract
     public $asLowAsHelper;
 
     /**
+     * Product collection factory
+     *
+     * @var \Magento\Catalog\Model\ResourceModel\Product\Collection
+     */
+    public $productCollection;
+
+    /**
      * Cart page block.
      *
      * @param Template\Context               $context
@@ -55,6 +63,7 @@ class Aslowas extends AslowasAbstract
      * @param \Astound\Affirm\Helper\AsLowAs $asLowAsHelper
      * @param array                          $data
      * @param \Astound\Affirm\Helper\Rule    $rule
+     * @param Collection                     $productCollection
      */
     public function __construct(
         Template\Context $context,
@@ -65,10 +74,11 @@ class Aslowas extends AslowasAbstract
         Helper\AsLowAs $asLowAsHelper,
         \Astound\Affirm\Helper\Rule $rule,
         CategoryCollectionFactory $categoryCollectionFactory,
+        Collection $productCollection,
         array $data = []
     ) {
         $this->checkoutSession = $session;
-        parent::__construct($context, $configProvider, $configAffirm, $helperAffirm, $asLowAsHelper, $rule, $categoryCollectionFactory, $data);
+        parent::__construct($context, $configProvider, $configAffirm, $helperAffirm, $asLowAsHelper, $rule, $categoryCollectionFactory, $productCollection, $data);
     }
 
     /**

@@ -7,7 +7,6 @@ class Duplicate extends \Astound\Affirm\Controller\Adminhtml\Rule
     /**
      * @var \Magento\Framework\Controller\ResultFactory
      */
-
     public $resultFactory;
 
     /**

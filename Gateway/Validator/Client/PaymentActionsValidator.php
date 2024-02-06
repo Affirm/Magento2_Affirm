@@ -22,12 +22,44 @@ use Magento\Payment\Gateway\Helper\SubjectReader;
 use Astound\Affirm\Gateway\Helper\Util;
 use Astound\Affirm\Helper\ErrorTracker;
 use Magento\Payment\Gateway\Validator\ResultInterface;
+use Magento\Payment\Gateway\Validator\ResultInterfaceFactory;
 
 /**
  * Class PaymentActionsValidator
  */
 class PaymentActionsValidator extends AbstractResponseValidator
 {
+    /**
+     * Error Tracker
+     *
+     * @var ErrorTracker
+     */
+    public $errorTracker;
+
+    /**
+     * Error Tracker
+     *
+     * @var Util
+     */
+    public $util;
+
+    /**
+     * Inject result factory and error tracker
+     * 
+     * @param ResultInterfaceFactory $resultFactory
+     * @param ErrorTracker $error_tracker
+     * @param Util $util
+     */
+    public function __construct(
+        ResultInterfaceFactory $resultFactory,
+        ErrorTracker $errorTracker,
+        Util $util
+    ) {
+        $this->errorTracker = $errorTracker;
+        $this->util = $util;
+        parent::__construct($resultFactory);
+    }
+
     /**
      * Validate response
      *
@@ -66,9 +98,7 @@ class PaymentActionsValidator extends AbstractResponseValidator
             $amount = SubjectReader::readAmount($validationSubject);
         }
 
-        $om = \Magento\Framework\App\ObjectManager::getInstance();
-        $util = $om->create('Astound\Affirm\Gateway\Helper\Util');
-        $amountInCents = $util->formatToCents($amount);
+        $amountInCents = $this->util->formatToCents($amount);
 
         $errorMessages = [];
         $validationResult = $this->validateResponseCode($response)
@@ -79,10 +109,7 @@ class PaymentActionsValidator extends AbstractResponseValidator
                 [__($response[self::ERROR_MESSAGE]) . __(' Affirm status code: ') . $response[self::RESPONSE_CODE]]:
                 [__('Transaction has been declined, please, try again later.')];
             
-            $om = \Magento\Framework\App\ObjectManager::getInstance();
-            /** @var $errorTracker \Astound\Affirm\Helper\ErrorTracker */
-            $errorTracker = $om->create('Astound\Affirm\Helper\ErrorTracker');
-            $errorTracker->logErrorToAffirm(
+            $this->errorTracker->logErrorToAffirm(
                 transaction_step: $transaction_step,
                 error_type: ErrorTracker::TRANSACTION_DECLINED,
                 error_message: $errorMessages[0]->render()
