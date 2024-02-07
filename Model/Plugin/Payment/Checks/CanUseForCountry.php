@@ -37,7 +37,7 @@ class CanUseForCountry
      * @param Quote                                          $quote
      * @return bool
      */
-    public function aroundIsApplicable(
+    public function beforeIsApplicable(
         \Magento\Payment\Model\Checks\CanUseForCountry $subject,
         \Closure $method,
         MethodInterface $payment,
