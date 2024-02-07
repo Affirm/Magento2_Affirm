@@ -48,6 +48,7 @@ use Magento\Framework\App\Request\InvalidRequestException;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Message\ManagerInterface as MessageManagerInterface;
 use Magento\Framework\Event\ManagerInterface as EventManagerInterface;
+use Magento\Framework\App\RequestInterface
 
 /**
  * Class Confirm
@@ -99,6 +100,12 @@ class Confirm implements CsrfAwareActionInterface
      */
     public $_eventManager;
 
+    /**
+     * @var RequestInterface
+     */
+    public $request;
+
+
 
     /**
      * Inject objects to the Confirm action
@@ -116,7 +123,8 @@ class Confirm implements CsrfAwareActionInterface
         Checkout $checkout,
         ResultFactory $resultFactory,
         MessageManagerInterface $messageManager,
-        EventManagerInterface $_eventManager
+        EventManagerInterface $_eventManager,
+        RequestInterface $request
     ) {
         $this->checkout = $checkout;
         $this->checkoutSession = $checkoutSession;
@@ -125,6 +133,7 @@ class Confirm implements CsrfAwareActionInterface
         $this->resultFactory = $resultFactory;
         $this->messageManager = $messageManager;
         $this->_eventManager = $_eventManager;
+        $this->request = $request;
     }
  
     /**
@@ -153,7 +162,7 @@ class Confirm implements CsrfAwareActionInterface
     public function execute()
     {
     
-        $token = $_POST['checkout_token'];
+        $token = $this->request->getPostValue('checkout_token');
         /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */
         $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
         if ($token) {
