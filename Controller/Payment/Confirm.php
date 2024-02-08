@@ -48,7 +48,7 @@ use Magento\Framework\App\Request\InvalidRequestException;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Message\ManagerInterface as MessageManagerInterface;
 use Magento\Framework\Event\ManagerInterface as EventManagerInterface;
-use Magento\Framework\App\RequestInterface
+
 
 /**
  * Class Confirm
