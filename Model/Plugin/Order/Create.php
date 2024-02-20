@@ -52,7 +52,7 @@ class Create
      * @param callable   $method
      * @return \Magento\Framework\Controller\Result\Redirect
      */
-    public function beforeExecute(SaveAction $controller, \Closure $method)
+    public function aroundExecute(SaveAction $controller, \Closure $method)
     {
         $data = $controller->getRequest()->getParam('payment');
         if (isset($data['method']) && $data['method'] == \Astound\Affirm\Model\Ui\ConfigProvider::CODE) {
