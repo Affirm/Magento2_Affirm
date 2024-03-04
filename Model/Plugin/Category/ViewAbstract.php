@@ -5,7 +5,7 @@ use Astound\Affirm\Model\Config as Config;
 use Astound\Affirm\Helper\AsLowAs;
 use Magento\Store\Model\StoreManagerInterface;
 use Astound\Affirm\Model\Ui\ConfigProvider;
-use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory as ProductCollectionFactory;
+use \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory;
 
 /**
  * Class ViewAbstract
@@ -43,6 +43,13 @@ class ViewAbstract extends \Magento\Framework\DataObject
     public $config;
 
     /**
+     * Affirm config provider
+     *
+     * @var ConfigProvider
+     */
+    public $configProvider;
+
+    /**
      * AsLowAs helper
      *
      * @var Config
@@ -78,7 +85,7 @@ class ViewAbstract extends \Magento\Framework\DataObject
             ConfigProvider $configProvider,
             Config $configAffirm,
             AsLowAs $asLowAs,
-            ProductCollectionFactory $productCollectionFactory
+            CollectionFactory $productCollectionFactory
     )
     {
         $this->productCollectionFactory = $productCollectionFactory;

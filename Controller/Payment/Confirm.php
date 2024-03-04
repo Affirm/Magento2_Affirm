@@ -36,9 +36,6 @@
 
 namespace Astound\Affirm\Controller\Payment;
 
-
-use Magento\Framework\App\Action\Context;
-use Magento\Quote\Api\CartManagementInterface;
 use Magento\Checkout\Model\Session;
 use Astound\Affirm\Model\Checkout;
 use Magento\Framework\Exception\LocalizedException;
@@ -63,20 +60,6 @@ class Confirm implements CsrfAwareActionInterface
      * @var \Magento\Checkout\Model\Session
      */
     public $checkoutSession;
-
-    /**
-     * Quote management
-     *
-     * @var \Magento\Quote\Api\CartManagementInterface
-     */
-    public $quoteManagement;
-
-    /**
-     * Affirm checkout instance
-     *
-     * @var \Astound\Affirm\Model\Checkout
-     */
-    public $checkout;
 
     /**
      * Store sales quote
@@ -105,22 +88,26 @@ class Confirm implements CsrfAwareActionInterface
      */
     public $request;
 
+    /**
+     * Affirm checkout instance
+     *
+     * @var \Astound\Affirm\Model\Checkout
+     */
+    public $checkout;
 
 
     /**
      * Inject objects to the Confirm action
      *
-     * @param Context                 $context
-     * @param CartManagementInterface $quoteManager
-     * @param Session                 $checkoutSession
-     * @param Checkout                $checkout
-     * @param \Magento\Framework\Controller\ResultFactory $resultFactory
+     * @param Session                   $checkoutSession
+     * @param ResultFactory             $resultFactory
+     * @param MessageManagerInterface   $messageManager
+     * @param EventManagerInterface     $_eventManager
+     * @param RequestInterface          $request
      */
     public function __construct(
-        // Context $context,
-        CartManagementInterface $quoteManager,
+        Checkout                $checkout,
         Session $checkoutSession,
-        Checkout $checkout,
         ResultFactory $resultFactory,
         MessageManagerInterface $messageManager,
         EventManagerInterface $_eventManager,
@@ -128,7 +115,6 @@ class Confirm implements CsrfAwareActionInterface
     ) {
         $this->checkout = $checkout;
         $this->checkoutSession = $checkoutSession;
-        $this->quoteManagement = $quoteManager;
         $this->quote = $checkoutSession->getQuote();
         $this->resultFactory = $resultFactory;
         $this->messageManager = $messageManager;

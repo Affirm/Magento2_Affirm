@@ -119,7 +119,7 @@ class Payment
     /**
      * Stock registry
      *
-     * @var \Magento\InventoryConfigurationApi\Api\GetStockItemConfigurationInterface;
+     * @var \Magento\InventoryConfigurationApi\Api\GetStockItemConfigurationInterface
      */
     public $stockRegistry;
 
@@ -318,11 +318,11 @@ class Payment
         if ($this->quote->getIsVirtual() && !$this->quote->getCustomerIsGuest()) {
             $countryId = self::DEFAULT_REGION;
             // get customer addresses list
+            /** @var $addresses \Magento\Customer\Api\Data\AddressInterface */
             $addresses = $this->quote->getCustomer()->getAddresses();
             // get default shipping address for the customer
             $defaultShipping = $this->quote->getCustomer()->getDefaultShipping();
             if ($defaultShipping) {
-                /** @var $address \Magento\Customer\Api\Data\AddressInterface */
                 foreach ($addresses as $address) {
                     if ($address->getId() == $defaultShipping) {
                         $countryId = $address->getCountryId();

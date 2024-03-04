@@ -92,7 +92,7 @@ class ClientService implements ClientInterface
     public $errorTracker;
 
     /**
-     * Error Tracker
+     * Result interface
      *
      * @var \Magento\Framework\Module\ResourceInterface
      */
@@ -106,7 +106,7 @@ class ClientService implements ClientInterface
      * @param Client $httpClientFactory
      * @param Action $action
      * @param ResourceInterface $moduleResource
-     * @param ErrorTracker $error_tracker
+     * @param ErrorTracker $errorTracker
      */
     public function __construct(
         Logger $logger,

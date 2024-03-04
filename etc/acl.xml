@@ -42,12 +42,6 @@
                             <resource id="Astound_Affirm::configuration" title="Affirm promo configuration" sortOrder="160" />
                         </resource>
                     </resource>
-
-                </resource>
-                <resource id="Magento_Backend::marketing">
-                    <resource id="Magento_CatalogRule::promo">
-                        <resource id="Astound_Affirm::rule" title="Payment Restriction Rules" sortOrder="90"/>
-                    </resource>
                 </resource>
             </resource>
         </resources>

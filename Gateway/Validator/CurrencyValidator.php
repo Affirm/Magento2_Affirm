@@ -41,7 +41,7 @@ class CurrencyValidator extends AbstractValidator
     /**
      * Injected config object
      *
-     * @var \Magento\Store\Model\StoreManagerInterface;
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     public $storeManagerInterface;
 

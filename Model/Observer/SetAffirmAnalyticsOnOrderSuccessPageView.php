@@ -73,7 +73,7 @@ class SetAffirmAnalyticsOnOrderSuccessPageView implements ObserverInterface
     /**
      * Add order information into Affirm block to render on checkout success pages
      *
-     * @param EventObserver $observer
+     * @param Observer $observer
      * @return void
      */
     public function execute(Observer $observer)
