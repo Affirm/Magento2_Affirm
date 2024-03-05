@@ -107,7 +107,6 @@ class AffirmButton extends Template
         if ($buttonWidth) {
             return "width : ".$buttonWidth.'px';
         }
-        return;
     }
 
     /**

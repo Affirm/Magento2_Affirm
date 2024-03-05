@@ -505,7 +505,7 @@ class Config implements ConfigInterface
     /**
      * Aslow as activation flag
      * 
-     * @param \Astound\Affirm\Model\Entity\Attribute\Source\FinancingProgramType $position
+     * @param string $position
      * @return int|mixed
      */
     public function isAsLowAsEnabled($position)
@@ -514,6 +514,7 @@ class Config implements ConfigInterface
             'affirm/' . self::KEY_ASLOWAS . '/' . 'enabled_' . $position,
             ScopeInterface::SCOPE_WEBSITE
         );
+
         return $flag ? $flag : 0;
     }
 

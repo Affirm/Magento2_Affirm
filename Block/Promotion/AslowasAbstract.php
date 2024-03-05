@@ -6,7 +6,6 @@ use Astound\Affirm\Model\Ui\ConfigProvider;
 use Astound\Affirm\Model\Config;
 use Astound\Affirm\Helper\Payment;
 use Astound\Affirm\Helper\AsLowAs;
-use Astound\Affirm\Helper\Rule;
 use Magento\Catalog\Model\ResourceModel\Category;
 use Magento\Catalog\Model\ResourceModel\Product;
 use Magento\Catalog\Model\ResourceModel\Category\CollectionFactory as CategoryCollectionFactory;
@@ -83,13 +82,6 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
     public $asLowAsHelper;
 
     /**
-     * Rule helper
-     *
-     * @var \Astound\Affirm\Helper\Rule
-     */
-    public $ruleHelper;
-
-    /**
      * Category collection factory
      *
      * @var \Magento\Catalog\Model\ResourceModel\Category\CollectionFactory
@@ -119,7 +111,6 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
      * @param Payment          $helperAffirm
      * @param array            $data
      * @param AsLowAs          $asLowAs
-     * @param Rule             $ruleHelper
      * @param CategoryCollectionFactory $categoryCollectionFactory
      * @param Collection $productCollection
      */
@@ -129,7 +120,6 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
         Config $configAffirm,
         Payment $helperAffirm,
         AsLowAs $asLowAs,
-        Rule $ruleHelper,
         CategoryCollectionFactory $categoryCollectionFactory,
         Collection $productCollection,
         array $data = []
@@ -145,7 +135,6 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
         $this->affirmPaymentHelper = $helperAffirm;
         $this->categoryCollectionFactory = $categoryCollectionFactory;
         $this->asLowAsHelper = $asLowAs;
-        $this->ruleHelper = $ruleHelper;
         $this->productCollection = $productCollection;
         if (isset($data['type'])) {
             $this->type = $data['type'];
@@ -175,7 +164,7 @@ abstract class AslowasAbstract extends \Magento\Framework\View\Element\Template
      */
     public function isAllowed($position)
     {
-        return $this->affirmPaymentConfig->isAslowasEnabled($position) && $this->affirmPaymentConfig->isCurrencyValid() && $this->ruleHelper->isAslowasAllowedPerRule($position);
+        return $this->affirmPaymentConfig->isAslowasEnabled($position) && $this->affirmPaymentConfig->isCurrencyValid();
     }
 
     /**

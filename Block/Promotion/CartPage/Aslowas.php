@@ -62,7 +62,6 @@ class Aslowas extends AslowasAbstract
      * @param Session                        $session
      * @param \Astound\Affirm\Helper\AsLowAs $asLowAsHelper
      * @param array                          $data
-     * @param \Astound\Affirm\Helper\Rule    $rule
      * @param Collection                     $productCollection
      */
     public function __construct(
@@ -72,13 +71,12 @@ class Aslowas extends AslowasAbstract
         \Astound\Affirm\Helper\Payment $helperAffirm,
         Session $session,
         Helper\AsLowAs $asLowAsHelper,
-        \Astound\Affirm\Helper\Rule $rule,
         CategoryCollectionFactory $categoryCollectionFactory,
         Collection $productCollection,
         array $data = []
     ) {
         $this->checkoutSession = $session;
-        parent::__construct($context, $configProvider, $configAffirm, $helperAffirm, $asLowAsHelper, $rule, $categoryCollectionFactory, $productCollection, $data);
+        parent::__construct($context, $configProvider, $configAffirm, $helperAffirm, $asLowAsHelper, $categoryCollectionFactory, $productCollection, $data);
     }
 
     /**

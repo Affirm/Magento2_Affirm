@@ -24,7 +24,8 @@ use Magento\Sales\Model\Order\Email\Sender\OrderSender;
 use Magento\Sales\Model\ResourceModel\Report\Order;
 use Magento\Customer\Api\Data\CustomerInterface as CustomerDataObject;
 use Astound\Affirm\Model\Config as AffirmConfig;
-use Astound\Affirm\Model\Rule\Condition\Address;
+use Magento\Quote\Model\QuoteManagement;
+
 
 /**
  * Class Checkout for Affirm
@@ -51,7 +52,7 @@ class Checkout
     /**
      * Quote management object
      *
-     * @var \Magento\Quote\Api\CartManagementInterfaces
+     * @var \Magento\Quote\Model\QuoteManagement
      */
     public $quoteManagement;
 
@@ -110,7 +111,7 @@ class Checkout
      * @param array                           $params
      */
     public function __construct(
-        CartManagementInterface $cartManagement,
+        QuoteManagement $quoteManagement,
         Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Helper\Data $checkoutData,
@@ -119,7 +120,7 @@ class Checkout
         $params = array()
     ) {
         $this->checkoutSession = $checkoutSession;
-        $this->quoteManagement = $cartManagement;
+        $this->quoteManagement = $quoteManagement;
         $this->quote = $this->checkoutSession->getQuote();
         $this->customerSession = $customerSession;
         $this->checkoutData = $checkoutData;

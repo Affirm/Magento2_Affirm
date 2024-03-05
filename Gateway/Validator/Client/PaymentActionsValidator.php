@@ -37,7 +37,7 @@ class PaymentActionsValidator extends AbstractResponseValidator
     public $errorTracker;
 
     /**
-     * Error Tracker
+     * Affirm Utils
      *
      * @var Util
      */

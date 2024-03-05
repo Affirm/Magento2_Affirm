@@ -8,7 +8,7 @@
 <sections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="urn:magento:mftf:Page/etc/SectionObject.xsd">
     <section name="AffirmConfigSettingsConfigSection">
-        <element name="configureBtn" type="button" selector="#payment_{{countryCode}}_affirm_gateway-head" parameterized="true"/>
+        <element name="configureBtn" type="button" selector="#row_payment_{{countryCode}}_affirm_gateway" parameterized="true"/>
         <element name="enabled" type="input" selector="#payment_{{countryCode}}_affirm_gateway_active" parameterized="true"/>
         <element name="region" type="input" selector="#payment_{{countryCode}}_affirm_gateway_region" parameterized="true"/>
         <element name="mode" type="input" selector="#payment_{{countryCode}}_affirm_gateway_mode" parameterized="true"/>
