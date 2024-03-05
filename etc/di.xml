@@ -309,10 +309,6 @@
         </arguments>
     </type>
 
-    <type name="Magento\Quote\Model\Quote\Config">
-        <plugin name="ProductAttributes" type="Astound\Affirm\Plugin\ProductAttributes" />
-    </type>
-
     <type name="Magento\Sales\Model\Order\Payment\State\AuthorizeCommand">
         <plugin name="UpdateAuthMessage" type="Astound\Affirm\Plugin\UpdateAuthMessage" sortOrder="1" />
     </type>
