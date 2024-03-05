@@ -321,10 +321,6 @@
         <plugin name="SaveInvoiceAmountToCapture" type="Astound\Affirm\Plugin\SaveInvoiceAmountToCapture" sortOrder="1" />
     </type>
 
-    <type name="Magento\Payment\Model\PaymentMethodList">
-        <plugin name="Astound_Affirm::restrictPaymentMethods" type="\Astound\Affirm\Plugin\RestrictPaymentMethods" sortOrder="1" />
-    </type>
-
     <!-- Logger -->
     <type name="Astound\Affirm\Logger\Handler">
         <arguments>
