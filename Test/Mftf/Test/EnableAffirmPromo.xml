@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
- /**
-  * Copyright © Magento, Inc. All rights reserved.
-  * See COPYING.txt for license details.
-  */
--->
+
 <tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
     <test name="EnableAffirmPromoTest">
@@ -13,12 +8,10 @@
             <stories value="Affirm Promo"/>
             <title value="Enable Affirm Promo"/>
             <description value="Enable Affirm Promo on config page"/>
+            <severity value="AVERAGE"/>
+            <group value="affirm"/>
         </annotations>
         <before>
-            <createData entity="SimpleSubCategory" stepKey="simpleCategory"/>
-            <createData entity="SimpleProduct" stepKey="simpleProduct">
-                <requiredEntity createDataKey="simpleCategory"/>
-            </createData>
             <actionGroup ref="AdminLoginActionGroup" stepKey="loginAsAdmin"/>
         </before>
         <after>
@@ -26,7 +19,7 @@
         </after>
         <actionGroup ref="AdminAffirmEnableActionGroup" stepKey="EnableAffirmAction"/>
         <actionGroup ref="AdminAffirmPromoEnableActionGroup" stepKey="EnableAffirmPromoAction"/>
-        <actionGroup ref="AdminAffirmPromoDisableActionGroup" stepKey="EnableAffirmPromoAction"/>
-        <actionGroup ref="AdminAffirmDisableActionGroup" stepKey="EnableAffirmAction"/>
+        <actionGroup ref="AdminAffirmPromoDisableActionGroup" stepKey="DisableAffirmPromoAction"/>
+        <actionGroup ref="AdminAffirmDisableActionGroup" stepKey="DisableAffirmAction"/>
     </test>
 </tests>

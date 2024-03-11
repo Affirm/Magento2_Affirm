@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
- /**
-  * Copyright © Magento, Inc. All rights reserved.
-  * See COPYING.txt for license details.
-  */
--->
+
 <tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
     <test name="AdminAddMFP">
@@ -17,6 +12,7 @@
             <testCaseId value="AC-6020"/>
             <group value="product"/>
             <group value="pr_exclude"/>
+            <group value="affirm"/>
         </annotations>
         <before>
             <actionGroup ref="AdminLoginActionGroup" stepKey="loginAsAdmin"/>
@@ -28,13 +24,6 @@
             <waitForPageLoad stepKey="waitForSaveAttribute"/>
         </before>
         <after>
-            <deleteData createDataKey="createCategory" stepKey="deletePreReqCategory"/>
-            <actionGroup ref="DeleteProductBySkuActionGroup" stepKey="deleteProduct">
-                <argument name="sku" value="{{_defaultProduct.sku}}"/>
-            </actionGroup>
-            <actionGroup ref="AdminDeleteCustomerActionGroup" stepKey="deleteCustomer">
-                <argument name="customerEmail" value="Simple_US_Customer.email"/>
-            </actionGroup>
             <actionGroup ref="ClearFiltersAdminDataGridActionGroup" stepKey="clearFilter"/>
             <actionGroup ref="NavigateToEditProductAttributeActionGroup" stepKey="goToEditPage">
                 <argument name="ProductAttribute" value="sku"/>

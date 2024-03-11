@@ -18,6 +18,7 @@
         </arguments>
         <amOnPage url="{{AffirmPromoPage.url}}" stepKey="navigateToPromoPage"/>
         <waitForPageLoad stepKey="waitForPageLoad1"/>
+        <click selector="#affirm_affirm_aslowas-head" stepKey="clickAffirmAsLowAsToOpen"/>
         <selectOption selector ="#affirm_affirm_aslowas_enabled_pdp" userInput="Yes" stepKey="inputAPIAuthenticationMethods"/>
         <click selector="{{AdminConfigSection.saveButton}}" stepKey="saveConfig"/>
         <waitForPageLoad stepKey="waitForPageLoad2"/>

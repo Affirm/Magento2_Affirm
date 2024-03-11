@@ -13,15 +13,14 @@
             <stories value="Payment methods"/>
             <title value="Enable Affirm checkout"/>
             <description value="Enable Affirm checkout"/>
+            <severity value="AVERAGE"/>
+            <group value="affirm"/>
         </annotations>
         <before>
-            <createData entity="SimpleSubCategory" stepKey="simpleCategory"/>
-            <createData entity="SimpleProduct" stepKey="simpleProduct">
-                <requiredEntity createDataKey="simpleCategory"/>
-            </createData>
             <actionGroup ref="AdminLoginActionGroup" stepKey="loginAsAdmin"/>
         </before>
         <after>
+            <actionGroup ref="AdminAffirmDisableActionGroup" stepKey="DisableAffirmAction"/>
             <actionGroup ref="AdminLogoutActionGroup" stepKey="logout"/>
         </after>
         <actionGroup ref="AdminAffirmEnableActionGroup" stepKey="EnableAffirmAction"/>
