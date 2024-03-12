@@ -31,9 +31,6 @@
 
         <actionGroup ref="StorefrontOpenHomePageActionGroup" stepKey="goToStoreFront"/>
         <waitForPageLoad stepKey="waitForProductPage"/>
-        <actionGroup ref="AddSimpleProductToCartActionGroup" stepKey="addSimpleProductToCart">
-            <argument name="product" value="$createSimpleProduct$"/>
-        </actionGroup>
         <seeElement selector=".affirm-as-low-as" stepKey="seeBox"/>
     </test>
 </tests>

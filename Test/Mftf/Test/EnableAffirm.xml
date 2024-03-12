@@ -10,9 +10,9 @@
     <test name="EnableAffirm">
         <annotations>
             <features value="Affirm"/>
-            <stories value="Payment methods"/>
-            <title value="Enable Affirm checkout"/>
-            <description value="Enable Affirm checkout"/>
+            <stories value="Enable Affirm"/>
+            <title value="Affirm ALA"/>
+            <description value="Enable Affirm"/>
             <severity value="AVERAGE"/>
             <group value="affirm"/>
         </annotations>
