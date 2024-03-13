@@ -5,9 +5,9 @@
     <test name="EnableAffirmPromoTest">
         <annotations>
             <features value="Affirm"/>
-            <stories value="Affirm Promo"/>
-            <title value="Enable Affirm Promo"/>
-            <description value="Enable Affirm Promo on config page"/>
+            <stories value="Enable Affirm Promo message"/>
+            <title value="Affirm ALA"/>
+            <description value="Enable Affirm Promo message"/>
             <severity value="AVERAGE"/>
             <group value="affirm"/>
         </annotations>

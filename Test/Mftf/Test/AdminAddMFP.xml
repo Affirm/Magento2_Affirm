@@ -4,14 +4,11 @@
 	xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
     <test name="AdminAddMFP">
         <annotations>
-            <features value="Catalog"/>
-            <stories value="Add promo ID to product"/>
-            <title value="Add promo ID to product"/>
-            <description value="Add promo ID to product"/>
+            <features value="Affirm"/>
+            <stories value="Check if MFP can be added to the product"/>
+            <title value="Affirm ALA"/>
+            <description value="Check if MFP can be added to the product"/>
             <severity value="AVERAGE"/>
-            <testCaseId value="AC-6020"/>
-            <group value="product"/>
-            <group value="pr_exclude"/>
             <group value="affirm"/>
         </annotations>
         <before>
