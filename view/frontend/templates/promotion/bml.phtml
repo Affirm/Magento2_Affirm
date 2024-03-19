@@ -41,7 +41,7 @@
     $options = $block->getOptions();
     $pageType = $block->getPageType();
 ?>
-<? echo $block->getStartContainerTag(); ?>
+<?php echo $block->getStartContainerTag(); ?>
 <?php
     echo '<div class="affirm-banner-container">
             <a class="affirm-site-modal" data-mage-init=\'{"Astound_Affirm/js/affirmWidget": '.$options.'}\'' . (!empty($mfpValue) ? 'data-promo-id="' . $mfpValue . '"' : '') . '' .(!empty($pageType) ? 'data-page-type="' . $pageType . '"' : '').'>
@@ -49,4 +49,4 @@
             </a>
         </div>';
 ?>
-<? echo $block->getEndContainerTag(); ?>
+<?php echo $block->getEndContainerTag(); ?>

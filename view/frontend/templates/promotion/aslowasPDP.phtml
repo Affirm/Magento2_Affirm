@@ -40,8 +40,8 @@ $learnMore = $block->getLearnMoreValue();
 ?>
 
 
-<span style="float: left; width: 100%; margin-bottom: 15px" data-mage-init='{"Astound_Affirm/js/aslowasPDP": <? echo $block->getWidgetData(); ?>}'>
-    <? echo '<div id="als_pdp" data-amount="0" class="affirm-as-low-as" data-page-type="product" ' . (!empty($mfpValue) ? 'data-promo-id="' . $mfpValue . '"' : '') . ' ' . $block->getDataAffirmColor() . ' data-learnmore-show="'.$learnMore.'"></div>'; ?>
+<span style="float: left; width: 100%; margin-bottom: 15px" data-mage-init='{"Astound_Affirm/js/aslowasPDP": <?php echo $block->getWidgetData(); ?>}'>
+    <?php echo '<div id="als_pdp" data-amount="0" class="affirm-as-low-as" data-page-type="product" ' . (!empty($mfpValue) ? 'data-promo-id="' . $mfpValue . '"' : '') . ' ' . $block->getDataAffirmColor() . ' data-learnmore-show="'.$learnMore.'"></div>'; ?>
 </span>
 
 <script type="application/javascript">
@@ -52,9 +52,9 @@ $learnMore = $block->getLearnMoreValue();
                 affirm.ui.refresh();
             }
             $(".change-container-classname").on('change click', function () {
-                if ($('#product-price-' +<? echo $productId; ?>)) {
+                if ($('#product-price-' +<?php echo $productId; ?>)) {
                     var refreshable = document.getElementById('als_pdp');
-                    var amount = $('#product-price-' +<? echo $productId; ?>).html();
+                    var amount = $('#product-price-' +<?php echo $productId; ?>).html();
                     var finalAmount = Number(amount.replace(/[^0-9\.-]+/g, "")) * 100;
                     refreshable.setAttribute('data-amount', finalAmount);
                     console.log('refreshALA', refreshable);
