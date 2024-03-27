@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="EnableAffirmPromoTest">
+        <annotations>
+            <features value="Affirm"/>
+            <stories value="Enable Affirm Promo message"/>
+            <title value="Affirm ALA"/>
+            <description value="Enable Affirm Promo message"/>
+            <severity value="AVERAGE"/>
+            <group value="affirm"/>
+        </annotations>
+        <before>
+            <actionGroup ref="AdminLoginActionGroup" stepKey="loginAsAdmin"/>
+        </before>
+        <after>
+            <actionGroup ref="AdminLogoutActionGroup" stepKey="logout"/>
+        </after>
+        <actionGroup ref="AdminAffirmEnableActionGroup" stepKey="EnableAffirmAction"/>
+        <actionGroup ref="AdminAffirmPromoEnableActionGroup" stepKey="EnableAffirmPromoAction"/>
+        <actionGroup ref="AdminAffirmPromoDisableActionGroup" stepKey="DisableAffirmPromoAction"/>
+        <actionGroup ref="AdminAffirmDisableActionGroup" stepKey="DisableAffirmAction"/>
+    </test>
+</tests>

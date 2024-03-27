@@ -34,28 +34,28 @@ class AffirmButton extends Template
      *
      * @var \Astound\Affirm\Helper\Payment
      */
-    protected $helper;
+    public $helper;
 
     /**
      * Current checkout session
      *
      * @var \Magento\Checkout\Model\Session
      */
-    protected $checkoutSession;
+    public $checkoutSession;
 
     /**
      * Current checkout quote
      *
      * @var \Magento\Quote\Model\Quote
      */
-    protected $quote;
+    public $quote;
 
     /**
      * Button template
      *
      * @var string
      */
-    protected $_template = 'Astound_Affirm::onepage/button.phtml';
+    public $_template = 'Astound_Affirm::onepage/button.phtml';
 
     /**
      * Affirm checkout button block
@@ -96,7 +96,7 @@ class AffirmButton extends Template
     /**
      * Get button image width from system configs
      *
-     * @return bool|mixed
+     * @return mixed
      */
     public function getButtonImageWidth()
     {
@@ -107,7 +107,6 @@ class AffirmButton extends Template
         if ($buttonWidth) {
             return "width : ".$buttonWidth.'px';
         }
-        return;
     }
 
     /**
@@ -115,7 +114,7 @@ class AffirmButton extends Template
      *
      * @return string
      */
-    protected function _toHtml()
+    public function _toHtml()
     {
         if ($this->isAvailable()) {
             return parent::_toHtml();

@@ -4,7 +4,7 @@ namespace Astound\Affirm\Plugin;
 /**/
 
 use Magento\Sales\Api\Data\InvoiceInterface;
-use Magento\Sales\Api\Data\OrderPaymentInterface;
+use Magento\Sales\Model\Order\Payment\Info as OrderPaymentInterface;
 
 class SaveInvoiceAmountToCapture
 {

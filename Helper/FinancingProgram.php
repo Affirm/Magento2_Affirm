@@ -37,31 +37,31 @@ class FinancingProgram
      *
      * @var bool
      */
-    protected $isALS;
+    public $isALS;
 
     /**
      * Current checkout quote instance
      *
      * @var \Magento\Quote\Model\Quote
      */
-    protected $quote;
+    public $quote;
 
     /**
      * Customer session
      *
      * @var \Magento\Customer\Model\Session
      */
-    protected $customerSession;
+    public $customerSession;
 
     /**#@+
      * Financing program entities values
      */
-    protected $customerFP;
-    protected $productFP;
-    protected $categoryFP;
-    protected $entityFP;
-    protected $cartSizeFP;
-    protected $cartSizePromoId;
+    public $customerFP;
+    public $productFP;
+    public $categoryFP;
+    public $entityFP;
+    public $cartSizeFP;
+    public $cartSizePromoId;
     /**#@-*/
 
     /**
@@ -69,42 +69,42 @@ class FinancingProgram
      *
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $scopeConfig;
+    public $scopeConfig;
 
     /**
      * Locale date
      *
      * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
-    protected $_localeDate;
+    public $_localeDate;
 
     /**
      * Product collection factory
      *
      * @var \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory
      */
-    protected $productCollectionFactory;
+    public $productCollectionFactory;
 
     /**
      * Product collection
      *
      * @var \Magento\Catalog\Model\ResourceModel\Product\Collection
      */
-    protected $products;
+    public $products;
 
     /**
      * Category collection factory
      *
      * @var \Magento\Catalog\Model\ResourceModel\Category\CollectionFactory
      */
-    protected $categoryCollectionFactory;
+    public $categoryCollectionFactory;
 
     /**
      * Config model
      *
      * @var \Astound\Affirm\Model\Config
      */
-    protected $affirmPaymentConfig;
+    public $affirmPaymentConfig;
 
     /**
      * Init
@@ -141,7 +141,7 @@ class FinancingProgram
      * Initialization
      *
      */
-    protected function _init()
+    public function _init()
     {
         $this->isALS = false;
     }
@@ -228,7 +228,7 @@ class FinancingProgram
      *
      * @return bool
      */
-    protected function isFinancingProgramValidCurrentDate()
+    public function isFinancingProgramValidCurrentDate()
     {
         return $this->getFinancingProgramDateRange() &&
             $this->_localeDate->isScopeDateInInterval(null, $this->getFinancingProgramStartDate(),
@@ -261,7 +261,7 @@ class FinancingProgram
      *
      * @return \Magento\Catalog\Model\ResourceModel\Product\Collection
      */
-    protected function getQuoteProductCollection()
+    public function getQuoteProductCollection()
     {
         if (null === $this->products) {
             $visibleQuoteItems = $this->quote->getAllVisibleItems();
@@ -281,9 +281,9 @@ class FinancingProgram
      *
      * @return \Magento\Catalog\Model\ResourceModel\Category\Collection
      */
-    protected function getQuoteCategoryCollection($productCollection = null)
+    public function getQuoteCategoryCollection($productCollection = null)
     {
-        if(is_null($productCollection)) {
+        if($productCollection === null) {
             $productCollection = $this->getQuoteProductCollection();
         }
         $categoryItemsIds = [];
@@ -325,7 +325,7 @@ class FinancingProgram
      * @param array $entityItems
      * @return string
      */
-    protected function getFinancingProgramFromEntityItems(array $entityItems)
+    public function getFinancingProgramFromEntityItems(array $entityItems)
     {
         $exclusiveMFP = array();
         $inclusiveMFP = array();
@@ -375,7 +375,7 @@ class FinancingProgram
      * @param \Magento\Catalog\Model\ResourceModel\Collection\AbstractCollection $collection
      * @return array
      */
-    protected function convertProductCollectionToItemsArray(
+    public function convertProductCollectionToItemsArray(
         \Magento\Catalog\Model\ResourceModel\Collection\AbstractCollection $collection
     ) {
         $entityItems = [];
@@ -408,7 +408,7 @@ class FinancingProgram
      * @param \Magento\Catalog\Model\ResourceModel\Collection\AbstractCollection $collection
      * @return array
      */
-    protected function convertCategoryCollectionToItemsArray(
+    public function convertCategoryCollectionToItemsArray(
         \Magento\Catalog\Model\ResourceModel\Collection\AbstractCollection $collection
     ) {
         $entityItems = [];
@@ -447,7 +447,7 @@ class FinancingProgram
      *
      * @return string
      */
-    protected function getFinancingProgramFromProducts()
+    public function getFinancingProgramFromProducts()
     {
         if (null === $this->productFP) {
             $productCollection = $this->getQuoteProductCollection();
@@ -473,7 +473,7 @@ class FinancingProgram
      *
      * @return string
      */
-    protected function getFinancingProgramFromCategories()
+    public function getFinancingProgramFromCategories()
     {
         if (null === $this->categoryFP) {
             $categoryCollection = $this->getQuoteCategoryCollection();
@@ -489,7 +489,7 @@ class FinancingProgram
      *
      * @return string
      */
-    protected function getFinancingProgramFromCategoriesALS($productCollection)
+    public function getFinancingProgramFromCategoriesALS($productCollection)
     {
         $categoryCollection = $this->getQuoteCategoryCollection($productCollection);
         $entityItems = $this->convertCategoryCollectionToItemsArray($categoryCollection);
@@ -501,7 +501,7 @@ class FinancingProgram
      *
      * @return float
      */
-    protected function getQuoteBaseGrandTotal()
+    public function getQuoteBaseGrandTotal()
     {
         return $this->quote->getBaseGrandTotal();
     }
@@ -511,7 +511,7 @@ class FinancingProgram
      *
      * @return string
      */
-    protected function getFinancingProgramFromCartSize()
+    public function getFinancingProgramFromCartSize()
     {
         $cartSizeFP = $this->isALS ? $this->cartSizePromoId : $this->cartSizeFP;
         if (null === $cartSizeFP) {

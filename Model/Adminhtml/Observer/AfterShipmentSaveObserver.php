@@ -53,28 +53,28 @@ class AfterShipmentSaveObserver implements ObserverInterface
      *
      * @var \Laminas\Http\Client
      */
-    protected $httpClientFactory;
+    public $httpClientFactory;
 
     /**
      * Scope config
      *
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $scopeConfig;
+    public $scopeConfig;
 
     /**
      * Store manager
      *
-     * @var \Magento\Store\App\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
-    protected $_storeManager;
+    public $_storeManager;
 
     /**
      * Affirm logging instance
      *
      * @var \Astound\Affirm\Logger\Logger
      */
-    protected $logger;
+    public $logger;
 
     /**
      * Construct
@@ -122,10 +122,10 @@ class AfterShipmentSaveObserver implements ObserverInterface
             $shippingCarrier = implode(',', $carriers);
             $shippingConfirmation = implode(',', $confirmation);
             $orderIncrementId = $order->getIncrementId();
-            $transactionId = $order->getPayment()->getAdditionalInformation(self::TRANSACTION_ID) ?:
-                $order->getPayment()->getAdditionalInformation(self::CHARGE_ID);
-
-            $url = $this->getApiUrl("{$transactionId}");
+            $orderAdditionalInfo = $order->getPayment()->getAdditionalInformation();
+            $transactionId = $orderAdditionalInfo[self::TRANSACTION_ID] ?:
+                $orderAdditionalInfo[self::CHARGE_ID];
+            $url = $this->getApiUrl(json_encode($transactionId));
             $data = [
                 'order_id' => $orderIncrementId,
                 'shipping_carrier' => $shippingCarrier,
@@ -157,7 +157,7 @@ class AfterShipmentSaveObserver implements ObserverInterface
      * @param $order
      * @return bool
      */
-    protected function isAffirmPaymentMethod($order)
+    public function isAffirmPaymentMethod($order)
     {
         return $order->getId() && $order->getPayment()->getMethod() == ConfigProvider::CODE;
     }
@@ -167,7 +167,7 @@ class AfterShipmentSaveObserver implements ObserverInterface
      *
      * @return string
      */
-    protected function getPrivateApiKey()
+    public function getPrivateApiKey()
     {
         return $this->getIsSandboxMode()
             ? $this->scopeConfig->getValue('payment/affirm_gateway/private_api_key_sandbox', ScopeInterface::SCOPE_STORE, $this->getStoreId())
@@ -179,7 +179,7 @@ class AfterShipmentSaveObserver implements ObserverInterface
      *
      * @return string
      */
-    protected function getPublicApiKey()
+    public function getPublicApiKey()
     {
         return $this->getIsSandboxMode()
             ? $this->scopeConfig->getValue('payment/affirm_gateway/public_api_key_sandbox', ScopeInterface::SCOPE_STORE, $this->getStoreId())
@@ -192,7 +192,7 @@ class AfterShipmentSaveObserver implements ObserverInterface
      * @param string $additionalPath
      * @return string
      */
-    protected function getApiUrl($additionalPath)
+    public function getApiUrl($additionalPath)
     {
         $gateway = $this->getIsSandboxMode()
             ? \Astound\Affirm\Model\Config::API_URL_SANDBOX
@@ -206,7 +206,7 @@ class AfterShipmentSaveObserver implements ObserverInterface
      *
      * @return boolean
      */
-    protected function getIsSandboxMode()
+    public function getIsSandboxMode()
     {
         return $this->scopeConfig->getValue('payment/affirm_gateway/mode', ScopeInterface::SCOPE_STORE, $this->getStoreId()) == 'sandbox';
     }
@@ -216,7 +216,7 @@ class AfterShipmentSaveObserver implements ObserverInterface
      *
      * @return int
      */
-    protected function getStoreId()
+    public function getStoreId()
     {
         return $this->_storeManager->getStore()->getId();
     }

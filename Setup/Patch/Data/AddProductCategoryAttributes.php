@@ -1,8 +1,4 @@
 <?php
-/**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
- */
 declare(strict_types=1);
 
 namespace Astound\Affirm\Setup\Patch\Data;
@@ -57,7 +53,6 @@ class AddProductCategoryAttributes implements
     {
         $this->moduleDataSetup->getConnection()->startSetup();
 
-        /** @var EavSetup $eavSetup */
         $eavSetup = $this->categorySetupFactory->create(['setup' => $this->moduleDataSetup]);
 
         /**
@@ -348,7 +343,6 @@ class AddProductCategoryAttributes implements
     {
         $this->moduleDataSetup->getConnection()->startSetup();
 
-        /** @var EavSetup $eavSetup */
         $eavSetup = $this->categorySetupFactory->create(['setup' => $this->moduleDataSetup]);
 
         $eavSetup->removeAttribute(\Magento\Catalog\Model\Product::ENTITY, 'affirm_product_mfp');

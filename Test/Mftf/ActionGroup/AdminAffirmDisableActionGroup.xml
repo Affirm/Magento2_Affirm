@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <actionGroup name="AdminAffirmDisableActionGroup">
+        <annotations>
+            <description>Goes to the 'Configuration' page for 'Payment Methods'. Disable Affirm, remove credentials and other details. Clicks on Save.</description>
+        </annotations>
+        <arguments>
+            <argument name="credentials" defaultValue="SamplePaypalExpressConfig"/>
+            <argument name="countryCode" type="string" defaultValue="us"/>
+        </arguments>
+        <amOnPage url="{{AdminConfigPaymentMethodsPage.url}}" stepKey="navigateToPaymentConfigurationPage"/>
+        <waitForPageLoad stepKey="waitForPageLoad1"/>
+        <click selector="{{AffirmConfigSettingsConfigSection.configureBtn(countryCode)}}" stepKey="clickPayPalConfigureBtn"/>
+        <selectOption selector ="{{AffirmConfigSettingsConfigSection.enabled(countryCode)}}" userInput="No" stepKey="inputAPIAuthenticationMethods"/>
+        <fillField selector ="{{AffirmConfigSettingsConfigSection.publicApiKey(countryCode)}}" userInput="" stepKey="removeAPIUsername"/>
+        <fillField selector ="{{AffirmConfigSettingsConfigSection.privateApiKey(countryCode)}}" userInput="" stepKey="removeAPIPassword"/>
+        <click selector="{{AdminConfigSection.saveButton}}" stepKey="saveConfig"/>
+        <waitForPageLoad stepKey="waitForPageLoad2"/>
+    </actionGroup>
+</actionGroups>

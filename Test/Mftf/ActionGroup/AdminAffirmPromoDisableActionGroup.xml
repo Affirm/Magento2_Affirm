@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <actionGroup name="AdminAffirmPromoDisableActionGroup">
+        <annotations>
+            <description>Goes to the 'Configuration' page for 'Affirm Promos'. Disable ALA on product page. Clicks on Save.</description>
+        </annotations>
+        <amOnPage url="{{AffirmPromoPage.url}}" stepKey="navigateToPromoPage"/>
+        <waitForPageLoad stepKey="waitForPageLoad1"/>
+        <selectOption selector ="#affirm_affirm_aslowas_enabled_pdp" userInput="No" stepKey="inputAPIAuthenticationMethods"/>
+        <click selector="{{AdminConfigSection.saveButton}}" stepKey="saveConfig"/>
+        <click selector="#affirm_affirm_aslowas-head" stepKey="clickAffirmAsLowAsToClose"/>
+        <waitForPageLoad stepKey="waitForPageLoad2"/>
+    </actionGroup>
+</actionGroups>

@@ -41,7 +41,7 @@ abstract class AbstractResponseValidator extends AbstractValidator
      * @param array $response
      * @return bool
      */
-    protected function validateResponseCode(array $response)
+    public function validateResponseCode(array $response)
     {
         return !(isset($response[self::RESPONSE_CODE]));
     }
@@ -53,7 +53,7 @@ abstract class AbstractResponseValidator extends AbstractValidator
      * @param array|number|string $amount
      * @return bool
      */
-    protected function validateTotalAmount(array $response, $amount)
+    public function validateTotalAmount(array $response, $amount)
     {
         return isset($response[self::AMOUNT])
             && ($response[self::AMOUNT]) === $amount;

@@ -20,6 +20,7 @@ namespace Astound\Affirm\Gateway\Validator\Client;
 
 use Magento\Payment\Gateway\Helper\SubjectReader;
 use Astound\Affirm\Logger\Logger as affirmLogger;
+use Astound\Affirm\Helper\ErrorTracker;
 
 /**
  * Class PaymentActionsValidatorVoid
@@ -31,7 +32,15 @@ class PaymentActionsValidatorCaptureFailVoid extends PaymentActionsValidator
      *
      * @var AffirmLogger
      */
-    protected $affirmLogger;
+    public $affirmLogger;
+
+    /**
+     * Affirm logging instance
+     *
+     * @var ErrorTracker
+     */
+    public $errorTracker;
+
 
     /**#@+
      * Define constants
@@ -41,9 +50,11 @@ class PaymentActionsValidatorCaptureFailVoid extends PaymentActionsValidator
     /**#@-*/
 
     public function __construct(
-        AffirmLogger $affirmLogger
+        AffirmLogger $affirmLogger,
+        ErrorTracker $errorTracker
     ) {
         $this->affirmLogger = $affirmLogger;
+        $this->errorTracker = $errorTracker;
     }
     
     /**
@@ -64,7 +75,7 @@ class PaymentActionsValidatorCaptureFailVoid extends PaymentActionsValidator
         
         $errorMessages = [__('Transaction has been declined, please, try again later.')];
 
-        $this->errorTracker(
+        $this->errorTracker->logErrorToAffirm(
             transaction_step: self::RESPONSE_TYPE_VOID,
             error_type: ErrorTracker::TRANSACTION_DECLINED,
             error_message: $errorMessages[0]->render()
@@ -80,7 +91,7 @@ class PaymentActionsValidatorCaptureFailVoid extends PaymentActionsValidator
      * @param array $response
      * @return bool
      */
-    protected function validateResponseType(array $response)
+    public function validateResponseType(array $response)
     {
         return ($response[self::RESPONSE_TYPE] == self::RESPONSE_TYPE_VOID);
     }

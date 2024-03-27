@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="AdminAddMFP">
+        <annotations>
+            <features value="Affirm"/>
+            <stories value="Check if MFP can be added to the product"/>
+            <title value="Affirm ALA"/>
+            <description value="Check if MFP can be added to the product"/>
+            <severity value="AVERAGE"/>
+            <group value="affirm"/>
+        </annotations>
+        <before>
+            <actionGroup ref="AdminLoginActionGroup" stepKey="loginAsAdmin"/>
+            <actionGroup ref="NavigateToEditProductAttributeActionGroup" stepKey="goToEditPage">
+                <argument name="ProductAttribute" value="sku"/>
+            </actionGroup>
+            <selectOption userInput="0" selector="#is_required" stepKey="selectOptionNo"/>
+            <click stepKey="saveAttribute" selector="#save" />
+            <waitForPageLoad stepKey="waitForSaveAttribute"/>
+        </before>
+        <after>
+            <actionGroup ref="ClearFiltersAdminDataGridActionGroup" stepKey="clearFilter"/>
+            <actionGroup ref="NavigateToEditProductAttributeActionGroup" stepKey="goToEditPage">
+                <argument name="ProductAttribute" value="sku"/>
+            </actionGroup>
+            <selectOption userInput="1" selector="#is_required" stepKey="selectOptionYes"/>
+            <click stepKey="saveAttribute" selector="#save" />
+            <waitForPageLoad stepKey="waitForSaveAttribute" />
+            <actionGroup ref="AdminLogoutActionGroup" stepKey="logout"/>
+        </after>
+        <actionGroup ref="AdminOpenNewProductFormPageActionGroup" stepKey="goToCreateProduct"/>
+        <waitForPageLoad stepKey="waitForAdminOpenNewProductFormPageActionGroup" />
+        <comment userInput="Comment is added to preserve the step key for backward compatibility" stepKey="wait1"/>
+        <comment userInput="Comment is added to preserve the step key for backward compatibility" stepKey="fillName"/>
+        <actionGroup ref="FillMainProductFormByStringActionGroup" stepKey="fillSKU">
+            <argument name="productName" value="{{SimpleProduct.name}}"/>
+            <argument name="productSku" value=""/>
+            <argument name="productPrice" value="100"/>
+            <argument name="productQuantity" value="{{SimpleProduct.quantity}}"/>
+            <argument name="productStatus" value="{{SimpleProduct.status}}"/>
+            <argument name="productWeight" value="{{SimpleProduct.weight}}"/>
+            <argument name="productWeight" value="{{SimpleProduct.weight}}"/>
+        </actionGroup>
+
+        <fillField selector="product[affirm_product_promo_id]" userInput="asdfasd" stepKey="fillAffirmPromoID"/>
+        <actionGroup ref="AdminProductFormSaveActionGroup" stepKey="clickSave"/>
+        <waitForPageLoad stepKey="waitForAdminProductFormSaveActionGroup"/>
+        <see selector="The &quot;sku&quot; attribute value is empty." stepKey="seeErrorMessage"/>
+    </test>
+</tests>

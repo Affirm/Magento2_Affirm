@@ -42,6 +42,7 @@ use Astound\Affirm\Model\Ui\ConfigProvider;
 use Astound\Affirm\Model\Config;
 use Astound\Affirm\Helper\Payment;
 use Astound\Affirm\Helper;
+use Magento\Catalog\Model\ResourceModel\Product\Collection;
 
 /**
  * Class Banner
@@ -55,56 +56,71 @@ class Banners extends \Magento\Framework\View\Element\Template
      *
      * @var string
      */
-    protected $startTag;
+    public $startTag;
 
     /**
      * Ended tag for html container
      *
      * @var string
      */
-    protected $endTag;
+    public $endTag;
 
     /**
      * Section in which the banner will be visible
      *
      * @var string
      */
-    protected $section;
+    public $section;
 
     /**
      * Position of the banner
      *
      * @var string
      */
-    protected $position;
+    public $position;
 
     /**
      * Config payment
      *
      * @var Config
      */
-    protected $affirmPaymentConfig;
+    public $affirmPaymentConfig;
 
     /**
      * Affirm payment model instance
      *
      * @var Payment
      */
-    protected $helper;
+    public $helper;
 
     /**
      * Financing program helper factory
      *
      * @var Helper\FinancingProgram
      */
-    protected $fpHelper;
+    public $fpHelper;
 
     /**
      * AsLowAs helper factory
      *
      * @var Helper\AsLowAs
      */
-    protected $alaHelper;
+    public $alaHelper;
+
+    /**
+     * Affirm configurations
+     *
+     * @var ConfigProvider
+     */
+    public $configProvider;
+
+    /**
+     * Collection
+     *
+     * @var Collection
+     */
+    public $collection;
+
 
     /**
      * Inject all needed objects
@@ -116,6 +132,7 @@ class Banners extends \Magento\Framework\View\Element\Template
      * @param array            $data
      * @param Helper\FinancingProgram $fpHelper
      * @param Helper\AsLowAs $alaHelper
+     * @param Collection $collection
      */
     public function __construct(
         Template\Context $context,
@@ -124,6 +141,7 @@ class Banners extends \Magento\Framework\View\Element\Template
         Payment $helper,
         Helper\FinancingProgram $fpHelper,
         Helper\AsLowAs $alaHelper,
+        Collection $collection,
         array $data = []
     ) {
         $this->affirmPaymentConfig = $configAffirm;
@@ -133,6 +151,7 @@ class Banners extends \Magento\Framework\View\Element\Template
         $this->configProvider = $configProvider;
         $this->fpHelper = $fpHelper;
         $this->alaHelper = $alaHelper;
+        $this->collection = $collection;
         parent::__construct($context, $data);
     }
 
@@ -141,7 +160,7 @@ class Banners extends \Magento\Framework\View\Element\Template
      *
      * @return mixed
      */
-    protected function getIsActive()
+    public function getIsActive()
     {
         return $this->_scopeConfig->getValue(
             'affirm/affirm_promo/enabled',
@@ -154,7 +173,7 @@ class Banners extends \Magento\Framework\View\Element\Template
      *
      * @return bool
      */
-    protected function isCartPage()
+    public function isCartPage()
     {
         return $this->section === 'checkout_cart';
     }
@@ -164,7 +183,7 @@ class Banners extends \Magento\Framework\View\Element\Template
      *
      * @return bool
      */
-    protected function isProductPage()
+    public function isProductPage()
     {
         return $this->section === 'product';
     }
@@ -174,7 +193,7 @@ class Banners extends \Magento\Framework\View\Element\Template
      *
      * @return bool
      */
-    protected function isCategoryPage()
+    public function isCategoryPage()
     {
         return $this->section === 'category';
     }
@@ -184,7 +203,7 @@ class Banners extends \Magento\Framework\View\Element\Template
      *
      * @return string
      */
-    protected function _toHtml()
+    public function _toHtml()
     {
         if (!$this->getIsActive() || !$this->affirmPaymentConfig->isCurrencyValid()) {
             return '';
@@ -247,7 +266,7 @@ class Banners extends \Magento\Framework\View\Element\Template
      *
      * @param $section
      */
-    protected function processContainer($section)
+    public function processContainer($section)
     {
         $container = $this->affirmPaymentConfig
             ->getHtmlContainer($section);
@@ -292,10 +311,9 @@ class Banners extends \Magento\Framework\View\Element\Template
         if (!empty($dynamicallyMFPValue)) {
             return $dynamicallyMFPValue;
         } elseif ($this->isProductPage()) {
-            $productCollection = $this->helper->getProduct()->getCollection()
+            $productCollection = $this->collection
                 ->addAttributeToSelect(['affirm_product_promo_id', 'affirm_product_mfp_type', 'affirm_product_mfp_priority', 'affirm_product_mfp_start_date', 'affirm_product_mfp_end_date'])
                 ->addAttributeToFilter('entity_id', $this->helper->getProduct()->getId());
-
             return $this->alaHelper->getFinancingProgramValueALS($productCollection);
         } elseif ($this->isCartPage()) {
             return $this->alaHelper->getFinancingProgramValue();

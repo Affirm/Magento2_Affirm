@@ -33,7 +33,7 @@ class Info extends ConfigurableInfo
      *
      * @var string
      */
-    protected $_template = 'Astound_Affirm::payment/info/edit.phtml';
+    public $_template = 'Astound_Affirm::payment/info/edit.phtml';
 
     /**
      * Retrieve translated label
@@ -41,7 +41,7 @@ class Info extends ConfigurableInfo
      * @param string $field
      * @return Phrase|string
      */
-    protected function getLabel($field)
+    public function getLabel($field)
     {
         return __($field);
     }
@@ -51,7 +51,7 @@ class Info extends ConfigurableInfo
      *
      * @return bool
      */
-    protected function isInAdminPanel()
+    public function isInAdminPanel()
     {
         return $this->_appState->getAreaCode() == \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE;
     }
@@ -61,7 +61,7 @@ class Info extends ConfigurableInfo
      *
      * @return string
      */
-    protected function getDomainUrl()
+    public function getDomainUrl()
     {
         return $this->_scopeConfig->getValue('payment/affirm_gateway/mode') == 'sandbox' ?
             'sandbox.affirm.com' : 'www.affirm.com';
@@ -72,7 +72,7 @@ class Info extends ConfigurableInfo
      *
      * @return string
      */
-    protected function getPublicApiKey()
+    public function getPublicApiKey()
     {
         return $this->_scopeConfig->getValue('payment/affirm_gateway/mode') == 'sandbox' ?
             $this->_scopeConfig->getValue('payment/affirm_gateway/public_api_key_sandbox') :
@@ -84,7 +84,7 @@ class Info extends ConfigurableInfo
      *
      * @return string
      */
-    protected function getLoanId()
+    public function getLoanId()
     {
         return $this->getInfo()->getOrder()->getPayment()->getAdditionalInformation('transaction_id')
             ?: $this->getInfo()->getOrder()->getPayment()->getAdditionalInformation('charge_id');
@@ -95,7 +95,7 @@ class Info extends ConfigurableInfo
      *
      * @return string
      */
-    protected function getAdminAffirmUrl()
+    public function getAdminAffirmUrl()
     {
         $loanId = $this->getLoanId();
         return sprintf('https://%s/dashboard/#/details/%s?trk=%s', $this->getDomainUrl(), $loanId,
@@ -108,7 +108,7 @@ class Info extends ConfigurableInfo
      *
      * @return string
      */
-    protected function getFrontendAffirmUrl()
+    public function getFrontendAffirmUrl()
     {
         $loanId = $this->getLoanId();
         return sprintf("https://%s/u/#/loans/%s?trk=%s", $this->getDomainUrl(), $loanId, $this->getPublicApiKey());

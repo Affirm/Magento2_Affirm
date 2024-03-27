@@ -17,9 +17,9 @@
  */
 
 namespace Astound\Affirm\Gateway\Request;
-
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 use Astound\Affirm\Gateway\Helper\Util;
+use Magento\Framework\Math\Random;
 
 /**
  * Class CaptureRequest
@@ -41,7 +41,6 @@ class CaptureRequest extends AbstractDataBuilder
             throw new \InvalidArgumentException('Payment data object should be provided');
         }
 
-        /** @var PaymentDataObjectInterface $payment */
         $paymentDataObject = $buildSubject['payment'];
         $payment = $paymentDataObject->getPayment();
         $transactionId = $payment->getAdditionalInformation(self::TRANSACTION_ID) ?:
@@ -55,7 +54,9 @@ class CaptureRequest extends AbstractDataBuilder
         if ($this->affirmPaymentConfig->getPartialCapture($countryCode)) {
             $invoiceAmountToCapture = $payment->getAdditionalInformation(self::LAST_INVOICE_AMOUNT) ?:
                 $buildSubject['amount'];
-            $_amount = Util::formatToCents($invoiceAmountToCapture);
+            $random = new Random();
+            $util = new Util($random);
+            $_amount = $util->formatToCents($invoiceAmountToCapture);
             $_body = [
                 'amount' => $_amount
             ];

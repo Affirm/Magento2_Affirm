@@ -49,14 +49,14 @@ class SetAffirmAnalyticsOnOrderSuccessPageView implements ObserverInterface
      *
      * @var \Magento\Framework\View\LayoutInterface
      */
-    protected $_layout;
+    public $_layout;
 
     /**
      * Store manager
      *
-     * @var \Magento\Store\App\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
-    protected $_storeManager;
+    public $_storeManager;
 
     /**
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -73,7 +73,7 @@ class SetAffirmAnalyticsOnOrderSuccessPageView implements ObserverInterface
     /**
      * Add order information into Affirm block to render on checkout success pages
      *
-     * @param EventObserver $observer
+     * @param Observer $observer
      * @return void
      */
     public function execute(Observer $observer)
@@ -82,9 +82,6 @@ class SetAffirmAnalyticsOnOrderSuccessPageView implements ObserverInterface
         if (empty($orderIds) || !is_array($orderIds)) {
             return;
         }
-        $block = $this->_layout->getBlock('affirm_pixel_javascript');
-        if ($block) {
-            $block->setOrderIds($orderIds);
-        }
+        $this->_layout->getBlock('affirm_pixel_javascript');
     }
 }

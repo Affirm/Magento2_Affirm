@@ -10,11 +10,11 @@ class Handler extends BaseHandler
      * Logging level
      * @var int
      */
-    protected $loggerType = Logger::DEBUG;
+    public $loggerType = Logger::DEBUG;
 
     /**
      * File name
      * @var string
      */
-    protected $fileName = '/var/log/affirm.log';
+    public $fileName = '/var/log/affirm.log';
 }

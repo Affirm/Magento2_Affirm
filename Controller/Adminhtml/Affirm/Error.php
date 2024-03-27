@@ -33,7 +33,7 @@ class Error extends \Magento\Backend\App\Action
      *
      * @var \Magento\Framework\View\Result\PageFactory
      */
-    protected $resultPageFactory;
+    public $resultPageFactory;
 
     /**
      * Injected context and page result factory

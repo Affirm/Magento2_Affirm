@@ -51,7 +51,7 @@ class ErrorTracker
      *
      * @var \Astound\Affirm\Model\Config
      */
-    protected $affirmConfig;
+    public $affirmConfig;
 
     /**
      * @var AsyncClientInterface
@@ -63,7 +63,14 @@ class ErrorTracker
      *
      * @var \Magento\Framework\App\ProductMetadataInterface
      */
-    protected $productMetadata;
+    public $productMetadata;
+
+    /**
+     * Product metadata
+     *
+     * @var ResourceInterface
+     */
+    public $moduleResource;
 
     /**
      * Constructor

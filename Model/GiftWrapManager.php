@@ -23,6 +23,7 @@ use Magento\Checkout\Model\Session;
 use Astound\Affirm\Gateway\Helper\Util;
 use Astound\Affirm\Helper\Payment as PaymentHelper;
 use \Magento\Framework\ObjectManagerInterface;
+use Magento\Framework\Math\Random;
 
 /**
  * Class GiftWrapManager
@@ -36,42 +37,42 @@ class GiftWrapManager implements GiftWrapManagerInterface
      *
      * @var \Magento\Checkout\Model\Session
      */
-    protected $session;
+    public $session;
 
     /**
      * Current quote
      *
      * @var \Magento\Quote\Model\Quote
      */
-    protected $quote;
+    public $quote;
 
     /**
      * Wrapping repository class
      *
      * @var \Magento\GiftWrapping\Api\WrappingRepositoryInterface
      */
-    protected $wrappingRepository;
+    public $wrappingRepository;
 
     /**
      * Object manager
      *
      * @var ObjectManagerInterface
      */
-    protected $objectManager;
+    public $objectManager;
 
     /**
      * Wrapped items
      *
      * @var array
      */
-    protected $items = [];
+    public $items = [];
 
     /**
      * Image helper
      *
      * @var \Magento\Catalog\Helper\Image
      */
-    protected $imageHelper;
+    public $imageHelper;
 
     /**
      * Gift wrap manager init
@@ -112,10 +113,13 @@ class GiftWrapManager implements GiftWrapManagerInterface
         if ($isApplicable) {
             $printedCardPrice = $this->quote->getGwCardBasePrice();
             if ($printedCardPrice) {
+                $response = [];
+                $random = new Random();
+                $util = new Util($random);
                 return [
                     "display_name"   => "Printed Card",
                     "sku"            => "printed-card",
-                    "unit_price"     => Util::formatToCents($this->quote->getGwCardBasePrice()),
+                    "unit_price"     => $util->formatToCents($this->quote->getGwCardBasePrice()),
                     "qty"            => 1,
                     "item_image_url" => $this->imageHelper->getPlaceholderImage(),
                     "item_url"       => $this->imageHelper->getPlaceholderImage()
@@ -152,13 +156,15 @@ class GiftWrapManager implements GiftWrapManagerInterface
      * @param \Magento\GiftWrapping\Api\Data\WrappingInterface $wrapItem
      * @return array
      */
-    protected function processItemData($wrapItem)
+    public function processItemData($wrapItem)
     {
         if ($wrapItem && $wrapItem->getBasePrice()) {
+            $random = new Random();
+            $util = new Util($random);
             return [
                 "display_name"   => $wrapItem->getDesign(),
                 "sku"            => "gift-wrap-" . $wrapItem->getWrappingId(),
-                "unit_price"     => Util::formatToCents($wrapItem->getBasePrice()),
+                "unit_price"     => $util->formatToCents($wrapItem->getBasePrice()),
                 "qty"            => 1,
                 "item_image_url" => $wrapItem->getImageUrl() ? $wrapItem->getImageUrl():
                     $this->imageHelper->getPlaceholderImage(),
@@ -175,7 +181,7 @@ class GiftWrapManager implements GiftWrapManagerInterface
      * @param array $data
      * @return mixed
      */
-    protected function prepareWrapForItems($data)
+    public function prepareWrapForItems($data)
     {
         $quoteItems = $this->quote->getAllItems();
 

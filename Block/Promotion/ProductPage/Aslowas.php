@@ -18,7 +18,7 @@
 
 namespace Astound\Affirm\Block\Promotion\ProductPage;
 
-use Astound\Affirm\Block\Promotion\AslowasAbstract;
+use \Astound\Affirm\Block\Promotion\AslowasAbstract;
 
 /**
  * Class AsLowAs
@@ -32,7 +32,7 @@ class Aslowas extends AslowasAbstract
      *
      * @var array
      */
-    protected $data = ['logo', 'script', 'public_api_key', 'min_order_total', 'max_order_total',
+    public $data = ['logo', 'script', 'public_api_key', 'min_order_total', 'max_order_total',
             'selector', 'currency_rate', 'backorders_options', 'element_id', 'country_code', 'locale'];
 
     /**
@@ -89,7 +89,7 @@ class Aslowas extends AslowasAbstract
      */
     public function getMFPValue()
     {
-        $productCollection = $this->affirmPaymentHelper->getProduct()->getCollection()
+        $productCollection = $this->productCollection
             ->addAttributeToSelect(['affirm_product_promo_id', 'affirm_product_mfp_type', 'affirm_product_mfp_priority', 'affirm_product_mfp_start_date', 'affirm_product_mfp_end_date'])
             ->addAttributeToFilter('entity_id', $this->affirmPaymentHelper->getProduct()->getId());
 
@@ -99,7 +99,7 @@ class Aslowas extends AslowasAbstract
     /**
      * Get product id on PDP
      *
-     * @return Mage_Catalog_Model_Product|null
+     * @return int
      */
     public function getProductId()
     {

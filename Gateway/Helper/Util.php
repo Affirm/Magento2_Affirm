@@ -30,7 +30,7 @@ class Util
      *
      * @var \Magento\Framework\Math\Random
      */
-    protected $_random;
+    public $_random;
 
     /**
      * Money format
@@ -64,7 +64,7 @@ class Util
      * @param int $amount
      * @return int
      */
-    public static function formatToCents($amount = 0)
+    public function formatToCents($amount = 0)
     {
         $negative = false;
         $str = self::formatMoney($amount);
@@ -75,9 +75,6 @@ class Util
         }
 
         $parts = explode('.', $str, 2);
-        if (($parts === false) || empty($parts)) {
-            return 0;
-        }
 
         if ((strcmp($parts[0], 0) === 0) && (strcmp($parts[1], '00') === 0)) {
             return 0;
@@ -88,7 +85,7 @@ class Util
             $retVal .= '-';
         }
         $retVal .= ltrim($parts[0] . substr($parts[1], 0, 2), '0');
-        return intval($retVal);
+        return (int)($retVal);
     }
 
     /**
@@ -97,7 +94,7 @@ class Util
      * @param string $amount
      * @return string
      */
-    protected static function formatMoney($amount)
+    public function formatMoney($amount)
     {
         return sprintf(self::MONEY_FORMAT, $amount);
     }

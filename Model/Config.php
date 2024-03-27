@@ -42,6 +42,7 @@ use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\Locale\Resolver;
 use Magento\Directory\Model\Currency;
 use Magento\Tax\Model\Config as TaxConfig;
+use Astound\Affirm\Model\Entity\Attribute\Source\FinancingProgramType;
 
 /**
  * Config class
@@ -93,63 +94,63 @@ class Config implements ConfigInterface
      *
      * @var int
      */
-    protected $websiteId;
+    public $websiteId;
 
     /**
      * Payment code
      *
      * @var string
      */
-    protected $methodCode = 'affirm_gateway';
+    public $methodCode = 'affirm_gateway';
 
     /**
      * Scope configuration object
      *
      * @var ScopeConfigInterface
      */
-    protected $scopeConfig;
+    public $scopeConfig;
 
     /**
      * Current store id
      *
      * @var int
      */
-    protected $storeId;
+    public $storeId;
 
     /**
      * Store manager object
      *
      * @var \Magento\Store\Model\StoreManagerInterface
      */
-    protected $storeManager;
+    public $storeManager;
 
     /**
      * Store locale resolver
      *
      * @var \Magento\Framework\Locale\Resolver
      */
-    protected $_store;
+    public $_store;
 
     /**
      * Path pattern
      *
-     * @var $pathPattern
+     * @var string
      */
-    protected $pathPattern;
+    public $pathPattern;
 
     /**
      * Currency
      *
-     * @var $currency
+     * @var \Magento\Directory\Model\Currency
      */
-    protected $currency;
+    public $currency;
 
     /**
      * Permissions to config fields
      *
      * @var array
      */
-    protected $affirmSharedConfigFields = [
+    public $affirmSharedConfigFields = [
         'active' => true,
         'mode' => true,
         'public_key_production' => true,
@@ -165,7 +166,7 @@ class Config implements ConfigInterface
      *
      * @var \Magento\Tax\Model\Config
      */
-    protected $taxConfig;
+    public $taxConfig;
 
     /**
      * Inject scope and store manager object
@@ -273,7 +274,7 @@ class Config implements ConfigInterface
      *
      * @return int
      */
-    protected function getCurrentStoreId()
+    public function getCurrentStoreId()
     {
         return $this->storeManager->getStore()->getId();
     }
@@ -486,7 +487,7 @@ class Config implements ConfigInterface
      *
      * @return int
      */
-    protected function getCurrentWebsiteId()
+    public function getCurrentWebsiteId()
     {
         return $this->storeManager->getStore()->getWebsiteId();
     }
@@ -503,8 +504,8 @@ class Config implements ConfigInterface
 
     /**
      * Aslow as activation flag
-     *
-     * @param Astound\Affirm\Model\Entity\Attribute\Source\FinancingProgramType$position
+     * 
+     * @param string $position
      * @return int|mixed
      */
     public function isAsLowAsEnabled($position)
@@ -513,6 +514,7 @@ class Config implements ConfigInterface
             'affirm/' . self::KEY_ASLOWAS . '/' . 'enabled_' . $position,
             ScopeInterface::SCOPE_WEBSITE
         );
+
         return $flag ? $flag : 0;
     }
 
@@ -611,7 +613,7 @@ class Config implements ConfigInterface
     {
         $underscored = strtolower(preg_replace('/(.)([A-Z])/', "$1_$2", $key));
         $path = $this->_getSpecificConfigPath($underscored);
-        $storeScope = !empty($storeId) ? ScopeInterface::SCOPE_STORE : ScopeInterface::SCOPE_WEBSITE;
+        $storeScope = $storeId !== null ? ScopeInterface::SCOPE_STORE : ScopeInterface::SCOPE_WEBSITE;
         if ($path !== null) {
             $value = $this->scopeConfig->getValue(
                 $path,
@@ -651,7 +653,7 @@ class Config implements ConfigInterface
      * @param string $fieldName
      * @return string|null
      */
-    protected function _getSpecificConfigPath($fieldName)
+    public function _getSpecificConfigPath($fieldName)
     {
         if ($this->pathPattern) {
             return sprintf($this->pathPattern, $this->methodCode, $fieldName);
@@ -753,7 +755,7 @@ class Config implements ConfigInterface
      * @param string $currency_code
      * @return string
      */
-    protected function getApiKeyNameByCurrency($currency_code)
+    public function getApiKeyNameByCurrency($currency_code)
     {
         $_suffix = '';
         $currencyCodeToSuffix = array(

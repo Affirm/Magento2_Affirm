@@ -19,14 +19,17 @@
 namespace Astound\Affirm\Controller\Payment;
 
 use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\App\ActionInterface;
+use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\App\Action\Action;
+use Magento\Framework\App\Action\HttpGetActionInterface as HttpGetActionInterface;
 
 /**
  * Payment cancel action
  *
  * @package Astound\Affirm\Controller\Payment
  */
-class Cancel extends Action
+class Cancel extends \Magento\Checkout\Controller\Onepage implements HttpGetActionInterface
 {
     /**
      * Affirm cancel action
@@ -37,9 +40,8 @@ class Cancel extends Action
      */
     public function execute()
     {
-        // Redirects customer to checkout cart page.
-        $resultRedirect = $this->resultRedirectFactory->create();
-        $resultRedirect->setPath('checkout');
-        return $resultRedirect;
+        /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
+        $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
+        return $resultRedirect->setPath('checkout');
     }
 }

@@ -18,14 +18,14 @@ class CheckoutPaymentManager implements CheckoutPaymentManagerInterface
      *
      * @var \Magento\Checkout\Model\Session
      */
-    protected $session;
+    public $session;
 
     /**
      * Quote manager
      *
      * @var \Magento\Quote\Api\CartManagementInterface
      */
-    protected $quoteManager;
+    public $quoteManager;
 
     /**
      * Inject checkout session

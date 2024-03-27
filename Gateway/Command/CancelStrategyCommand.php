@@ -68,10 +68,11 @@ class CancelStrategyCommand implements CommandInterface
 
         /** @var Order\Payment $paymentInfo */
         $paymentInfo = $paymentDO->getPayment();
-        if ($paymentInfo->canVoid($paymentInfo)) {
+        if ($paymentInfo->canVoid()) {
             return $this->commandPool
                 ->get(self::VOID)
                 ->execute($commandSubject);
         };
+        return;
     }
 }

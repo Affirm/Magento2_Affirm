@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="SeeALA">
+        <annotations>
+            <features value="Affirm"/>
+            <stories value="Check if ALA appears in product page"/>
+            <title value="Affirm ALA"/>
+            <description value="Affirm ALA should appear on product page after enabled"/>
+            <severity value="AVERAGE"/>
+            <group value="affirm"/>
+        </annotations>
+        <before>
+            <createData entity="ApiCategory" stepKey="createCategory"/>
+            <createData entity="_defaultProduct" stepKey="createSimpleProduct">
+                <requiredEntity createDataKey="createCategory"/>
+            </createData>
+            <actionGroup ref="AdminLoginActionGroup" stepKey="loginAsAdmin1"/>
+            <actionGroup ref="AdminAffirmPromoEnableActionGroup" stepKey="enablePromo"/>
+        </before>
+        <after>
+            <deleteData createDataKey="createCategory" stepKey="deletePreReqCategory"/>
+            <actionGroup ref="DeleteProductBySkuActionGroup" stepKey="deleteProduct">
+                <argument name="sku" value="{{_defaultProduct.sku}}"/>
+            </actionGroup>
+            <actionGroup ref="ClearFiltersAdminDataGridActionGroup" stepKey="clearFilter"/>
+            <actionGroup ref="AdminAffirmPromoDisableActionGroup" stepKey="disabePromo"/>
+           <actionGroup ref="AdminLogoutActionGroup" stepKey="logoutOfAdmin"/>
+        </after>
+
+        <actionGroup ref="StorefrontOpenHomePageActionGroup" stepKey="goToStoreFront"/>
+        <waitForPageLoad stepKey="waitForProductPage"/>
+        <seeElement selector=".affirm-as-low-as" stepKey="seeBox"/>
+    </test>
+</tests>

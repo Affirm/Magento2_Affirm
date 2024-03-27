@@ -21,6 +21,7 @@ use Magento\Payment\Gateway\ConfigInterface;
 use Magento\Payment\Gateway\Validator\ResultInterface;
 use Magento\Payment\Gateway\Validator\ResultInterfaceFactory;
 use Magento\Payment\Gateway\Validator\AbstractValidator;
+use Magento\Store\Model\StoreManagerInterface;
 
 /**
  * Class CurrencyValidator
@@ -35,19 +36,29 @@ class CurrencyValidator extends AbstractValidator
      *
      * @var \Magento\Payment\Gateway\ConfigInterface
      */
-    protected $config;
+    public $config;
+
+    /**
+     * Injected config object
+     *
+     * @var \Magento\Store\Model\StoreManagerInterface
+     */
+    public $storeManagerInterface;
 
     /**
      * Inject config object and result factory
      *
      * @param ResultInterfaceFactory $resultFactory
      * @param \Magento\Payment\Gateway\ConfigInterface $config
+     * @param 
      */
     public function __construct(
         ResultInterfaceFactory $resultFactory,
-        ConfigInterface $config
+        ConfigInterface $config,
+        StoreManagerInterface $storeManagerInterface
     ) {
         $this->config = $config;
+        $this->storeManagerInterface = $storeManagerInterface;
         parent::__construct($resultFactory);
     }
 
@@ -61,9 +72,7 @@ class CurrencyValidator extends AbstractValidator
     {
         $isValid = true;
         $storeId = $validationSubject['storeId'];
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $currencysymbol = $objectManager->get('Magento\Store\Model\StoreManagerInterface');
-        $currentCurrencyCode = $currencysymbol->getStore()->getCurrentCurrencyCode();
+        $currentCurrencyCode = $this->storeManagerInterface->getStore()->getCurrentCurrencyCode();
         if ((int)$this->config->getValue('allowspecificcurrency', $storeId) === 1) {
             $availableCurrencies = explode(
                 ',',

@@ -40,9 +40,10 @@ class InlineCheckout implements InlineCheckoutInterface
     private $productMetadata;
 
     /**
-     * @var Astound\Affirm\Gateway\Helper\Util
+     * @var \Astound\Affirm\Gateway\Helper\Util
      */
     private $util;
+    
     /**
      * @var QuoteValidator
      */
@@ -53,7 +54,22 @@ class InlineCheckout implements InlineCheckoutInterface
      *
      * @var \Magento\Framework\ObjectManagerInterface
      */
-    protected $objectManager;
+    public $objectManager;
+
+    /**
+     * Gift card id cart key
+     *
+     * @var string
+     */
+    const ID = 'i';
+
+    /**
+     * Gift card amount cart key
+     *
+     * @var string
+     */
+    const AMOUNT = 'a';
+
 
     public function __construct(
         Session $checkoutSession,
@@ -136,7 +152,7 @@ class InlineCheckout implements InlineCheckoutInterface
         $discountAmount = $this->quote->getBaseSubtotal() - $this->quote->getBaseSubtotalWithDiscount();
         if ($discountAmount > 0.001) {
             $checkoutObject['discounts']['discount'] = [
-                'discount_amount' => Util::formatToCents($discountAmount)
+                'discount_amount' => $this->util->formatToCents($discountAmount)
             ];
         }
 
@@ -152,7 +168,7 @@ class InlineCheckout implements InlineCheckoutInterface
                 foreach ($giftCards as $giftCard) {
                     $giftCardDiscountDescription = sprintf(__('Gift Card (%s)'), $giftCard[self::ID]);
                     $checkoutObject['discounts'][$giftCardDiscountDescription] = [
-                        'discount_amount' => Util::formatToCents($giftCard[self::AMOUNT])
+                        'discount_amount' => $this->util->formatToCents($giftCard[self::AMOUNT])
                     ];
                 }
             }

@@ -19,13 +19,16 @@
 namespace Astound\Affirm\Helper;
 
 use Magento\Checkout\Model\Session;
-use Magento\Payment\Model\Method\AbstractMethod;
 use Magento\Theme\Model\View\Design;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Catalog\Helper\Image as ImageHelper;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Catalog\Model\Product;
+use Magento\CatalogInventory\Model\StockRegistry as ModelStockRegistry;
 use Magento\ConfigurableProduct\Model\Product\Type\Configurable as ConfigurableProductType;
+use Magento\InventoryConfigurationApi\Api\GetStockItemConfigurationInterface;
+use Magento\Payment\Model\MethodInterface;
+
 
 /**
  * Payment helper
@@ -48,77 +51,77 @@ class Payment
      *
      * @var \Magento\Payment\Model\Method\Adapter
      */
-    protected $payment;
+    public $payment;
 
     /**
      * Current checkout quote instance
      *
      * @var \Magento\Quote\Model\Quote
      */
-    protected $quote;
+    public $quote;
 
     /**
      * Method specification factory
      *
      * @var \Magento\Payment\Model\Checks\SpecificationFactory
      */
-    protected $methodSpecificationFactory;
+    public $methodSpecificationFactory;
 
     /**
      * Customer session
      *
      * @var \Magento\Checkout\Model\Session
      */
-    protected $customerSession;
+    public $customerSession;
 
     /**
      * Store manager
      *
      * @var StoreManagerInterface
      */
-    protected $storeManager;
+    public $storeManager;
 
     /**
      * Design object
      *
      * @var Design
      */
-    protected $design;
+    public $design;
 
     /**
      * Media config instance
      *
      * @var \Magento\Catalog\Model\Product\Media\Config
      */
-    protected $config;
+    public $config;
 
     /**
      * Product image helper instance
      *
      * @var \Magento\Catalog\Helper\Image
      */
-    protected $imageHelper;
+    public $imageHelper;
 
     /**
      * Scope config instance
      *
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $scopeConfig;
+    public $scopeConfig;
 
     /**
      * Core registry
      *
      * @var \Magento\Framework\Registry
      */
-    protected $coreRegistry = null;
+    public $coreRegistry = null;
 
     /**
      * Stock registry
      *
-     * @var \Magento\CatalogInventory\Api\StockRegistryInterface
+     * @var \Magento\InventoryConfigurationApi\Api\GetStockItemConfigurationInterface
      */
-    protected $stockRegistry;
+    public $stockRegistry;
 
     /**
      * Affirm payment helper initialization.
@@ -133,7 +136,7 @@ class Payment
      * @param ImageHelper                                          $imageHelper
      * @param ScopeConfigInterface                                 $scopeConfigInterface
      * @param \Magento\Framework\Registry                          $registry
-     * @param \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry
+     * @param \Magento\InventoryConfigurationApi\Api\GetStockItemConfigurationInterface $stockRegistry
      */
     public function __construct(
         \Magento\Payment\Model\Method\Adapter $payment,
@@ -146,7 +149,8 @@ class Payment
         ImageHelper $imageHelper,
         ScopeConfigInterface $scopeConfigInterface,
         \Magento\Framework\Registry $registry,
-        \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry
+        \Magento\InventoryConfigurationApi\Api\GetStockItemConfigurationInterface $stockRegistry,
+
     ) {
         $this->methodSpecificationFactory = $methodSpecificationFactory;
         $this->payment = $payment;
@@ -189,11 +193,11 @@ class Payment
     public function isAffirmAvailable()
     {
         $checkData = [
-            AbstractMethod::CHECK_USE_FOR_CURRENCY,
-            AbstractMethod::CHECK_ORDER_TOTAL_MIN_MAX,
+            MethodInterface::CHECK_USE_FOR_CURRENCY,
+            MethodInterface::CHECK_ORDER_TOTAL_MIN_MAX,
         ];
         if ($this->quote->getIsVirtual() && !$this->quote->getCustomerId()) {
-            $checkData[] = AbstractMethod::CHECK_USE_FOR_COUNTRY;
+            $checkData[] = MethodInterface::CHECK_USE_FOR_COUNTRY;
         }
 
         $check = $this->methodSpecificationFactory
@@ -217,7 +221,7 @@ class Payment
      */
     public function isAffirmAvailableForProduct(Product $product = null)
     {
-        if (is_null($product)) {
+        if ($product === null) {
             $product = $this->getProduct();
         }
         $check = $this->payment->isAvailable();
@@ -225,14 +229,14 @@ class Payment
             if ($product->isComposite()) {
                 $associatedProducts = $product->getTypeInstance()->getAssociatedProducts($product);
                 foreach ($associatedProducts as $associatedProduct) {
-                    $stockItem = $this->stockRegistry->getStockItem($associatedProduct->getId());
-                    if ($stockItem->getBackorders() && ($stockItem->getQty() < 1)) {
+                    $stockItem = $this->stockRegistry->execute($associatedProduct->getSku(),$associatedProduct->getId());
+                    if ($stockItem->getBackorders() && ($stockItem->getMinQty() < 1)) {
                         $check = false;
                     }
                 }
             } else {
-                $stockItem = $this->stockRegistry->getStockItem($product->getId());
-                if ($stockItem->getBackorders() && ($stockItem->getQty() < 1)) {
+                $stockItem = $this->stockRegistry->execute($product->getSku() ,$product->getId());
+                if ($stockItem->getBackorders() && ($stockItem->getMinQty() < 1)) {
                     $check = false;
                 }
             }
@@ -280,7 +284,7 @@ class Payment
      */
     public function getConfigurableProductBackordersOptions(Product $product = null)
     {
-        if (is_null($product)) {
+        if ($product === null) {
             $product = $this->getProduct();
         }
         if ($this->payment->getConfigData('disable_for_backordered_items') && $this->isProductConfigurable($product)) {
@@ -295,7 +299,7 @@ class Payment
                     $result[$childProduct->getId()][$configurableAttribute['attribute_id']] =
                         $childProduct[$configurableAttribute['attribute_code']];
                 }
-                $stockItem = $this->stockRegistry->getStockItem($childProduct->getId());
+                $stockItem = $this->stockRegistry->execute($childProduct->getSku() ,$childProduct->getId());
                 $result[$childProduct->getId()]['backorders']
                     = $stockItem->getBackorders() && ($stockItem->getQty() < 1);
             }
@@ -314,10 +318,10 @@ class Payment
         if ($this->quote->getIsVirtual() && !$this->quote->getCustomerIsGuest()) {
             $countryId = self::DEFAULT_REGION;
             // get customer addresses list
+            /** @var $addresses \Magento\Customer\Api\Data\AddressInterface */
             $addresses = $this->quote->getCustomer()->getAddresses();
             // get default shipping address for the customer
             $defaultShipping = $this->quote->getCustomer()->getDefaultShipping();
-            /** @var $address \Magento\Customer\Api\Data\AddressInterface */
             if ($defaultShipping) {
                 foreach ($addresses as $address) {
                     if ($address->getId() == $defaultShipping) {

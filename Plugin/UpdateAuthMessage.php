@@ -12,7 +12,7 @@ class UpdateAuthMessage
     /**
      * @var Data
      */
-    protected $priceHelper;
+    public $priceHelper;
 
     /**
      * @param Data $priceHelper

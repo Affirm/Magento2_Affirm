@@ -27,7 +27,7 @@ use Magento\Payment\Model\Method\Logger;
 use Magento\Payment\Gateway\Http\ConverterInterface;
 use Laminas\Http\Client;
 use Astound\Affirm\Logger\Logger as AffirmLogger;
-use \Magento\Framework\Module\ResourceInterface;
+use Magento\Framework\Module\ResourceInterface;
 use Astound\Affirm\Helper\ErrorTracker;
 
 /**
@@ -47,49 +47,56 @@ class ClientService implements ClientInterface
      *
      * @var Logger
      */
-    protected $logger;
+    public $logger;
 
     /**
      * Affirm logging instance
      *
      * @var AffirmLogger
      */
-    protected $affirmLogger;
+    public $affirmLogger;
 
     /**
      * Converter
      *
      * @var ConverterInterface
      */
-    protected $converter;
+    public $converter;
 
     /**
      * Client factory
      *
      * @var \Laminas\Http\Client
      */
-    protected $httpClientFactory;
+    public $httpClientFactory;
 
     /**
      * Action
      *
      * @var Action
      */
-    protected $action;
+    public $action;
 
     /**
      * Util
      *
      * @var Util
      */
-    protected $util;
+    public $util;
 
     /**
      * Error Tracker
      *
      * @var ErrorTracker
      */
-    protected $errorTracker;
+    public $errorTracker;
+
+    /**
+     * Result interface
+     *
+     * @var \Magento\Framework\Module\ResourceInterface
+     */
+    public $moduleResource;
 
     /**
      * Constructor
@@ -99,7 +106,7 @@ class ClientService implements ClientInterface
      * @param Client $httpClientFactory
      * @param Action $action
      * @param ResourceInterface $moduleResource
-     * @param ErrorTracker $error_tracker
+     * @param ErrorTracker $errorTracker
      */
     public function __construct(
         Logger $logger,
@@ -125,7 +132,7 @@ class ClientService implements ClientInterface
      * Places request to gateway. Returns result as ENV array
      *
      * @param TransferInterface $transferObject
-     * @return array|\Http_Response
+     * @return array
      * @throws \Magento\Payment\Gateway\Http\ClientException
      */
     public function placeRequest(TransferInterface $transferObject)
@@ -156,7 +163,7 @@ class ClientService implements ClientInterface
         } catch (\Exception $e) {
             $log['error'] = $e->getMessage();
             $this->logger->debug($log);
-
+            
             // Get transaction step
             if (strpos($transferObject->getUri(), $this->action::API_CHECKOUT_PATH) !== false) {
                 $transaction_step = 'pre_auth';

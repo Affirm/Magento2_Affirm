@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <actionGroup name="AdminAffirmPromoEnableActionGroup">
+        <annotations>
+            <description>Goes to the 'Configuration' page for 'Affirm Promos'. Enable ALA on product page. Clicks on Save.</description>
+        </annotations>
+        <arguments>
+            <argument name="credentials" defaultValue="SamplePaypalExpressConfig"/>
+            <argument name="countryCode" type="string" defaultValue="us"/>
+        </arguments>
+        <amOnPage url="{{AffirmPromoPage.url}}" stepKey="navigateToPromoPage"/>
+        <waitForPageLoad stepKey="waitForPageLoad1"/>
+        <click selector="#affirm_affirm_aslowas-head" stepKey="clickAffirmAsLowAsToOpen"/>
+        <selectOption selector ="#affirm_affirm_aslowas_enabled_pdp" userInput="Yes" stepKey="inputAPIAuthenticationMethods"/>
+        <click selector="{{AdminConfigSection.saveButton}}" stepKey="saveConfig"/>
+        <waitForPageLoad stepKey="waitForPageLoad2"/>
+    </actionGroup>
+</actionGroups>

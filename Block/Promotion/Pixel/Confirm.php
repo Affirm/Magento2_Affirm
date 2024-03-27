@@ -41,25 +41,42 @@ use Astound\Affirm\Model\Ui\ConfigProvider;
 use Astound\Affirm\Gateway\Helper\Util;
 use Astound\Affirm\Helper\Pixel;
 use Astound\Affirm\Logger\Logger;
+use Magento\Framework\Math\Random;
 
 /**
  * Class Confirm
  *
  * @package Astound\Affirm\Block\Pixel
  */
+
+ 
 class Confirm extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var \Magento\Checkout\Model\Session
      */
-    protected $_checkoutSession;
+    public $_checkoutSession;
 
     /**
      * @var \Magento\Sales\Model\ResourceModel\Order\CollectionFactory
      */
-    protected $_salesOrderCollection;
+    public $_salesOrderCollection;
 
-    protected $affirmPixelHelper;
+    public $affirmPixelHelper;
+
+    /**
+     * Affirm configurations
+     *
+     * @var ConfigProvider
+     */
+    public $configProvider;
+
+    /**
+     * Affirm logging tool
+     *
+     * @var Logger
+     */
+    public $logger;
 
     /**
      * @param Template\Context $context
@@ -67,6 +84,7 @@ class Confirm extends \Magento\Framework\View\Element\Template
      * @param \Magento\Sales\Model\ResourceModel\Order\CollectionFactory $salesOrderCollection
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param Pixel          $helperPixelAffirm
+     * @param \Astound\Affirm\Logger\Logger $logger
      * @param array $data
      */
     public function __construct(
@@ -98,11 +116,13 @@ class Confirm extends \Magento\Framework\View\Element\Template
         $result['method'] = 'trackOrderConfirmed';
 
         $order = $this->_checkoutSession->getLastRealOrder();
-
+        $random = new Random();
+        $util = new Util($random);
+        $util->formatToCents();
         $result['parameter'][0] = array();
         $result['parameter'][0]['orderId'] = $order->getIncrementId();
         $result['parameter'][0]['currency'] = $order->getOrderCurrencyCode();
-        $result['parameter'][0]['total'] = Util::formatToCents($order->getBaseGrandTotal());
+        $result['parameter'][0]['total'] = $util->formatToCents($order->getBaseGrandTotal());
         $result['parameter'][0]['paymentMethod'] = $order->getPayment()->getMethod();
 
         $result['parameter'][1] = null;
@@ -126,7 +146,7 @@ class Confirm extends \Magento\Framework\View\Element\Template
      *
      * @return string
      */
-    protected function _toHtml()
+    public function _toHtml()
     {
         if (!$this->affirmPixelHelper->isTrackPixelEnabledConfig() || $this->affirmPixelHelper->isSandboxMode()) {
             return '';
@@ -164,7 +184,7 @@ class Confirm extends \Magento\Framework\View\Element\Template
         }
         $collection = $this->_salesOrderCollection->create();
         $collection->addFieldToFilter('entity_id', ['in' => $orderIds]);
-
+        $customerId = '';
         foreach ($collection as $order) {
                 $customerId = ($order->getCustomerId()) ? $order->getCustomerId() : $guestId = "CUSTOMER-" . $this->affirmPixelHelper->getDateMicrotime();
             }

@@ -34,19 +34,29 @@ class PaymentActionsValidator extends AbstractResponseValidator
      *
      * @var ErrorTracker
      */
-    protected $errorTracker;
+    public $errorTracker;
+
+    /**
+     * Affirm Utils
+     *
+     * @var Util
+     */
+    public $util;
 
     /**
      * Inject result factory and error tracker
      * 
      * @param ResultInterfaceFactory $resultFactory
      * @param ErrorTracker $error_tracker
+     * @param Util $util
      */
     public function __construct(
         ResultInterfaceFactory $resultFactory,
-        ErrorTracker $errorTracker
+        ErrorTracker $errorTracker,
+        Util $util
     ) {
         $this->errorTracker = $errorTracker;
+        $this->util = $util;
         parent::__construct($resultFactory);
     }
 
@@ -88,7 +98,7 @@ class PaymentActionsValidator extends AbstractResponseValidator
             $amount = SubjectReader::readAmount($validationSubject);
         }
 
-        $amountInCents = Util::formatToCents($amount);
+        $amountInCents = $this->util->formatToCents($amount);
 
         $errorMessages = [];
         $validationResult = $this->validateResponseCode($response)

@@ -5,7 +5,7 @@ use Astound\Affirm\Model\Config as Config;
 use Astound\Affirm\Helper\AsLowAs;
 use Magento\Store\Model\StoreManagerInterface;
 use Astound\Affirm\Model\Ui\ConfigProvider;
-use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory as ProductCollectionFactory;
+use \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory;
 
 /**
  * Class ViewAbstract
@@ -19,49 +19,56 @@ class ViewAbstract extends \Magento\Framework\DataObject
      *
      * @var array
      */
-    protected $data = ['logo', 'script', 'public_api_key', 'country_code', 'locale'];
+    public $data = ['logo', 'script', 'public_api_key', 'country_code', 'locale'];
 
     /**
      * Colors which could be set in "data-affirm-color".
      *
      * @var array
      */
-    protected $dataColors = ['blue', 'black', 'white'];
+    public $dataColors = ['blue', 'black', 'white'];
 
     /**
      * Affirm Min Mpp
      *
      * @var mixed
      */
-    protected $minMPP = null;
+    public $minMPP = null;
 
     /**
      * Affirm config
      *
      * @var Config
      */
-    protected $config;
+    public $config;
+
+    /**
+     * Affirm config provider
+     *
+     * @var ConfigProvider
+     */
+    public $configProvider;
 
     /**
      * AsLowAs helper
      *
      * @var Config
      */
-    protected $asLowAsHelper;
+    public $asLowAsHelper;
 
     /**
      * Affirm config model payment
      *
      * @var \Astound\Affirm\Model\Config
      */
-    protected $affirmPaymentConfig;
+    public $affirmPaymentConfig;
 
     /**
      * Product collection factory
      *
      * @var \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory
      */
-    protected $productCollectionFactory;
+    public $productCollectionFactory;
 
     /**
      * ProductList constructor.
@@ -78,7 +85,7 @@ class ViewAbstract extends \Magento\Framework\DataObject
             ConfigProvider $configProvider,
             Config $configAffirm,
             AsLowAs $asLowAs,
-            ProductCollectionFactory $productCollectionFactory
+            CollectionFactory $productCollectionFactory
     )
     {
         $this->productCollectionFactory = $productCollectionFactory;
@@ -152,7 +159,7 @@ class ViewAbstract extends \Magento\Framework\DataObject
      *
      * @return float|int
      */
-    protected function getMinMPP()
+    public function getMinMPP()
     {
         if ($this->minMPP == null) {
             $this->minMPP = $this->affirmPaymentConfig->getAsLowAsMinMpp();

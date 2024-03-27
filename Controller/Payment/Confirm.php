@@ -36,16 +36,15 @@
 
 namespace Astound\Affirm\Controller\Payment;
 
-use Magento\Framework\App\Action\Action;
-use Magento\Framework\App\Action\Context;
-use Magento\Framework\App\ResponseInterface;
-use Magento\Quote\Api\CartManagementInterface;
 use Magento\Checkout\Model\Session;
 use Astound\Affirm\Model\Checkout;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\App\CsrfAwareActionInterface;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\Request\InvalidRequestException;
+use Magento\Framework\Controller\ResultFactory;
+use Magento\Framework\Message\ManagerInterface as MessageManagerInterface;
+use Magento\Framework\Event\ManagerInterface as EventManagerInterface;
 
 
 /**
@@ -53,55 +52,74 @@ use Magento\Framework\App\Request\InvalidRequestException;
  *
  * @package Astound\Affirm\Controller\Payment
  */
-class Confirm extends Action implements CsrfAwareActionInterface
+class Confirm implements CsrfAwareActionInterface
 {
     /**
      * Checkout session
      *
      * @var \Magento\Checkout\Model\Session
      */
-    protected $checkoutSession;
-
-    /**
-     * Quote management
-     *
-     * @var \Magento\Quote\Api\CartManagementInterface
-     */
-    protected $quoteManagement;
-
-    /**
-     * Affirm checkout instance
-     *
-     * @var \Astound\Affirm\Model\Checkout
-     */
-    protected $checkout;
+    public $checkoutSession;
 
     /**
      * Store sales quote
      *
      * @var \Magento\Quote\Model\Quote
      */
-    protected $quote;
+    public $quote;
+
+    /**
+     * @var \Magento\Framework\Controller\ResultFactory
+     */
+    public $resultFactory;
+
+    /**
+     * @var MessageManagerInterface
+     */
+    public $messageManager;
+
+    /**
+     * @var EventManagerInterface
+     */
+    public $_eventManager;
+
+    /**
+     * @var RequestInterface
+     */
+    public $request;
+
+    /**
+     * Affirm checkout instance
+     *
+     * @var \Astound\Affirm\Model\Checkout
+     */
+    public $checkout;
+
 
     /**
      * Inject objects to the Confirm action
      *
-     * @param Context                 $context
-     * @param CartManagementInterface $quoteManager
-     * @param Session                 $checkoutSession
-     * @param Checkout                $checkout
+     * @param Session                   $checkoutSession
+     * @param ResultFactory             $resultFactory
+     * @param MessageManagerInterface   $messageManager
+     * @param EventManagerInterface     $_eventManager
+     * @param RequestInterface          $request
      */
     public function __construct(
-        Context $context,
-        CartManagementInterface $quoteManager,
+        Checkout                $checkout,
         Session $checkoutSession,
-        Checkout $checkout
+        ResultFactory $resultFactory,
+        MessageManagerInterface $messageManager,
+        EventManagerInterface $_eventManager,
+        RequestInterface $request
     ) {
         $this->checkout = $checkout;
         $this->checkoutSession = $checkoutSession;
-        $this->quoteManagement = $quoteManager;
         $this->quote = $checkoutSession->getQuote();
-        parent::__construct($context);
+        $this->resultFactory = $resultFactory;
+        $this->messageManager = $messageManager;
+        $this->_eventManager = $_eventManager;
+        $this->request = $request;
     }
  
     /**
@@ -124,12 +142,15 @@ class Confirm extends Action implements CsrfAwareActionInterface
     /**
      * Dispatch request
      *
-     * @return \Magento\Framework\Controller\ResultInterface|ResponseInterface
+     * @return void
      * @throws \Magento\Framework\Exception\NotFoundException
      */
     public function execute()
     {
-        $token = $this->getRequest()->getParam('checkout_token');
+    
+        $token = $this->request->getPostValue('checkout_token');
+        /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */
+        $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
         if ($token) {
             try {
                 $this->checkout->place($token);
@@ -151,20 +172,19 @@ class Confirm extends Action implements CsrfAwareActionInterface
                     'affirm_place_order_success',
                     ['order' => $order, 'quote' => $this->quote ]
                 );
-                $this->_redirect('checkout/onepage/success');
-                return;
+                return $resultRedirect->setPath('checkout/onepage/success');
             } catch (LocalizedException $e) {
                 $this->messageManager->addExceptionMessage(
                     $e,
                     $e->getMessage()
                 );
-                $this->_redirect('checkout/cart');
+                return $resultRedirect->setPath('checkout/cart');
             } catch (\Exception $e) {
                 $this->messageManager->addExceptionMessage(
                     $e,
                     __('We can\'t place the order.')
                 );
-                $this->_redirect('checkout/cart');
+                return $resultRedirect->setPath('checkout/cart');
             }
         }
     }

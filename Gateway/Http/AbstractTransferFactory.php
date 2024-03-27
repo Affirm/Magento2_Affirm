@@ -46,28 +46,28 @@ abstract class AbstractTransferFactory implements TransferFactoryInterface
      *
      * @var ConfigInterface
      */
-    protected $config;
+    public $config;
 
     /**
      * Transfer builder
      *
      * @var TransferBuilder
      */
-    protected $transferBuilder;
+    public $transferBuilder;
 
     /**
      * Action
      *
      * @var Action
      */
-    protected $action;
+    public $action;
 
     /**
      * Store manager
      *
-     * @var \Magento\Store\App\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
-    protected $_storeManager;
+    public $_storeManager;
 
     /**
      * Construct
@@ -95,7 +95,7 @@ abstract class AbstractTransferFactory implements TransferFactoryInterface
      * @param string $country_code
      * @return string
      */
-    protected function getPublicApiKey($storeId, $country_code)
+    public function getPublicApiKey($storeId, $country_code)
     {
         $country_suffix = $this->getApiKeyNameByCountry($country_code);
         if(!empty($storeId)){
@@ -117,7 +117,7 @@ abstract class AbstractTransferFactory implements TransferFactoryInterface
      * @param string $country_code
      * @return string
      */
-    protected function getPrivateApiKey($storeId, $country_code)
+    public function getPrivateApiKey($storeId, $country_code)
     {
         $country_suffix = $this->getApiKeyNameByCountry($country_code);
         if(!empty($storeId)){
@@ -136,7 +136,7 @@ abstract class AbstractTransferFactory implements TransferFactoryInterface
      *
      * @return string
      */
-    protected function getStoreId()
+    public function getStoreId()
     {
         return $this->_storeManager->getStore()->getId();
     }
@@ -147,7 +147,7 @@ abstract class AbstractTransferFactory implements TransferFactoryInterface
      * @param string $country_code
      * @return string
      */
-    protected function getApiKeyNameByCountry($country_code)
+    public function getApiKeyNameByCountry($country_code)
     {
         $_suffix = '';
         $countryCodeToSuffix = array(
@@ -155,9 +155,8 @@ abstract class AbstractTransferFactory implements TransferFactoryInterface
             self::COUNTRY_CODE_USA => '',
         );
 
-        if (isset($country_code)) {
-            $_suffix = $countryCodeToSuffix[$country_code] ?: '';
-        }
+        $_suffix = $countryCodeToSuffix[$country_code] ?: '';
+        
         return $_suffix;
     }
 }

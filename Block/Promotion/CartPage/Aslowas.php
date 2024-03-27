@@ -8,6 +8,7 @@ use Magento\Framework\View\Element\Template;
 use Magento\Checkout\Model\Session;
 use Astound\Affirm\Helper;
 use Magento\Catalog\Model\ResourceModel\Category\CollectionFactory as CategoryCollectionFactory;
+use Magento\Catalog\Model\ResourceModel\Product\Collection;
 
 /**
  * Class AsLowAs
@@ -21,28 +22,35 @@ class Aslowas extends AslowasAbstract
      *
      * @var array
      */
-    protected $data = ['logo', 'script', 'public_api_key', 'min_order_total', 'max_order_total', 'element_id', 'country_code', 'locale'];
+    public $data = ['logo', 'script', 'public_api_key', 'min_order_total', 'max_order_total', 'element_id', 'country_code', 'locale'];
 
     /**
      * Checkout session
      *
      * @var \Magento\Checkout\Model\Session
      */
-    protected $checkoutSession;
+    public $checkoutSession;
 
     /**
      * Financing program helper factory
      *
      * @var Helper\FinancingProgram
      */
-    protected $fpHelper;
+    public $fpHelper;
 
     /**
      * As low as helper
      *
      * @var  Helper\AsLowAs
      */
-    protected $asLowAsHelper;
+    public $asLowAsHelper;
+
+    /**
+     * Product collection factory
+     *
+     * @var \Magento\Catalog\Model\ResourceModel\Product\Collection
+     */
+    public $productCollection;
 
     /**
      * Cart page block.
@@ -52,9 +60,9 @@ class Aslowas extends AslowasAbstract
      * @param \Astound\Affirm\Model\Config   $configAffirm
      * @param \Astound\Affirm\Helper\Payment $helperAffirm
      * @param Session                        $session
+     * @param \Astound\Affirm\Helper\AsLowAs $asLowAsHelper
      * @param array                          $data
-     * @param Helper\AsLowAs                 $asLowAs
-     * @param \Astound\Affirm\Helper\Rule    $rule
+     * @param Collection                     $productCollection
      */
     public function __construct(
         Template\Context $context,
@@ -63,12 +71,12 @@ class Aslowas extends AslowasAbstract
         \Astound\Affirm\Helper\Payment $helperAffirm,
         Session $session,
         Helper\AsLowAs $asLowAsHelper,
-        \Astound\Affirm\Helper\Rule $rule,
         CategoryCollectionFactory $categoryCollectionFactory,
+        Collection $productCollection,
         array $data = []
     ) {
         $this->checkoutSession = $session;
-        parent::__construct($context, $configProvider, $configAffirm, $helperAffirm, $asLowAsHelper, $rule, $categoryCollectionFactory, $data);
+        parent::__construct($context, $configProvider, $configAffirm, $helperAffirm, $asLowAsHelper, $categoryCollectionFactory, $productCollection, $data);
     }
 
     /**

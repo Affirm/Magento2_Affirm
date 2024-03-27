@@ -33,7 +33,7 @@ class Create
      *
      * @var \Magento\Framework\Controller\Result\RedirectFactory
      */
-    protected $forwardRedirectFactory;
+    public $forwardRedirectFactory;
 
     /**
      * Inject redirect factory
