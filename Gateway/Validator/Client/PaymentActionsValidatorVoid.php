@@ -20,7 +20,9 @@ namespace Astound\Affirm\Gateway\Validator\Client;
 
 use Magento\Payment\Gateway\Helper\SubjectReader;
 use Astound\Affirm\Helper\ErrorTracker;
-
+use Astound\Affirm\Gateway\Helper\Util;
+use Magento\Payment\Gateway\Validator\ResultInterface;
+use Magento\Payment\Gateway\Validator\ResultInterfaceFactory;
 /**
  * Class PaymentActionsValidatorVoid
  */
@@ -42,10 +44,12 @@ class PaymentActionsValidatorVoid extends PaymentActionsValidator
     public $errorTracker;
 
     public function __construct(
-        \Astound\Affirm\Helper\ErrorTracker $errorTracker
+        ResultInterfaceFactory $resultFactory,
+        ErrorTracker $errorTracker,
+        Util $util
     )
     {
-        $this->errorTracker = $errorTracker;
+        parent::__construct($resultFactory, $errorTracker, $util);
     }
     
     /**
