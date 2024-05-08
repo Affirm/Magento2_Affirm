@@ -34,7 +34,8 @@
 /*jshint jquery:true*/
 define([
     "jquery",
-    "Astound_Affirm/js/model/aslowas"
+    "Astound_Affirm/js/model/aslowas",
+    "jquery-ui-modules/widget"
 ], function ($, aslowas) {
 
     "use strict"
