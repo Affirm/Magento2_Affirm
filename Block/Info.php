@@ -20,6 +20,8 @@ namespace Astound\Affirm\Block;
 
 use Magento\Framework\Phrase;
 use Magento\Payment\Block\ConfigurableInfo;
+use Magento\Sales\Model\Order;
+use Magento\Store\Model\ScopeInterface;
 
 /**
  * Payment Block Info class
@@ -97,8 +99,28 @@ class Info extends ConfigurableInfo
      */
     public function getAdminAffirmUrl()
     {
+        /** @var Order $order */
+        $order = $this->getInfo()->getOrder();
+        $mode = $this->_scopeConfig->getValue(
+            'payment/affirm_gateway/mode',
+            ScopeInterface::SCOPE_STORE,
+            $order->getStoreId()
+        );
+
+        $isSandbox = $mode === 'sandbox';
+        $country = $this->getInfo()->getOrder()->getPayment()->getAdditionalInformation('country_code') ?? 'USA';
+        $isCanada = $country === 'CAN';
+
+        $domain = $isCanada ? 'www.affirm.ca' : 'www.affirm.com';
+        if ($isSandbox) {
+            $domain = $isCanada ? 'sandbox.affirm.ca' : 'sandbox.affirm.com';
+        }
+
         $loanId = $this->getLoanId();
-        return sprintf('https://%s/dashboard/#/details/%s?trk=%s', $this->getDomainUrl(), $loanId,
+        return sprintf(
+            'https://%s/dashboard/#/details/%s?trk=%s',
+            $domain,
+            $loanId,
             $this->getPublicApiKey()
         );
     }
