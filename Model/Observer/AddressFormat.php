@@ -38,17 +38,17 @@ class AddressFormat implements ObserverInterface
      */
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
-
+        /** @var $address \Magento\Sales\Model\Order\Address */
         $address = $observer->getEvent()->getAddress();
         if($address->getAddressType()) {
-            if ($address->getRegion() == null) {
-                $regionId = $address->getRegionId();
+            if ($address->getRegionId() !== null && $address->getRegion() === null) {
                 /** @var \Magento\Directory\Model\Region $region */
-                $region = $this->regionFactory->create();
-                $region->loadByCode($region, $regionId);
-                $address->setRegion($region->getName());
-                $address->setRegionCode($region->getCode());
-                $address->save();
+                $region = $this->regionFactory->create()->load($address->getRegionId());
+                if($region->getId()) {
+                    $address->setRegion($region->getName());
+                    $address->setRegionCode($region->getCode());
+                    $address->save();   
+                }
             }
         }
 
