@@ -49,10 +49,9 @@ class EditOrder
      * Plugin for save order after edit
      *
      * @param SaveAction $controller
-     * @param callable   $method
      * @return \Magento\Framework\Controller\Result\Redirect
      */
-    public function beforeExecute(SaveAction $controller, \Closure $method)
+    public function beforeExecute(SaveAction $controller)
     {
         $data = $controller->getRequest()->getParam('payment');
         if (isset($data['method']) && $data['method'] == \Astound\Affirm\Model\Ui\ConfigProvider::CODE) {
@@ -60,6 +59,6 @@ class EditOrder
             $resultRedirect->setPath('affirm/affirm/error');
             return $resultRedirect;
         }
-        return $method();
+        return $controller;
     }
 }
