@@ -4,4 +4,11 @@
     <type name="Magento\QuoteGraphQl\Model\Cart\SetPaymentMethodOnCart">
         <plugin name="affirm_checkout_token" type="Astound\Affirm\Plugin\setCheckoutTokenGraphQL" />
     </type>
+    <type name="Magento\StoreGraphQl\Model\Resolver\Store\StoreConfigDataProvider">
+        <arguments>
+            <argument name="extendedConfigData" xsi:type="array">
+                <item name="affirm_gateway_mode" xsi:type="string">payment/affirm_gateway/mode</item>
+            </argument>
+        </arguments>
+    </type>
 </config>
