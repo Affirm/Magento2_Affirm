@@ -168,6 +168,7 @@ define([
              * Load affirm script
              *
              * @private
+             * @see https://docs.affirm.com/payments/docs/afjs-reference#including-and-initializing-affirmjs
              */
             loadScript: function(options) {
                 var pubKey = options.public_api_key,
@@ -175,12 +176,13 @@ define([
                     locale = options.locale,
                     countryCode = options.country_code
 
-                _affirm_config = {
+                window._affirm_config = {
                     public_api_key: pubKey, /* Use the PUBLIC API KEY Affirm sent you. */
                     script: script,
                     locale: locale,
                     country_code: countryCode,
                 };
+
                 (function (m, g, n, d, a, e, h, c) {
                     var b = m[n] || {},
                         k = document.createElement(e),
@@ -210,7 +212,7 @@ define([
                     delete g[e];
                     f(g);
                     m[n] = b;
-                })(window, _affirm_config, "affirm", "checkout", "ui", "script", "ready", "jsReady");
+                })(window, window._affirm_config, "affirm", "checkout", "ui", "script", "ready", "jsReady");
             },
 
             /**
