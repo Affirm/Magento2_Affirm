@@ -31,15 +31,11 @@ use Magento\Store\Model\ScopeInterface;
 class Info extends ConfigurableInfo
 {
     /**
-     * Hello world
      * Changed standard template
      *
      * @var string
      */
     public $_template = 'Astound_Affirm::payment/info/edit.phtml';
-
-
-
 
 
     /**
