@@ -17,10 +17,10 @@ use RuntimeException;
 class OrderCancellation
 {
     /**
-     * @param Magento\Quote\Api\CartRepositoryInterface $quoteRepository 
-     * @param Magento\Sales\Api\OrderRepositoryInterface $orderRepository 
-     * @param PlacedOrderHolder $placedOrderHolder 
-     * @param Magento\Sales\Model\Order\CreditmemoFactory $creditmemoFactory 
+     * @param \Magento\Quote\Api\CartRepositoryInterface $quoteRepository 
+     * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository 
+     * @param \Astound\Affirm\Service\PlacedOrderHolder\PlacedOrderHolder $placedOrderHolder 
+     * @param \Magento\Sales\Model\Order\CreditmemoFactory $creditmemoFactory 
      */
     public function __construct(
         private CartRepositoryInterface $quoteRepository,
