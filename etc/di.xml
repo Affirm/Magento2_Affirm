@@ -321,6 +321,10 @@
         <plugin name="SaveInvoiceAmountToCapture" type="Astound\Affirm\Plugin\SaveInvoiceAmountToCapture" sortOrder="1" />
     </type>
 
+    <type name="Magento\Quote\Api\CartManagementInterface">
+        <plugin name="OrderCancellation" type="Astound\Affirm\Plugin\OrderCancellation"/>
+    </type>
+
     <!-- Logger -->
     <type name="Astound\Affirm\Logger\Handler">
         <arguments>
