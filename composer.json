@@ -2,7 +2,7 @@
     "name": "affirm/magento2",
     "description": "Affirm's extension for the Magento 2 https://www.affirm.com/",
     "type": "magento2-module",
-    "version": "4.0.6",
+    "version": "4.0.7",
     "require": {
         "php": "~7.4.0||~8.1.0||~8.2.0||~8.3.0"
     },
