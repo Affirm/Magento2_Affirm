@@ -4,7 +4,7 @@
     "type": "magento2-module",
     "version": "4.0.7",
     "require": {
-        "php": "~8.4.0"
+        "php": "~8.1.0||~8.2.0||~8.3.0"
     },
     "license": [
         "BSD-3-Clause"
