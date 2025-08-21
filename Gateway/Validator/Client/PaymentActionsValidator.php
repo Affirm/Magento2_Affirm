@@ -112,7 +112,7 @@ class PaymentActionsValidator extends AbstractResponseValidator
             $this->errorTracker->logErrorToAffirm(
                 transaction_step: $transaction_step,
                 error_type: ErrorTracker::TRANSACTION_DECLINED,
-                error_message: $errorMessages[0]->render()
+                error_message: $errorMessages[0]
             );
             
             throw new \Magento\Framework\Validator\Exception(__($errorMessages[0]));
