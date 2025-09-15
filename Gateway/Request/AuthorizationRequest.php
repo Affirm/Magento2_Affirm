@@ -25,6 +25,16 @@ use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
  */
 class AuthorizationRequest extends AbstractDataBuilder
 {
+
+    public function getCountryCodeByCurrency($currencyCode)
+    {
+        $currency_map = array(
+            "USD" => 'USA',
+            "CAD" => 'CAN'
+        );
+        return $currency_map[$currencyCode];
+    }
+
     /**
      * Builds ENV request
      *
@@ -43,7 +53,10 @@ class AuthorizationRequest extends AbstractDataBuilder
         $paymentDataObject = $buildSubject['payment'];
         $payment = $paymentDataObject->getPayment();
         $token = $payment->getAdditionalInformation(self::CHECKOUT_TOKEN);
-        $countryCode = $payment->getAdditionalInformation(self::COUNTRY_CODE) ?: self::DEFAULT_COUNTRY_CODE;
+        $order = $payment->getOrder();
+        $currencyCodeFromOrder = $order->getOrderCurrencyCode();
+        $countryCode = $payment->getAdditionalInformation(self::COUNTRY_CODE) ?: ($this->getCountryCodeByCurrency($currencyCodeFromOrder) ?? self::DEFAULT_COUNTRY_CODE);
+        
         return [
             'body' => [
                 self::TRANSACTION_ID => $token
