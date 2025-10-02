@@ -88,6 +88,7 @@ define([
          * Prepare items data
          */
         prepareItems: function() {
+            this.items = []
             var quoteItems = quote.getItems();
             for (var i=0; i < quoteItems.length; i++) {
                 this.items.push({
