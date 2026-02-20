@@ -6,10 +6,9 @@
  */
 ?>
 <h2>
-    <? echo __(
-    'Affirm is not available as a payment method in Magento at this time.
-     Instead you may use %1', "<a href =" . $block->getVirtualUrl() . ">Affirm's Virtual Terminal</a>
-     to process payment."
-);
-?>
+    <?php echo __(
+        'Affirm is not available as a payment method in Magento at this time.
+         Instead you may use %1 to process payment.',
+        '<a href="' . $block->escapeUrl($block->getVirtualUrl()) . '">' . $block->escapeHtml(__("Affirm's Virtual Terminal")) . '</a>'
+    ); ?>
 </h2>

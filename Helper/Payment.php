@@ -219,7 +219,7 @@ class Payment
      * @param Product|null $product
      * @return bool|mixed
      */
-    public function isAffirmAvailableForProduct(Product $product = null)
+    public function isAffirmAvailableForProduct(?Product $product = null)
     {
         if ($product === null) {
             $product = $this->getProduct();

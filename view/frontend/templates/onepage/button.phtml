@@ -1,8 +1,8 @@
 <?php if ($block->isAvailable()): ?>
 <a href="#">
-    <img style="<?php echo $block->getButtonImageWidth(); ?>" src="<?php echo $block->getButtonImageSrc(); ?>"
+    <img style="<?php echo $block->escapeHtmlAttr($block->getButtonImageWidth()); ?>" src="<?php echo $block->escapeUrl($block->getButtonImageSrc()); ?>"
          data-mage-init='{"Astound_Affirm/js/action/init-payment":
-         {"checkoutUrl":"<?php /* @escapeNotVerified */ echo $block->getCheckoutUrl(); ?>"}}'
+         {"checkoutUrl":"<?php echo $block->escapeUrl($block->getCheckoutUrl()); ?>"}}'
         />
 </a>
 <?php endif; ?>
