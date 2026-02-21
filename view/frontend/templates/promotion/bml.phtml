@@ -41,7 +41,7 @@
     $options = $block->getOptions();
     $pageType = $block->getPageType();
 ?>
-<?php echo $block->escapeHtml($block->getStartContainerTag()); ?>
+<?= /* @noEscape */ $block->getStartContainerTag() ?>
 <?php
     /** @noEscape - Server-generated JSON for data-mage-init */ $optionsSafe = $options;
     $escapedMfpValue = $block->escapeHtmlAttr($mfpValue);
@@ -57,4 +57,4 @@
             </a>
         </div>';
 ?>
-<?php echo $block->escapeHtml($block->getEndContainerTag()); ?>
+<?= /* @noEscape */ $block->getEndContainerTag() ?>
