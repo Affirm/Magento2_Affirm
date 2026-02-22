@@ -52,8 +52,8 @@ define(["jquery",
             if (newValue) {
                 price = newValue;
             }
-            if (price && price.grand_total) {
-                result = price.grand_total.toString();
+            if (price && price.grand_total && parseFloat(price.grand_total) > 0) {
+                result = parseFloat(price.grand_total).toFixed(2);
                 aslowas.process(result, this.options);
             }
         },
