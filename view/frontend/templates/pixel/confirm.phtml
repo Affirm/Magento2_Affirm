@@ -42,7 +42,10 @@ if ($action == 'checkout_onepage_success') {
     $pixelCode = $block->getOrdersTrackingCode();
     $pixelCode['pixelConfig'] = $block->getOptions();
 
-    $serializedPixelCode = json_encode($pixelCode);
+    $serializedPixelCode = json_encode(
+        $pixelCode,
+        JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP
+    );
 }
 
 ?>
@@ -50,7 +53,7 @@ if ($action == 'checkout_onepage_success') {
 <!-- BEGIN AFFIRM ANALYTICS CODE -->
 <script type="text/x-magento-init">
 {"*": {
-        "affirmPixel": <?php echo $serializedPixelCode ?>
+        "affirmPixel": <?= /* @noEscape */ $serializedPixelCode ?>
     }
 }
 </script>
