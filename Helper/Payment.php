@@ -279,10 +279,10 @@ class Payment
     /**
      * Get configurable product options
      *
-     * @param Product $product
+     * @param Product|null $product
      * @return array
      */
-    public function getConfigurableProductBackordersOptions(Product $product = null)
+    public function getConfigurableProductBackordersOptions(?Product $product = null)
     {
         if ($product === null) {
             $product = $this->getProduct();
