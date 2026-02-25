@@ -55,9 +55,9 @@ $learnMore = $block->getLearnMoreValue();
                 affirm.ui.refresh();
             }
             $(".change-container-classname").on('change click', function () {
-                if ($('#product-price-' +<?php echo $block->escapeHtml($productId); ?>)) {
+                if ($('#product-price-' +<?php echo $block->escapeJs($productId); ?>)) {
                     var refreshable = document.getElementById('als_pdp');
-                    var amount = $('#product-price-' +<?php echo $block->escapeHtml($productId); ?>).html();
+                    var amount = $('#product-price-' +<?php echo $block->escapeJs($productId); ?>).html();
                     var finalAmount = Number(amount.replace(/[^0-9\.-]+/g, "")) * 100;
                     refreshable.setAttribute('data-amount', finalAmount);
                     console.log('refreshALA', refreshable);
