@@ -6,7 +6,8 @@
  */
 ?>
 <h2>
-    <?php echo __(
+    <?php // phpcs:ignore Magento2.Security.XssTemplate.FoundUnescaped -- HTML is intentional, URL and text are escaped ?>
+    <?= /* @noEscape */ __(
         'Affirm is not available as a payment method in Magento at this time.
          Instead you may use %1',
         '<a href="' . $block->escapeUrl($block->getVirtualUrl()) . '">' . $block->escapeHtml(__("Affirm's Virtual Terminal")) . '</a> to process payment.'

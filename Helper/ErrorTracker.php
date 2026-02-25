@@ -105,8 +105,8 @@ class ErrorTracker
     public function logErrorToAffirm(
         string $transaction_step,
         string $error_type,
-        string $error_message=null,
-        \Exception $exception=null,
+        ?string $error_message=null,
+        ?\Exception $exception=null,
         bool $is_telesales=false
     )
     {

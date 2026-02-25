@@ -49,11 +49,12 @@
     $escapedWidth = $block->escapeHtmlAttr($width);
     $escapedHeight = $block->escapeHtmlAttr($height);
     $escapedImageUrl = $block->escapeUrl($affirmAssetsUrl . $size . '.png');
+    // phpcs:ignore Magento2.Security.XssTemplate.FoundUnescaped -- All variables are pre-escaped above
     echo '<div class="affirm-banner-container">
             <a class="affirm-site-modal" data-mage-init=\'{"Astound_Affirm/js/affirmWidget": ' . /* @noEscape */ $optionsSafe . '}\''
-        . (!empty($mfpValue) ? ' data-promo-id="' . $escapedMfpValue . '"' : '')
-        . (!empty($pageType) ? ' data-page-type="' . $escapedPageType . '"' : '') . '>
-                <img style="max-width:' . $escapedWidth . 'px; max-height:' . $escapedHeight . 'px; " src="' . $escapedImageUrl . '">
+        . (!empty($mfpValue) ? ' data-promo-id="' . /* @noEscape */ $escapedMfpValue . '"' : '')
+        . (!empty($pageType) ? ' data-page-type="' . /* @noEscape */ $escapedPageType . '"' : '') . '>
+                <img style="max-width:' . /* @noEscape */ $escapedWidth . 'px; max-height:' . /* @noEscape */ $escapedHeight . 'px; " src="' . /* @noEscape */ $escapedImageUrl . '">
             </a>
         </div>';
 ?>
