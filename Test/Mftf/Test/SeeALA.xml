@@ -29,7 +29,9 @@
            <actionGroup ref="AdminLogoutActionGroup" stepKey="logoutOfAdmin"/>
         </after>
 
-        <actionGroup ref="StorefrontOpenHomePageActionGroup" stepKey="goToStoreFront"/>
+        <actionGroup ref="StorefrontOpenProductPageActionGroup" stepKey="goToProductPage">
+            <argument name="productUrl" value="$createSimpleProduct.custom_attributes[url_key]$"/>
+        </actionGroup>
         <waitForPageLoad stepKey="waitForProductPage"/>
         <seeElement selector=".affirm-as-low-as" stepKey="seeBox"/>
     </test>
