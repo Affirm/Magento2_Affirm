@@ -35,27 +35,24 @@
 ?>
 <?php
     $mfpValue = $block->getMFPValue();
-    $size = str_replace("--",'',$block->getSize());
-    list($width, $height) = explode('x',$size);
+    $size = str_replace("--", '', $block->getSize());
+    list($width, $height) = explode('x', $size);
     $affirmAssetsUrl = $block->getAffirmAssetsUrl();
     $options = $block->getOptions();
     $pageType = $block->getPageType();
 ?>
 <?= /* @noEscape */ $block->getStartContainerTag() ?>
-<?php
-    /** @noEscape - Server-generated JSON for data-mage-init */ $optionsSafe = $options;
-    $escapedMfpValue = $block->escapeHtmlAttr($mfpValue);
-    $escapedPageType = $block->escapeHtmlAttr($pageType);
-    $escapedWidth = $block->escapeHtmlAttr($width);
-    $escapedHeight = $block->escapeHtmlAttr($height);
-    $escapedImageUrl = $block->escapeUrl($affirmAssetsUrl . $size . '.png');
-    // phpcs:ignore Magento2.Security.XssTemplate.FoundUnescaped -- All variables are pre-escaped above
-    echo '<div class="affirm-banner-container">
-            <a class="affirm-site-modal" data-mage-init=\'{"Astound_Affirm/js/affirmWidget": ' . /* @noEscape */ $optionsSafe . '}\''
-        . (!empty($mfpValue) ? ' data-promo-id="' . /* @noEscape */ $escapedMfpValue . '"' : '')
-        . (!empty($pageType) ? ' data-page-type="' . /* @noEscape */ $escapedPageType . '"' : '') . '>
-                <img style="max-width:' . /* @noEscape */ $escapedWidth . 'px; max-height:' . /* @noEscape */ $escapedHeight . 'px; " src="' . /* @noEscape */ $escapedImageUrl . '">
-            </a>
-        </div>';
-?>
+<div class="affirm-banner-container">
+    <a class="affirm-site-modal"
+       data-mage-init='{"Astound_Affirm/js/affirmWidget": <?= /* @noEscape */ $options ?>}'
+       <?php if (!empty($mfpValue)): ?>
+       data-promo-id="<?= $escaper->escapeHtmlAttr($mfpValue) ?>"
+       <?php endif; ?>
+       <?php if (!empty($pageType)): ?>
+       data-page-type="<?= $escaper->escapeHtmlAttr($pageType) ?>"
+       <?php endif; ?>>
+        <img style="max-width:<?= $escaper->escapeHtmlAttr($width) ?>px; max-height:<?= $escaper->escapeHtmlAttr($height) ?>px;"
+             src="<?= $escaper->escapeUrl($affirmAssetsUrl . $size . '.png') ?>">
+    </a>
+</div>
 <?= /* @noEscape */ $block->getEndContainerTag() ?>
