@@ -187,5 +187,7 @@ class Confirm implements CsrfAwareActionInterface
                 return $resultRedirect->setPath('checkout/cart');
             }
         }
+
+        return $resultRedirect->setPath('checkout/cart');
     }
 }
