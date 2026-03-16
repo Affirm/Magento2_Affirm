@@ -16,4 +16,8 @@
     <event name="customer_address_format">
         <observer name="affirm_missing_region" instance="Astound\Affirm\Model\Observer\AddressFormat" />
     </event>
+    <event name="sales_order_place_before">
+        <observer name="affirm_sales_order_place_before"
+            instance="Astound\Affirm\Model\Observer\HoldPlacedOrderObserver" />
+    </event>
 </config>
