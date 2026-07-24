@@ -105,18 +105,25 @@ define(
             getEduHTML: function() {
                 if (window.checkoutConfig.payment['affirm_gateway'].edu) {
                     let timestamp = 1
-                    $('form').change(function(e){
+                    // Namespaced + off-before-on so re-invoking getEduHTML() never stacks
+                    // duplicate handlers (each duplicate would re-trigger the same coupon
+                    // action / form-change call on every subsequent event).
+                    $('form').off('change.affirmInline').on('change.affirmInline', function(e){
                         if (timestamp == 1 || e.timeStamp > timestamp+500) {
                             timestamp = e.timeStamp
                             inlineCheckout.inlineCheckout()
                         }
                     })
 
-                    $('.action-apply').click(function(){
+                    $('.action-apply').off('click.affirmInline').on('click.affirmInline', function(){
                         inlineCheckout.updateInlineCheckout()
                     })
 
-                    $('.action-cancel').click(function(){
+                    $('.action-cancel').off('click.affirmInline').on('click.affirmInline', function(){
+                        inlineCheckout.updateInlineCheckout()
+                    })
+
+                    $('.action-update').off('click.affirmInline').on('click.affirmInline', function(){
                         inlineCheckout.updateInlineCheckout()
                     })
 

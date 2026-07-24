@@ -40,14 +40,78 @@ define([
 ], function ($,storage, urlBuilder) {
     'use strict';
     var configData = window.checkoutConfig.payment['affirm_gateway'];
-    var checkoutObject
-    var initAffirmInline = true
     var options = {
         public_api_key: window.checkoutConfig.payment['affirm_gateway'].apiKeyPublic,
         script: window.checkoutConfig.payment['affirm_gateway'].script,
         locale: window.checkoutConfig.payment['affirm_gateway'].locale,
         country_code: window.checkoutConfig.payment['affirm_gateway'].countryCode,
     };
+
+    /**
+     * The real Affirm SDK and its own bootstrap stub both live at window.affirm, so
+     * existence alone can't tell them apart. The stub's method list never includes
+     * "inline", so a real .checkout.inline function is what marks the SDK as loaded.
+     */
+    function isAffirmSdkReady() {
+        return !!(window.affirm && window.affirm.checkout && typeof window.affirm.checkout.inline === 'function');
+    }
+
+    /**
+     * Affirm's standard async-loader snippet. Only runs when the SDK isn't already
+     * loaded - running it again after a successful load would overwrite the real
+     * affirm.checkout with a fresh stub (which has no .inline method) and re-insert
+     * another <script src="affirm.js"> into the page.
+     */
+    function loadAffirmSdk(affirmConfig) {
+        if (isAffirmSdkReady()) {
+            return;
+        }
+        (function (m, g, n, d, a, e, h, c) {
+            var b = m[n] || {},
+                k = document.createElement(e),
+                p = document.getElementsByTagName(e)[0],
+                l = function (a, b, c) {
+                    return function () {
+                        a[b]._.push([c, arguments]);
+                    };
+                };
+            b[d] = l(b, d, "set");
+            var f = b[d];
+            b[a] = {};
+            b[a]._ = [];
+            f._ = [];
+            b._ = [];
+            b[a][h] = l(b, a, h);
+            b[c] = function () {
+                b._.push([h, arguments]);
+            };
+            a = 0;
+            for (c = "set add save post open empty reset on off trigger ready setProduct".split(" "); a < c.length; a++) f[c[a]] = l(b, d, c[a]);
+            a = 0;
+            for (c = ["get", "token", "url", "items"]; a < c.length; a++) f[c[a]] = function () {};
+            k.async = !0;
+            k.src = g[e];
+            p.parentNode.insertBefore(k, p);
+            delete g[e];
+            f(g);
+            m[n] = b;
+        })(window, affirmConfig, "affirm", "checkout", "ui", "script", "ready", "jsReady");
+    }
+
+    /**
+     * Applies the latest checkout data and (re)renders the inline widget, deferred
+     * until the real SDK has replaced the bootstrap stub.
+     */
+    function renderInlineCheckout(response) {
+        affirm.ui.ready(function() {
+            affirm.checkout(JSON.parse(response))
+            affirm.checkout.inline({
+                merchant: {
+                    inline_container: "affirm-inline-checkout"
+                },
+            });
+        })
+    }
 
     return {
         inlineCheckout: function(){
@@ -62,53 +126,8 @@ define([
                         locale: options.locale,
                         country_code: options.country_code,
                     };
-                    (function (m, g, n, d, a, e, h, c) {
-                        var b = m[n] || {},
-                            k = document.createElement(e),
-                            p = document.getElementsByTagName(e)[0],
-                            l = function (a, b, c) {
-                                return function () {
-                                    a[b]._.push([c, arguments]);
-                                };
-                            };
-                        b[d] = l(b, d, "set");
-                        var f = b[d];
-                        b[a] = {};
-                        b[a]._ = [];
-                        f._ = [];
-                        b._ = [];
-                        b[a][h] = l(b, a, h);
-                        b[c] = function () {
-                            b._.push([h, arguments]);
-                        };
-                        a = 0;
-                        for (c = "set add save post open empty reset on off trigger ready setProduct".split(" "); a < c.length; a++) f[c[a]] = l(b, d, c[a]);
-                        a = 0;
-                        for (c = ["get", "token", "url", "items"]; a < c.length; a++) f[c[a]] = function () {};
-                        k.async = !0;
-                        k.src = g[e];
-                        p.parentNode.insertBefore(k, p);
-                        delete g[e];
-                        f(g);
-                        m[n] = b;
-                    })(window, _affirm_config, "affirm", "checkout", "ui", "script", "ready", "jsReady");
-                    if(!(checkoutObject == response)) {
-                        affirm.ui.ready(function() {
-                            affirm.checkout(JSON.parse(response))
-                            affirm.checkout.inline({
-                                merchant: {
-                                    inline_container: "affirm-inline-checkout"
-                                },
-                            });
-                        })
-                        initAffirmInline = false
-                    } else {
-                        affirm.checkout.inline({
-                            container: "affirm-inline-checkout",
-                            data: JSON.parse(response),
-                        });
-                    }
-                    checkoutObject = response
+                    loadAffirmSdk(_affirm_config);
+                    renderInlineCheckout(response);
                 }
             ).fail(
                 function (response) {
@@ -118,28 +137,19 @@ define([
         },
 
         updateInlineCheckout : function(){
-            var _self = this;
             let serviceUrl = urlBuilder.createUrl('/affirm/checkout/inline', {}), result;
             storage.get(
                 serviceUrl
             ).done(
                 function(response) {
-                    setTimeout(function(){
-                        $('.action-apply').click(function(){
-                            _self.updateInlineCheckout()
-                        })
-                        $('.action-cancel').click(function(){
-                            _self.updateInlineCheckout()
-                        })
-                        $('.action-update').click(function(){
-                            _self.updateInlineCheckout()
-                        })
-                    },
-                    3000);
-                    affirm.checkout.inline({
-                        container: "affirm-inline-checkout",
-                        data: JSON.parse(response),
-                    });
+                    var _affirm_config = {
+                        public_api_key: options.public_api_key,
+                        script: options.script,
+                        locale: options.locale,
+                        country_code: options.country_code,
+                    };
+                    loadAffirmSdk(_affirm_config);
+                    renderInlineCheckout(response);
                 }
             ).fail(
                 function (response) {
