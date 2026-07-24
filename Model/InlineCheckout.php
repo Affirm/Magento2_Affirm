@@ -10,6 +10,7 @@ use Magento\Framework\UrlInterface;
 use Magento\Quote\Model\QuoteValidator;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\ObjectManagerInterface;
+use Astound\Affirm\Model\Config as ConfigAffirm;
 
 /**
  * Class InlineCheckout
@@ -50,6 +51,11 @@ class InlineCheckout implements InlineCheckoutInterface
     private $quoteValidator;
 
     /**
+     * @var \Astound\Affirm\Model\Config
+     */
+    private $affirmConfig;
+
+    /**
      * Object manager
      *
      * @var \Magento\Framework\ObjectManagerInterface
@@ -78,7 +84,8 @@ class InlineCheckout implements InlineCheckoutInterface
         ProductMetadataInterface $productMetadata,
         Util $util,
         QuoteValidator $quoteValidator,
-        ObjectManagerInterface $objectManager
+        ObjectManagerInterface $objectManager,
+        ConfigAffirm $affirmConfig
     ){
         $this->session = $checkoutSession;
         $this->quote = $checkoutSession->getQuote();
@@ -88,11 +95,13 @@ class InlineCheckout implements InlineCheckoutInterface
         $this->util = $util;
         $this->quoteValidator = $quoteValidator;
         $this->objectManager = $objectManager;
+        $this->affirmConfig = $affirmConfig;
     }
 
     public function initInline(){
         $quote = $this->quote;
         $quote->collectTotals();
+        $publicApiKey = $this->affirmConfig->getPublicApiKey();
 
         if(!$quote->getReservedOrderId()) {
             $quote->reserveOrderId();
@@ -108,6 +117,7 @@ class InlineCheckout implements InlineCheckoutInterface
                     'user_cancel_url'              => $this->urlBuilder
                         ->getUrl('affirm/payment/cancel', ['_secure' => true]),
                     'user_confirmation_url_action' => 'POST',
+                    'public_api_key'                => $publicApiKey,
                 ),
                 'order_id' => $quote->getReservedOrderId(),
                 'total'    => $this->util->formatToCents($quote->getGrandTotal())
@@ -124,6 +134,7 @@ class InlineCheckout implements InlineCheckoutInterface
                 'user_cancel_url'              => $this->urlBuilder
                     ->getUrl('affirm/payment/cancel', ['_secure' => true]),
                 'user_confirmation_url_action' => 'POST',
+                'public_api_key'                => $publicApiKey,
             ),
             'order_id' => $quote->getReservedOrderId(),
             'shipping_amount' => $this->util->formatToCents($quote->getShippingAddress()->getShippingAmount()),
