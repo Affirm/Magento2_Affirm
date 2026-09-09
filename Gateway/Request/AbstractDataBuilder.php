@@ -37,6 +37,7 @@ abstract class AbstractDataBuilder implements BuilderInterface
     const COUNTRY_CODE = 'country_code';
     const DEFAULT_COUNTRY_CODE = 'USA';
     const LAST_INVOICE_AMOUNT = 'last_invoice_amount';
+    const CAPTURE_AMOUNT_SPECIFIED = 'capture_amount_specified';
     /**#@-*/
 
     /**
