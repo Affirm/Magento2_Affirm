@@ -125,7 +125,7 @@ class AfterShipmentSaveObserver implements ObserverInterface
             $orderAdditionalInfo = $order->getPayment()->getAdditionalInformation();
             $transactionId = $orderAdditionalInfo[self::TRANSACTION_ID] ?:
                 $orderAdditionalInfo[self::CHARGE_ID];
-            $url = $this->getApiUrl(json_encode($transactionId));
+            $url = $this->getApiUrl($transactionId);
             $data = [
                 'order_id' => $orderIncrementId,
                 'shipping_carrier' => $shippingCarrier,
