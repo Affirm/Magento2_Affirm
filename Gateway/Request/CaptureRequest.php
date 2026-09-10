@@ -63,6 +63,11 @@ class CaptureRequest extends AbstractDataBuilder
         } else {
             $_body = [];
         }
+        // Record whether we actually told Affirm what to capture. When partial_capture is off,
+        // the body above is empty and Affirm captures the full remaining authorized balance
+        // server-side — Magento's invoice grand-total has no guaranteed relationship to that
+        // value, so PaymentActionsValidator shouldn't compare against it.
+        $payment->setAdditionalInformation(self::CAPTURE_AMOUNT_SPECIFIED, !empty($_body));
         return [
             'path' => "{$transactionId}/capture",
             'storeId' => $storeId,

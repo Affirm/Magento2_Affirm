@@ -100,9 +100,17 @@ class PaymentActionsValidator extends AbstractResponseValidator
 
         $amountInCents = $this->util->formatToCents($amount);
 
+        // Capture is the one step where Magento may not have told Affirm an amount at all
+        // (partial_capture disabled -> Affirm captures the full remaining authorized balance
+        // server-side). The invoice grand-total has no guaranteed relationship to that
+        // server-computed value, so only enforce the amount match when we actually specified
+        // one. Authorize/pre-auth/refund always send an explicit amount, so they're unaffected.
+        $shouldValidateAmount = $transaction_step !== 'capture'
+            || $_payment->getAdditionalInformation(self::CAPTURE_AMOUNT_SPECIFIED);
+
         $errorMessages = [];
         $validationResult = $this->validateResponseCode($response)
-            && $this->validateTotalAmount($response, $amountInCents);
+            && (!$shouldValidateAmount || $this->validateTotalAmount($response, $amountInCents));
 
         if (!$validationResult) {
             $errorMessages = (isset($response[self::ERROR_MESSAGE])) ?
