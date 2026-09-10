@@ -152,7 +152,6 @@ class ErrorTracker
                 $this->affirmConfig->getPrivateApiKey())
         ];
 
-        // Send it and forget about it
         $response = $this->httpClient->request(
             new Request(
                 $tracker_endpoint,
@@ -161,6 +160,13 @@ class ErrorTracker
                 json_encode($error_tracker_obj)
             )
         );
+
+        // Resolve the deferred promise, or the request never actually goes out.
+        try {
+            $response->get();
+        } catch (\Throwable $e) {
+            // Best-effort telemetry; a failed report should not mask the original error.
+        }
     }
 
     /**
