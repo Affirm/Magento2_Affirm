@@ -26,6 +26,16 @@ use Magento\Framework\Math\Random;
  */
 class CaptureRequest extends AbstractDataBuilder
 {
+
+    public function getCountryCodeByCurrency($currencyCode)
+    {
+        $currency_map = array(
+            "USD" => 'USA',
+            "CAD" => 'CAN'
+        );
+        return $currency_map[$currencyCode];
+    }
+
     /**
      * Builds ENV request
      *
@@ -45,8 +55,10 @@ class CaptureRequest extends AbstractDataBuilder
         $payment = $paymentDataObject->getPayment();
         $transactionId = $payment->getAdditionalInformation(self::TRANSACTION_ID) ?:
             $payment->getAdditionalInformation(self::CHARGE_ID);
-        $countryCode = $payment->getAdditionalInformation(self::COUNTRY_CODE) ?: self::DEFAULT_COUNTRY_CODE;
+
         $order = $payment->getOrder();
+        $currencyCodeFromOrder = $order->getOrderCurrencyCode();
+        $countryCode = $payment->getAdditionalInformation(self::COUNTRY_CODE) ?: ( $this->getCountryCodeByCurrency($currencyCodeFromOrder) ?? self::DEFAULT_COUNTRY_CODE );
         $storeId = isset($order) ? $order->getStoreId() : $this->_storeManager->getStore()->getId();
         if (!$storeId) {
             $storeId = null;
