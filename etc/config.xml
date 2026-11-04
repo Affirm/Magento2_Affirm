@@ -97,6 +97,9 @@
             <affirm_pixel>
                 <enabled>1</enabled>
             </affirm_pixel>
+            <affirm_store_settings>
+                <enable_express_checkout>0</enable_express_checkout>
+            </affirm_store_settings>
         </affirm>
         <system>
             <adminnotification>
