@@ -382,6 +382,13 @@
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
             </group>
+            <group id="affirm_store_settings" translate="label" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>Store Settings</label>
+                <field id="enable_express_checkout" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enable Express Checkout</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
         </section>
     </system>
 </config>
