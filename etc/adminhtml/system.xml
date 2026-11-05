@@ -208,6 +208,8 @@
                 </field>
                 <field id="shipping_url" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Shipping Url</label>
+                    <frontend_class>validate-url</frontend_class>
+                    <backend_model>Astound\Affirm\Model\Config\Backend\Url</backend_model>
                 </field>
             </group>
             <group id="affirm_promo" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
