@@ -388,6 +388,9 @@
                     <label>Enable Express Checkout</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
+                <field id="shipping_url" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Shipping Url</label>
+                </field>
             </group>
         </section>
     </system>
