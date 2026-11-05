@@ -199,6 +199,17 @@
             <label>Affirm Promos</label>
             <tab>general</tab>
             <resource>Astound_Affirm::configuration</resource>
+            <group id="affirm_store_settings" translate="label" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>Store Settings</label>
+                <field id="enable_express_checkout" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enable Express Checkout</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[<span style="color: #e41101;">ⓘ To enable Express Checkout, you must first reach out to Affirm support.</span>]]></comment>
+                </field>
+                <field id="shipping_url" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Shipping Url</label>
+                </field>
+            </group>
             <group id="affirm_promo" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                 <label>Banner Settings</label>
                 <field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
@@ -380,17 +391,6 @@
                 <field id="enabled" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enable Affirm Checkout Tracking Pixel</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                </field>
-            </group>
-            <group id="affirm_store_settings" translate="label" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="0">
-                <label>Store Settings</label>
-                <field id="enable_express_checkout" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Enable Express Checkout</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <comment><![CDATA[<span style="color: #e41101;">ⓘ To enable Express Checkout, you must first reach out to Affirm support.</span>]]></comment>
-                </field>
-                <field id="shipping_url" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Shipping Url</label>
                 </field>
             </group>
         </section>
