@@ -54,16 +54,38 @@ class Url extends Value
     public function beforeSave()
     {
         $value = trim((string)$this->getValue());
-        if ($value !== '') {
-            $scheme = strtolower((string)parse_url($value, PHP_URL_SCHEME));
-            if (!filter_var($value, FILTER_VALIDATE_URL) || !in_array($scheme, ['http', 'https'], true)) {
-                throw new LocalizedException(
-                    __('Please enter a valid URL starting with http:// or https://.')
-                );
-            }
+        if ($value !== '' && !$this->isValidUrl($value)) {
+            throw new LocalizedException(
+                __('Please enter a valid URL starting with http:// or https://, including a full domain name.')
+            );
         }
         $this->setValue($value);
 
         return parent::beforeSave();
+    }
+
+    /**
+     * Check for an absolute http(s) URL whose host is a dotted domain name (e.g. example.com) or an IP address.
+     *
+     * Single-label hosts such as "http://gee" are rejected.
+     *
+     * @param string $value
+     * @return bool
+     */
+    private function isValidUrl(string $value): bool
+    {
+        if (!filter_var($value, FILTER_VALIDATE_URL)) {
+            return false;
+        }
+        $scheme = strtolower((string)parse_url($value, PHP_URL_SCHEME));
+        $host = (string)parse_url($value, PHP_URL_HOST);
+        if (!in_array($scheme, ['http', 'https'], true) || $host === '') {
+            return false;
+        }
+        if (filter_var(trim($host, '[]'), FILTER_VALIDATE_IP)) {
+            return true;
+        }
+
+        return (bool)preg_match('/^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/i', $host);
     }
 }
