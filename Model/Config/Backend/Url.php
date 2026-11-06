@@ -39,7 +39,7 @@ use Magento\Framework\App\Config\Value;
 use Magento\Framework\Exception\LocalizedException;
 
 /**
- * Validates that the configured value is an absolute http(s) URL.
+ * Validates that the configured value is an absolute https URL.
  *
  * @package Astound\Affirm\Model\Config\Backend
  */
@@ -56,7 +56,7 @@ class Url extends Value
         $value = trim((string)$this->getValue());
         if ($value !== '' && !$this->isValidUrl($value)) {
             throw new LocalizedException(
-                __('Please enter a valid URL starting with http:// or https://, including a full domain name.')
+                __('Please enter a valid URL starting with https://, including a full domain name.')
             );
         }
         $this->setValue($value);
@@ -65,7 +65,7 @@ class Url extends Value
     }
 
     /**
-     * Check for an absolute http(s) URL whose host is a dotted domain name (e.g. example.com) or an IP address.
+     * Check for an absolute https URL whose host is a dotted domain name (e.g. example.com) or an IP address.
      *
      * Single-label hosts such as "http://gee" are rejected.
      *
@@ -79,7 +79,7 @@ class Url extends Value
         }
         $scheme = strtolower((string)parse_url($value, PHP_URL_SCHEME));
         $host = (string)parse_url($value, PHP_URL_HOST);
-        if (!in_array($scheme, ['http', 'https'], true) || $host === '') {
+        if ($scheme !== 'https' || $host === '') {
             return false;
         }
         if (filter_var(trim($host, '[]'), FILTER_VALIDATE_IP)) {
