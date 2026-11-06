@@ -66,7 +66,7 @@ define([
             this.prepareItems();
             this.prepareTotals();
             this.initMetadata();
-            return {
+            var data = {
                 merchant: _self.merchant,
                 config: _self.config,
                 items: _self.items,
@@ -81,7 +81,13 @@ define([
                 currency: _self.currency,
                 locale: _self.locale,
                 country_code: _self.country_code
+            };
+            if (_self.expressCheckout) {
+                // Express Checkout: Affirm collects shipping and computes totals via the callback
+                delete data.shipping;
+                delete data.total;
             }
+            return data;
         },
 
         /**
@@ -209,6 +215,10 @@ define([
         prepareOrderData: function(data) {
             if (data.order_increment_id !== 'undefined') {
                 this.order_id = data.order_increment_id;
+            }
+            this.expressCheckout = !!(configData.expressCheckout && data.express_checkout);
+            if (this.expressCheckout && data.express_order_id) {
+                this.order_id = data.express_order_id;
             }
             if (data.discounts) {
                 this.setDiscounts(data.discounts);
