@@ -200,7 +200,7 @@
             <tab>general</tab>
             <resource>Astound_Affirm::configuration</resource>
             <group id="affirm_store_settings" translate="label" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="0">
-                <label>Store Settings</label>
+                <label>Express Checkout Settings</label>
                 <field id="enable_express_checkout" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enable Express Checkout</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
