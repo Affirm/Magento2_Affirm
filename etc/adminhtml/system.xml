@@ -204,7 +204,7 @@
                 <field id="enable_express_checkout" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enable Express Checkout</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <comment><![CDATA[<span style="color: #e41101;">ⓘ</span> To enable Express Checkout, you must first reach out to Affirm support.]]></comment>
+                    <comment><![CDATA[<span style="color: #e41101;">ⓘ</span> To enable express checkout please reach out to Affirm first, as there may be additional configuration required.]]></comment>
                 </field>
                 <field id="shipping_url" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Shipping Url</label>
