@@ -26,9 +26,6 @@ jobs:
           - mageos: "4.0.0"
             magento: "2.4.9"
             php: "8.4"
-          - mageos: "1.0.1"
-            magento: "2.4.6-p3"
-            php: "8.2"
     steps:
       - name: Checkout extension
         uses: actions/checkout@v4
