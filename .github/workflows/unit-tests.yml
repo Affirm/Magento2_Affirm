@@ -1,0 +1,71 @@
+name: Unit Tests
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+concurrency:
+  group: unit-tests-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  phpunit:
+    name: PHPUnit (Magento ${{ matrix.magento }}, PHP ${{ matrix.php }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - magento: "2.4.8"
+            php: "8.4"
+          - magento: "2.4.7"
+            php: "8.3"
+    steps:
+      - name: Checkout extension
+        uses: actions/checkout@v4
+        with:
+          path: extension
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: composer:v2
+          extensions: bcmath, ctype, curl, dom, gd, intl, mbstring, pdo_mysql, simplexml, soap, xsl, zip, sockets
+          coverage: none
+
+      - name: Authenticate with repo.magento.com
+        env:
+          MAGENTO_REPO_PUBLIC_KEY: ${{ secrets.MAGENTO_REPO_PUBLIC_KEY }}
+          MAGENTO_REPO_PRIVATE_KEY: ${{ secrets.MAGENTO_REPO_PRIVATE_KEY }}
+        run: |
+          composer config --global http-basic.repo.magento.com "$MAGENTO_REPO_PUBLIC_KEY" "$MAGENTO_REPO_PRIVATE_KEY"
+
+      - name: Cache Composer downloads
+        uses: actions/cache@v4
+        with:
+          path: ~/.composer/cache
+          key: composer-${{ matrix.magento }}-${{ matrix.php }}-${{ hashFiles('extension/composer.json') }}
+          restore-keys: composer-${{ matrix.magento }}-${{ matrix.php }}-
+
+      - name: Install Magento ${{ matrix.magento }}
+        run: |
+          composer create-project --no-interaction --no-progress --no-scripts \
+            --repository-url=https://repo.magento.com/ \
+            magento/project-community-edition:${{ matrix.magento }} magento
+
+      - name: Install extension into Magento
+        working-directory: magento
+        run: |
+          composer config repositories.affirm path ../extension
+          composer require --no-interaction --no-progress --no-scripts "affirm/magento2:@dev"
+
+      - name: Run unit tests
+        working-directory: extension
+        run: |
+          ../magento/vendor/bin/phpunit -c phpunit.xml.dist --do-not-fail-on-empty-test-suite
