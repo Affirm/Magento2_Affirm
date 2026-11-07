@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Unit test config for the Affirm extension. Run from a Magento install; see .github/workflows/unit-tests.yml -->
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd"
-         bootstrap="../magento/dev/tests/unit/framework/bootstrap.php"
-         colors="true"
-         cacheDirectory=".phpunit.cache">
+<phpunit bootstrap="../magento/dev/tests/unit/framework/bootstrap.php"
+         colors="true">
     <php>
         <ini name="memory_limit" value="-1"/>
         <const name="TESTS_TEMP_DIR" value="../magento/dev/tests/unit/tmp"/>

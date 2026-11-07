@@ -14,17 +14,21 @@ permissions:
 
 jobs:
   phpunit:
-    name: PHPUnit (Magento ${{ matrix.magento }}, PHP ${{ matrix.php }})
+    name: PHPUnit (Mage-OS ${{ matrix.mageos }} / Magento ${{ matrix.magento }}, PHP ${{ matrix.php }})
     runs-on: ubuntu-latest
     timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
+        # Mage-OS is a public mirror of Magento Open Source (no Adobe credentials needed).
+        # Mage-OS -> Magento mapping comes from each package's extra.magento_version.
         include:
-          - magento: "2.4.8"
+          - mageos: "4.0.0"
+            magento: "2.4.9"
             php: "8.4"
-          - magento: "2.4.7"
-            php: "8.3"
+          - mageos: "1.0.1"
+            magento: "2.4.6-p3"
+            php: "8.2"
     steps:
       - name: Checkout extension
         uses: actions/checkout@v4
@@ -39,25 +43,18 @@ jobs:
           extensions: bcmath, ctype, curl, dom, gd, intl, mbstring, pdo_mysql, simplexml, soap, xsl, zip, sockets
           coverage: none
 
-      - name: Authenticate with repo.magento.com
-        env:
-          MAGENTO_REPO_PUBLIC_KEY: ${{ secrets.MAGENTO_REPO_PUBLIC_KEY }}
-          MAGENTO_REPO_PRIVATE_KEY: ${{ secrets.MAGENTO_REPO_PRIVATE_KEY }}
-        run: |
-          composer config --global http-basic.repo.magento.com "$MAGENTO_REPO_PUBLIC_KEY" "$MAGENTO_REPO_PRIVATE_KEY"
-
       - name: Cache Composer downloads
         uses: actions/cache@v4
         with:
           path: ~/.composer/cache
-          key: composer-${{ matrix.magento }}-${{ matrix.php }}-${{ hashFiles('extension/composer.json') }}
-          restore-keys: composer-${{ matrix.magento }}-${{ matrix.php }}-
+          key: composer-${{ matrix.mageos }}-${{ matrix.php }}-${{ hashFiles('extension/composer.json') }}
+          restore-keys: composer-${{ matrix.mageos }}-${{ matrix.php }}-
 
-      - name: Install Magento ${{ matrix.magento }}
+      - name: Install Mage-OS ${{ matrix.mageos }} (Magento ${{ matrix.magento }})
         run: |
           composer create-project --no-interaction --no-progress --no-scripts \
-            --repository-url=https://repo.magento.com/ \
-            magento/project-community-edition:${{ matrix.magento }} magento
+            --repository-url=https://repo.mage-os.org/ \
+            mage-os/project-community-edition:${{ matrix.mageos }} magento
 
       - name: Install extension into Magento
         working-directory: magento
