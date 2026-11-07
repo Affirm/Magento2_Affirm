@@ -253,6 +253,12 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
             'platform_affirm' => $this->moduleResource->getDbVersion('Astound_Affirm'),
             'mode' => $this->affirmConfig->getCheckoutFlowType()
         ];
+        if ($this->affirmConfig->isExpressCheckoutActive()) {
+            $response['express_checkout'] = true;
+            $response['express_order_id'] = $this->getExpressOrderId();
+            // Item cost before tax and shipping, in cents
+            $response['metadata']['subtotal'] = $util->formatToCents($this->quote->getBaseSubtotal());
+        }
         $financingProgramValue = $this->helper->getFinancingProgramValue();
         if ($financingProgramValue) {
             $response['financing_program'] = $financingProgramValue;
@@ -261,6 +267,26 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
         $log['response'] = $response;
         $this->logger->debug('Astound\Affirm\Model\AffirmCheckoutManager::initCheckout', $log);
         return json_encode($response);
+    }
+
+    /**
+     * Unique, high-entropy order id (UUID v4) for Express Checkout.
+     * Generated once and kept in the checkout session so the same id is reused
+     * for the later Shipping & Totals callback and Authorize call.
+     *
+     * @return string
+     */
+    public function getExpressOrderId()
+    {
+        $orderId = $this->checkoutSession->getAffirmExpressOrderId();
+        if (!$orderId) {
+            $bytes = random_bytes(16);
+            $bytes[6] = chr((ord($bytes[6]) & 0x0f) | 0x40);
+            $bytes[8] = chr((ord($bytes[8]) & 0x3f) | 0x80);
+            $orderId = vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($bytes), 4));
+            $this->checkoutSession->setAffirmExpressOrderId($orderId);
+        }
+        return $orderId;
     }
 
     private function getShippingAddress(){
