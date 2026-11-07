@@ -66,4 +66,4 @@ jobs:
             echo "::notice::No Test/Unit directory yet; skipping PHPUnit. Remove this guard once unit tests exist."
             exit 0
           fi
-          ../magento/vendor/bin/phpunit -c phpunit.xml.dist
+          ../magento/vendor/bin/phpunit -c phpunit.xml.dist --testdox --display-notices --display-warnings --display-deprecations
