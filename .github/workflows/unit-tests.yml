@@ -65,4 +65,8 @@ jobs:
       - name: Run unit tests
         working-directory: extension
         run: |
-          ../magento/vendor/bin/phpunit -c phpunit.xml.dist --do-not-fail-on-empty-test-suite
+          if [ ! -d Test/Unit ]; then
+            echo "::notice::No Test/Unit directory yet; skipping PHPUnit. Remove this guard once unit tests exist."
+            exit 0
+          fi
+          ../magento/vendor/bin/phpunit -c phpunit.xml.dist
