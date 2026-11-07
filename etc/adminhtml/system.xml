@@ -199,6 +199,19 @@
             <label>Affirm Promos</label>
             <tab>general</tab>
             <resource>Astound_Affirm::configuration</resource>
+            <group id="affirm_store_settings" translate="label" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>Express Checkout Settings</label>
+                <field id="enable_express_checkout" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enable Express Checkout</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[<span style="color: #e41101;">ⓘ</span> To enable express checkout please reach out to Affirm first, as there may be additional configuration required.]]></comment>
+                </field>
+                <field id="shipping_url" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Shipping Url</label>
+                    <frontend_class>validate-url</frontend_class>
+                    <backend_model>Astound\Affirm\Model\Config\Backend\Url</backend_model>
+                </field>
+            </group>
             <group id="affirm_promo" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                 <label>Banner Settings</label>
                 <field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
