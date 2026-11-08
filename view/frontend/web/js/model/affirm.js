@@ -210,13 +210,24 @@ define([
         /**
          * Specify order Data
          *
+         * Called from action/send-to-affirm-checkout.js with the parsed JSON
+         * returned by AffirmCheckoutManager::initCheckout(), right before the
+         * Affirm checkout object is built and opened.
+         *
          * @param data
          */
         prepareOrderData: function(data) {
             if (data.order_increment_id !== 'undefined') {
                 this.order_id = data.order_increment_id;
             }
-            this.expressCheckout = !!(configData.expressCheckout && data.express_checkout);
+            // Express checkout is on only when BOTH sides agree: the store config
+            // exposed to the frontend (configData.expressCheckout) and the
+            // server's initCheckout response (data.express_checkout, which is
+            // only set when express checkout is active). Checking both keeps the
+            // express-only fields (express_order_id, subtotal metadata) from
+            // being used if either side is off, e.g. stale config or a response
+            // without the express payload.
+            this.expressCheckout =!!(configData.expressCheckout && data.express_checkout);
             if (this.expressCheckout && data.express_order_id) {
                 this.order_id = data.express_order_id;
             }
