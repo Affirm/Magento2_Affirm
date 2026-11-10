@@ -199,8 +199,9 @@
             <label>Affirm Promos</label>
             <tab>general</tab>
             <resource>Astound_Affirm::configuration</resource>
-            <group id="affirm_store_settings" translate="label" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="0">
+            <group id="affirm_store_settings" translate="label comment" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="0">
                 <label>Express Checkout Settings</label>
+                <comment><![CDATA[Learn more about <a href="https://docs.affirm.com/developers/docs/express-checkout" target="_blank" rel="noopener noreferrer">Affirm Express Checkout</a>.]]></comment>
                 <field id="enable_express_checkout" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enable Express Checkout</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
