@@ -3,9 +3,8 @@ namespace Astound\Affirm\Test\Unit\Model\Express;
 
 use Astound\Affirm\Model\Express\ExpressException;
 use Astound\Affirm\Model\Express\ShippingTotalsCalculator;
-use Magento\Directory\Model\Country;
 use Magento\Directory\Model\CountryFactory;
-use Magento\Directory\Model\Region;
+use Magento\Framework\DataObject;
 use Magento\Directory\Model\RegionFactory;
 use Magento\Quote\Model\Quote;
 use Magento\Quote\Model\Quote\Address;
@@ -16,19 +15,36 @@ class ShippingTotalsCalculatorTest extends TestCase
 {
     private function calculator(?string $countryId = 'US'): ShippingTotalsCalculator
     {
-        $country = $this->getMockBuilder(Country::class)->disableOriginalConstructor()
-            ->onlyMethods(['loadByCode'])->addMethods(['getCountryId'])->getMock();
-        $country->method('loadByCode')->willReturnSelf();
-        $country->method('getCountryId')->willReturn($countryId);
+        $country = new class($countryId) extends DataObject {
+            public function __construct($id)
+            {
+                parent::__construct(['country_id' => $id]);
+            }
+
+            public function loadByCode($code)
+            {
+                return $this;
+            }
+        };
         $countryFactory = $this->createMock(CountryFactory::class);
         $countryFactory->method('create')->willReturn($country);
 
-        $region = $this->getMockBuilder(Region::class)->disableOriginalConstructor()
-            ->onlyMethods(['loadByCode', 'loadByName', 'getId', 'getName'])->getMock();
-        $region->method('loadByCode')->willReturnSelf();
-        $region->method('loadByName')->willReturnSelf();
-        $region->method('getId')->willReturn(12);
-        $region->method('getName')->willReturn('California');
+        $region = new class extends DataObject {
+            public function __construct()
+            {
+                parent::__construct(['id' => 12, 'name' => 'California']);
+            }
+
+            public function loadByCode($code, $countryId)
+            {
+                return $this;
+            }
+
+            public function loadByName($name, $countryId)
+            {
+                return $this;
+            }
+        };
         $regionFactory = $this->createMock(RegionFactory::class);
         $regionFactory->method('create')->willReturn($region);
 
@@ -39,12 +55,9 @@ class ShippingTotalsCalculatorTest extends TestCase
     {
         $store = $this->createMock(Store::class);
         $store->method('getConfig')->willReturn($allowedCountries);
-        $address = $this->getMockBuilder(Address::class)->disableOriginalConstructor()
-            ->onlyMethods(['addData', 'collectShippingRates', 'getGroupedAllShippingRates'])->getMock();
-        $address->method('addData')->willReturnSelf();
+        $address = $this->createMock(Address::class);
         $address->method('getGroupedAllShippingRates')->willReturn([]);
-        $quote = $this->getMockBuilder(Quote::class)->disableOriginalConstructor()
-            ->onlyMethods(['getShippingAddress', 'getStore'])->getMock();
+        $quote = $this->createMock(Quote::class);
         $quote->method('getShippingAddress')->willReturn($address);
         $quote->method('getStore')->willReturn($store);
         return $quote;
