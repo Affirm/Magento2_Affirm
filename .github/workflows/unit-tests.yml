@@ -1,0 +1,69 @@
+name: Unit Tests
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+concurrency:
+  group: unit-tests-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  phpunit:
+    name: PHPUnit (Mage-OS ${{ matrix.mageos }} / Magento ${{ matrix.magento }}, PHP ${{ matrix.php }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        # Mage-OS is a public mirror of Magento Open Source (no Adobe credentials needed).
+        # Mage-OS -> Magento mapping comes from each package's extra.magento_version.
+        include:
+          - mageos: "4.0.0"
+            magento: "2.4.9"
+            php: "8.4"
+    steps:
+      - name: Checkout extension
+        uses: actions/checkout@v4
+        with:
+          path: extension
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: composer:v2
+          extensions: bcmath, ctype, curl, dom, gd, intl, mbstring, pdo_mysql, simplexml, soap, xsl, zip, sockets
+          coverage: none
+
+      - name: Cache Composer downloads
+        uses: actions/cache@v4
+        with:
+          path: ~/.composer/cache
+          key: composer-${{ matrix.mageos }}-${{ matrix.php }}-${{ hashFiles('extension/composer.json') }}
+          restore-keys: composer-${{ matrix.mageos }}-${{ matrix.php }}-
+
+      - name: Install Mage-OS ${{ matrix.mageos }} (Magento ${{ matrix.magento }})
+        run: |
+          composer create-project --no-interaction --no-progress --no-scripts \
+            --repository-url=https://repo.mage-os.org/ \
+            mage-os/project-community-edition:${{ matrix.mageos }} magento
+
+      - name: Install extension into Magento
+        working-directory: magento
+        run: |
+          composer config repositories.affirm path ../extension
+          composer require --no-interaction --no-progress --no-scripts "affirm/magento2:@dev"
+
+      - name: Run unit tests
+        working-directory: extension
+        run: |
+          if [ ! -d Test/Unit ]; then
+            echo "::notice::No Test/Unit directory yet; skipping PHPUnit. Remove this guard once unit tests exist."
+            exit 0
+          fi
+          ../magento/vendor/bin/phpunit -c phpunit.xml.dist --testdox --display-notices --display-warnings --display-deprecations
