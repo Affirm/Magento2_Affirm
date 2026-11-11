@@ -760,7 +760,7 @@ class Config implements ConfigInterface
     public function getExpressShippingUrl()
     {
         $url = trim((string)$this->scopeConfig->getValue(
-            'affirm/affirm_store_settings/shipping_url',
+            'affirm/affirm_store_settings/shipping_and_total_callback_url',
             ScopeInterface::SCOPE_WEBSITE
         ));
         return stripos($url, 'https://') === 0 ? $url : '';
