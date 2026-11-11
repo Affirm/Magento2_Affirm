@@ -753,7 +753,7 @@ class Config implements ConfigInterface
     }
 
     /**
-     * Shipping & Totals callback URL for Express Checkout (https only, empty if not configured/invalid)
+     * Shipping & Totals callback URL for Express Checkout (https only, defaults to the store endpoint when not configured, empty if invalid)
      *
      * @return string
      */
@@ -763,6 +763,10 @@ class Config implements ConfigInterface
             'affirm/affirm_store_settings/shipping_and_total_callback_url',
             ScopeInterface::SCOPE_WEBSITE
         ));
+        if ($url === '') {
+            $url = $this->storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_LINK, true)
+                . 'affirm/express/shippingtotals';
+        }
         return stripos($url, 'https://') === 0 ? $url : '';
     }
 
