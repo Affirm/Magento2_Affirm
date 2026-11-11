@@ -212,6 +212,9 @@
                     <comment><![CDATA[Learn more about the <a href="https://docs.affirm.com/developers/docs/express-checkout-api" target="_blank" rel="noopener noreferrer">Express Checkout API</a>.]]></comment>
                     <frontend_class>validate-url</frontend_class>
                     <backend_model>Astound\Affirm\Model\Config\Backend\Url</backend_model>
+                    <depends>
+                        <field id="enable_express_checkout">1</field>
+                    </depends>
                 </field>
             </group>
             <group id="affirm_promo" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
