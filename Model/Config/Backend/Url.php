@@ -39,14 +39,15 @@ use Magento\Framework\App\Config\Value;
 use Magento\Framework\Exception\LocalizedException;
 
 /**
- * Validates that the configured value is an absolute https URL.
+ * Validates that the configured value is an absolute https URL. An empty value falls back to the
+ * default callback URL (secure base URL of the scope + affirm/express/shippingtotals).
  *
  * @package Astound\Affirm\Model\Config\Backend
  */
 class Url extends Value
 {
     /**
-     * Reject non-URL values before they are saved. An empty value is allowed.
+     * Reject non-URL values before they are saved. An empty value is replaced by the default URL.
      *
      * @return $this
      * @throws LocalizedException
@@ -54,7 +55,9 @@ class Url extends Value
     public function beforeSave()
     {
         $value = trim((string)$this->getValue());
-        if ($value !== '' && !$this->isValidUrl($value)) {
+        if ($value === '') {
+            $value = $this->getDefaultUrl();
+        } elseif (!$this->isValidUrl($value)) {
             throw new LocalizedException(
                 __('Please enter a valid URL starting with https://, including a full domain name.')
             );
@@ -62,6 +65,22 @@ class Url extends Value
         $this->setValue($value);
 
         return parent::beforeSave();
+    }
+
+    /**
+     * Default callback URL: the secure base URL of the scope being saved plus the endpoint path.
+     *
+     * @return string
+     */
+    private function getDefaultUrl(): string
+    {
+        $baseUrl = (string)$this->_config->getValue(
+            'web/secure/base_url',
+            $this->getScope(),
+            $this->getScopeId()
+        );
+
+        return rtrim($baseUrl, '/') . '/affirm/express/shippingtotals';
     }
 
     /**
