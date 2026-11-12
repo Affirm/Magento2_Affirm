@@ -67,7 +67,7 @@ define([
             this.prepareTotals();
             this.initMetadata();
             var data = {
-                merchant: _self.merchant,
+                merchant: _self.expressCheckout ? configData.expressMerchant : _self.merchant,
                 config: _self.config,
                 items: _self.items,
                 order_id: _self.order_id,
@@ -215,19 +215,15 @@ define([
          * Affirm checkout object is built and opened.
          *
          * @param data
+         * @param {boolean} express True only when started from the Express Checkout button
          */
-        prepareOrderData: function(data) {
+        prepareOrderData: function(data, express) {
             if (data.order_increment_id !== 'undefined') {
                 this.order_id = data.order_increment_id;
             }
-            // Express checkout is on only when BOTH sides agree: the store config
-            // exposed to the frontend (configData.expressCheckout) and the
-            // server's initCheckout response (data.express_checkout, which is
-            // only set when express checkout is active). Checking both keeps the
-            // express-only fields (subtotal metadata) from
-            // being used if either side is off, e.g. stale config or a response
-            // without the express payload.
-            this.expressCheckout =!!(configData.expressCheckout && data.express_checkout);
+            // Per-call: express only when the Express button asked for it and the
+            // server confirmed it is active. Standard checkout is never affected.
+            this.expressCheckout = !!(express && configData.expressCheckout && data.express_checkout);
             if (data.discounts) {
                 this.setDiscounts(data.discounts);
             }
