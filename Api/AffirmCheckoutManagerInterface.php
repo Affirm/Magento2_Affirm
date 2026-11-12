@@ -30,7 +30,8 @@ interface AffirmCheckoutManagerInterface
      * Init checkout and get retrieve increment id
      * form affirm checkout
      *
+     * @param bool $express True only when started from the Express Checkout button
      * @return string
      */
-    public function initCheckout();
+    public function initCheckout($express = false);
 }

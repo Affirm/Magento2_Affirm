@@ -51,13 +51,13 @@ define([
         country_code: window.checkoutConfig.payment['affirm_gateway'].countryCode,
     };
 
-    return function(response) {
+    return function(response, express) {
         fullScreenLoader.startLoader();
         var result = JSON.parse(response),
             giftWrapItems = result.wrapped_items,
             checkoutObj;
 
-        affirmCheckout.prepareOrderData(result);
+        affirmCheckout.prepareOrderData(result, express);
         if (giftWrapItems !== 'undefined') {
             affirmCheckout.addItems(giftWrapItems);
         }
