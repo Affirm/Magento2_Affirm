@@ -29,24 +29,30 @@ class ConfigProviderTest extends TestCase
         return $provider->getConfig()['payment'][ConfigProvider::CODE];
     }
 
-    public function testExpressEnabledAddsVariantAndCallbackUrl()
+    private const STANDARD_KEYS = ['user_confirmation_url', 'user_cancel_url', 'user_confirmation_url_action'];
+
+    public function testExpressEnabledBuildsSeparateExpressMerchant()
     {
         $config = $this->build(true, 'https://shop.example.com/affirm/shipping');
-        $this->assertSame('express', $config['merchant']['checkout_variant']);
+        $this->assertSame('express', $config['expressMerchant']['checkout_variant']);
         $this->assertSame(
             'https://shop.example.com/affirm/shipping',
-            $config['merchant']['shipping_and_totals_callback_url']
+            $config['expressMerchant']['shipping_and_totals_callback_url']
         );
         $this->assertTrue($config['expressCheckout']);
     }
 
-    public function testExpressDisabledLeavesMerchantUnchanged()
+    public function testStandardMerchantUnchangedWhenExpressEnabled()
+    {
+        $config = $this->build(true, 'https://shop.example.com/affirm/shipping');
+        $this->assertSame(self::STANDARD_KEYS, array_keys($config['merchant']));
+    }
+
+    public function testExpressDisabledHasNoExpressMerchant()
     {
         $config = $this->build(false);
-        $this->assertSame(
-            ['user_confirmation_url', 'user_cancel_url', 'user_confirmation_url_action'],
-            array_keys($config['merchant'])
-        );
+        $this->assertSame(self::STANDARD_KEYS, array_keys($config['merchant']));
+        $this->assertNull($config['expressMerchant']);
         $this->assertFalse($config['expressCheckout']);
     }
 }

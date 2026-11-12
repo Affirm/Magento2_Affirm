@@ -113,11 +113,12 @@ class ConfigProvider implements ConfigProviderInterface
                     ->getUrl('affirm/payment/cancel', ['_secure' => true]),
             'user_confirmation_url_action' => 'POST'
         ];
+        // Separate merchant block used only by the Express Checkout button
         $expressActive = $this->affirmConfig->isExpressCheckoutActive();
-        if ($expressActive) {
-            $merchant['checkout_variant'] = 'express';
-            $merchant['shipping_and_totals_callback_url'] = $this->affirmConfig->getExpressShippingUrl();
-        }
+        $expressMerchant = $expressActive ? array_merge($merchant, [
+            'checkout_variant' => 'express',
+            'shipping_and_totals_callback_url' => $this->affirmConfig->getExpressShippingUrl()
+        ]) : null;
 
         return [
             'payment' => [
@@ -129,7 +130,9 @@ class ConfigProvider implements ConfigProviderInterface
                     'apiKeyPublic' => $this->affirmConfig->getPublicApiKey(),
                     'apiUrl' => $this->affirmConfig->getApiUrl(),
                     'merchant' => $merchant,
+                    // Only signals that the Express button may be shown
                     'expressCheckout' => $expressActive,
+                    'expressMerchant' => $expressMerchant,
                     'config' => [
                         'financial_product_key' => null
                     ],
