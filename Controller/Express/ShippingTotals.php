@@ -64,8 +64,7 @@ class ShippingTotals implements HttpPostActionInterface, CsrfAwareActionInterfac
      */
     public function execute()
     {
-        $start = microtime(true);
-        $result = $this->jsonFactory->create();
+        $result =$this->jsonFactory->create();
         try {
             if (!$this->config->isExpressCheckoutEnabled()) {
                 return $result->setHttpResponseCode(404)->setData([]);
@@ -103,11 +102,6 @@ class ShippingTotals implements HttpPostActionInterface, CsrfAwareActionInterfac
             $this->logger->error('Affirm express shipping-totals failed: ' . $e->getMessage());
             $error = new ExpressException(ExpressException::INTERNAL_SERVER_ERROR, 'Unexpected error');
             return $result->setHttpResponseCode(422)->setData($error->toResponseBody());
-        } finally {
-            $this->logger->debug(sprintf(
-                'Affirm express shipping-totals took %.3fs',
-                microtime(true) - $start
-            ));
         }
     }
 
