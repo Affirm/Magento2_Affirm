@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 class ConfigPluginTest extends TestCase
 {
-    private function run(bool $active, array $result): array
+    private function applyPlugin(bool $active, array $result): array
     {
         $affirmConfig = $this->createMock(Config::class);
         $affirmConfig->method('isExpressCheckoutActive')->willReturn($active);
@@ -34,7 +34,7 @@ class ConfigPluginTest extends TestCase
 
     public function testAddsExpressConfigWhenActive()
     {
-        $result = $this->run(true, ['checkoutUrl' => '/checkout']);
+        $result = $this->applyPlugin(true, ['checkoutUrl' => '/checkout']);
         $this->assertSame('/checkout', $result['checkoutUrl']);
         $this->assertSame('default', $result['affirmExpress']['storeCode']);
         $this->assertSame('pk', $result['affirmExpress']['publicApiKey']);
@@ -43,6 +43,6 @@ class ConfigPluginTest extends TestCase
 
     public function testLeavesConfigUnchangedWhenInactive()
     {
-        $this->assertSame(['checkoutUrl' => '/checkout'], $this->run(false, ['checkoutUrl' => '/checkout']));
+        $this->assertSame(['checkoutUrl' => '/checkout'], $this->applyPlugin(false, ['checkoutUrl' => '/checkout']));
     }
 }
