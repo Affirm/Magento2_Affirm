@@ -14,7 +14,7 @@ class ConfigPluginTest extends TestCase
     private function applyPlugin(bool $active, array $result): array
     {
         $affirmConfig = $this->createMock(Config::class);
-        $affirmConfig->method('isExpressCheckoutActive')->willReturn($active);
+        $affirmConfig->method('isExpressCheckoutMinicartActive')->willReturn($active);
         $provider = $this->createMock(ConfigProvider::class);
         $provider->method('getConfig')->willReturn(['payment' => [ConfigProvider::CODE => [
             'apiKeyPublic' => 'pk',

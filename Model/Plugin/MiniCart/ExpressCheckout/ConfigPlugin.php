@@ -39,7 +39,7 @@ class ConfigPlugin
      */
     public function afterGetConfig(\Magento\Checkout\Block\Cart\Sidebar $subject, array $result)
     {
-        if (!$this->affirmConfig->isExpressCheckoutActive()) {
+        if (!$this->affirmConfig->isExpressCheckoutMinicartActive()) {
             return $result;
         }
         $gateway = $this->configProvider->getConfig()['payment'][ConfigProvider::CODE];
