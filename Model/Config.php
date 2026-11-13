@@ -747,7 +747,7 @@ class Config implements ConfigInterface
     public function isExpressCheckoutEnabled()
     {
         return (bool)$this->scopeConfig->getValue(
-            'affirm/affirm_store_settings/enable_express_checkout',
+            'payment/affirm_gateway/affirm_store_settings/enable_express_checkout',
             ScopeInterface::SCOPE_WEBSITE
         );
     }
@@ -760,7 +760,7 @@ class Config implements ConfigInterface
     public function getExpressShippingUrl()
     {
         $url = trim((string)$this->scopeConfig->getValue(
-            'affirm/affirm_store_settings/shipping_and_total_callback_url',
+            'payment/affirm_gateway/affirm_store_settings/shipping_and_total_callback_url',
             ScopeInterface::SCOPE_WEBSITE
         ));
         if ($url === '') {
