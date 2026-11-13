@@ -1,0 +1,10 @@
+<!-- ko if: isVisible() -->
+<div class="affirm-express-checkout">
+    <button type="button"
+            id="affirm-express-btn-minicart"
+            class="action primary affirm-express-checkout-button"
+            data-bind="click: startExpressCheckout, attr: {title: $t('Checkout with Affirm Express')}">
+        <span><!-- ko i18n: 'Checkout with Affirm Express' --><!-- /ko --></span>
+    </button>
+</div>
+<!-- /ko -->

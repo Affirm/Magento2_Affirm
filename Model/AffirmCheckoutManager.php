@@ -187,22 +187,25 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
             ];
         }
 
-        try {
-            $country = $this
-                ->quote
-                ->getBillingAddress()
-                ->getCountry();
-            $result = $this->quote
-                ->getPayment()
-                ->getMethodInstance()
-                ->canUseForCountry($country);
-            if (!$result) {
-                throw new \Magento\Framework\Exception\LocalizedException(
-                    __('Your billing country isn\'t allowed by Affirm.')
-                );
+        // Express: no billing address exists yet (Affirm collects it), so skip the country check
+        if (!$express) {
+            try {
+                $country = $this
+                    ->quote
+                    ->getBillingAddress()
+                    ->getCountry();
+                $result = $this->quote
+                    ->getPayment()
+                    ->getMethodInstance()
+                    ->canUseForCountry($country);
+                if (!$result) {
+                    throw new \Magento\Framework\Exception\LocalizedException(
+                        __('Your billing country isn\'t allowed by Affirm.')
+                    );
+                }
+            } catch (Exception $e) {
+                return $e->getMessage();
             }
-        } catch (Exception $e) {
-            return $e->getMessage();
         }
         if ($orderIncrementId) {
             $this->quoteRepository->save($this->quote);
