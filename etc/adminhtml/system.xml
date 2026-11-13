@@ -207,6 +207,13 @@
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment><![CDATA[<span style="color: #e41101;">ⓘ</span> To enable express checkout please reach out to Affirm first, as there may be additional configuration required. See the <a href="https://docs.affirm.com/developers/docs/integration-checklist" target="_blank" rel="noopener noreferrer">integration checklist</a>.]]></comment>
                 </field>
+                <field id="enable_express_checkout_minicart" translate="label" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enable in Mini Shopping Cart</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="enable_express_checkout">1</field>
+                    </depends>
+                </field>
                 <field id="shipping_and_total_callback_url" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Checkout Shipping &amp; Totals Endpoint Path</label>
                     <comment><![CDATA[Learn more about the <a href="https://docs.affirm.com/developers/docs/express-checkout-api" target="_blank" rel="noopener noreferrer">Express Checkout API</a>.]]></comment>

@@ -99,6 +99,7 @@
             </affirm_pixel>
             <affirm_store_settings>
                 <enable_express_checkout>0</enable_express_checkout>
+                <enable_express_checkout_minicart>0</enable_express_checkout_minicart>
                 <shipping_and_total_callback_url>{{secure_base_url}}affirm/express/shippingtotals</shipping_and_total_callback_url>
             </affirm_store_settings>
         </affirm>
