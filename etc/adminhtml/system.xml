@@ -187,7 +187,7 @@
                     <comment>Enable/Disable Inline checkout value props on the checkout page when Affirm is selected as a payment method (US only)</comment>
                 </field>
                 <group id="affirm_store_settings" translate="label comment" type="text" sortOrder="190" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Express Checkout Settings</label>
+                    <label>Affirm Express Checkout Settings</label>
                     <comment><![CDATA[Learn more about <a href="https://docs.affirm.com/developers/docs/express-checkout" target="_blank" rel="noopener noreferrer">Affirm Express Checkout</a>.]]></comment>
                     <field id="enable_express_checkout" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
                         <label>Enable Express Checkout</label>
