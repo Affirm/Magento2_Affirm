@@ -781,6 +781,19 @@ class Config implements ConfigInterface
     }
 
     /**
+     * Whether the Express Checkout button is shown in the mini shopping cart
+     *
+     * @return bool
+     */
+    public function isExpressCheckoutMinicartActive()
+    {
+        return $this->isExpressCheckoutActive() && (bool)$this->scopeConfig->getValue(
+            'payment/affirm_gateway/affirm_store_settings/enable_express_checkout_minicart',
+            ScopeInterface::SCOPE_WEBSITE
+        );
+    }
+
+    /**
      * Get partial capture (US only)
      *
      * @return bool
