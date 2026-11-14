@@ -66,8 +66,8 @@ define([
             this.prepareItems();
             this.prepareTotals();
             this.initMetadata();
-            return {
-                merchant: _self.merchant,
+            var data = {
+                merchant: _self.expressCheckout ? configData.expressMerchant : _self.merchant,
                 config: _self.config,
                 items: _self.items,
                 order_id: _self.order_id,
@@ -81,7 +81,13 @@ define([
                 currency: _self.currency,
                 locale: _self.locale,
                 country_code: _self.country_code
+            };
+            if (_self.expressCheckout) {
+                // Express Checkout: Affirm collects shipping and computes totals via the callback
+                delete data.shipping;
+                delete data.total;
             }
+            return data;
         },
 
         /**
@@ -204,12 +210,20 @@ define([
         /**
          * Specify order Data
          *
+         * Called from action/send-to-affirm-checkout.js with the parsed JSON
+         * returned by AffirmCheckoutManager::initCheckout(), right before the
+         * Affirm checkout object is built and opened.
+         *
          * @param data
+         * @param {boolean} express True only when started from the Express Checkout button
          */
-        prepareOrderData: function(data) {
+        prepareOrderData: function(data, express) {
             if (data.order_increment_id !== 'undefined') {
                 this.order_id = data.order_increment_id;
             }
+            // Per-call: express only when the Express button asked for it and the
+            // server confirmed it is active. Standard checkout is never affected.
+            this.expressCheckout = !!(express && configData.expressCheckout && data.express_checkout);
             if (data.discounts) {
                 this.setDiscounts(data.discounts);
             }
