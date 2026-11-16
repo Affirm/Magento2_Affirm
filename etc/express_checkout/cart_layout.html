@@ -1,17 +1,10 @@
-<div id="affirm-express-cart" data-bind="scope: 'affirm-express-cart'">
-    <!-- ko template: getTemplate() --><!-- /ko -->
+<!-- ko if: isVisible() -->
+<div class="affirm-express-checkout">
+    <button type="button"
+            id="affirm-express-btn-cart"
+            class="action primary affirm-express-checkout-button"
+            data-bind="click: startExpressCheckout, attr: {title: $t('Checkout with Affirm Express')}">
+        <span><!-- ko i18n: 'Checkout with Affirm Express' --><!-- /ko --></span>
+    </button>
 </div>
-<script type="text/x-magento-init">
-{
-    "#affirm-express-cart": {
-        "Magento_Ui/js/core/app": {
-            "components": {
-                "affirm-express-cart": {
-                    "component": "Astound_Affirm/js/view/express-button",
-                    "location": "cart"
-                }
-            }
-        }
-    }
-}
-</script>
+<!-- /ko -->
