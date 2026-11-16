@@ -58,8 +58,9 @@ define([
 
             function sendTracker(options){
                 affirm.ui.ready(function(){
-
-                    affirm.analytics[options.method](options.parameter[0], options.parameter[1], options.parameter[2]);
+                    if( options.method && options.parameter ) {
+                        affirm.analytics[options.method](options.parameter[0], options.parameter[1], options.parameter[2]);
+                    }
                 });
             }
 
