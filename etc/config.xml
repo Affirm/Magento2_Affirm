@@ -58,27 +58,7 @@
                 <affirm_store_settings>
                     <enable_express_checkout>0</enable_express_checkout>
                     <enable_express_checkout_minicart>0</enable_express_checkout_minicart>
-                    <minicart_layout><![CDATA[<!-- ko if: isVisible() -->
-<div class="affirm-express-checkout">
-    <button type="button"
-            id="affirm-express-btn-minicart"
-            class="action primary affirm-express-checkout-button"
-            data-bind="click: startExpressCheckout, attr: {title: $t('Checkout with Affirm Express')}">
-        <span><!-- ko i18n: 'Checkout with Affirm Express' --><!-- /ko --></span>
-    </button>
-</div>
-<!-- /ko -->]]></minicart_layout>
                     <enable_express_checkout_cart>0</enable_express_checkout_cart>
-                    <cart_layout><![CDATA[<!-- ko if: isVisible() -->
-<div class="affirm-express-checkout">
-    <button type="button"
-            id="affirm-express-btn-cart"
-            class="action primary affirm-express-checkout-button"
-            data-bind="click: startExpressCheckout, attr: {title: $t('Checkout with Affirm Express')}">
-        <span><!-- ko i18n: 'Checkout with Affirm Express' --><!-- /ko --></span>
-    </button>
-</div>
-<!-- /ko -->]]></cart_layout>
                     <shipping_and_total_callback_url>{{secure_base_url}}affirm/express/shippingtotals</shipping_and_total_callback_url>
                 </affirm_store_settings>
             </affirm_gateway>

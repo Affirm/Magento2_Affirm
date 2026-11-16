@@ -35,40 +35,18 @@
 
 namespace Astound\Affirm\Model\Config\Backend;
 
-use Magento\Framework\App\Config\Value;
-
 /**
- * Mini Shopping Cart layout for the Affirm Express Checkout button. An empty value falls back to the
- * default markup, which must stay in sync with the default in etc/config.xml.
+ * Mini Shopping Cart layout for the Affirm Express Checkout button.
  *
  * @package Astound\Affirm\Model\Config\Backend
  */
-class MinicartLayout extends Value
+class MinicartLayout extends AbstractLayout
 {
-    const DEFAULT_LAYOUT = <<<'HTML'
-<!-- ko if: isVisible() -->
-<div class="affirm-express-checkout">
-    <button type="button"
-            id="affirm-express-btn-minicart"
-            class="action primary affirm-express-checkout-button"
-            data-bind="click: startExpressCheckout, attr: {title: $t('Checkout with Affirm Express')}">
-        <span><!-- ko i18n: 'Checkout with Affirm Express' --><!-- /ko --></span>
-    </button>
-</div>
-<!-- /ko -->
-HTML;
-
     /**
-     * Replace an empty value with the default layout before it is saved.
-     *
-     * @return $this
+     * @inheritdoc
      */
-    public function beforeSave()
+    protected function getDefaultLayoutFile()
     {
-        if (trim((string)$this->getValue()) === '') {
-            $this->setValue(self::DEFAULT_LAYOUT);
-        }
-
-        return parent::beforeSave();
+        return 'minicart_layout.html';
     }
 }

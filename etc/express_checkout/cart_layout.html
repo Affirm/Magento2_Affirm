@@ -1,0 +1,17 @@
+<div id="affirm-express-cart" data-bind="scope: 'affirm-express-cart'">
+    <!-- ko template: getTemplate() --><!-- /ko -->
+</div>
+<script type="text/x-magento-init">
+{
+    "#affirm-express-cart": {
+        "Magento_Ui/js/core/app": {
+            "components": {
+                "affirm-express-cart": {
+                    "component": "Astound_Affirm/js/view/express-button",
+                    "location": "cart"
+                }
+            }
+        }
+    }
+}
+</script>
