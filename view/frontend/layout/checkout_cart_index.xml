@@ -21,6 +21,7 @@
     <body>
         <referenceContainer name="checkout.cart.methods">
             <block class="Astound\Affirm\Block\Onepage\AffirmButton" name="affirm.cart.shortcut.buttons" before="checkout.cart.methods.multishipping" />
+            <block class="Magento\Framework\View\Element\Template" name="affirm.cart.express.button" template="Astound_Affirm::cart/express-button.phtml" after="checkout.cart.methods.onepage.bottom"/>
             <block class="Astound\Affirm\Block\Promotion\CartPage\Aslowas" name="aslowas.checkout.cart.widget" template="Astound_Affirm::promotion/aslowasCart.phtml" after="product.info.price">
                 <arguments>
                     <argument name="position" xsi:type="string">cc</argument>
