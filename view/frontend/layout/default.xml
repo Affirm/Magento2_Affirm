@@ -45,8 +45,8 @@
                                 <item name="affirm_express_button" xsi:type="array">
                                     <item name="component" xsi:type="string">Astound_Affirm/js/view/express-button</item>
                                     <item name="config" xsi:type="array">
-                                        <!-- Region inside div.primary of minicart/content.html, next to the "Go to Checkout" button -->
-                                        <item name="displayArea" xsi:type="string">affirmExpressButton</item>
+                                        <!-- Stock minicart region directly above "Proceed to Checkout" -->
+                                        <item name="displayArea" xsi:type="string">extraInfo</item>
                                     </item>
                                 </item>
                             </item>
