@@ -7,10 +7,11 @@ define([
     'uiComponent',
     'jquery',
     'mage/url',
+    'mage/storage',
     'mage/translate',
     'Magento_Customer/js/customer-data',
     'Astound_Affirm/js/model/affirm-sdk'
-], function (Component, $, url, $t, customerData, affirmSdk) {
+], function (Component, $, url, storage, $t, customerData, affirmSdk) {
     'use strict';
 
     var expressConfig = (window.checkout || {}).affirmExpress;
@@ -38,12 +39,10 @@ define([
             var self = this;
 
             $('body').trigger('processStart');
-            $.ajax({
-                url: url.build('rest/' + expressConfig.storeCode + '/V1/affirm/order/init'),
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({express: true})
-            }).done(function (response) {
+            storage.post(
+                url.build('rest/' + expressConfig.storeCode + '/V1/affirm/order/init'),
+                JSON.stringify({express: true})
+            ).done(function (response) {
                 var result;
 
                 try {
