@@ -74,7 +74,7 @@ class Config implements ConfigInterface
     const JS_URL_SANDBOX = 'https://cdn1-sandbox.affirm.com/js/v2/affirm.js';
     const JS_URL_PRODUCTION = 'https://cdn1.affirm.com/js/v2/affirm.js';
     const API_URL_STAGE = 'https://api.global.sandbox.affirm-stage.com';
-    const JS_URL_STAGE = 'https://cdn1-sandbox.affirm-stage.com/js/v2/affirm.js';
+    const JS_URL_STAGE = 'https://cdn1.sandbox.affirm-stage.com/js/v2/affirm.js';
     const DOMAIN_STAGE = 'sandbox.affirm-stage.com';
     const METHOD_BML = 'affirm_promo';
     const KEY_ASLOWAS = 'affirm_aslowas';
