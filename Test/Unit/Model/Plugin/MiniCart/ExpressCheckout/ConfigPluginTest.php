@@ -17,6 +17,7 @@ class ConfigPluginTest extends TestCase
         $affirmConfig->method('isExpressCheckoutMinicartActive')->willReturn($active);
         $affirmConfig->method('isExpressCheckoutCartActive')->willReturn($cartActive);
         $affirmConfig->method('getExpressCheckoutMinicartLayout')->willReturn('<div>layout</div>');
+        $affirmConfig->method('getExpressCheckoutCartLayout')->willReturn('<div>cart layout</div>');
         $provider = $this->createMock(ConfigProvider::class);
         $provider->method('getConfig')->willReturn(['payment' => [ConfigProvider::CODE => [
             'apiKeyPublic' => 'pk',
@@ -39,6 +40,7 @@ class ConfigPluginTest extends TestCase
         $result = $this->applyPlugin(false, [], true);
         $this->assertFalse($result['affirmExpress']['minicartActive']);
         $this->assertTrue($result['affirmExpress']['cartActive']);
+        $this->assertSame('<div>cart layout</div>', $result['affirmExpress']['cartLayout']);
     }
 
     public function testAddsExpressConfigWhenActive()

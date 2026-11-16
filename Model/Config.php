@@ -43,6 +43,7 @@ use Magento\Framework\Locale\Resolver;
 use Magento\Directory\Model\Currency;
 use Magento\Tax\Model\Config as TaxConfig;
 use Astound\Affirm\Model\Entity\Attribute\Source\FinancingProgramType;
+use Astound\Affirm\Model\Config\Backend\CartLayout;
 use Astound\Affirm\Model\Config\Backend\MinicartLayout;
 
 /**
@@ -820,6 +821,21 @@ class Config implements ConfigInterface
         ));
 
         return $layout !== '' ? $layout : MinicartLayout::getDefaultLayout();
+    }
+
+    /**
+     * Shopping Cart layout markup for the Express Checkout button; falls back to the default when empty.
+     *
+     * @return string
+     */
+    public function getExpressCheckoutCartLayout()
+    {
+        $layout = trim((string)$this->scopeConfig->getValue(
+            'payment/affirm_gateway/affirm_store_settings/cart_layout',
+            ScopeInterface::SCOPE_WEBSITE
+        ));
+
+        return $layout !== '' ? $layout : CartLayout::getDefaultLayout();
     }
 
     /**

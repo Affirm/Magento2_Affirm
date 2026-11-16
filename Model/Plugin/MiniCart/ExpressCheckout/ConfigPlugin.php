@@ -54,7 +54,8 @@ class ConfigPlugin
             'merchant' => $gateway['expressMerchant'],
             'minicartActive' => $minicartActive,
             'cartActive' => $cartActive,
-            'layout' => $this->affirmConfig->getExpressCheckoutMinicartLayout()
+            'layout' => $this->affirmConfig->getExpressCheckoutMinicartLayout(),
+            'cartLayout' => $this->affirmConfig->getExpressCheckoutCartLayout()
         ];
         return $result;
     }

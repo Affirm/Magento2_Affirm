@@ -24,13 +24,14 @@ define([
         },
 
         /**
-         * Markup configured in Stores > Configuration > Sales > Payment Methods > Affirm.
+         * Markup configured in Stores > Configuration > Sales > Payment Methods > Affirm
+         * ("Mini Shopping Cart layout" or "Shopping Cart layout", by location).
          * Rendered with Knockout bindings applied, so it can use isVisible() and startExpressCheckout().
          *
          * @return {String}
          */
         getLayout: function () {
-            return expressConfig.layout;
+            return this.location === 'cart' ? expressConfig.cartLayout : expressConfig.layout;
         },
 
         /**
