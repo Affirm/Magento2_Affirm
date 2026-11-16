@@ -42,11 +42,5 @@ namespace Astound\Affirm\Model\Config\Backend;
  */
 class MinicartLayout extends AbstractLayout
 {
-    /**
-     * @inheritdoc
-     */
-    protected function getDefaultLayoutFile()
-    {
-        return 'minicart_layout.html';
-    }
+    const DEFAULT_LAYOUT_FILE = 'minicart_layout.html';
 }

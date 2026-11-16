@@ -42,11 +42,5 @@ namespace Astound\Affirm\Model\Config\Backend;
  */
 class CartLayout extends AbstractLayout
 {
-    /**
-     * @inheritdoc
-     */
-    protected function getDefaultLayoutFile()
-    {
-        return 'cart_layout.html';
-    }
+    const DEFAULT_LAYOUT_FILE = 'cart_layout.html';
 }

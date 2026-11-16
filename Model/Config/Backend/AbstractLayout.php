@@ -46,18 +46,19 @@ use Magento\Framework\App\Config\Value;
 abstract class AbstractLayout extends Value
 {
     /**
-     * @return string Default markup file name inside etc/express_checkout/
+     * Default markup file name inside etc/express_checkout/; set by each layout setting.
      */
-    abstract protected function getDefaultLayoutFile();
+    const DEFAULT_LAYOUT_FILE = '';
 
     /**
-     * Read the default layout markup from its file.
+     * Read the default layout markup from its file. Static so consumers (e.g. Config) can use it
+     * without instantiating the backend model.
      *
      * @return string
      */
-    public function getDefaultLayout()
+    public static function getDefaultLayout()
     {
-        $path = dirname(__DIR__, 3) . '/etc/express_checkout/' . $this->getDefaultLayoutFile();
+        $path = dirname(__DIR__, 3) . '/etc/express_checkout/' . static::DEFAULT_LAYOUT_FILE;
 
         return rtrim((string)file_get_contents($path));
     }
@@ -70,7 +71,7 @@ abstract class AbstractLayout extends Value
     protected function _afterLoad()
     {
         if (trim((string)$this->getValue()) === '') {
-            $this->setValue($this->getDefaultLayout());
+            $this->setValue(static::getDefaultLayout());
         }
 
         return parent::_afterLoad();
@@ -84,7 +85,7 @@ abstract class AbstractLayout extends Value
     public function beforeSave()
     {
         if (trim((string)$this->getValue()) === '') {
-            $this->setValue($this->getDefaultLayout());
+            $this->setValue(static::getDefaultLayout());
         }
 
         return parent::beforeSave();
