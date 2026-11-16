@@ -806,7 +806,7 @@ class Config implements ConfigInterface
             ScopeInterface::SCOPE_WEBSITE
         ));
 
-        return $layout !== '' ? $layout : MinicartLayout::DEFAULT_LAYOUT;
+        return $layout !== '' ? $layout : MinicartLayout::getDefaultLayout();
     }
 
     /**
