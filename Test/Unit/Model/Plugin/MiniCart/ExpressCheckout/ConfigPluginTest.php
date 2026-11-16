@@ -15,6 +15,7 @@ class ConfigPluginTest extends TestCase
     {
         $affirmConfig = $this->createMock(Config::class);
         $affirmConfig->method('isExpressCheckoutMinicartActive')->willReturn($active);
+        $affirmConfig->method('getExpressCheckoutMinicartLayout')->willReturn('<div>layout</div>');
         $provider = $this->createMock(ConfigProvider::class);
         $provider->method('getConfig')->willReturn(['payment' => [ConfigProvider::CODE => [
             'apiKeyPublic' => 'pk',
@@ -39,6 +40,7 @@ class ConfigPluginTest extends TestCase
         $this->assertSame('default', $result['affirmExpress']['storeCode']);
         $this->assertSame('pk', $result['affirmExpress']['publicApiKey']);
         $this->assertSame('express', $result['affirmExpress']['merchant']['checkout_variant']);
+        $this->assertSame('<div>layout</div>', $result['affirmExpress']['layout']);
     }
 
     public function testLeavesConfigUnchangedWhenInactive()

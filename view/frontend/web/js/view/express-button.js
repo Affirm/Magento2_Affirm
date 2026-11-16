@@ -22,6 +22,16 @@ define([
         },
 
         /**
+         * Markup configured in Stores > Configuration > Sales > Payment Methods > Affirm.
+         * Rendered with Knockout bindings applied, so it can use isVisible() and startExpressCheckout().
+         *
+         * @return {String}
+         */
+        getLayout: function () {
+            return expressConfig.layout;
+        },
+
+        /**
          * Only shown when Express Checkout is active and the cart has items.
          *
          * @return {Boolean}
