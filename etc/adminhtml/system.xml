@@ -226,6 +226,15 @@
                             <field id="enable_express_checkout">1</field>
                         </depends>
                     </field>
+                    <field id="cart_layout" translate="label comment" type="textarea" sortOrder="18" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Shopping Cart layout</label>
+                        <comment>Markup for the Affirm Express Checkout button in the shopping cart page. Leave empty to use the default.</comment>
+                        <backend_model>Astound\Affirm\Model\Config\Backend\CartLayout</backend_model>
+                        <depends>
+                            <field id="enable_express_checkout">1</field>
+                            <field id="enable_express_checkout_cart">1</field>
+                        </depends>
+                    </field>
                 </group>
                 <group id="notification" translate="label" type="text" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Notification</label>
