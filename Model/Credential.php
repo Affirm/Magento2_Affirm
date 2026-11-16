@@ -29,6 +29,7 @@ class Credential
      * Define constants
      */
     const ACCOUNT_MODE_SANDBOX = 'sandbox';
+    const ACCOUNT_MODE_STAGE = 'stage';
     const ACCOUNT_MODE_PRODUCTION = 'production';
     /**#@-*/
 }

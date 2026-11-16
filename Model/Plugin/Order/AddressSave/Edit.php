@@ -160,9 +160,7 @@ class Edit
 
     public function getApiUrl($additionalPath)
     {
-        $gateway = $this->getIsSandboxMode()
-            ? \Astound\Affirm\Model\Config::API_URL_SANDBOX
-            : \Astound\Affirm\Model\Config::API_URL_PRODUCTION;
+        $gateway = \Astound\Affirm\Model\Config::getApiUrlForMode($this->getMode());
 
         return trim($gateway, '/') . sprintf('%s%s', self::API_TRANSACTIONS_PATH, $additionalPath);
     }
@@ -174,9 +172,11 @@ class Edit
 
     public function getPrivateApiKey()
     {
-        return $this->getIsSandboxMode()
-            ? $this->scopeConfig->getValue('payment/affirm_gateway/private_api_key_sandbox', ScopeInterface::SCOPE_STORE, $this->getStoreId())
-            : $this->scopeConfig->getValue('payment/affirm_gateway/private_api_key_production', ScopeInterface::SCOPE_STORE, $this->getStoreId());
+        return $this->scopeConfig->getValue(
+            'payment/affirm_gateway/private_api_key_' . \Astound\Affirm\Model\Config::resolveEnvironment($this->getMode()),
+            ScopeInterface::SCOPE_STORE,
+            $this->getStoreId()
+        );
     }
 
     /**
@@ -186,9 +186,21 @@ class Edit
      */
     public function getPublicApiKey()
     {
-        return $this->getIsSandboxMode()
-            ? $this->scopeConfig->getValue('payment/affirm_gateway/public_api_key_sandbox', ScopeInterface::SCOPE_STORE, $this->getStoreId())
-            : $this->scopeConfig->getValue('payment/affirm_gateway/public_api_key_production', ScopeInterface::SCOPE_STORE, $this->getStoreId());
+        return $this->scopeConfig->getValue(
+            'payment/affirm_gateway/public_api_key_' . \Astound\Affirm\Model\Config::resolveEnvironment($this->getMode()),
+            ScopeInterface::SCOPE_STORE,
+            $this->getStoreId()
+        );
+    }
+
+    /**
+     * Get configured mode (sandbox, stage or production)
+     *
+     * @return string
+     */
+    public function getMode()
+    {
+        return $this->scopeConfig->getValue('payment/affirm_gateway/mode', ScopeInterface::SCOPE_STORE, $this->getStoreId());
     }
 
     /**
@@ -198,7 +210,7 @@ class Edit
      */
     public function getIsSandboxMode()
     {
-        return $this->scopeConfig->getValue('payment/affirm_gateway/mode', ScopeInterface::SCOPE_STORE, $this->getStoreId()) == 'sandbox';
+        return $this->getMode() == 'sandbox';
     }
 
     /**

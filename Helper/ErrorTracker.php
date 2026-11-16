@@ -113,7 +113,8 @@ class ErrorTracker
         // Form the object
         $extension_data = (object)[
             'platform'=>'magento',
-            'environment'=>$this->affirmConfig->getMode() == 'sandbox' ? 'sandbox' : 'live',
+            'environment'=>\Astound\Affirm\Model\Config::resolveEnvironment($this->affirmConfig->getMode())
+                === \Astound\Affirm\Model\Credential::ACCOUNT_MODE_PRODUCTION ? 'live' : 'sandbox',
             'language'=>'php',
             'code_version'=>phpversion(),
             'extension_version'=>$is_telesales ? 
@@ -141,9 +142,7 @@ class ErrorTracker
             "error_data"=>$error_data
         ];
 
-        $gateway = $this->affirmConfig->getMode() == 'sandbox'
-            ? \Astound\Affirm\Model\Config::API_URL_SANDBOX
-            : \Astound\Affirm\Model\Config::API_URL_PRODUCTION;
+        $gateway = \Astound\Affirm\Model\Config::getApiUrlForMode($this->affirmConfig->getMode());
         $tracker_endpoint = $gateway . self::TRACKER_PATH;
 
         $headers = [

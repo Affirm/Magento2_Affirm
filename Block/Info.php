@@ -18,6 +18,8 @@
 
 namespace Astound\Affirm\Block;
 
+use Astound\Affirm\Model\Config;
+use Astound\Affirm\Model\Credential;
 use Magento\Framework\Phrase;
 use Magento\Payment\Block\ConfigurableInfo;
 use Magento\Sales\Model\Order;
@@ -65,8 +67,14 @@ class Info extends ConfigurableInfo
      */
     public function getDomainUrl()
     {
-        return $this->_scopeConfig->getValue('payment/affirm_gateway/mode') == 'sandbox' ?
-            'sandbox.affirm.com' : 'www.affirm.com';
+        switch (Config::resolveEnvironment($this->_scopeConfig->getValue('payment/affirm_gateway/mode'))) {
+            case Credential::ACCOUNT_MODE_SANDBOX:
+                return 'sandbox.affirm.com';
+            case Credential::ACCOUNT_MODE_STAGE:
+                return Config::DOMAIN_STAGE;
+            default:
+                return 'www.affirm.com';
+        }
     }
 
     /**
@@ -76,9 +84,10 @@ class Info extends ConfigurableInfo
      */
     public function getPublicApiKey()
     {
-        return $this->_scopeConfig->getValue('payment/affirm_gateway/mode') == 'sandbox' ?
-            $this->_scopeConfig->getValue('payment/affirm_gateway/public_api_key_sandbox') :
-            $this->_scopeConfig->getValue('payment/affirm_gateway/public_api_key_production');
+        return $this->_scopeConfig->getValue(
+            'payment/affirm_gateway/public_api_key_'
+            . Config::resolveEnvironment($this->_scopeConfig->getValue('payment/affirm_gateway/mode'))
+        );
     }
 
     /**
@@ -107,13 +116,16 @@ class Info extends ConfigurableInfo
             $order->getStoreId()
         );
 
-        $isSandbox = $mode === 'sandbox';
+        $environment = Config::resolveEnvironment($mode);
+        $isSandbox = $environment === Credential::ACCOUNT_MODE_SANDBOX;
         $country = $this->getInfo()->getOrder()->getPayment()->getAdditionalInformation('country_code') ?? 'USA';
         $isCanada = $country === 'CAN';
 
         $domain = $isCanada ? 'www.affirm.ca' : 'www.affirm.com';
         if ($isSandbox) {
             $domain = $isCanada ? 'sandbox.affirm.ca' : 'sandbox.affirm.com';
+        } elseif ($environment === Credential::ACCOUNT_MODE_STAGE) {
+            $domain = Config::DOMAIN_STAGE;
         }
 
         $loanId = $this->getLoanId();

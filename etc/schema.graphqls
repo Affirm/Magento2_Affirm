@@ -7,7 +7,7 @@ input AffirmInput {
 }
 
 type StoreConfig {
-    affirm_gateway_mode: String @doc(description: "Affirm mode (sandbox or production).")
+    affirm_gateway_mode: String @doc(description: "Affirm mode (sandbox, stage or production).")
     affirm_gateway_locale: String
         @doc(description: "Affirm locale.")
         @resolver(class: "Astound\\Affirm\\Model\\Resolver\\StoreConfig\\Locale")
