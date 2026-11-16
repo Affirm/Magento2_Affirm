@@ -210,6 +210,15 @@
                             <field id="enable_express_checkout">1</field>
                         </depends>
                     </field>
+                    <field id="minicart_layout" translate="label comment" type="textarea" sortOrder="16" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Mini Shopping Cart layout</label>
+                        <comment>Markup for the Affirm Express Checkout button in the mini shopping cart. Leave empty to use the default.</comment>
+                        <backend_model>Astound\Affirm\Model\Config\Backend\MinicartLayout</backend_model>
+                        <depends>
+                            <field id="enable_express_checkout">1</field>
+                            <field id="enable_express_checkout_minicart">1</field>
+                        </depends>
+                    </field>
                     <field id="enable_express_checkout_cart" translate="label" type="select" sortOrder="17" showInDefault="1" showInWebsite="1" showInStore="0">
                         <label>Enable button in Cart Detail</label>
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
