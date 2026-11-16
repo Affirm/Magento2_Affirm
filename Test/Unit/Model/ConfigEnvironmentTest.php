@@ -6,30 +6,30 @@ use PHPUnit\Framework\TestCase;
 
 class ConfigEnvironmentTest extends TestCase
 {
-    /**
-     * @dataProvider modeProvider
-     */
-    public function testResolveEnvironment($mode, $environment)
+    public function testResolveEnvironmentKeepsKnownModes()
     {
-        $this->assertSame($environment, Config::resolveEnvironment($mode));
+        $this->assertSame('sandbox', Config::resolveEnvironment('sandbox'));
+        $this->assertSame('stage', Config::resolveEnvironment('stage'));
+        $this->assertSame('production', Config::resolveEnvironment('production'));
     }
 
-    /**
-     * @dataProvider modeProvider
-     */
-    public function testApiUrlForMode($mode, $environment, $apiUrl)
+    public function testResolveEnvironmentFallsBackToProduction()
     {
-        $this->assertSame($apiUrl, Config::getApiUrlForMode($mode));
+        $this->assertSame('production', Config::resolveEnvironment(null));
+        $this->assertSame('production', Config::resolveEnvironment(''));
+        $this->assertSame('production', Config::resolveEnvironment('bogus'));
     }
 
-    public function modeProvider()
+    public function testApiUrlForEachMode()
     {
-        return [
-            'sandbox' => ['sandbox', 'sandbox', Config::API_URL_SANDBOX],
-            'stage' => ['stage', 'stage', Config::API_URL_STAGE],
-            'production' => ['production', 'production', Config::API_URL_PRODUCTION],
-            'unset falls back to production' => [null, 'production', Config::API_URL_PRODUCTION],
-            'unknown falls back to production' => ['bogus', 'production', Config::API_URL_PRODUCTION],
-        ];
+        $this->assertSame(Config::API_URL_SANDBOX, Config::getApiUrlForMode('sandbox'));
+        $this->assertSame(Config::API_URL_STAGE, Config::getApiUrlForMode('stage'));
+        $this->assertSame(Config::API_URL_PRODUCTION, Config::getApiUrlForMode('production'));
+    }
+
+    public function testApiUrlFallsBackToProduction()
+    {
+        $this->assertSame(Config::API_URL_PRODUCTION, Config::getApiUrlForMode(null));
+        $this->assertSame(Config::API_URL_PRODUCTION, Config::getApiUrlForMode('bogus'));
     }
 }
