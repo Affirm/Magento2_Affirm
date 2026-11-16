@@ -49,7 +49,8 @@ class ConfigPlugin
             'script' => $gateway['script'],
             'locale' => $gateway['locale'],
             'countryCode' => $gateway['countryCode'],
-            'merchant' => $gateway['expressMerchant']
+            'merchant' => $gateway['expressMerchant'],
+            'layout' => $this->affirmConfig->getExpressCheckoutMinicartLayout()
         ];
         return $result;
     }
