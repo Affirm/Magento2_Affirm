@@ -1,0 +1,25 @@
+<?php
+/**
+ * Affirm Express Checkout button on the cart detail page, next to "Proceed to Checkout".
+ * Reuses the minicart express-button component; visibility follows "Enable button in Cart Detail".
+ *
+ * @var \Magento\Framework\View\Element\Template $block
+ */
+?>
+<div id="affirm-express-cart" data-bind="scope: 'affirm-express-cart'">
+    <!-- ko template: getTemplate() --><!-- /ko -->
+</div>
+<script type="text/x-magento-init">
+{
+    "#affirm-express-cart": {
+        "Magento_Ui/js/core/app": {
+            "components": {
+                "affirm-express-cart": {
+                    "component": "Astound_Affirm/js/view/express-button",
+                    "location": "cart"
+                }
+            }
+        }
+    }
+}
+</script>

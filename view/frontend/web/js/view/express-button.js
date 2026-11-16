@@ -1,5 +1,5 @@
 /**
- * Affirm Express Checkout button shown in the minicart under "Go to Checkout".
+ * Affirm Express Checkout button shown in the minicart and on the cart page under "Go to Checkout".
  * Runs outside the checkout page, so it does not use the checkout quote model or
  * window.checkoutConfig; config comes from window.checkout.affirmExpress.
  */
@@ -18,7 +18,9 @@ define([
 
     return Component.extend({
         defaults: {
-            template: 'Astound_Affirm/minicart/express-button'
+            template: 'Astound_Affirm/minicart/express-button',
+            // 'minicart' or 'cart': which "Enable button in ..." setting controls this instance
+            location: 'minicart'
         },
 
         /**
@@ -39,7 +41,7 @@ define([
         isVisible: function () {
             var cart = customerData.get('cart')();
 
-            return !!expressConfig && !!cart.summary_count && !!cart.possible_onepage_checkout;
+            return !!expressConfig && !!expressConfig[this.location + 'Active'] && !!cart.summary_count && !!cart.possible_onepage_checkout;
         },
 
         /**

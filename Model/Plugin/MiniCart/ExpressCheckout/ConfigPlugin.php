@@ -39,7 +39,9 @@ class ConfigPlugin
      */
     public function afterGetConfig(\Magento\Checkout\Block\Cart\Sidebar $subject, array $result)
     {
-        if (!$this->affirmConfig->isExpressCheckoutMinicartActive()) {
+        $minicartActive = $this->affirmConfig->isExpressCheckoutMinicartActive();
+        $cartActive = $this->affirmConfig->isExpressCheckoutCartActive();
+        if (!$minicartActive && !$cartActive) {
             return $result;
         }
         $gateway = $this->configProvider->getConfig()['payment'][ConfigProvider::CODE];
@@ -50,6 +52,8 @@ class ConfigPlugin
             'locale' => $gateway['locale'],
             'countryCode' => $gateway['countryCode'],
             'merchant' => $gateway['expressMerchant'],
+            'minicartActive' => $minicartActive,
+            'cartActive' => $cartActive,
             'layout' => $this->affirmConfig->getExpressCheckoutMinicartLayout()
         ];
         return $result;

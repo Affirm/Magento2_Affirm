@@ -11,10 +11,11 @@ use PHPUnit\Framework\TestCase;
 
 class ConfigPluginTest extends TestCase
 {
-    private function applyPlugin(bool $active, array $result): array
+    private function applyPlugin(bool $active, array $result, bool $cartActive = false): array
     {
         $affirmConfig = $this->createMock(Config::class);
         $affirmConfig->method('isExpressCheckoutMinicartActive')->willReturn($active);
+        $affirmConfig->method('isExpressCheckoutCartActive')->willReturn($cartActive);
         $affirmConfig->method('getExpressCheckoutMinicartLayout')->willReturn('<div>layout</div>');
         $provider = $this->createMock(ConfigProvider::class);
         $provider->method('getConfig')->willReturn(['payment' => [ConfigProvider::CODE => [
@@ -31,6 +32,13 @@ class ConfigPluginTest extends TestCase
 
         $plugin = new ConfigPlugin($affirmConfig, $provider, $storeManager);
         return $plugin->afterGetConfig($this->createMock(Sidebar::class), $result);
+    }
+
+    public function testAddsExpressConfigWhenOnlyCartActive()
+    {
+        $result = $this->applyPlugin(false, [], true);
+        $this->assertFalse($result['affirmExpress']['minicartActive']);
+        $this->assertTrue($result['affirmExpress']['cartActive']);
     }
 
     public function testAddsExpressConfigWhenActive()
