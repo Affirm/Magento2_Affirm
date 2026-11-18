@@ -22,6 +22,7 @@ use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\RequestInterface;
+use Magento\Customer\Model\ResourceModel\Customer as CustomerResource;
 
 
 /**
@@ -42,7 +43,11 @@ class IdentifyFinancingProgram implements ObserverInterface
      * @var \Magento\Framework\App\RequestInterface
      */
     public $request;
-    
+
+    /**
+     * @var CustomerResource
+     */
+    private $customerResource;
 
     /**
      * Init
@@ -50,10 +55,12 @@ class IdentifyFinancingProgram implements ObserverInterface
      */
     public function __construct(
         Session $customerSession,
-        RequestInterface $request
+        RequestInterface $request,
+        CustomerResource $customerResource
     ) {
         $this->customerSession = $customerSession;
         $this->request = $request;
+        $this->customerResource = $customerResource;
     }
 
     /**
@@ -90,7 +97,7 @@ class IdentifyFinancingProgram implements ObserverInterface
             $customerData = $customer->getDataModel();
             $customerData->setCustomAttribute('affirm_customer_mfp', $financingProgramValue);
             $customer->updateData($customerData);
-            $customer->save();
+            $this->customerResource->save($customer);
             //in case if customer logout to keep actual value during session
             $this->_updateGuestCustomerMFP($financingProgramValue);
         }

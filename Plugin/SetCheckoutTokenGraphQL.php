@@ -8,6 +8,7 @@ use Astound\Affirm\Model\Ui\ConfigProvider;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\GraphQl\Exception\GraphQlInputException;
 use Magento\Quote\Model\Quote;
+use Magento\Quote\Model\ResourceModel\Quote\Payment as PaymentResource;
 
 
 /**
@@ -18,12 +19,20 @@ class SetCheckoutTokenGraphQL
     public Checkout $checkout;
 
     /**
+     * @var PaymentResource
+     */
+    private $paymentResource;
+
+    /**
      * @param \Astound\Affirm\Model\Checkout $checkout
+     * @param PaymentResource $paymentResource
      */
     public function __construct(
-        Checkout $checkout
+        Checkout $checkout,
+        PaymentResource $paymentResource
     ) {
         $this->checkout = $checkout;
+        $this->paymentResource = $paymentResource;
     }
 
     /**
@@ -66,7 +75,7 @@ class SetCheckoutTokenGraphQL
         $payment->setAdditionalInformation('checkout_token', $token);
         $payment->setAdditionalInformation('country_code', $countryCode[1]);
 
-        $payment->save();
+        $this->paymentResource->save($payment);
     }
 }
 

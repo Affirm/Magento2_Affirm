@@ -25,6 +25,7 @@ use Magento\Sales\Model\ResourceModel\Report\Order;
 use Magento\Customer\Api\Data\CustomerInterface as CustomerDataObject;
 use Astound\Affirm\Model\Config as AffirmConfig;
 use Magento\Quote\Model\QuoteManagement;
+use Magento\Quote\Model\ResourceModel\Quote\Payment as PaymentResource;
 
 
 /**
@@ -100,6 +101,11 @@ class Checkout
     public $config;
 
     /**
+     * @var PaymentResource
+     */
+    private $paymentResource;
+
+    /**
      * Init config object
      *
      * @param CartManagementInterface         $cartManagement
@@ -108,6 +114,7 @@ class Checkout
      * @param \Magento\Checkout\Helper\Data   $checkoutData
      * @param OrderSender                     $orderSender
      * @param Config                          $config
+     * @param PaymentResource                 $paymentResource
      * @param array                           $params
      */
     public function __construct(
@@ -117,6 +124,7 @@ class Checkout
         \Magento\Checkout\Helper\Data $checkoutData,
         OrderSender $orderSender,
         AffirmConfig $config,
+        PaymentResource $paymentResource,
         $params = array()
     ) {
         $this->checkoutSession = $checkoutSession;
@@ -126,6 +134,7 @@ class Checkout
         $this->checkoutData = $checkoutData;
         $this->orderSender = $orderSender;
         $this->config = $config;
+        $this->paymentResource = $paymentResource;
         if (isset($params['quote'])) {
             $this->quote = $params['quote'];
         }
@@ -283,7 +292,7 @@ class Checkout
             $quoteCurrencyCode = $payment->getQuote()->getCurrency()->getQuoteCurrencyCode();
             $countryCode = $this->getCountryCodeByCurrency($quoteCurrencyCode);
             $payment->setAdditionalInformation('country_code', $countryCode[1]);
-            $payment->save();
+            $this->paymentResource->save($payment);
         }
     }
 
