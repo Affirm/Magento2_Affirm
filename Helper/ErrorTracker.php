@@ -86,7 +86,7 @@ class ErrorTracker
         ProductMetadataInterface $productMetadata
     ) {
         $this->moduleResource = $moduleResource;
-        $this->httpClient = \Magento\Framework\App\ObjectManager::getInstance()->get(AsyncClientInterface::class);
+        $this->httpClient = $httpClient;
         $this->affirmConfig = $configAffirm;
         $this->productMetadata = $productMetadata;
     }

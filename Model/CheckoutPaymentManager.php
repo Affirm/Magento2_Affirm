@@ -5,6 +5,7 @@ namespace Astound\Affirm\Model;
 use Astound\Affirm\Api\CheckoutPaymentManagerInterface;
 use Magento\Checkout\Model\Session;
 use Magento\Quote\Api\CartManagementInterface;
+use Magento\Quote\Model\ResourceModel\Quote as QuoteResource;
 
 /**
  * Class CheckoutPaymentManager
@@ -28,13 +29,20 @@ class CheckoutPaymentManager implements CheckoutPaymentManagerInterface
     public $quoteManager;
 
     /**
+     * @var QuoteResource
+     */
+    private $quoteResource;
+
+    /**
      * Inject checkout session
      *
      * @param Session  $session
+     * @param QuoteResource $quoteResource
      */
-    public function __construct(Session $session)
+    public function __construct(Session $session, QuoteResource $quoteResource)
     {
         $this->session = $session;
+        $this->quoteResource = $quoteResource;
     }
 
     /**
@@ -49,7 +57,7 @@ class CheckoutPaymentManager implements CheckoutPaymentManagerInterface
             $payment = $quote->getPayment();
             $data['method'] = \Astound\Affirm\Model\Ui\ConfigProvider::CODE;
             $payment->importData($data);
-            $quote->save();
+            $this->quoteResource->save($quote);
             return true;
         }
         return false;
