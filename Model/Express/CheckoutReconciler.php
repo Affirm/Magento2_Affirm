@@ -147,7 +147,7 @@ class CheckoutReconciler
         $email = $billing['email'] ?? ($shipping['email'] ?? null);
         if ($email) {
             $data['email'] = $email;
-            $quote->setCustomerEmail($email);
+            $quote->setData('customer_email', $email);
         }
         if (!empty($source['phone_number'])) {
             $data['telephone'] = $source['phone_number'];

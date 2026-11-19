@@ -43,12 +43,7 @@ class CheckoutReconcilerTest extends TestCase
             ->getMock();
         $shipping->method('getShippingRateByCode')->willReturn($rateExists ? new \stdClass() : false);
         $billing = $this->createMock(Address::class);
-        // setCustomerEmail is a magic (__call) setter, so it must be declared with addMethods()
-        $quote = $this->getMockBuilder(Quote::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['getIsVirtual', 'getShippingAddress', 'getBillingAddress', 'collectTotals'])
-            ->addMethods(['setCustomerEmail'])
-            ->getMock();
+        $quote = $this->createMock(Quote::class);
         $quote->method('getIsVirtual')->willReturn(false);
         $quote->method('getShippingAddress')->willReturn($shipping);
         $quote->method('getBillingAddress')->willReturn($billing);
@@ -79,7 +74,7 @@ class CheckoutReconcilerTest extends TestCase
         $billing->expects($this->once())->method('addData')->with($this->callback(
             fn($d) => $d['city'] === 'San Francisco' && $d['email'] === 'jane@example.com'
         ));
-        $quote->expects($this->once())->method('setCustomerEmail')->with('jane@example.com');
+        $quote->expects($this->once())->method('setData')->with('customer_email', 'jane@example.com');
 
         $result = $this->reconciler([
             'checkout_id' => 'abc',
