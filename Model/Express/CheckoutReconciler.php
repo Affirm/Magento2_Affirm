@@ -120,7 +120,7 @@ class CheckoutReconciler
         if (!$address->getShippingRateByCode($method)) {
             throw new LocalizedException(__('The shipping method chosen in Affirm is no longer available.'));
         }
-        $address->setShippingMethod($method);
+        $address->setData('shipping_method', $method);
     }
 
     /**

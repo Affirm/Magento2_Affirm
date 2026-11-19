@@ -37,11 +37,9 @@ class CheckoutReconcilerTest extends TestCase
 
     private function quote(bool $rateExists = true, bool $expectCollect = true): array
     {
-        // setShippingMethod is a magic setter on Address, so it must be declared explicitly to be mockable
         $shipping = $this->getMockBuilder(Address::class)
             ->disableOriginalConstructor()
-            ->addMethods(['setShippingMethod'])
-            ->onlyMethods(['getShippingRateByCode', 'setCollectShippingRates', 'collectShippingRates', 'addData'])
+            ->onlyMethods(['getShippingRateByCode', 'setCollectShippingRates', 'collectShippingRates', 'addData', 'setData'])
             ->getMock();
         $shipping->method('getShippingRateByCode')->willReturn($rateExists ? new \stdClass() : false);
         $billing = $this->createMock(Address::class);
@@ -72,7 +70,7 @@ class CheckoutReconcilerTest extends TestCase
         $calculator->expects($this->once())->method('applyAddress')->with($quote, $this->callback(
             fn($a) => $a['line1'] === '633 Folsom St' && $a['zipcode'] === '94107' && $a['country'] === 'US'
         ));
-        $shipping->expects($this->once())->method('setShippingMethod')->with('flatrate_flatrate');
+        $shipping->expects($this->once())->method('setData')->with('shipping_method', 'flatrate_flatrate');
         $billing->expects($this->once())->method('addData')->with($this->callback(
             fn($d) => $d['city'] === 'San Francisco' && $d['email'] === 'jane@example.com'
         ));
