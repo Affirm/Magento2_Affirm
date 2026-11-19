@@ -39,7 +39,7 @@ class CheckoutReconcilerTest extends TestCase
     {
         $shipping = $this->getMockBuilder(Address::class)
             ->disableOriginalConstructor()
-            ->onlyMethods(['getShippingRateByCode', 'setCollectShippingRates', 'collectShippingRates', 'addData', 'setData'])
+            ->onlyMethods(['getShippingRateByCode', 'collectShippingRates', 'addData', 'setData'])
             ->getMock();
         $shipping->method('getShippingRateByCode')->willReturn($rateExists ? new \stdClass() : false);
         $billing = $this->createMock(Address::class);
