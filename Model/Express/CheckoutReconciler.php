@@ -85,7 +85,8 @@ class CheckoutReconciler
         } catch (\Exception $e) {
             throw new LocalizedException(__('We could not read your checkout from Affirm. Please try again.'), $e);
         }
-        if (!is_array($response) || empty($response['checkout_id'])) {
+        // A real read-checkout response has no checkout_id; errors carry status_code/type/code instead
+        if (!is_array($response) || isset($response['status_code']) || empty($response['checkout_status'])) {
             throw new LocalizedException(__('We could not read your checkout from Affirm. Please try again.'));
         }
         return $response;

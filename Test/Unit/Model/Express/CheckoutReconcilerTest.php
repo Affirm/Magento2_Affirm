@@ -57,7 +57,7 @@ class CheckoutReconcilerTest extends TestCase
         $calculator = $this->createMock(ShippingTotalsCalculator::class);
         $calculator->expects($this->never())->method('applyAddress');
 
-        $result = $this->reconciler(['checkout_id' => 'abc', 'shipping' => self::SHIPPING], $calculator)
+        $result = $this->reconciler(['checkout_status' => 'confirmed', 'shipping' => self::SHIPPING], $calculator)
             ->reconcile($quote, 'tok', 'USA');
 
         $this->assertFalse($result);
@@ -84,7 +84,7 @@ class CheckoutReconcilerTest extends TestCase
         $quote->expects($this->once())->method('setData')->with('customer_email', 'jane@example.com');
 
         $result = $this->reconciler([
-            'checkout_id' => 'abc',
+            'checkout_status' => 'confirmed',
             'checkout_variant' => 'express',
             'shipping' => self::SHIPPING,
             'billing' => ['email' => 'jane@example.com'] + self::SHIPPING,
@@ -114,7 +114,7 @@ class CheckoutReconcilerTest extends TestCase
         [$quote] = $this->quote(false, false);
         $this->expectException(LocalizedException::class);
         $this->reconciler([
-            'checkout_id' => 'abc',
+            'checkout_status' => 'confirmed',
             'checkout_variant' => 'express',
             'shipping' => self::SHIPPING,
             'shipping_option' => ['shipping_type' => 'gone_gone'],
