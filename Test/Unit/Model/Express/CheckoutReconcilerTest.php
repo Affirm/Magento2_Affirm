@@ -70,7 +70,14 @@ class CheckoutReconcilerTest extends TestCase
         $calculator->expects($this->once())->method('applyAddress')->with($quote, $this->callback(
             fn($a) => $a['line1'] === '633 Folsom St' && $a['zipcode'] === '94107' && $a['country'] === 'US'
         ));
-        $shipping->expects($this->once())->method('setData')->with('shipping_method', 'flatrate_flatrate');
+        // setCollectShippingRates() is a magic setter that also lands in setData(), so record every call
+        $setData = [];
+        $shipping->method('setData')->willReturnCallback(
+            function ($key, $value = null) use (&$setData, $shipping) {
+                $setData[$key] = $value;
+                return $shipping;
+            }
+        );
         $billing->expects($this->once())->method('addData')->with($this->callback(
             fn($d) => $d['city'] === 'San Francisco' && $d['email'] === 'jane@example.com'
         ));
@@ -85,6 +92,7 @@ class CheckoutReconcilerTest extends TestCase
         ], $calculator)->reconcile($quote, 'tok', 'USA');
 
         $this->assertTrue($result);
+        $this->assertSame('flatrate_flatrate', $setData['shipping_method'] ?? null);
     }
 
     public function testReadCheckoutFailureThrows(): void
