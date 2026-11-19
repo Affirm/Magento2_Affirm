@@ -47,7 +47,9 @@ class CheckoutReconciler
     public function reconcile($quote, $token, $countryCode)
     {
         $checkout = $this->readCheckout($token, $countryCode);
-        if (($checkout['checkout_variant'] ?? null) !== self::VARIANT_EXPRESS) {
+        // Affirm marks Express checkouts as merchant.checkout_variant in the read-checkout response
+        $variant = $checkout['merchant']['checkout_variant'] ?? ($checkout['checkout_variant'] ?? null);
+        if ($variant !== self::VARIANT_EXPRESS) {
             return false;
         }
 
@@ -108,10 +110,12 @@ class CheckoutReconciler
         }
 
         $address = $quote->getShippingAddress();
-        $address->addData($this->nameFields($shipping));
+        // Affirm can return an empty shipping name; the billing name is the shopper's name then
+        $address->addData($this->nameFields($shipping, $checkout['billing'] ?? []));
 
+        // Affirm returns the chosen option as shipping.shipping_type (the code our callback sent)
         $option = $checkout['shipping_option'] ?? [];
-        $method = $option['shipping_type'] ?? ($checkout['shipping_type'] ?? null);
+        $method = $shipping['shipping_type'] ?? ($option['shipping_type'] ?? ($checkout['shipping_type'] ?? null));
         if (!$method) {
             throw new LocalizedException(__('Affirm did not return a shipping method for this checkout.'));
         }
@@ -138,7 +142,7 @@ class CheckoutReconciler
         if (!$fields) {
             return;
         }
-        $data = $this->nameFields($source) + [
+        $data = $this->nameFields($billing, $shipping) + [
             'street' => array_values(array_filter([$fields['line1'], $fields['line2'] ?? null])),
             'city' => $fields['city'],
             'postcode' => $fields['zipcode'],
@@ -150,8 +154,9 @@ class CheckoutReconciler
             $data['email'] = $email;
             $quote->setData('customer_email', $email);
         }
-        if (!empty($source['phone_number'])) {
-            $data['telephone'] = $source['phone_number'];
+        $phone = $billing['phone_number'] ?? ($shipping['phone_number'] ?? null);
+        if (!empty($phone)) {
+            $data['telephone'] = $phone;
         }
         $quote->getBillingAddress()->addData($data);
     }
@@ -182,11 +187,15 @@ class CheckoutReconciler
 
     /**
      * @param array $contact
+     * @param array $fallback Contact whose name is used when $contact has none
      * @return array
      */
-    private function nameFields(array $contact)
+    private function nameFields(array $contact, array $fallback = [])
     {
         $name = $contact['name'] ?? [];
+        if (!array_filter($name) && $fallback) {
+            $name = $fallback['name'] ?? [];
+        }
         $first = $name['first'] ?? null;
         $last = $name['last'] ?? null;
         if ($first === null && $last === null && !empty($name['full'])) {

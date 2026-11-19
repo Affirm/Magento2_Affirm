@@ -85,14 +85,37 @@ class CheckoutReconcilerTest extends TestCase
 
         $result = $this->reconciler([
             'checkout_status' => 'confirmed',
-            'checkout_variant' => 'express',
-            'shipping' => self::SHIPPING,
+            'merchant' => ['checkout_variant' => 'express'],
+            'shipping' => ['shipping_type' => 'flatrate_flatrate'] + self::SHIPPING,
             'billing' => ['email' => 'jane@example.com'] + self::SHIPPING,
-            'shipping_option' => ['shipping_type' => 'flatrate_flatrate'],
         ], $calculator)->reconcile($quote, 'tok', 'USA');
 
         $this->assertTrue($result);
         $this->assertSame('flatrate_flatrate', $setData['shipping_method'] ?? null);
+    }
+
+    public function testExpressResponseShapeFromAffirmWithoutBillingAddressOrShippingName(): void
+    {
+        [$quote, $shipping, $billing] = $this->quote();
+        $calculator = $this->createMock(ShippingTotalsCalculator::class);
+        $shipping->method('setData')->willReturnSelf();
+        $billing->expects($this->once())->method('addData')->with($this->callback(
+            fn($d) => $d['firstname'] === 'Test' && $d['lastname'] === 'Profile'
+                && $d['city'] === 'San Francisco' && $d['telephone'] === '+1-317-522-4242'
+        ));
+
+        $result = $this->reconciler([
+            'checkout_status' => 'confirmed',
+            'merchant' => ['checkout_variant' => 'express'],
+            'shipping' => ['name' => [], 'shipping_type' => 'flatrate_flatrate'] + self::SHIPPING,
+            'billing' => [
+                'name' => ['full' => 'Test Profile', 'first' => 'Test', 'last' => 'Profile'],
+                'email' => 'jane@example.com',
+                'phone_number' => '+1-317-522-4242',
+            ],
+        ], $calculator)->reconcile($quote, 'tok', 'USA');
+
+        $this->assertTrue($result);
     }
 
     public function testReadCheckoutFailureThrows(): void
@@ -115,9 +138,8 @@ class CheckoutReconcilerTest extends TestCase
         $this->expectException(LocalizedException::class);
         $this->reconciler([
             'checkout_status' => 'confirmed',
-            'checkout_variant' => 'express',
-            'shipping' => self::SHIPPING,
-            'shipping_option' => ['shipping_type' => 'gone_gone'],
+            'merchant' => ['checkout_variant' => 'express'],
+            'shipping' => ['shipping_type' => 'gone_gone'] + self::SHIPPING,
         ])->reconcile($quote, 'tok', 'USA');
     }
 }
