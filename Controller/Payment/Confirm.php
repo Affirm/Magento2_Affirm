@@ -45,6 +45,8 @@ use Magento\Framework\App\Request\InvalidRequestException;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Message\ManagerInterface as MessageManagerInterface;
 use Magento\Framework\Event\ManagerInterface as EventManagerInterface;
+use Magento\Framework\Encryption\EncryptorInterface;
+use Magento\Quote\Api\CartRepositoryInterface;
 
 
 /**
@@ -95,6 +97,16 @@ class Confirm implements CsrfAwareActionInterface
      */
     public $checkout;
 
+    /**
+     * @var EncryptorInterface
+     */
+    public $encryptor;
+
+    /**
+     * @var CartRepositoryInterface
+     */
+    public $cartRepository;
+
 
     /**
      * Inject objects to the Confirm action
@@ -111,8 +123,12 @@ class Confirm implements CsrfAwareActionInterface
         ResultFactory $resultFactory,
         MessageManagerInterface $messageManager,
         EventManagerInterface $_eventManager,
-        RequestInterface $request
+        RequestInterface $request,
+        EncryptorInterface $encryptor,
+        CartRepositoryInterface $cartRepository
     ) {
+        $this->encryptor = $encryptor;
+        $this->cartRepository = $cartRepository;
         $this->checkout = $checkout;
         $this->checkoutSession = $checkoutSession;
         $this->quote = $checkoutSession->getQuote();
@@ -140,6 +156,36 @@ class Confirm implements CsrfAwareActionInterface
     }      
 
     /**
+     * If the session quote is empty (session cookie not sent on Affirm's cross-site POST),
+     * recover the guest quote from the signed quote_id in the confirm URL.
+     *
+     * @return void
+     */
+    private function restoreQuoteIfSessionLost()
+    {
+        if ($this->quote && $this->quote->getId() && $this->quote->getGrandTotal()) {
+            return;
+        }
+        $quoteId = $this->request->getParam('quote_id');
+        $sig = $this->request->getParam('quote_sig');
+        if (!$quoteId || !$sig || !$this->encryptor->validateHash((string)$quoteId, (string)$sig)) {
+            return;
+        }
+        try {
+            $quote = $this->cartRepository->getActive((int)$quoteId);
+        } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+            return;
+        }
+        // Only recover guest quotes; customer quotes still require their own session.
+        if ($quote->getCustomerId()) {
+            return;
+        }
+        $this->checkoutSession->replaceQuote($quote);
+        $this->quote = $quote;
+        $this->checkout->quote = $quote;
+    }
+
+    /**
      * Dispatch request
      *
      * @return void
@@ -153,6 +199,7 @@ class Confirm implements CsrfAwareActionInterface
         $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
         if ($token) {
             try {
+                $this->restoreQuoteIfSessionLost();
                 $this->checkout->place($token);
                 // prepare session to success or cancellation page
                 $this->checkoutSession->clearHelperData();
