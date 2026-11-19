@@ -37,7 +37,12 @@ class CheckoutReconcilerTest extends TestCase
 
     private function quote(bool $rateExists = true, bool $expectCollect = true): array
     {
-        $shipping = $this->createMock(Address::class);
+        // setShippingMethod is a magic setter on Address, so it must be declared explicitly to be mockable
+        $shipping = $this->getMockBuilder(Address::class)
+            ->disableOriginalConstructor()
+            ->addMethods(['setShippingMethod'])
+            ->onlyMethods(['getShippingRateByCode', 'setCollectShippingRates', 'collectShippingRates', 'addData'])
+            ->getMock();
         $shipping->method('getShippingRateByCode')->willReturn($rateExists ? new \stdClass() : false);
         $billing = $this->createMock(Address::class);
         $quote = $this->createMock(Quote::class);
