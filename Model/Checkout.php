@@ -169,17 +169,15 @@ class Checkout
             );
         }
         $this->initToken($token);
-        // TODO: Express reconcile is disabled for now. Re-enable once Express is verified end to end, and
-        // gate it on a flag saved on the quote at init so standard checkouts don't read the checkout from Affirm.
-        // if ($this->config->isExpressCheckoutEnabled()) {
-        //     // Express: the shopper picked address and shipping inside Affirm, so rebuild the quote from
-        //     // Affirm's checkout before totals are final. No-op for standard checkouts.
-        //     $this->expressReconciler->reconcile(
-        //         $this->quote,
-        //         $token,
-        //         $this->getCountryCodeByCurrency($this->quote->getQuoteCurrencyCode())[1]
-        //     );
-        // }
+        if ($this->config->isExpressCheckoutEnabled()) {
+            // Express: the shopper picked address and shipping inside Affirm, so rebuild the quote from
+            // Affirm's checkout before totals are final. No-op for standard checkouts.
+            $this->expressReconciler->reconcile(
+                $this->quote,
+                $token,
+                $this->getCountryCodeByCurrency($this->quote->getQuoteCurrencyCode())[1]
+            );
+        }
         if ($this->getCheckoutMethod() == \Magento\Checkout\Model\Type\Onepage::METHOD_GUEST) {
             $this->prepareGuestQuote();
         }
