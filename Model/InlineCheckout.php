@@ -10,6 +10,7 @@ use Magento\Framework\UrlInterface;
 use Magento\Quote\Model\QuoteValidator;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\ObjectManagerInterface;
+use Magento\Quote\Api\CartRepositoryInterface;
 
 /**
  * Class InlineCheckout
@@ -57,6 +58,11 @@ class InlineCheckout implements InlineCheckoutInterface
     public $objectManager;
 
     /**
+     * @var CartRepositoryInterface
+     */
+    private $quoteRepository;
+
+    /**
      * Gift card id cart key
      *
      * @var string
@@ -78,7 +84,8 @@ class InlineCheckout implements InlineCheckoutInterface
         ProductMetadataInterface $productMetadata,
         Util $util,
         QuoteValidator $quoteValidator,
-        ObjectManagerInterface $objectManager
+        ObjectManagerInterface $objectManager,
+        CartRepositoryInterface $quoteRepository
     ){
         $this->session = $checkoutSession;
         $this->quote = $checkoutSession->getQuote();
@@ -88,14 +95,32 @@ class InlineCheckout implements InlineCheckoutInterface
         $this->util = $util;
         $this->quoteValidator = $quoteValidator;
         $this->objectManager = $objectManager;
+        $this->quoteRepository = $quoteRepository;
     }
 
     public function initInline(){
         $quote = $this->quote;
+
+        // The inline endpoint fires on every checkout form.change() and is exposed anonymously at
+        // GET /V1/affirm/checkout/inline. A quote that can never become an order (no quote row,
+        // empty cart) must not reserve - reserveOrderId() draws and permanently burns a sequence
+        // value on every call, advancing order numbers far faster than actual sales.
+        if (!$quote->getId() || (int)$quote->getItemsCount() === 0) {
+            return json_encode(array());
+        }
+
         $quote->collectTotals();
 
         if(!$quote->getReservedOrderId()) {
             $quote->reserveOrderId();
+            // Persist so the next request loads a quote that already carries a reserved_order_id and
+            // the guard above stops re-drawing. Best-effort: a failed save just means the next call
+            // redraws (prior behavior), so it never errors this high-frequency endpoint.
+            try {
+                $this->quoteRepository->save($quote);
+            } catch (\Exception $e) {
+                // ignore - fall back to prior behavior (next call redraws)
+            }
         }
 
         try{
