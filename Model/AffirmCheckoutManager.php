@@ -168,7 +168,9 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
     public function initCheckout()
     {
         // collection totals before submit
-        $this->quote->collectTotals();
+        if (!$this->quote->getTotalsCollectedFlag()) {
+            $this->quote->collectTotals();
+        }
         $this->quote->reserveOrderId();
         $orderIncrementId = $this->quote->getReservedOrderId();
         $discountAmount = $this->quote->getBaseSubtotal() - $this->quote->getBaseSubtotalWithDiscount();
