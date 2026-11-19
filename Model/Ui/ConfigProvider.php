@@ -24,6 +24,7 @@ use Magento\Payment\Gateway\ConfigInterface;
 use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Framework\App\ProductMetadataInterface;
 use Astound\Affirm\Model\Config as ConfigAffirm;
+use Magento\Framework\Encryption\EncryptorInterface;
 
 /**
  * Class ConfigProvider
@@ -77,6 +78,11 @@ class ConfigProvider implements ConfigProviderInterface
     public $checkoutSession;
 
     /**
+     * @var EncryptorInterface
+     */
+    public $encryptor;
+
+    /**
      * Inject all needed object for getting data from config
      *
      * @param ConfigInterface          $config
@@ -84,19 +90,42 @@ class ConfigProvider implements ConfigProviderInterface
      * @param CheckoutSession          $checkoutSession
      * @param ProductMetadataInterface $productMetadata
      * @param ConfigAffirm             $configAffirm
+     * @param EncryptorInterface       $encryptor
      */
     public function __construct(
         ConfigInterface $config,
         UrlInterface $urlInterface,
         CheckoutSession $checkoutSession,
         ProductMetadataInterface $productMetadata,
-        ConfigAffirm $configAffirm
+        ConfigAffirm $configAffirm,
+        EncryptorInterface $encryptor
     ) {
+        $this->encryptor = $encryptor;
         $this->config = $config;
         $this->urlBuilder = $urlInterface;
         $this->checkoutSession = $checkoutSession;
         $this->productMetadata = $productMetadata;
         $this->affirmConfig = $configAffirm;
+    }
+
+    /**
+     * Confirm URL params. Besides _secure, carry the quote id and a signature so the
+     * confirm action can recover the quote if the session cookie is not sent back by
+     * Affirm's cross-site POST (SameSite=Lax/Strict).
+     *
+     * @return array
+     */
+    public function getConfirmUrlParams()
+    {
+        $params = ['_secure' => true];
+        $quoteId = $this->checkoutSession->getQuoteId();
+        if ($quoteId) {
+            $params['_query'] = [
+                'quote_id' => $quoteId,
+                'quote_sig' => $this->encryptor->hash((string)$quoteId)
+            ];
+        }
+        return $params;
     }
 
     /**
@@ -117,7 +146,7 @@ class ConfigProvider implements ConfigProviderInterface
                     'apiUrl' => $this->affirmConfig->getApiUrl(),
                     'merchant' => [
                         'user_confirmation_url' => $this->urlBuilder
-                                ->getUrl('affirm/payment/confirm', ['_secure' => true]),
+                                ->getUrl('affirm/payment/confirm', $this->getConfirmUrlParams()),
                         'user_cancel_url' => $this->urlBuilder
                                 ->getUrl('affirm/payment/cancel', ['_secure' => true]),
                         'user_confirmation_url_action' => 'POST'
