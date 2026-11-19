@@ -270,6 +270,13 @@
         </arguments>
     </type>
 
+    <!-- Express Checkout: Read Checkout after confirmation reuses the pre-authorize transfer factory -->
+    <type name="Astound\Affirm\Model\Express\CheckoutReconciler">
+        <arguments>
+            <argument name="transferFactory" xsi:type="object">AffirmPreAuthorizationGatewayTransferFactory</argument>
+        </arguments>
+    </type>
+
     <!-- Pre Authorization Transfer Factory -->
     <virtualType name="AffirmPreAuthorizationGatewayTransferFactory" type="Astound\Affirm\Gateway\Http\TransferFactory">
         <arguments>
