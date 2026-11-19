@@ -26,6 +26,7 @@ use Magento\Customer\Api\Data\CustomerInterface as CustomerDataObject;
 use Astound\Affirm\Model\Config as AffirmConfig;
 use Magento\Quote\Model\QuoteManagement;
 use Astound\Affirm\Model\Express\CheckoutReconciler;
+use Astound\Affirm\Model\Ui\ConfigProvider;
 
 
 /**
@@ -300,6 +301,10 @@ class Checkout
     {
         if ($token) {
             $payment = $this->quote->getPayment();
+            // Express starts from the cart and skips the payment step, so no method is set on the quote yet
+            if (!$payment->getMethod()) {
+                $payment->setMethod(ConfigProvider::CODE);
+            }
             $payment->setAdditionalInformation('checkout_token', $token);
             $quoteCurrencyCode = $payment->getQuote()->getCurrency()->getQuoteCurrencyCode();
             $countryCode = $this->getCountryCodeByCurrency($quoteCurrencyCode);
