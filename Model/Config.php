@@ -43,6 +43,7 @@ use Magento\Framework\Locale\Resolver;
 use Magento\Directory\Model\Currency;
 use Magento\Tax\Model\Config as TaxConfig;
 use Astound\Affirm\Model\Entity\Attribute\Source\FinancingProgramType;
+use Astound\Affirm\Model\Config\Backend\MinicartLayout;
 
 /**
  * Config class
@@ -778,6 +779,34 @@ class Config implements ConfigInterface
     public function isExpressCheckoutActive()
     {
         return $this->isExpressCheckoutEnabled() && $this->getExpressShippingUrl() !== '';
+    }
+
+    /**
+     * Whether the Express Checkout button is shown in the mini shopping cart
+     *
+     * @return bool
+     */
+    public function isExpressCheckoutMinicartActive()
+    {
+        return $this->isExpressCheckoutActive() && (bool)$this->scopeConfig->getValue(
+            'payment/affirm_gateway/affirm_store_settings/enable_express_checkout_minicart',
+            ScopeInterface::SCOPE_WEBSITE
+        );
+    }
+
+    /**
+     * Mini Shopping Cart layout markup for the Express Checkout button; falls back to the default when empty.
+     *
+     * @return string
+     */
+    public function getExpressCheckoutMinicartLayout()
+    {
+        $layout = trim((string)$this->scopeConfig->getValue(
+            'payment/affirm_gateway/affirm_store_settings/minicart_layout',
+            ScopeInterface::SCOPE_WEBSITE
+        ));
+
+        return $layout !== '' ? $layout : MinicartLayout::getDefaultLayout();
     }
 
     /**

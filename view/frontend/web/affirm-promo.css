@@ -11,3 +11,30 @@
     margin: 0 .3em !important;
     vertical-align: baseline !important;
 }
+
+.affirm-express-checkout {
+    margin-top: 10px;
+}
+
+.affirm-express-checkout .affirm-express-checkout-button {
+    align-items: center;
+    background: #0a0a3c;
+    border: 0;
+    border-radius: 999px;
+    display: flex;
+    height: 44px;
+    justify-content: center;
+    padding: 0 20px;
+    width: 100%;
+}
+
+.affirm-express-checkout .affirm-express-checkout-button:hover,
+.affirm-express-checkout .affirm-express-checkout-button:focus {
+    background: #1b1b5c;
+    border: 0;
+}
+
+.affirm-express-checkout .affirm-express-checkout-button img {
+    height: 22px;
+    width: auto;
+}

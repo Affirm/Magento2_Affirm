@@ -42,6 +42,13 @@
                                         </item>
                                     </item>
                                 </item>
+                                <item name="affirm_express_button" xsi:type="array">
+                                    <item name="component" xsi:type="string">Astound_Affirm/js/view/express-button</item>
+                                    <item name="config" xsi:type="array">
+                                        <!-- Stock minicart region directly above "Proceed to Checkout" -->
+                                        <item name="displayArea" xsi:type="string">extraInfo</item>
+                                    </item>
+                                </item>
                             </item>
                         </item>
                     </item>
