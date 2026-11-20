@@ -39,7 +39,8 @@ use Magento\Framework\App\Config\Value;
 
 /**
  * Base for Affirm Express Checkout button layout settings. The default markup lives in its own file under
- * etc/express_checkout/ and is shown in the admin and saved whenever the stored value is empty.
+ * etc/express_checkout/ and is shown in the admin whenever the stored value is empty. It is never persisted:
+ * an empty value, or one identical to the default, is saved as empty so consumers keep following the file.
  *
  * @package Astound\Affirm\Model\Config\Backend
  */
@@ -78,16 +79,30 @@ abstract class AbstractLayout extends Value
     }
 
     /**
-     * Replace an empty value with the default layout before it is saved.
+     * Store an empty value when the layout is empty or unchanged from the default. The admin form posts the
+     * pre-filled default, so saving it as-is would freeze the file contents in core_config_data and a later
+     * change to the default markup would never reach the merchant.
      *
      * @return $this
      */
     public function beforeSave()
     {
-        if (trim((string)$this->getValue()) === '') {
-            $this->setValue(static::getDefaultLayout());
+        $value = trim((string)$this->getValue());
+        if ($value === '' || $this->normalize($value) === $this->normalize(static::getDefaultLayout())) {
+            $this->setValue('');
         }
 
         return parent::beforeSave();
+    }
+
+    /**
+     * Browsers post textarea line breaks as CRLF; compare with LF and no surrounding whitespace.
+     *
+     * @param string $markup
+     * @return string
+     */
+    private function normalize($markup)
+    {
+        return trim(str_replace("\r\n", "\n", (string)$markup));
     }
 }
