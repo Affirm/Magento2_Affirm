@@ -740,6 +740,47 @@ class Config implements ConfigInterface
     }
 
     /**
+     * Whether Express Checkout is enabled for the current website scope
+     *
+     * @return bool
+     */
+    public function isExpressCheckoutEnabled()
+    {
+        return (bool)$this->scopeConfig->getValue(
+            'payment/affirm_gateway/affirm_store_settings/enable_express_checkout',
+            ScopeInterface::SCOPE_WEBSITE
+        );
+    }
+
+    /**
+     * Shipping & Totals callback URL for Express Checkout (https only, defaults to the store endpoint when not configured, empty if invalid)
+     *
+     * @return string
+     */
+    public function getExpressShippingUrl()
+    {
+        $url = trim((string)$this->scopeConfig->getValue(
+            'payment/affirm_gateway/affirm_store_settings/shipping_and_total_callback_url',
+            ScopeInterface::SCOPE_WEBSITE
+        ));
+        if ($url === '') {
+            $url = $this->storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_LINK, true)
+                . 'affirm/express/shippingtotals';
+        }
+        return stripos($url, 'https://') === 0 ? $url : '';
+    }
+
+    /**
+     * Express Checkout is only active when enabled and a valid callback URL is configured
+     *
+     * @return bool
+     */
+    public function isExpressCheckoutActive()
+    {
+        return $this->isExpressCheckoutEnabled() && $this->getExpressShippingUrl() !== '';
+    }
+
+    /**
      * Get partial capture (US only)
      *
      * @return bool

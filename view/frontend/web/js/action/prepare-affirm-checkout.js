@@ -44,12 +44,13 @@ define(
     function (quote, urlBuilder, storage, errorProcessor, customer, getTotalsAction, fullScreenLoader) {
         'use strict';
 
-        return function (messageContainer) {
+        return function (messageContainer, express) {
             var serviceUrl
                 serviceUrl = urlBuilder.createUrl('/affirm/order/init', {});
 
             return storage.post(
-                serviceUrl
+                serviceUrl,
+                express ? JSON.stringify({express: true}) : undefined
             ).fail(
                 function (response) {
                     errorProcessor.process(response, messageContainer);

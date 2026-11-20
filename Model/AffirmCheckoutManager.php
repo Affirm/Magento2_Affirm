@@ -162,10 +162,11 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
      * Init checkout and get retrieve increment id
      * form affirm checkout
      *
+     * @param bool $express True only when started from the Express Checkout button
      * @return string
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function initCheckout()
+    public function initCheckout($express = false)
     {
         // collection totals before submit
         $this->quote->collectTotals();
@@ -253,6 +254,12 @@ class AffirmCheckoutManager implements AffirmCheckoutManagerInterface
             'platform_affirm' => $this->moduleResource->getDbVersion('Astound_Affirm'),
             'mode' => $this->affirmConfig->getCheckoutFlowType()
         ];
+        // Express payload only for the Express button; the standard flow never depends on the config
+        if ($express && $this->affirmConfig->isExpressCheckoutActive()) {
+            $response['express_checkout'] = true;
+            // Item cost before tax and shipping, in cents
+            $response['metadata']['subtotal'] = $util->formatToCents($this->quote->getBaseSubtotal());
+        }
         $financingProgramValue = $this->helper->getFinancingProgramValue();
         if ($financingProgramValue) {
             $response['financing_program'] = $financingProgramValue;
