@@ -103,13 +103,14 @@ class Pixel
     }
 
     /**
-     * Returns is sandbox mode
+     * Returns true for any non-production mode (sandbox or stage)
      *
      * @return bool
      */
     public function isSandboxMode()
     {
-        return $this->affirmPaymentConfig->getMode() == 'sandbox';
+        return \Astound\Affirm\Model\Config::resolveEnvironment($this->affirmPaymentConfig->getMode())
+            !== \Astound\Affirm\Model\Credential::ACCOUNT_MODE_PRODUCTION;
     }
 
     /**

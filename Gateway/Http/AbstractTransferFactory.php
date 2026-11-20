@@ -99,13 +99,18 @@ abstract class AbstractTransferFactory implements TransferFactoryInterface
     {
         $country_suffix = $this->getApiKeyNameByCountry($country_code);
         if(!empty($storeId)){
-            return $this->config->getValue(self::MODE, $storeId) == self::SANDBOX
-                ? $this->config->getValue('public_api_key_sandbox' . $country_suffix, $storeId)
-                : $this->config->getValue('public_api_key_production' . $country_suffix, $storeId);
+            return $this->config->getValue(
+                'public_api_key_' . \Astound\Affirm\Model\Config::resolveEnvironment(
+                    $this->config->getValue(self::MODE, $storeId)
+                ) . $country_suffix,
+                $storeId
+            );
         } else {
-            return $this->config->getValue('mode') == self::SANDBOX
-                ? $this->config->getValue('public_api_key_sandbox' . $country_suffix)
-                : $this->config->getValue('public_api_key_production' . $country_suffix);
+            return $this->config->getValue(
+                'public_api_key_' . \Astound\Affirm\Model\Config::resolveEnvironment(
+                    $this->config->getValue('mode')
+                ) . $country_suffix
+            );
         }
 
     }
@@ -121,13 +126,18 @@ abstract class AbstractTransferFactory implements TransferFactoryInterface
     {
         $country_suffix = $this->getApiKeyNameByCountry($country_code);
         if(!empty($storeId)){
-            return $this->config->getValue('mode', $storeId) == self::SANDBOX
-                ? $this->config->getValue('private_api_key_sandbox' . $country_suffix, $storeId)
-                : $this->config->getValue('private_api_key_production' . $country_suffix, $storeId);
+            return $this->config->getValue(
+                'private_api_key_' . \Astound\Affirm\Model\Config::resolveEnvironment(
+                    $this->config->getValue('mode', $storeId)
+                ) . $country_suffix,
+                $storeId
+            );
         } else {
-            return $this->config->getValue('mode') == self::SANDBOX
-                ? $this->config->getValue('private_api_key_sandbox' . $country_suffix)
-                : $this->config->getValue('private_api_key_production' . $country_suffix);
+            return $this->config->getValue(
+                'private_api_key_' . \Astound\Affirm\Model\Config::resolveEnvironment(
+                    $this->config->getValue('mode')
+                ) . $country_suffix
+            );
         }
     }
 

@@ -73,6 +73,12 @@ class Config implements ConfigInterface
     const API_URL_PRODUCTION = 'https://api.global.affirm.com';
     const JS_URL_SANDBOX = 'https://cdn1-sandbox.affirm.com/js/v2/affirm.js';
     const JS_URL_PRODUCTION = 'https://cdn1.affirm.com/js/v2/affirm.js';
+    const API_URL_STAGE = 'https://sandbox.affirm-stage.com';
+    const JS_URL_STAGE = 'https://cdn1.sandbox.affirm-stage.com/js/v2/affirm.js';
+    const DOMAIN_STAGE = 'sandbox.affirm-stage.com';
+    const API_URL_STAGE_LIVE = 'https://api.affirm-stage.com';
+    const JS_URL_STAGE_LIVE = 'https://cdn1.affirm-stage.com/js/v2/affirm.js';
+    const DOMAIN_STAGE_LIVE = 'affirm-stage.com';
     const METHOD_BML = 'affirm_promo';
     const KEY_ASLOWAS = 'affirm_aslowas';
     const KEY_MFP = 'affirm_mfp';
@@ -304,9 +310,10 @@ class Config implements ConfigInterface
         $currentCurrency = $this->storeManager->getStore()
             ->getCurrentCurrencyCode();
         $region_suffix = $this->getApiKeyNameByCurrency($currentCurrency);
-        return ($this->getMode() == 'sandbox') ?
-            $this->getValue(self::KEY_PRIVATE_KEY_SANDBOX . $region_suffix, $storeId) :
-            $this->getValue(self::KEY_PRIVATE_KEY_PRODUCTION . $region_suffix, $storeId);
+        return $this->getValue(
+            'private_api_key_' . self::resolveEnvironment($this->getMode()) . $region_suffix,
+            $storeId
+        );
     }
 
     /**
@@ -320,21 +327,57 @@ class Config implements ConfigInterface
         $currentCurrency = $this->storeManager->getStore()
             ->getCurrentCurrencyCode();
         $region_suffix = $this->getApiKeyNameByCurrency($currentCurrency);
-        return ($this->getMode() == 'sandbox') ?
-            $this->getValue(self::KEY_PUBLIC_KEY_SANDBOX . $region_suffix, $storeId) :
-            $this->getValue(self::KEY_PUBLIC_KEY_PRODUCTION . $region_suffix, $storeId);
+        return $this->getValue(
+            'public_api_key_' . self::resolveEnvironment($this->getMode()) . $region_suffix,
+            $storeId
+        );
     }
 
     /**
-     * Retrieve api url sandbox
+     * Normalize a configured mode to one of sandbox, stage, stage_live or production (anything else is production)
+     *
+     * @param string|null $mode
+     * @return string
+     */
+    public static function resolveEnvironment($mode)
+    {
+        return in_array($mode, [
+            Credential::ACCOUNT_MODE_SANDBOX,
+            Credential::ACCOUNT_MODE_STAGE,
+            Credential::ACCOUNT_MODE_STAGE_LIVE,
+        ], true)
+            ? $mode
+            : Credential::ACCOUNT_MODE_PRODUCTION;
+    }
+
+    /**
+     * Affirm API base URL for a configured mode
+     *
+     * @param string|null $mode
+     * @return string
+     */
+    public static function getApiUrlForMode($mode)
+    {
+        switch (self::resolveEnvironment($mode)) {
+            case Credential::ACCOUNT_MODE_SANDBOX:
+                return self::API_URL_SANDBOX;
+            case Credential::ACCOUNT_MODE_STAGE:
+                return self::API_URL_STAGE;
+            case Credential::ACCOUNT_MODE_STAGE_LIVE:
+                return self::API_URL_STAGE_LIVE;
+            default:
+                return self::API_URL_PRODUCTION;
+        }
+    }
+
+    /**
+     * Retrieve api url for the configured mode
      *
      * @return mixed
      */
     public function getApiUrl()
     {
-        return ($this->getMode() == 'sandbox') ?
-            self::API_URL_SANDBOX :
-            self::API_URL_PRODUCTION;
+        return self::getApiUrlForMode($this->getMode());
     }
 
     /**
@@ -344,9 +387,16 @@ class Config implements ConfigInterface
      */
     public function getScript()
     {
-        return ($this->getMode() == 'sandbox') ?
-            self::JS_URL_SANDBOX :
-            self::JS_URL_PRODUCTION;
+        switch (self::resolveEnvironment($this->getMode())) {
+            case Credential::ACCOUNT_MODE_SANDBOX:
+                return self::JS_URL_SANDBOX;
+            case Credential::ACCOUNT_MODE_STAGE:
+                return self::JS_URL_STAGE;
+            case Credential::ACCOUNT_MODE_STAGE_LIVE:
+                return self::JS_URL_STAGE_LIVE;
+            default:
+                return self::JS_URL_PRODUCTION;
+        }
     }
 
     /**
