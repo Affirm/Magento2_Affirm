@@ -8,6 +8,7 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Event\ManagerInterface;
 use Magento\Framework\Model\Context;
 use Magento\Framework\Registry;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class AbstractLayoutTest extends TestCase
@@ -42,9 +43,7 @@ class AbstractLayoutTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider layouts
-     */
+    #[DataProvider('layouts')]
     public function testDefaultLayoutIsReadFromItsFile(string $class): void
     {
         $default = $class::getDefaultLayout();
@@ -53,9 +52,7 @@ class AbstractLayoutTest extends TestCase
         $this->assertSame(rtrim($default), $default);
     }
 
-    /**
-     * @dataProvider layouts
-     */
+    #[DataProvider('layouts')]
     public function testEmptyValueIsSavedEmpty(string $class): void
     {
         $model = $this->layout($class, "  \n ");
@@ -64,9 +61,7 @@ class AbstractLayoutTest extends TestCase
         $this->assertSame('', $model->getValue());
     }
 
-    /**
-     * @dataProvider layouts
-     */
+    #[DataProvider('layouts')]
     public function testValueUnchangedFromDefaultIsSavedEmpty(string $class): void
     {
         $model = $this->layout($class, $class::getDefaultLayout());
@@ -75,9 +70,7 @@ class AbstractLayoutTest extends TestCase
         $this->assertSame('', $model->getValue());
     }
 
-    /**
-     * @dataProvider layouts
-     */
+    #[DataProvider('layouts')]
     public function testDefaultPostedWithBrowserLineBreaksIsSavedEmpty(string $class): void
     {
         $posted = str_replace("\n", "\r\n", $class::getDefaultLayout()) . "\r\n";
@@ -87,9 +80,7 @@ class AbstractLayoutTest extends TestCase
         $this->assertSame('', $model->getValue());
     }
 
-    /**
-     * @dataProvider layouts
-     */
+    #[DataProvider('layouts')]
     public function testCustomizedLayoutIsKept(string $class): void
     {
         $custom = '<div class="my-affirm-button"></div>';
@@ -99,9 +90,7 @@ class AbstractLayoutTest extends TestCase
         $this->assertSame($custom, $model->getValue());
     }
 
-    /**
-     * @dataProvider layouts
-     */
+    #[DataProvider('layouts')]
     public function testEmptyStoredValueShowsDefaultInAdmin(string $class): void
     {
         $model = $this->layout($class, '');
@@ -110,9 +99,7 @@ class AbstractLayoutTest extends TestCase
         $this->assertSame($class::getDefaultLayout(), $model->getValue());
     }
 
-    /**
-     * @dataProvider layouts
-     */
+    #[DataProvider('layouts')]
     public function testStoredCustomValueIsNotReplacedOnLoad(string $class): void
     {
         $custom = '<div class="my-affirm-button"></div>';

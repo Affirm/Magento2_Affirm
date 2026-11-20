@@ -8,6 +8,7 @@ use Magento\Framework\Event\ManagerInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Model\Context;
 use Magento\Framework\Registry;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class UrlTest extends TestCase
@@ -53,9 +54,7 @@ class UrlTest extends TestCase
         $this->assertSame('https://203.0.113.10/affirm/express/shippingtotals', $model->getValue());
     }
 
-    /**
-     * @dataProvider invalidUrls
-     */
+    #[DataProvider('invalidUrls')]
     public function testInvalidUrlIsRejected(string $value): void
     {
         $this->expectException(LocalizedException::class);
@@ -73,9 +72,7 @@ class UrlTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider unusableSecureBaseUrls
-     */
+    #[DataProvider('unusableSecureBaseUrls')]
     public function testGeneratedDefaultIsValidatedWhenSecureBaseUrlIsUnusable(?string $secureBaseUrl): void
     {
         $this->expectException(LocalizedException::class);
