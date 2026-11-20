@@ -17,6 +17,10 @@ use Magento\Framework\Controller\Result\JsonFactory;
 /**
  * Express Checkout Shipping & Totals endpoint (Affirm -> merchant, server to server).
  * Reachable at /affirm/express/shippingtotals; the only authentication is the Affirm signature.
+ *
+ * This is a storefront controller on purpose, not a webapi.xml route (so it is not in /swagger): Affirm needs
+ * a 422 body of {"errors": [{"error_code", "message", "fields"}]}, which Magento's REST error rendering cannot
+ * produce. Request/response contract, signature and error codes: docs/express-checkout-shipping-totals.md
  */
 class ShippingTotals implements HttpPostActionInterface, CsrfAwareActionInterface
 {
