@@ -30,6 +30,7 @@ class Credential
      */
     const ACCOUNT_MODE_SANDBOX = 'sandbox';
     const ACCOUNT_MODE_STAGE = 'stage';
+    const ACCOUNT_MODE_STAGE_LIVE = 'stage_live';
     const ACCOUNT_MODE_PRODUCTION = 'production';
     /**#@-*/
 }

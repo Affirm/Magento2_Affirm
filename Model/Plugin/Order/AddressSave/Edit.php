@@ -194,7 +194,7 @@ class Edit
     }
 
     /**
-     * Get configured mode (sandbox, stage or production)
+     * Get configured mode (sandbox, stage, stage_live or production)
      *
      * @return string
      */

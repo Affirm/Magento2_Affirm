@@ -76,6 +76,9 @@ class Config implements ConfigInterface
     const API_URL_STAGE = 'https://sandbox.affirm-stage.com';
     const JS_URL_STAGE = 'https://cdn1.sandbox.affirm-stage.com/js/v2/affirm.js';
     const DOMAIN_STAGE = 'sandbox.affirm-stage.com';
+    const API_URL_STAGE_LIVE = 'https://api.affirm-stage.com';
+    const JS_URL_STAGE_LIVE = 'https://cdn1.affirm-stage.com/js/v2/affirm.js';
+    const DOMAIN_STAGE_LIVE = 'affirm-stage.com';
     const METHOD_BML = 'affirm_promo';
     const KEY_ASLOWAS = 'affirm_aslowas';
     const KEY_MFP = 'affirm_mfp';
@@ -331,14 +334,18 @@ class Config implements ConfigInterface
     }
 
     /**
-     * Normalize a configured mode to one of sandbox, stage or production (anything else is production)
+     * Normalize a configured mode to one of sandbox, stage, stage_live or production (anything else is production)
      *
      * @param string|null $mode
      * @return string
      */
     public static function resolveEnvironment($mode)
     {
-        return in_array($mode, [Credential::ACCOUNT_MODE_SANDBOX, Credential::ACCOUNT_MODE_STAGE], true)
+        return in_array($mode, [
+            Credential::ACCOUNT_MODE_SANDBOX,
+            Credential::ACCOUNT_MODE_STAGE,
+            Credential::ACCOUNT_MODE_STAGE_LIVE,
+        ], true)
             ? $mode
             : Credential::ACCOUNT_MODE_PRODUCTION;
     }
@@ -356,6 +363,8 @@ class Config implements ConfigInterface
                 return self::API_URL_SANDBOX;
             case Credential::ACCOUNT_MODE_STAGE:
                 return self::API_URL_STAGE;
+            case Credential::ACCOUNT_MODE_STAGE_LIVE:
+                return self::API_URL_STAGE_LIVE;
             default:
                 return self::API_URL_PRODUCTION;
         }
@@ -383,6 +392,8 @@ class Config implements ConfigInterface
                 return self::JS_URL_SANDBOX;
             case Credential::ACCOUNT_MODE_STAGE:
                 return self::JS_URL_STAGE;
+            case Credential::ACCOUNT_MODE_STAGE_LIVE:
+                return self::JS_URL_STAGE_LIVE;
             default:
                 return self::JS_URL_PRODUCTION;
         }

@@ -45,6 +45,10 @@ class ModeAction implements ArrayInterface
                 'label' => __('Stage'),
             ],
             [
+                'value' => Credential::ACCOUNT_MODE_STAGE_LIVE,
+                'label' => __('Stage Live'),
+            ],
+            [
                 'value' => Credential::ACCOUNT_MODE_PRODUCTION,
                 'label' => __('Production'),
             ]

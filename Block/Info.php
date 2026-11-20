@@ -72,6 +72,8 @@ class Info extends ConfigurableInfo
                 return 'sandbox.affirm.com';
             case Credential::ACCOUNT_MODE_STAGE:
                 return Config::DOMAIN_STAGE;
+            case Credential::ACCOUNT_MODE_STAGE_LIVE:
+                return Config::DOMAIN_STAGE_LIVE;
             default:
                 return 'www.affirm.com';
         }
@@ -126,6 +128,8 @@ class Info extends ConfigurableInfo
             $domain = $isCanada ? 'sandbox.affirm.ca' : 'sandbox.affirm.com';
         } elseif ($environment === Credential::ACCOUNT_MODE_STAGE) {
             $domain = Config::DOMAIN_STAGE;
+        } elseif ($environment === Credential::ACCOUNT_MODE_STAGE_LIVE) {
+            $domain = Config::DOMAIN_STAGE_LIVE;
         }
 
         $loanId = $this->getLoanId();

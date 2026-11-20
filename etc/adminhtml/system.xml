@@ -66,6 +66,13 @@
                         <field id="*/*/region">US</field>
                     </depends>
                 </field>
+                <field id="public_api_key_stage_live" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Public API Key (US)</label>
+                    <depends>
+                        <field id="*/*/mode">stage_live</field>
+                        <field id="*/*/region">US</field>
+                    </depends>
+                </field>
                 <field id="private_api_key_sandbox" translate="label" type="obscure" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Private API Key (US)</label>
                     <config_path>payment/affirm_gateway/private_api_key_sandbox</config_path>
@@ -83,6 +90,16 @@
                     <attribute type="shared">1</attribute>
                     <depends>
                         <field id="*/*/mode">stage</field>
+                        <field id="*/*/region">US</field>
+                    </depends>
+                </field>
+                <field id="private_api_key_stage_live" translate="label" type="obscure" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Private API Key (US)</label>
+                    <config_path>payment/affirm_gateway/private_api_key_stage_live</config_path>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                    <attribute type="shared">1</attribute>
+                    <depends>
+                        <field id="*/*/mode">stage_live</field>
                         <field id="*/*/region">US</field>
                     </depends>
                 </field>
@@ -117,6 +134,13 @@
                         <field id="*/*/region">CA</field>
                     </depends>
                 </field>
+                <field id="public_api_key_stage_live_ca" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Public API Key (CA)</label>
+                    <depends>
+                        <field id="*/*/mode">stage_live</field>
+                        <field id="*/*/region">CA</field>
+                    </depends>
+                </field>
                 <field id="private_api_key_sandbox_ca" translate="label" type="obscure" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Private API Key (CA)</label>
                     <config_path>payment/affirm_gateway/private_api_key_sandbox_ca</config_path>
@@ -134,6 +158,16 @@
                     <attribute type="shared">1</attribute>
                     <depends>
                         <field id="*/*/mode">stage</field>
+                        <field id="*/*/region">CA</field>
+                    </depends>
+                </field>
+                <field id="private_api_key_stage_live_ca" translate="label" type="obscure" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Private API Key (CA)</label>
+                    <config_path>payment/affirm_gateway/private_api_key_stage_live_ca</config_path>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                    <attribute type="shared">1</attribute>
+                    <depends>
+                        <field id="*/*/mode">stage_live</field>
                         <field id="*/*/region">CA</field>
                     </depends>
                 </field>
