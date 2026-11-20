@@ -106,7 +106,7 @@ class ShippingTotalsCalculator
      * @return void
      * @throws ExpressException
      */
-    private function applyAddress($quote, array $shipping)
+    public function applyAddress($quote, array $shipping)
     {
         $country = $this->countryFactory->create()->loadByCode((string)$shipping['country']);
         $countryId = $country->getCountryId();

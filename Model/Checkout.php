@@ -25,6 +25,8 @@ use Magento\Sales\Model\ResourceModel\Report\Order;
 use Magento\Customer\Api\Data\CustomerInterface as CustomerDataObject;
 use Astound\Affirm\Model\Config as AffirmConfig;
 use Magento\Quote\Model\QuoteManagement;
+use Astound\Affirm\Model\Express\CheckoutReconciler;
+use Astound\Affirm\Model\Ui\ConfigProvider;
 
 
 /**
@@ -100,6 +102,13 @@ class Checkout
     public $config;
 
     /**
+     * Express Checkout reconciler (applies Affirm's address and shipping choice to the quote)
+     *
+     * @var CheckoutReconciler
+     */
+    public $expressReconciler;
+
+    /**
      * Init config object
      *
      * @param CartManagementInterface         $cartManagement
@@ -117,8 +126,10 @@ class Checkout
         \Magento\Checkout\Helper\Data $checkoutData,
         OrderSender $orderSender,
         AffirmConfig $config,
+        CheckoutReconciler $expressReconciler,
         $params = array()
     ) {
+        $this->expressReconciler = $expressReconciler;
         $this->checkoutSession = $checkoutSession;
         $this->quoteManagement = $quoteManagement;
         $this->quote = $this->checkoutSession->getQuote();
@@ -158,6 +169,15 @@ class Checkout
             );
         }
         $this->initToken($token);
+        if ($this->config->isExpressCheckoutEnabled()) {
+            // Express: the shopper picked address and shipping inside Affirm, so rebuild the quote from
+            // Affirm's checkout before totals are final. No-op for standard checkouts.
+            $this->expressReconciler->reconcile(
+                $this->quote,
+                $token,
+                $this->getCountryCodeByCurrency($this->quote->getQuoteCurrencyCode())[1]
+            );
+        }
         if ($this->getCheckoutMethod() == \Magento\Checkout\Model\Type\Onepage::METHOD_GUEST) {
             $this->prepareGuestQuote();
         }
@@ -279,6 +299,10 @@ class Checkout
     {
         if ($token) {
             $payment = $this->quote->getPayment();
+            // Express starts from the cart and skips the payment step, so no method is set on the quote yet
+            if (!$payment->getMethod()) {
+                $payment->setMethod(ConfigProvider::CODE);
+            }
             $payment->setAdditionalInformation('checkout_token', $token);
             $quoteCurrencyCode = $payment->getQuote()->getCurrency()->getQuoteCurrencyCode();
             $countryCode = $this->getCountryCodeByCurrency($quoteCurrencyCode);
