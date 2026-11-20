@@ -98,7 +98,13 @@ class CheckoutReconcilerTest extends TestCase
     {
         [$quote, $shipping, $billing] = $this->quote();
         $calculator = $this->createMock(ShippingTotalsCalculator::class);
-        $shipping->method('setData')->willReturnSelf();
+        $setData = [];
+        $shipping->method('setData')->willReturnCallback(
+            function ($key, $value = null) use (&$setData, $shipping) {
+                $setData[$key] = $value;
+                return $shipping;
+            }
+        );
         $billing->expects($this->once())->method('addData')->with($this->callback(
             fn($d) => $d['firstname'] === 'Test' && $d['lastname'] === 'Profile'
                 && $d['city'] === 'San Francisco' && $d['telephone'] === '+1-317-522-4242'
@@ -107,7 +113,7 @@ class CheckoutReconcilerTest extends TestCase
         $result = $this->reconciler([
             'checkout_status' => 'confirmed',
             'merchant' => ['checkout_variant' => 'express'],
-            'shipping' => ['name' => [], 'shipping_type' => 'flatrate_flatrate'] + self::SHIPPING,
+            'shipping' => ['name' => [], 'shipping_type' => 'two-day'] + self::SHIPPING,
             'billing' => [
                 'name' => ['full' => 'Test Profile', 'first' => 'Test', 'last' => 'Profile'],
                 'email' => 'jane@example.com',
@@ -116,6 +122,8 @@ class CheckoutReconcilerTest extends TestCase
         ], $calculator)->reconcile($quote, 'tok', 'USA');
 
         $this->assertTrue($result);
+        // Affirm's own option (two-day) is ignored; flat rate is used for now
+        $this->assertSame('flatrate_flatrate', $setData['shipping_method'] ?? null);
     }
 
     public function testReadCheckoutFailureThrows(): void

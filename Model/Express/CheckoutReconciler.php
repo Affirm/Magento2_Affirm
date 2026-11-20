@@ -18,6 +18,9 @@ class CheckoutReconciler
 {
     const VARIANT_EXPRESS = 'express';
 
+    /** Temporary fixed shipping method for Express orders (see applyShipping) */
+    const TEMP_SHIPPING_METHOD = 'flatrate_flatrate';
+
     /** @var TransferFactoryInterface */
     private $transferFactory;
 
@@ -113,12 +116,9 @@ class CheckoutReconciler
         // Affirm can return an empty shipping name; the billing name is the shopper's name then
         $address->addData($this->nameFields($shipping, $checkout['billing'] ?? []));
 
-        // Affirm returns the chosen option as shipping.shipping_type (the code our callback sent)
-        $option = $checkout['shipping_option'] ?? [];
-        $method = $shipping['shipping_type'] ?? ($option['shipping_type'] ?? ($checkout['shipping_type'] ?? null));
-        if (!$method) {
-            throw new LocalizedException(__('Affirm did not return a shipping method for this checkout.'));
-        }
+        // TODO: temporary. Affirm's sandbox returns its own sample shipping options (e.g. standard, two-day)
+        // unless it can reach our shipping callback, so use flat rate for now instead of Affirm's shipping_type.
+        $method = self::TEMP_SHIPPING_METHOD;
 
         $address->setCollectShippingRates(true);
         $address->collectShippingRates();
