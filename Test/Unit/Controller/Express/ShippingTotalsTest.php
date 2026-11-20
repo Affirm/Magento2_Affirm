@@ -188,7 +188,8 @@ class ShippingTotalsTest extends TestCase
      *
      * @param string|null $rawBody raw request body (defaults to the encoded default payload)
      * @param array $headers request headers, defaults to a valid JSON content type and signature
-     * @param \Closure|null $configure receives the mocks to adjust: (Config, QuoteResolver, Logger)
+     * @param \Throwable|null $resolverThrows thrown by the quote lookup instead of returning a quote
+     * @param \Closure|null $configureLogger receives the Logger mock to set expectations on
      */
     private function call(
         ?string $rawBody = null,
@@ -196,7 +197,8 @@ class ShippingTotalsTest extends TestCase
         ?DataObject $quote = null,
         bool $expressEnabled = true,
         ?string $countryId = 'US',
-        ?\Closure $configure = null
+        ?\Throwable $resolverThrows = null,
+        ?\Closure $configureLogger = null
     ): array {
         $rawBody = $rawBody ?? json_encode($this->payload());
         $headers = $headers ?? [
@@ -227,10 +229,14 @@ class ShippingTotalsTest extends TestCase
         $config->method('getPrivateApiKey')->willReturn(self::KEY);
 
         $resolver = $this->createMock(QuoteResolver::class);
-        $resolver->method('resolve')->willReturn($quote ?? $this->quote([[$this->rate()]]));
+        if ($resolverThrows) {
+            $resolver->method('resolve')->willThrowException($resolverThrows);
+        } else {
+            $resolver->method('resolve')->willReturn($quote ?? $this->quote([[$this->rate()]]));
+        }
         $logger = $this->createMock(Logger::class);
-        if ($configure) {
-            $configure($config, $resolver, $logger);
+        if ($configureLogger) {
+            $configureLogger($logger);
         }
 
         $controller = new ShippingTotals(
@@ -417,11 +423,14 @@ class ShippingTotalsTest extends TestCase
 
     public function testUnknownOrderReturnsOrderNotFound(): void
     {
-        $this->call(null, null, null, true, 'US', function ($config, $resolver) {
-            $resolver->method('resolve')->willThrowException(
-                new ExpressException(ExpressException::ORDER_NOT_FOUND, 'No active order', ['order_id'])
-            );
-        });
+        $this->call(
+            null,
+            null,
+            null,
+            true,
+            'US',
+            new ExpressException(ExpressException::ORDER_NOT_FOUND, 'No active order', ['order_id'])
+        );
 
         $this->assertError(ExpressException::ORDER_NOT_FOUND, ['order_id']);
     }
@@ -457,10 +466,17 @@ class ShippingTotalsTest extends TestCase
 
     public function testUnexpectedFailureReturnsInternalServerErrorAndLogsIt(): void
     {
-        $this->call(null, null, null, true, 'US', function ($config, $resolver, $logger) {
-            $resolver->method('resolve')->willThrowException(new \RuntimeException('db is down'));
-            $logger->expects($this->once())->method('error')->with($this->stringContains('db is down'));
-        });
+        $this->call(
+            null,
+            null,
+            null,
+            true,
+            'US',
+            new \RuntimeException('db is down'),
+            function ($logger) {
+                $logger->expects($this->once())->method('error')->with($this->stringContains('db is down'));
+            }
+        );
 
         $this->assertError(ExpressException::INTERNAL_SERVER_ERROR);
         $this->assertSame('Unexpected error', $this->body['errors'][0]['message']);
