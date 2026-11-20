@@ -186,7 +186,57 @@
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>Enable/Disable Inline checkout value props on the checkout page when Affirm is selected as a payment method (US only)</comment>
                 </field>
-                <group id="notification" translate="label" type="text" sortOrder="180" showInDefault="1" showInWebsite="1" showInStore="0">
+                <group id="affirm_store_settings" translate="label comment" type="text" sortOrder="190" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Affirm Express Checkout Settings</label>
+                    <comment><![CDATA[Learn more about <a href="https://docs.affirm.com/developers/docs/express-checkout" target="_blank" rel="noopener noreferrer">Affirm Express Checkout</a>.]]></comment>
+                    <field id="enable_express_checkout" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Enable Express Checkout</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <comment><![CDATA[<span style="color: #e41101;">ⓘ</span> To enable express checkout please reach out to Affirm first, as there may be additional configuration required. See the <a href="https://docs.affirm.com/developers/docs/integration-checklist" target="_blank" rel="noopener noreferrer">integration checklist</a>.]]></comment>
+                    </field>
+                    <field id="shipping_and_total_callback_url" translate="label comment" type="text" sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Checkout Shipping &amp; Totals Endpoint Path</label>
+                        <comment><![CDATA[Leave empty to use the default. Learn more about the <a href="https://docs.affirm.com/developers/docs/express-checkout-api" target="_blank" rel="noopener noreferrer">Express Checkout API</a>.]]></comment>
+                        <frontend_class>validate-url</frontend_class>
+                        <backend_model>Astound\Affirm\Model\Config\Backend\Url</backend_model>
+                        <depends>
+                            <field id="enable_express_checkout">1</field>
+                        </depends>
+                    </field>
+                    <field id="enable_express_checkout_minicart" translate="label" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Enable button in Mini Shopping Cart</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <depends>
+                            <field id="enable_express_checkout">1</field>
+                        </depends>
+                    </field>
+                    <field id="minicart_layout" translate="label comment" type="textarea" sortOrder="16" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Mini Shopping Cart layout</label>
+                        <comment>Markup for the Affirm Express Checkout button in the mini shopping cart. Leave empty to use the default.</comment>
+                        <backend_model>Astound\Affirm\Model\Config\Backend\MinicartLayout</backend_model>
+                        <depends>
+                            <field id="enable_express_checkout">1</field>
+                            <field id="enable_express_checkout_minicart">1</field>
+                        </depends>
+                    </field>
+                    <field id="enable_express_checkout_cart" translate="label" type="select" sortOrder="17" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Enable button in Cart Detail</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <depends>
+                            <field id="enable_express_checkout">1</field>
+                        </depends>
+                    </field>
+                    <field id="cart_layout" translate="label comment" type="textarea" sortOrder="18" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Shopping Cart layout</label>
+                        <comment>Markup for the Affirm Express Checkout button in the shopping cart page. Leave empty to use the default.</comment>
+                        <backend_model>Astound\Affirm\Model\Config\Backend\CartLayout</backend_model>
+                        <depends>
+                            <field id="enable_express_checkout">1</field>
+                            <field id="enable_express_checkout_cart">1</field>
+                        </depends>
+                    </field>
+                </group>
+                <group id="notification" translate="label" type="text" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Notification</label>
                     <field id="notification_update" translate="label" type="select" sortOrder="170" showInDefault="1" showInWebsite="1" showInStore="0">
                         <label>I'd like to be informed about Affirm extension updates</label>
